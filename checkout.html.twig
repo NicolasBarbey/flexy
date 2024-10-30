@@ -13,7 +13,10 @@
 {% endblock %}
 {% block body %}
 	{% set products = resources('/api/front/products', {'productCategories.category.id':1, itemsPerPage:3}) %}
-	<div id="Checkout"></div>
+
+
+  {{component('Flexy:Layout:Checkout')}}
+
 	<div class="bg-theme-lighter">
 		{% include '@components/Layout/CrossSelling/CrossSelling.html.twig' with {products: products, title: 'Consultés récemment'} %}
 	</div>

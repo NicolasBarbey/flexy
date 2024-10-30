@@ -1,8 +1,8 @@
-import { Attribute } from '@components/Layout/PseSelector/PseSelector.types';
+
 
 export type FilterClassicProps = {
   label: string | null;
-  options: Attribute['values'];
+  options: any;
   name: string;
   onChange?: (obj: {
     checked: boolean;

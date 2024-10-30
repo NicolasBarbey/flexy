@@ -1,0 +1,9 @@
+
+{{dump(this.cart)}}
+
+<div>
+  {% for item in this.cart.items %}
+
+    {% include '@components/Organisms/ProductCard/PurchaseFunnel.html.twig' with {cartItemId: item.id, productId: item.productId} %}
+  {% endfor %}
+</div>
