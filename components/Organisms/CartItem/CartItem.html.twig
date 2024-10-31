@@ -1,0 +1,99 @@
+{% if id is defined and img is not defined %}
+  {% set images = resources('/api/front/product_images', {'product.id':id, itemsPerPage:1}) %}
+  {% if images %}
+    {% set img = {url: '/legacy-image-library/product_image_'~ images|first.id ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
+  {% endif %}
+{% endif %}
+
+	{% if img is not defined %}
+    {% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:''}) %}
+  {% endif %}
+
+<div class='{{ outOfStock ? 'CartItem-outOfStock' :'' }}'>
+  {% if outOfStock %}
+    <div class='paragraph-4 flex'>
+      <span class='w-5 h-5'>{{ ux_icon("error") }}</span>
+      <span>[{{ title }}] {{ 'is no longer available and cannot be ordered.' |trans }}</span>
+    </div>
+  {% endif %}
+  <div class="CartItem {{ classes }}">
+    <div class="CartItem-mainContent">
+      <a class="CartItem-imgLink" href="{{ url }}">
+        <figure class="CartItem-img">
+          <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
+        </figure>
+      </a>
+      <div class="CartItem-desc">
+        <a href="{{ url }}" class="ProductCard-title">{{ title }}</a>
+
+        {% if secondaryTitle %}
+          <div class="CartItem-subTitle paragraph-3 block md:hidden">{{ secondaryTitle }}</div>
+        {% endif %}
+        <div class="CartItem-orderInfos paragraph-6">
+
+          {% if secondaryTitle %}
+            <span class="CartItem-secondaryTitle md:inline hidden">{{ secondaryTitle }}</span>
+          {% endif %}
+          {% for attribute,value in attributesAv %}
+            <span class="CartItem-secondarySize">{{ attribute }}
+								:
+								{{ value }}</span>
+          {% endfor %}
+          {% if quantity %}
+            <span>{{ 'Quantity:' |trans }}
+              {{ quantity }}</span>
+          {% endif %}
+
+          {% if attributesAvColor %}
+
+            <span class="flex items-center CartItem-secondarySize">
+								<span class="mr-1 Colors-item" style="background-color:{{ attributesAvColor.hexa }}"></span>
+								{{ t('Color') }}:
+								{{ attributesAvColor.name }}</span>
+          {% endif %}
+        </div>
+
+
+        <div class="CartItem-footer">
+          {% if isPromo %}
+            <div class="CartItem-footerRight">
+              <div class="CartItem-price">{{ promoPrice }}</div>
+              <div class="CartItem-originalPrice">{{ price }}</div>
+            </div>
+          {% else %}
+            <div class="CartItem-price">{{ price }}</div>
+          {% endif %}
+
+
+          {% if outOfStock %}
+            <div class="CartItem-unavailable">
+              {{ 'Unavailable' |trans }}
+            </div>
+          {% else %}
+            <div class="CartItem-quantity">
+              {% include '@components/Molecules/Button/Quantity.html.twig' with {disabled: false, value:quantity, classes:'Button--small'} %}
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-card-buttons">
+      <button class='hover:bg-theme-lighter' {% if disabled %} disabled {% endif %} type='button'>
+        <span>{{ ux_icon("show") }}</span>
+        {{ 'View product'|trans }}
+      </button>
+      <button class='hover:bg-theme-lighter' {% if disabled %} disabled {% endif %} type='button'>
+        <span>{{ ux_icon("delete") }}</span>
+        {{ 'Delete' |trans }}
+      </button>
+    </div>
+
+  </div>
+  {% if outOfStock %}
+    <div class='flex md:justify-end'>
+      {% include '@components/Molecules/Button/Button.html.twig' with {text: 'View similar products' |trans, href: '#', classes:'md:Button--unfill Button--fill'} %}
+    </div>
+  {% endif %}
+</div>
