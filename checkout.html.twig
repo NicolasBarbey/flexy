@@ -1,26 +1,27 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
-	Tunnel d'achat
+  Tunnel d'achat
 {% endblock %}
 
 {% block javascripts %}
-	{{ encore_entry_script_tags('checkout') }}
+  {{ parent() }}
+  {{ encore_entry_script_tags('checkout') }}
 {% endblock %}
 
 {% block header %}
-	{% include '@components/Layout/Header/HeaderCheckout.html.twig' %}
+  {% include '@components/Layout/Header/HeaderCheckout.html.twig' %}
 {% endblock %}
 {% block body %}
-	{% set products = resources('/api/front/products', {'productCategories.category.id':1, itemsPerPage:3}) %}
+  {% set products = resources('/api/front/products', {'productCategories.category.id':1, itemsPerPage:3}) %}
 
 
-  {{component('Flexy:Layout:Checkout')}}
+  {{ component('Flexy:Layout:Checkout') }}
 
-	<div class="bg-theme-lighter">
-		{% include '@components/Layout/CrossSelling/CrossSelling.html.twig' with {products: products, title: 'Consultés récemment'} %}
-	</div>
+  <div class="bg-theme-lighter">
+    {% include '@components/Layout/CrossSelling/CrossSelling.html.twig' with {products: products, title: 'Consultés récemment'} %}
+  </div>
 {% endblock %}
 {% block footer %}
-	{% include '@components/Layout/Footer/FooterCheckout.html.twig' %}
+  {% include '@components/Layout/Footer/FooterCheckout.html.twig' %}
 {% endblock %}

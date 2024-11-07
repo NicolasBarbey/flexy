@@ -2,6 +2,7 @@
 import Twig from 'twig';
 // @ts-ignore
 import IconTwig from './IconTwig.twig';
+// @ts-ignore
 import PathTwig from './PathTwig.html.twig';
 
 Twig.extendFunction('ux_icon', (iconName: string): string => {
