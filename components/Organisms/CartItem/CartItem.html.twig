@@ -1,5 +1,5 @@
 {% if cartItem %}
-  {% set outOfStock = cartItem.productSaleElements.quantity <= 0 %}
+  {% set outOfStock = outOfStock|default(cartItem.productSaleElements.quantity <= 0) %}
   {% set product = cartItem.product %}
   {% set secondaryTitle = product.i18ns.chapo %}
 

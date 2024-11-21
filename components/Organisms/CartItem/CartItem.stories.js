@@ -7,14 +7,19 @@ export default {
 export const base = {
   render  : (args) => CartItem(args),
   args    : {
-    cartItem      : 1,
-    img           : { url: '/images/placeholder2.webp', alt: '' },
-    url           : '#',
-    title         : 'Nom du produit',
-    secondaryTitle: 'Titre secondaire',
-    quantity      : 1,
-    attributesAv  : { Taille: 'S' },
-    outOfStock    : false
+    img         : { url: '/images/placeholder2.webp', alt: '' },
+    cartItem    : {
+      quantity: 1,
+      product : {
+        i18ns    : {
+          title: 'Nom du produit',
+          chapo: 'Titre secondaire'
+        },
+        publicUrl: '#'
+      }
+    },
+    attributesAv: { Taille: 'S' },
+    outOfStock  : false
   },
   argTypes: {}
 };
