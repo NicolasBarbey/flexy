@@ -71,7 +71,7 @@
               </div>
             {% else %}
               <div class="CartItem-quantity">
-                {% include '@components/Molecules/Button/Quantity.html.twig' with {disabled: false, value:cartItem.quantity, classes:'Button--small'} %}
+                {% include '@components/Molecules/Button/Quantity.html.twig' with {disabled: false, value:cartItem.quantity, classes:'Button--small', btnLiveAction: 'setQuantity'} %}
               </div>
             {% endif %}
 
