@@ -12,8 +12,8 @@
 
 namespace FlexyBundle\Twig\Organisms;
 
+use FlexyBundle\Service\ProductSaleElementsService;
 use Propel\Runtime\Exception\PropelException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -21,8 +21,6 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Model\AttributeCombination;
 use Thelia\Model\CartItem as CartItemModel;
 use Thelia\Model\CartItemQuery;
 use Thelia\Model\ProductImage;
@@ -42,8 +40,6 @@ class CartItem
     #[LiveProp]
     public ?array $cartItem = null;
 
-    protected ?string $locale = null;
-
     protected ?CartItemModel $cartItemModel = null;
 
     #[LiveProp]
@@ -57,19 +53,13 @@ class CartItem
 
     public function __construct(
         private DataAccessService $dataAccessService,
-        private RequestStack $requestStack,
-        private CartService $cartService
+        private CartService $cartService,
+        private ProductSaleElementsService $pseService
     ) {
     }
 
     public function mount(string $cartItemId): void
     {
-        $request = $this->requestStack->getCurrentRequest();
-
-        /** @var Session $session */
-        $session = $request->getSession();
-
-        $this->locale = $session->getLang()->getLocale();
         $this->cartItemId = $cartItemId;
         $this->cartItemModel = CartItemQuery::create()->findPk($cartItemId);
         $this->setCartItem($cartItemId);
@@ -94,17 +84,7 @@ class CartItem
 
     public function setAttributesAv(): void
     {
-        $combinations = $this->cartItemModel->getProductSaleElements()->getAttributeCombinations();
-        $attributesAv = [];
-        /** @var AttributeCombination $combination */
-        foreach ($combinations as $combination) {
-            $title = $combination->getAttribute()->setLocale($this->locale)->getTitle();
-            $av = $combination->getAttributeAv()->setLocale($this->locale)->getTitle();
-
-            $attributesAv[$title] = $av;
-        }
-
-        $this->attributesAv = $attributesAv;
+        $this->attributesAv = $this->pseService->getAttributesAvFromPse($this->cartItemModel->getProductSaleElements());
     }
 
     public function setCartItem()

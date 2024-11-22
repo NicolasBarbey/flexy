@@ -20,6 +20,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
@@ -33,6 +34,7 @@ use TwigEngine\Service\FormService;
 #[AsLiveComponent(template: '@components/Layout/PseSelector/PseSelector.html.twig')]
 class PseSelector extends BaseFrontController
 {
+    use ComponentToolsTrait;
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
@@ -66,7 +68,7 @@ class PseSelector extends BaseFrontController
             'product_sale_elements_id' => $this->getCurrentPse()['id'],
             'quantity' => 1,
             'append' => 1,
-            'newness' => 1,
+            'newness' => 0,
         ]);
 
         $form->add(
@@ -149,12 +151,13 @@ class PseSelector extends BaseFrontController
     }
 
     #[LiveAction]
-    public function addToCart()
+    public function addToCart(): void
     {
         $this->submitForm();
         $this->cartService->addItem($this->getForm());
-
-        return $this->generateRedirect('checkout');
+        $this->emit('addToCart', [
+          'values' => $this->formValues,
+        ]);
     }
 
     #[LiveAction]
