@@ -14,7 +14,6 @@ namespace FlexyBundle\Twig\Layout;
 
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -39,10 +38,9 @@ class Checkout
         $this->setCart();
     }
 
-    #[LiveListener('removeCartItem')]
-    public function removeCartItem(#[LiveArg] string $id): void
+    #[LiveListener('resetCart')]
+    public function resetCart(): void
     {
-        $this->cartService->deleteItem((int) $id);
         $this->setCart();
     }
 

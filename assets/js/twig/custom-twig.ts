@@ -25,4 +25,7 @@ Twig.extend(function(Twig: any) {
   Twig.exports.functions.resources = function(value: any) {
     return value;
   };
+  Twig.exports.functions.stimulus_controller = function() {
+    return '';
+  };
 });

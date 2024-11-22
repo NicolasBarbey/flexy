@@ -2,4 +2,5 @@
   {% for item in this.cart.items %}
     {{ component('Flexy:Organisms:CartItem', {cartItemId: item.id}) }}
   {% endfor %}
+  {{ component('Flexy:Organisms:CartItemDelete') }}
 </div>

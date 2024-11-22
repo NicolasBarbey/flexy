@@ -9,7 +9,7 @@
     {% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
   {% endif %}
 
-  <div class='{{ outOfStock ? 'CartItem-outOfStock' :'' }}' {{ attributes }}>
+  <div class='{{ outOfStock ? 'CartItem-outOfStock' :'' }} {% if hide %}hidden{% endif %}' {{ attributes }}>
     {% if outOfStock %}
       <div class='paragraph-4 flex'>
         <span class='w-5 h-5'>{{ ux_icon("error") }}</span>
@@ -89,9 +89,8 @@
           class='hover:bg-theme-lighter'
           {% if disabled %} disabled {% endif %}
           type='button'
-          data-action="live#emit"
-          data-live-event-param="removeCartItem"
-          data-live-id-param="{{ cartItem.id }}"
+          data-action="live#action"
+          data-live-action-param="removeCartItem"
           {#          data-action="live#action" #}
           {#          data-live-action-param="saveProduct" #}
         >

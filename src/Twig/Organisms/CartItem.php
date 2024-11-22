@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
+use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Model\AttributeCombination;
@@ -31,6 +33,7 @@ use TwigEngine\Service\DataAccess\DataAccessService;
 #[AsLiveComponent(template: '@components/Organisms/CartItem/CartItem.html.twig')]
 class CartItem
 {
+    use ComponentToolsTrait;
     use DefaultActionTrait;
 
     #[LiveProp]
@@ -48,6 +51,9 @@ class CartItem
 
     #[LiveProp]
     public ?array $attributesAv = null;
+
+    #[LiveProp]
+    public bool $hide = false;
 
     public function __construct(
         private DataAccessService $dataAccessService,
@@ -143,5 +149,22 @@ class CartItem
         $this->cartService->changeItem($this->cartItemId, $quantity);
 
         $this->cartItem['quantity'] = $quantity;
+    }
+
+    #[LiveAction]
+    public function removeCartItem(): void
+    {
+        $this->hide = true;
+        $this->emit('removeCartItem', [
+          'id' => (int) $this->cartItemId,
+          'title' => $this->cartItem['product']['i18ns']['title'],
+          'imageId' => $this->imageId,
+        ]);
+    }
+
+    #[LiveListener('cancelDelete')]
+    public function showCartItem(): void
+    {
+        $this->hide = false;
     }
 }
