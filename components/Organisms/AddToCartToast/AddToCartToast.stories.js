@@ -7,6 +7,7 @@ export default {
 export const base = {
   render  : (args) => AddToCartToast(args),
   args    : {
+    pseId              : 1,
     img                : { url: '/images/placeholder2.webp', alt: '' },
     title              : 'Nom du produit',
     orderSecondaryTitle: 'Titre secondaire',
