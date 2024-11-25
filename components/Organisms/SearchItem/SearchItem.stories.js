@@ -5,8 +5,8 @@ export default {
 };
 
 export const base = {
-  render  : (args) => SearchItem(args),
-  args    : {
+  render    : (args) => SearchItem(args),
+  args      : {
     vertical      : false,
     img           : { url: '/images/placeholder2.webp', alt: '' },
     productTitle  : 'Nom du produit',
@@ -15,5 +15,8 @@ export const base = {
     isPromo       : false,
     promoPrice    : '30,00€'
   },
-  argTypes: {}
+  argTypes  : {},
+  parameters: {
+    backgrounds: { default: 'theme-lighter' }
+  }
 };

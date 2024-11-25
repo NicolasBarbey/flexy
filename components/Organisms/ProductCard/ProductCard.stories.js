@@ -6,9 +6,9 @@ export default {
 };
 
 export const base = {
-  render  : (args) =>
+  render    : (args) =>
     `<div class='max-w-[187px] sm:max-w-[340px] lg:max-w-[400px]'>${ProductCard(args)}</div>`,
-  args    : {
+  args      : {
 
     img           : { url: '/images/placeholder2.webp', alt: '' },
     url           : '#',
@@ -31,5 +31,8 @@ export const base = {
       '#2E3438'
     ]
   },
-  argTypes: {}
+  argTypes  : {},
+  parameters: {
+    backgrounds: { default: 'theme-lighter' }
+  }
 };
