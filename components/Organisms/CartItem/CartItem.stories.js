@@ -28,9 +28,14 @@ export const base = {
 export const deleteToast = {
   render  : (args) => CartItemDelete(args),
   args    : {
-    cartItemId: 1,
-    img       : { url: '/images/placeholder2.webp', alt: '' },
-    title     : 'Nom du produit'
+    cartItems: [
+      {
+        id   : 1,
+        img  : { url: '/images/placeholder2.webp', alt: '' },
+        title: 'Nom du produit'
+      }
+    ]
+
   },
   argTypes: {}
 };

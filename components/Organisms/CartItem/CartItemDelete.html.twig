@@ -10,7 +10,7 @@
         {% if imageId is defined %}
           {% set img = {url: '/legacy-image-library/product_image_'~ imageId ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
         {% else %}
-          {% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
+          {% set img = cartItem.img|default({url: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
         {% endif %}
         <button class='CartItemDelete-iconClose'>{{ ux_icon("close") }}</button>
         <div class="CartItemDelete-mainContent">
