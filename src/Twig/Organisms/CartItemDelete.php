@@ -29,13 +29,7 @@ class CartItemDelete
     use DefaultActionTrait;
 
     #[LiveProp]
-    public ?int $cartItemId = null;
-
-    #[LiveProp]
-    public ?string $title = null;
-
-    #[LiveProp]
-    public ?int $imageId = null;
+    public array $cartItems = [];
 
     #[ExposeInTemplate]
     public int $timer = 3;
@@ -48,35 +42,35 @@ class CartItemDelete
     #[LiveListener('removeCartItem')]
     public function showToast(#[LiveArg] int $id, #[LiveArg] string $title, #[LiveArg] ?int $imageId): void
     {
-        $this->cartItemId = $id;
-        $this->title = $title;
-        $this->imageId = $imageId;
-        $this->dispatchBrowserEvent('cartitem:toast', ['timer' => $this->timer]);
+        $this->cartItems[$id] = [
+          'id' => $id,
+          'title' => $title,
+          'imageId' => $imageId,
+        ];
+        $this->dispatchBrowserEvent('cartitem:toast', ['timer' => $this->timer, 'id' => $id]);
     }
 
     #[LiveAction]
-    public function deleteCartItem(): void
+    public function deleteCartItem(#[LiveArg] int $id): void
     {
-        $id = $this->cartItemId;
         if (!$id) {
             return;
         }
-        $this->resetValues();
+        $this->resetValues($id);
         $this->cartService->deleteItem($id);
+        // if (count($this->cartItems))
         $this->emit('resetCart');
     }
 
     #[LiveAction]
-    public function cancelDelete(): void
+    public function cancelDelete(#[LiveArg] $id): void
     {
         $this->emit('cancelDelete', componentName: 'Flexy:Organisms:CartItem');
-        $this->resetValues();
+        $this->resetValues($id);
     }
 
-    protected function resetValues(): void
+    protected function resetValues($id): void
     {
-        $this->cartItemId = null;
-        $this->title = null;
-        $this->imageId = null;
+        unset($this->cartItems[$id]);
     }
 }

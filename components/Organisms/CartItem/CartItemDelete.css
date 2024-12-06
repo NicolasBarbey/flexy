@@ -1,7 +1,7 @@
 .CartItemDelete {
   border-radius: 8px;
   width: 100%;
-  position: fixed;
+  position: relative;
   bottom: 0;
   z-index: 99;
   background-color: var(--grey-lightest);
@@ -12,6 +12,7 @@
   top: 30px;
   right: 30px;
   left: auto;
+  margin-bottom: 5px;
   @screen sm {
     max-width: 540px;
   }
@@ -76,4 +77,13 @@
     0% { width: 0; }
     100% { width: 100%; }
   }
+}
+
+
+
+.CartItemsDelete {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
 }
