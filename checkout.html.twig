@@ -12,9 +12,11 @@
 {% block header %}
   {% include '@components/Layout/Header/HeaderCheckout.html.twig' %}
 {% endblock %}
+
 {% block body %}
   {% set products = resources('/api/front/products', {'productCategories.category.id':1, itemsPerPage:3}) %}
 
+  {% include '@components/Layout/CheckoutSteps/CheckoutSteps.html.twig' with {steps: ["Your cart", "Delivery", "Payment", "Confirmation"], current: 1} %}
 
   {{ component('Flexy:Layout:Checkout') }}
 

@@ -1,6 +1,23 @@
-<div {{ attributes }}>
-  {% for item in this.cart.items %}
-    {{ component('Flexy:Organisms:CartItem', {cartItemId: item.id}) }}
-  {% endfor %}
+<div class='grid grid-cols-12' {{ attributes }}>
+
+  <div class='col-span-7 flex justify-center mt-[50px] mb-36'>
+    <div>
+      <div class='text-right mb-1'>
+        {{ this.cart.items|length }} {{ 'article'|trans }}
+      </div>
+
+      {% for item in this.cart.items %}
+        {{ component('Flexy:Organisms:CartItem', {cartItemId: item.id}) }}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class='col-span-5 bg-theme-light'>
+
+  </div>
+
+  <div>
+
+  </div>
   {{ component('Flexy:Organisms:CartItemDelete') }}
 </div>
