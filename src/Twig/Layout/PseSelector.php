@@ -20,11 +20,13 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Form\Definition\FrontForm;
+use Thelia\Service\Model\CartService;
 use TwigEngine\Service\DataAccess\DataAccessService;
 use TwigEngine\Service\DataAccess\ProductSaleElementsAccessService;
 use TwigEngine\Service\FormService;
@@ -32,125 +34,134 @@ use TwigEngine\Service\FormService;
 #[AsLiveComponent(template: '@components/Layout/PseSelector/PseSelector.html.twig')]
 class PseSelector extends BaseFrontController
 {
-  use ComponentWithFormTrait;
-  use DefaultActionTrait;
+    use ComponentToolsTrait;
+    use ComponentWithFormTrait;
+    use DefaultActionTrait;
 
-  #[LiveProp]
-  public array $product;
+    #[LiveProp]
+    public array $product;
 
-  #[ExposeInTemplate]
-  public ?array $pses = [];
+    #[ExposeInTemplate]
+    public ?array $pses = [];
 
-  #[ExposeInTemplate]
-  public ?array $currentPse = null;
+    #[ExposeInTemplate]
+    public ?array $currentPse = null;
 
-  #[LiveProp]
-  public ?array $initialFormData = null;
+    #[LiveProp]
+    public ?array $initialFormData = null;
 
-  public function __construct(
-    private DataAccessService $dataAccessService,
-    private ProductSaleElementsAccessService $pseAccessService,
-    private FormService $formService,
-    private FormFactoryInterface $formFactory,
-  ) {}
-
-  protected function instantiateForm(): FormInterface
-  {
-    $productAttributes = $this->pseAccessService->attrAvByProduct($this->product['id']);
-
-    $form = $this->formService->getFormByName(FrontForm::CART_ADD, [
-      'product' => $this->product['id'],
-      'product_sale_elements_id' => $this->getCurrentPse()['id'],
-      'quantity' => 1,
-      'append' => 1,
-      'newness' => 1,
-    ]);
-
-    $form->add(
-      'currentCombination',
-      FieldsetType::class,
-      [
-        'by_reference' => true,
-        'inherit_data' => true,
-        'attr' => [
-          'class' => 'PseSelector',
-        ],
-      ]
-    );
-
-    foreach ($productAttributes as $attribute) {
-      $choices = [];
-      foreach ($attribute['values'] as $value) {
-        $choices[$value['label']] = $value['id'];
-      }
-      $form->get('currentCombination')->add($attribute['id'], ChoiceType::class, [
-        'label' => $attribute['label'],
-        'choices' => $choices,
-        'data' => reset($choices),
-        'multiple' => false,
-        'required' => false,
-      ]);
+    public function __construct(
+        private DataAccessService $dataAccessService,
+        private ProductSaleElementsAccessService $pseAccessService,
+        private FormService $formService,
+        private FormFactoryInterface $formFactory,
+        private CartService $cartService,
+    ) {
     }
 
-    return $form;
-  }
+    protected function instantiateForm(): FormInterface
+    {
+        $productAttributes = $this->pseAccessService->attrAvByProduct($this->product['id']);
 
-  public function getPses(): array
-  {
-    if (0 !== \count($this->pses)) {
-      return $this->pses;
-    }
+        $form = $this->formService->getFormByName(FrontForm::CART_ADD, [
+            'product' => $this->product['id'],
+            'product_sale_elements_id' => $this->getCurrentPse()['id'],
+            'quantity' => 1,
+            'append' => 1,
+            'newness' => 0,
+        ]);
 
-    $this->pses = json_decode($this->pseAccessService->psesByProduct($this->product['id']), true);
+        $form->add(
+            'currentCombination',
+            FieldsetType::class,
+            [
+                'by_reference' => true,
+                'inherit_data' => true,
+                'attr' => [
+                    'class' => 'PseSelector',
+                ],
+            ]
+        );
 
-    return $this->pses;
-  }
-
-  #[LiveAction]
-  public function getCurrentPse()
-  {
-    $pses = $this->getPses();
-
-    if (0 === \count($pses)) {
-      return [];
-    }
-
-    if (null === $this->currentPse) {
-      $this->currentPse = array_filter($pses, function ($pse) {
-        return $pse['isDefault'];
-      })[0];
-    } else {
-      foreach ($pses as $pse) {
-        if ($pse['combination'] == $this->formValues['currentCombination']) {
-          $this->currentPse = $pse;
-          break;
+        foreach ($productAttributes as $attribute) {
+            $choices = [];
+            foreach ($attribute['values'] as $value) {
+                $choices[$value['label']] = $value['id'];
+            }
+            $form->get('currentCombination')->add($attribute['id'], ChoiceType::class, [
+                'label' => $attribute['label'],
+                'choices' => $choices,
+                'data' => reset($choices),
+                'multiple' => false,
+                'required' => false,
+            ]);
         }
-      }
+
+        return $form;
     }
 
-    $this->formValues['product_sale_elements_id'] = $this->currentPse['id'];
+    public function getPses(): array
+    {
+        if (0 !== \count($this->pses)) {
+            return $this->pses;
+        }
 
-    return $this->currentPse;
-  }
+        $this->pses = json_decode($this->pseAccessService->psesByProduct($this->product['id']), true);
 
-  #[LiveAction]
-  public function getQuantity(#[LiveArg] ?int $quantity = 1)
-  {
-    $this->formValues['quantity'] = $quantity;
-
-    if ($quantity < 2) {
-      $this->formValues['quantity'] = 1;
+        return $this->pses;
     }
 
-    return $this->formValues['quantity'];
-  }
+    #[LiveAction]
+    public function getCurrentPse()
+    {
+        $pses = $this->getPses();
 
-  #[LiveAction]
-  public function addToCart(): void
-  {
-    $this->submitForm();
-  }
+        if (0 === \count($pses)) {
+            return [];
+        }
 
-  #[LiveAction]
-  public function restockingAlert(): void {}
+        if (null === $this->currentPse) {
+            $this->currentPse = array_filter($pses, function ($pse) {
+                return $pse['isDefault'];
+            })[0];
+        } else {
+            foreach ($pses as $pse) {
+                if ($pse['combination'] == $this->formValues['currentCombination']) {
+                    $this->currentPse = $pse;
+                    break;
+                }
+            }
+        }
+
+        $this->formValues['product_sale_elements_id'] = $this->currentPse['id'];
+
+        return $this->currentPse;
+    }
+
+    #[LiveAction]
+    public function getQuantity(#[LiveArg] ?int $quantity = 1)
+    {
+        $this->formValues['quantity'] = $quantity;
+
+        if ($quantity < 2) {
+            $this->formValues['quantity'] = 1;
+        }
+
+        return $this->formValues['quantity'];
+    }
+
+    #[LiveAction]
+    public function addToCart(): void
+    {
+        $this->submitForm();
+        $this->cartService->addItem($this->getForm());
+        $this->emit('addToCart', [
+          'values' => $this->formValues,
+        ]);
+    }
+
+    #[LiveAction]
+    public function restockingAlert(): void
+    {
+    }
 }

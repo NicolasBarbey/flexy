@@ -1,37 +1,47 @@
 <?php
 
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use TwigEngine\Service\DataAccess\DataAccessService;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
+use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(template: '@components/Organisms/ProductCard/ProductCard.html.twig')]
 class ProductCard
 {
-  private DataAccessService $dataAccessService;
-  public ?string $productId = '';
+    private DataAccessService $dataAccessService;
+    public ?string $productId = '';
 
-  #[ExposeInTemplate]
-  public ?array $product = null;
+    #[ExposeInTemplate]
+    public ?array $product = null;
 
-  public function __construct(DataAccessService $dataAccessService)
-  {
-    $this->dataAccessService = $dataAccessService;
-  }
-
-  public function getProduct()
-  {
-    if (null !== $this->product) {
-      return $this->product;
+    public function __construct(DataAccessService $dataAccessService)
+    {
+        $this->dataAccessService = $dataAccessService;
     }
 
-    if ('' === $this->productId) {
-      return null;
+    public function getProduct()
+    {
+        if (null !== $this->product) {
+            return $this->product;
+        }
+
+        if ('' === $this->productId) {
+            return null;
+        }
+
+        $this->product = $this->dataAccessService->resources('/api/front/products/'.$this->productId);
+
+        return $this->product;
     }
-
-    $this->product = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
-
-    return $this->product;
-  }
 }

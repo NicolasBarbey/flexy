@@ -26,9 +26,10 @@ svg {
 .bottom-card-buttons {
   display: flex;
   width: 100%;
-  button {
+  > * {
     color: var(--black);
     padding: rem-convert(16px);
+    text-decoration: none;
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;

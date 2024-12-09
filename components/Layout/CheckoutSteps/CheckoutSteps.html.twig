@@ -1,0 +1,22 @@
+{% set percent = (current|default(1)/ steps|length * 100)|round %}
+<div class='CheckoutSteps'>
+  <div class='flex items-center'>
+    <div class='CheckoutSteps-mobile'>
+      <div class="w-5 h-5 mr-0.5">{{ ux_icon('chevron-left') }}</div>
+    </div>
+    <div class='CheckoutSteps-steps'>
+      {% for step in steps %}
+        <div
+          class='Step {% if loop.index == current %}current{% elseif loop.index > current %}next{% else %}previous{% endif %}'>
+          <span class='Step-number' style="--p: {{ percent }}%;"><span>{{ loop.index }}</span></span>
+          <span class='Step-label'>{{ step|trans }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class='CheckoutSteps-mobile text-right'>
+    <div class='paragraph-4 font-semibold'>2 050,00€</div>
+    <div class='paragraph-6'>2 articles</div>
+  </div>
+</div>
