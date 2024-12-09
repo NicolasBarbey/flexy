@@ -10,8 +10,11 @@ export const base = {
   args    : {
     img         : { url: '/images/placeholder2.webp', alt: '' },
     cartItem    : {
-      quantity: 1,
-      product : {
+      quantity  : 1,
+      price     : 1000,
+      promoPrice: 850,
+      promo     : false,
+      product   : {
         i18ns    : {
           title: 'Nom du produit',
           chapo: 'Titre secondaire'

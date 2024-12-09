@@ -105,24 +105,35 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
-    flex-direction: column;
-
-    @screen xs {
-      flex-direction: row;
-      align-items: center;
-    }
+    flex-direction: row;
+    align-items: center;
     column-gap: 5px;
 
     &Right {
       display: flex;
       align-items: flex-start;
       flex-direction: column-reverse;
+      @screen sm {
+        flex-direction: row;
+        align-items: center;
+
+      }
     }
   }
 
   &-price {
     @apply paragraph-4;
     font-weight: 600;
+    color: var(--black);
+  }
+
+  &-originalPrice {
+    @apply paragraph-7;
+    text-decoration: line-through;
+    color: var(--black);
+    @screen sm {
+      padding-left: rem-convert(12px);
+    }
   }
 
   &-quantity {

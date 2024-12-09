@@ -17,6 +17,9 @@ Twig.extend(function(Twig: any) {
   Twig.filters.trans = function(value: any) {
     return value;
   };
+  Twig.filters.format_currency = function(value: any) {
+    return value + ' €';
+  };
 
   Twig.exports.functions.t = function(value: any) {
     return value;
@@ -25,6 +28,7 @@ Twig.extend(function(Twig: any) {
   Twig.exports.functions.resources = function(value: any) {
     return value;
   };
+
   Twig.exports.functions.stimulus_controller = function() {
     return '';
   };
