@@ -4,6 +4,16 @@
 {% set radio = radio|default(false) %}
 {% set selected = selected|default(false) %}
 {% set purchaseFunnel = purchaseFunnel|default(false) %}
+{% set isDefault = isDefault|default(false) %}
+{% set address = address|default({
+  title: "",
+  name: "",
+  address1: "",
+  zipcode: '',
+  city: '',
+  country: '',
+  phone: '',
+}) %}
 {% set attributesDelete = attributesDelete|default({
   'class': '',
   'data-id': ''
@@ -24,7 +34,7 @@
 		{% if radio %}
 			{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
 		{% endif %}
-		<span>
+  <span>
 			<span class='AddressCard-title'>
 				{% if not purchaseFunnel %}
 					{{ title }}
@@ -47,22 +57,37 @@
 				{% if phone %}
 					<span class='AddressCard-phone'>{{ address.phone }}</span>
 				{% endif %}
-			</span>
-		</span>
-	</{{contentType}}>
+      </span>
+    </span>
+</{{ contentType }}>
 
-	{% if not purchaseFunnel %}
+{% if not purchaseFunnel %}
 		<div class="mt-auto bottom-card-buttons">
-			<a {% if disabled %} disabled {% endif %} href="{{path('account_address_update', {'addressId': address.id})}}" class='hover:text-theme' type='button'>
-				<span>{{ ux_icon("edit") }}</span>
-				{{ 'Modify'|trans }}
-			</a>
-			{% if not address.isDefault %}
-				<button {% if disabled %} disabled {% endif %} class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}' type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %} data-url="{{path('account_address_delete', {'addressId': address.id})}}">
-					<span>{{ ux_icon("delete") }}</span>
-					{{ 'Delete'|trans }}
-				</button>
+      <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button'>
+      <span>{{ ux_icon("edit") }}</span>
+      {{ 'Modify'|trans }}
+    </button>
+    <button {% if disabled %}disabled{% endif %}
+            class='hover:text-theme{% if attributesDelete.class|default('') %} {{ attributesDelete.class }}{% endif %}'
+            type='button' {% if attributesDelete['data-id']|default('') %}data-id="{{ attributesDelete['data-id'] }}"{% endif %}>
+      <span>{{ ux_icon("delete") }}</span>
+      {{ 'Delete'|trans }}
+    </button>
 			{% endif %}
-		</div>
-	{% endif %}
+  </div>
+{% endif %}
+{#{% if not purchaseFunnel %}#}
+{#  <div class="mt-auto bottom-card-buttons">#}
+{#    <a {% if disabled %} disabled {% endif %} href="{{path('account_address_update', {'addressId': address.id})}}" class='hover:text-theme' type='button'>#}
+{#      <span>{{ ux_icon("edit") }}</span>#}
+{#      {{ 'Modify'|trans }}#}
+{#    </a>#}
+{#    {% if not address.isDefault %}#}
+{#      <button {% if disabled %} disabled {% endif %} class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}' type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %} data-url="{{path('account_address_delete', {'addressId': address.id})}}">#}
+{#        <span>{{ ux_icon("delete") }}</span>#}
+{#        {{ 'Delete'|trans }}#}
+{#      </button>#}
+{#    {% endif %}#}
+{#  </div>#}
+{#{% endif %}#}
 </div>
