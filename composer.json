@@ -13,6 +13,10 @@
     "symfony/ux-translator": "^2.19",
     "symfony/ux-live-component": "^2.19",
     "symfony/twig-bundle": "6.4.*",
+    "thelia/front-module": "2.5.*",
+    "thelia/thelia-library-module": "1.*",
+    "thelia/thelia-blocks-module": "dev-twig",
+    "thelia/twig-engine-module": "dev-twig",
     "twig/intl-extra": "^3.16"
   },
   "autoload": {
