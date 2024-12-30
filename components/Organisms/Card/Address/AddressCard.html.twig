@@ -13,6 +13,7 @@
   city: '',
   country: '',
   phone: '',
+  id: null
 }) %}
 {% set attributesDelete = attributesDelete|default({
   'class': '',
@@ -60,16 +61,17 @@
       </span>
     </span>
 </{{ contentType }}>
-
 {% if not purchaseFunnel %}
-		<div class="mt-auto bottom-card-buttons">
-      <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button'>
+<div class="mt-auto bottom-card-buttons">
+    <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button' data-action='live#emit'
+            data-live-event-param='editAddress' data-live-id-param="{{ address.id }}">
       <span>{{ ux_icon("edit") }}</span>
       {{ 'Modify'|trans }}
     </button>
     <button {% if disabled %}disabled{% endif %}
             class='hover:text-theme{% if attributesDelete.class|default('') %} {{ attributesDelete.class }}{% endif %}'
-            type='button' {% if attributesDelete['data-id']|default('') %}data-id="{{ attributesDelete['data-id'] }}"{% endif %}>
+            type='button' {% if attributesDelete['data-id']|default('') %}data-id="{{ attributesDelete['data-id'] }}"{% endif %}
+            data-action='live#emit' data-live-event-param='deleteAddress' data-live-id-param="{{ address.id }}">
       <span>{{ ux_icon("delete") }}</span>
       {{ 'Delete'|trans }}
     </button>
@@ -77,17 +79,18 @@
   </div>
 {% endif %}
 {#{% if not purchaseFunnel %}#}
-{#  <div class="mt-auto bottom-card-buttons">#}
-{#    <a {% if disabled %} disabled {% endif %} href="{{path('account_address_update', {'addressId': address.id})}}" class='hover:text-theme' type='button'>#}
-{#      <span>{{ ux_icon("edit") }}</span>#}
-{#      {{ 'Modify'|trans }}#}
-{#    </a>#}
-{#    {% if not address.isDefault %}#}
-{#      <button {% if disabled %} disabled {% endif %} class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}' type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %} data-url="{{path('account_address_delete', {'addressId': address.id})}}">#}
-{#        <span>{{ ux_icon("delete") }}</span>#}
-{#        {{ 'Delete'|trans }}#}
-{#      </button>#}
-{#    {% endif %}#}
-{#  </div>#}
+{#<div class="mt-auto bottom-card-buttons">#}
+{#  <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button'>#}
+{#    <span>{{ ux_icon("edit") }}</span>#}
+{#    {{ 'Modify'|trans }}#}
+{#  </button>#}
+{#  <button {% if disabled %}disabled{% endif %}#}
+{#          class='hover:text-theme{% if attributesDelete.class|default('') %} {{ attributesDelete.class }}{% endif %}'#}
+{#          type='button' {% if attributesDelete['data-id']|default('') %}data-id="{{ attributesDelete['data-id'] }}"{% endif %}>#}
+{#    <span>{{ ux_icon("delete") }}</span>#}
+{#    {{ 'Delete'|trans }}#}
+{#  </button>#}
+{#  {% endif %}#}
+{#</div>#}
 {#{% endif %}#}
 </div>
