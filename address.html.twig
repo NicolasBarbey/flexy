@@ -1,28 +1,39 @@
 {%  extends 'base.html.twig' %}
 
 {% block title %}
-  {{ 'New Address'| trans }}
+	{{ 'New Address'| trans }}
 {% endblock %}
 
 {% block body %}
-  <main>
-    {% include "@components/Molecules/Button/Button.html.twig" with {
+	<main>
+		{% include "@components/Molecules/Button/Button.html.twig" with {
       text: 'My delivery addresses' | trans,
-      href: '/account-address',
+      href: path('account_addresses'),
       variant: 'minimal',
       icon_left: 'chevron-left',
       classes: 'mt-2 lg:mt-6 lg:ml-5',
     } %}
-    <div class="lg:w-[400px] mx-6 lg:mx-auto mt-8 lg:mt-4">
-      <div class='h3'>{{'New Address' | trans}}</div>
-      <div class="flex flex-col gap-6 mt-6 lg:mt-11 mb-[80px] md:mb-[120px] mx-2 lg:mx-0">
-        {% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "name", label: "Nom de l'adresse" }  %}
-        {% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "lastName", label: "Nom" }  %}
-        {% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "firstName", label: "Prénom" | trans }  %}
-        /!\ A compléter quand les formulaire seront disponibles
-      </div>
-    </div>
-  </main>
+		<div class="lg:w-[400px] mx-6 lg:mx-auto mt-4 lg:mt-8 lg:mt-120 mb-20">
+			<div class='text-black h3 mb-6 lg:mb-[44px]'>{{'New Address' | trans}}</div>
+
+			{% set form = getForm("thelia_address_creation") %}
+
+			{{ form_start(form, {attr : {
+        class: 'flex flex-col gap-6',
+        'action': path('account_address_create'),
+        'method': 'POST'
+        }})}}
+
+			{{form_row(form.success_url, { value: path('account_addresses',{success : true}) }) }}
+			{{form_row(form.error_url, { value: path('account_address_create') }) }}
+			{{form_rest(form)}}
+			{{ form_errors(form) }}
+			<div class="flex justify-center mt-4">
+				{% include "@components/Molecules/Button/Button.html.twig" with {text: 'Create address' | trans, classes: 'Button--large lg:w-full', type: 'submit' } %}
+			</div>
+			{{ form_end(form) }}
+		</div>
+	</main>
 {% endblock %}
 
 {% block footer %}
