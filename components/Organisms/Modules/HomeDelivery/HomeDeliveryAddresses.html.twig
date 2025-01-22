@@ -18,7 +18,7 @@
       <div>
         <div class='flex flex-col gap-2'>
           {% for address in addresses %}
-            {% include '@components/Organisms/Card/Address/AddressCard.html.twig' with { address: address, selected:address.selected, isDefault:address.isDefault  } %}
+            {% include '@components/Organisms/Card/Address/AddressCardCheckout.html.twig' with { address: address, selected:address.selected, isDefault:address.isDefault  } %}
           {% endfor %}
         </div>
 
