@@ -92,6 +92,7 @@ class PseSelector extends BaseFrontController
         'data' => array_values(array_filter($choices, function ($choice) use (&$attribute) {
           return $choice === $this->getCurrentPse()['combination'][$attribute['id']];
         }))[0],
+        'expanded' => true,
         'multiple' => false,
         'required' => false,
       ]);

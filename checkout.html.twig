@@ -14,15 +14,11 @@
 {% endblock %}
 
 {% block body %}
-  {% set products = resources('/api/front/products', {'productCategories.category.id':1, itemsPerPage:3}) %}
 
-  {% include '@components/Layout/CheckoutSteps/CheckoutSteps.html.twig' with {steps: ["Your cart", "Delivery", "Payment", "Confirmation"], current: 1} %}
+  {% include '@components/Layout/CheckoutSteps/CheckoutSteps.html.twig' with {steps: ["Your cart", "Delivery", "Payment", "Confirmation"], current: current} %}
 
-  {{ component('Flexy:Layout:Checkout') }}
+  {{ component('Flexy:Layout:Checkout', {page: page, step: current}) }}
 
-  <div class="bg-theme-lighter">
-    {% include '@components/Layout/CrossSelling/CrossSelling.html.twig' with {products: products, title: 'Consultés récemment'} %}
-  </div>
 {% endblock %}
 {% block footer %}
   {% include '@components/Layout/Footer/FooterCheckout.html.twig' %}
