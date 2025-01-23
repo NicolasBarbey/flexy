@@ -58,17 +58,18 @@ class PseSelector extends BaseFrontController
     private FormFactoryInterface $formFactory,
     private CartService $cartService,
     public RequestStack $requestStack,
-  ) {}
+  ) {
+  }
 
   protected function instantiateForm(): FormInterface
   {
     $productAttributes = $this->pseAccessService->attrAvByProduct($this->product['id']);
-    $form = $this->formService->getFormByName(FrontForm::CART_ADD, [
-      'product' => $this->product['id'],
+    $form              = $this->formService->getFormByName(FrontForm::CART_ADD, [
+      'product'                  => $this->product['id'],
       'product_sale_elements_id' => $this->getCurrentPse()['id'],
-      'quantity' => 1,
-      'append' => 1,
-      'newness' => 0,
+      'quantity'                 => 1,
+      'append'                   => 1,
+      'newness'                  => 0,
     ]);
     $form->add(
       'currentCombination',
@@ -76,7 +77,7 @@ class PseSelector extends BaseFrontController
       [
         'by_reference' => true,
         'inherit_data' => true,
-        'attr' => [
+        'attr'         => [
           'class' => 'PseSelector',
         ],
       ]
@@ -87,12 +88,11 @@ class PseSelector extends BaseFrontController
         $choices[$value['label']] = $value['id'];
       }
       $form->get('currentCombination')->add($attribute['id'], PillType::class, [
-        'label' => $attribute['label'],
-        'choices' => $choices,
-        'data' => array_values(array_filter($choices, function ($choice) use (&$attribute) {
+        'label'    => $attribute['label'],
+        'choices'  => $choices,
+        'data'     => array_values(array_filter($choices, function ($choice) use (&$attribute) {
           return $choice === $this->getCurrentPse()['combination'][$attribute['id']];
         }))[0],
-        'expanded' => true,
         'multiple' => false,
         'required' => false,
       ]);
@@ -142,6 +142,7 @@ class PseSelector extends BaseFrontController
       }
     }
     $this->formValues['product_sale_elements_id'] = $this->currentPse['id'];
+
     return $this->currentPse;
   }
 
@@ -158,7 +159,7 @@ class PseSelector extends BaseFrontController
   }
 
   #[LiveAction]
-  public function addToCart(): void
+  public function save(): void
   {
     $this->submitForm();
     $this->cartService->addItem($this->getForm());
@@ -168,5 +169,7 @@ class PseSelector extends BaseFrontController
   }
 
   #[LiveAction]
-  public function restockingAlert(): void {}
+  public function restockingAlert(): void
+  {
+  }
 }
