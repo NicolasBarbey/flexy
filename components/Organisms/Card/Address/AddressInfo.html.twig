@@ -1,0 +1,18 @@
+{% if title %}
+  {% set name = address.label %}
+{% else %}
+  {% set title = address.label %}
+  {% set name = address.firstname ~ ' ' ~ address.lastname %}
+{% endif %}
+
+<span>
+     <span class='AddressCard-title'>
+          {{ title }}
+			</span>
+			<span class='AddressCard-name'>{{ name }}</span>
+      <span class='AddressCard-address'>
+        <span>{{ address.address1 }},{% if address.address2 %} {{ address.address2 }},{% endif %}</span>
+        <span>{{ address.zipcode }} {{ address.city }}, {{ address.country.isoalpha3 }}</span>
+        <span class='AddressCard-phone'>{{ address.phone }}</span>
+      </span>
+    </span>

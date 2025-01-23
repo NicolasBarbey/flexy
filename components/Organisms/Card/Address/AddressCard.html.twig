@@ -1,57 +1,24 @@
 {% set title = title|default('') %}
-{% set contentType = "label" %}
 {% set disabled = disabled|default(false) %}
-{% set radio = radio|default(false) %}
-{% set selected = selected|default(false) %}
 {% set purchaseFunnel = purchaseFunnel|default(false) %}
 {% set attributesDelete = attributesDelete|default({
   'class': '',
   'data-id': ''
 }) %}
 {% set classes = classes|default('') %}
-{% if purchaseFunnel %}
-  {% set radio = false %}
-  {% set selected = false %}
-  {% set contentType = "div" %}
-{% endif %}
-<div class='AddressCard {% if selected %}selected{% endif %} {{ classes }}'>
-  {% if not purchaseFunnel %}
-    <div class='AddressCard-top'>
-      {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: address.isDefault, addressId : address.id} %}
-    </div>
-  {% endif %}
-  <{{ contentType }} class='AddressCard-content {% if radio %}cursor{% endif %}'>
-  {% if radio %}
-    {% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
-  {% endif %}
-  <span>
-			<span class='AddressCard-title'>
-				{% if not purchaseFunnel %}
-          {{ title }}
-        {% else %}
-          {{ title }}
-        {% endif %}
-			</span>
-			<span class='AddressCard-name'>{{ address.label }}</span>
-			<span class='AddressCard-address'>
-				<span>{{ address.address1 }},
-					{% if address.address2 %}
-            {{ address.address2 }},
-          {% endif %}
-				</span>
-				<span>{{ address.zipcode }}
-          {{ address.city }},
-					{{ address.country }}
-				</span>
-				<span class='AddressCard-phone'>{{ address.cellphone }}</span>
-				{% if phone %}
-          <span class='AddressCard-phone'>{{ address.phone }}</span>
-        {% endif %}
-			</span>
-		</span>
-</{{ contentType }}>
 
-{% if not purchaseFunnel %}
+<div class='AddressCard {% if selected %}selected{% endif %} {{ classes }}'>
+  <div class='AddressCard-top'>
+    {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: address.isDefault, addressId : address.id} %}
+  </div>
+  <label class='AddressCard-content {% if radio %}cursor{% endif %}'>
+    {% if radio %}
+      {% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
+    {% endif %}
+
+    {% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
+  </label>
+
   <div class="mt-auto bottom-card-buttons">
     <a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {'addressId': address.id}) }}"
                                               class='hover:text-theme' type='button'>
@@ -68,5 +35,4 @@
       </button>
     {% endif %}
   </div>
-{% endif %}
 </div>

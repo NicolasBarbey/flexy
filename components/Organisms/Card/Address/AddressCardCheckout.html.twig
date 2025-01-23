@@ -1,8 +1,5 @@
 {% set title = title|default('') %}
-{% set contentType = "label" %}
 {% set disabled = disabled|default(false) %}
-{% set radio = radio|default(false) %}
-{% set selected = selected|default(false) %}
 {% set purchaseFunnel = purchaseFunnel|default(false) %}
 {% set isDefault = isDefault|default(false) %}
 {% set address = address|default({
@@ -20,32 +17,16 @@
   'data-id': ''
 }) %}
 
-{% if purchaseFunnel %}
-  {% set radio = false %}
-  {% set selected = false %}
-  {% set contentType = "div" %}
-{% endif %}
 <div class='AddressCard {% if selected %}selected{% endif %}'>
-  {% if not purchaseFunnel %}
-    <div class='AddressCard-top'>
-      {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
-    </div>
-  {% endif %}
-  <{{ contentType }} class='AddressCard-content'>
-  {% include '@components/Atoms/Form/Radio.html.twig' with {classes:radio ? "" : "invisible max-w-0", type:"span", name:"test", value:1, checked:selected} %}
+  <div class='AddressCard-top'>
+    {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
+  </div>
+  <label class='AddressCard-content'>
+    {% include '@components/Atoms/Form/Radio.html.twig' with {classes:radio ? "" : "invisible max-w-0", type:"span", name:"test", value:1, checked:selected} %}
 
-  <span>
-      <span
-        class='AddressCard-title'>{% if not purchaseFunnel %}{{ address.label }}{% else %}{{ title }}{% endif %}</span>
-      <span class='AddressCard-name'>{{ address.name }}</span>
-      <span class='AddressCard-address'>
-        <span>{{ address.address1 }},{% if address.address2 %} {{ address.address2 }},{% endif %}</span>
-        <span>{{ address.zipcode }} {{ address.city }}, {{ address.country.isoalpha3 }}</span>
-        <span class='AddressCard-phone'>{{ address.phone }}</span>
-      </span>
-    </span>
-</{{ contentType }}>
-{% if not purchaseFunnel %}
+    {% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
+
+  </label>
   <div class="bottom-card-buttons">
     <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button' data-action='live#emit'
             data-live-event-param='editAddress' data-live-id-param="{{ address.id }}">
@@ -60,5 +41,4 @@
       {{ 'Delete'|trans }}
     </button>
   </div>
-{% endif %}
 </div>
