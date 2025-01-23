@@ -36,19 +36,19 @@
   {% endif %}
 
   {% include '@components/Organisms/HeaderNav/HeaderNav.html.twig' with {type: type} %}
-
-  {% if type == "searchbar" %}
-    <nav id="Menu" class='Header-navWrap'>
-      <button type="button" data-menu-back="-1">
-        {{ ux_icon('arrow-left') }}
-      </button>
-      <button type="button" data-menu-close>
-        {{ ux_icon('close') }}
-      </button>
-      <ul class="Header-navigation">
-        {% for category in categories %}
-          {% include '@components/Molecules/ItemHeader/ItemHeader.html.twig' with { customText: category.i18ns.title, href: category.publicUrl} %}
-        {% endfor %}
-      </ul>
-    </nav>
-  {% endif %}
+</header>
+{% if type == "searchbar" %}
+  <nav id="Menu" class='Header-navWrap'>
+    <button type="button" data-menu-back="-1">
+      {{ ux_icon('arrow-left') }}
+    </button>
+    <button type="button" data-menu-close>
+      {{ ux_icon('close') }}
+    </button>
+    <ul class="Header-navigation">
+      {% for category in categories %}
+        {% include '@components/Molecules/ItemHeader/ItemHeader.html.twig' with { customText: category.i18ns.title, href: category.publicUrl} %}
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}
