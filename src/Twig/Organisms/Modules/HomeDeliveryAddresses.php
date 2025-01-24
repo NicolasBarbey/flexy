@@ -21,7 +21,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Core\Service\AddressService;
+use Thelia\Service\Model\AddressService;
 use Thelia\Log\Tlog;
 use Thelia\Model\Customer;
 

@@ -20,7 +20,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
-use Thelia\Core\Service\AddressService;
+use Thelia\Service\Model\AddressService;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Log\Tlog;
 use Thelia\Model\AddressQuery;
