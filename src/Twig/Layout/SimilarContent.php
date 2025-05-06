@@ -41,11 +41,7 @@ class SimilarContent
             return [
                 'title' => $item['i18ns']['title'],
                 'date' => $item['createdAt'],
-                'url' => '#',
-                'img' => [
-                    'url' => '/images/placeholder.webp',
-                    'alt' => $item['i18ns']['title'],
-                ],
+                'url' => $item['publicUrl'],
             ];
         }, $contents);
     }

@@ -4,6 +4,10 @@
 	{{ 'Login' | trans }}
 {% endblock %}
 
+{% block meta_desc %}
+	{{ 'Login' | trans }}
+{% endblock %}
+
 {% block body %}
 	<div class="max-w-[400px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
 		{% set form = getForm("thelia.front.customer.login") %}

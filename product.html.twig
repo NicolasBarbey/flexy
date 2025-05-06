@@ -12,9 +12,6 @@
 
 
 {% set productId = attr('product', 'id') %}
-{% block title %}
-	{{ attr('product', 'title') }}
-{% endblock %}
 
 {% set product = resources('/api/front/products/' ~ productId) %}
 {% set productCategory = product.productCategories|filter(c => c.defaultCategory)|first.category %}
