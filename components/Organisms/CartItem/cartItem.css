@@ -49,11 +49,13 @@
   &-img {
     max-width: 100%;
     width: 100%;
+    background-color: white;
     @screen sm {
       height: 112px;
     }
     img {
       max-height: 100%;
+      object-fit: contain;
       @screen xs {
         height: 112px;
         max-width: rem-convert(105px);
@@ -116,7 +118,6 @@
       @screen sm {
         flex-direction: row;
         align-items: center;
-
       }
     }
   }

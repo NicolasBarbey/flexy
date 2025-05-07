@@ -6,9 +6,9 @@
 
 	<div class='pb-6 text-black h4'>{{ title }}</div>
 
-	<div class='SimilarContents slider'>
+	<div class='SimilarContents' {{ stimulus_controller('simple-slider') }}>
 		{% for similarContent in similarContents %}
-    {% include '@components/Organisms/SimilarContentCard/SimilarContentCard.html.twig' with similarContent %}
+			{% include '@components/Organisms/SimilarContentCard/SimilarContentCard.html.twig' with similarContent %}
 		{% endfor %}
 	</div>
 	{% if button %}
