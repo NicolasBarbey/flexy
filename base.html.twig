@@ -11,11 +11,11 @@
 
 		<meta name="description" content="{% block meta_desc %}{{SEOnePageDesc()}}{% endblock %}">
 		<link rel="canonical" href="{{SEOnePageCanonical()}}"/>
-		<link rel=" icon" type=" image/png" href=" {{asset(" dist/favicons/favicon-96x96.png")}} " sizes=" 96x96"/>
-		<link rel=" icon" type=" image/svg+xml" href=" {{asset(" dist/favicons/favicon.svg")}} "/>
-		<link rel=" shortcut icon" href=" /favicon.ico"/>
-		<link rel=" apple-touch-icon" sizes=" 180x180" href=" {{asset(" dist/favicons/apple-touch-icon.png")}} "/>
-		<link rel=" manifest" href=" {{asset(" dist/favicons/site.webmanifest")}} "/>
+		<link rel="icon" type=" image/png" href="{{asset("dist/favicons/favicon-96x96.png")}} " sizes=" 96x96"/>
+		<link rel="icon" type=" image/svg+xml" href="{{asset("dist/favicons/favicon.svg")}}"/>
+		<link rel="shortcut icon" href="{{asset('dist/favicons/favicon.ico')}}"/>
+		<link rel="apple-touch-icon" sizes=" 180x180" href="{{asset(" dist/favicons/apple-touch-icon.png")}} "/>
+		<link rel="manifest" href="{{asset("dist/favicons/site.webmanifest")}}"/>
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}

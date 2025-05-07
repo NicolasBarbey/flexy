@@ -8,31 +8,27 @@
 {% set classes = classes|default('') %}
 
 <div class='AddressCard {% if selected %}selected{% endif %} {{ classes }}'>
-  <div class='AddressCard-top'>
-    {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: address.isDefault, addressId : address.id} %}
-  </div>
-  <label class='AddressCard-content {% if radio %}cursor{% endif %}'>
-    {% if radio %}
-      {% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
-    {% endif %}
+	<div class='AddressCard-top'>
+		{% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: address.isDefault, addressId : address.id} %}
+	</div>
+	<label class='AddressCard-content {% if radio %}cursor{% endif %}'>
+		{% if radio %}
+			{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
+		{% endif %}
 
-    {% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
-  </label>
+		{% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title,address} %}
+	</label>
 
-  <div class="mt-auto bottom-card-buttons">
-    <a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {'addressId': address.id}) }}"
-                                              class='hover:text-theme' type='button'>
-      <span>{{ ux_icon("edit") }}</span>
-      {{ 'Modify'|trans }}
-    </a>
-    {% if not address.isDefault %}
-      <button {% if disabled %} disabled {% endif %}
-        class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}'
-        type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %}
-        data-url="{{ path('account_address_delete', {'addressId': address.id}) }}">
-        <span>{{ ux_icon("delete") }}</span>
-        {{ 'Delete'|trans }}
-      </button>
-    {% endif %}
-  </div>
+	<div class="mt-auto bottom-card-buttons">
+		<a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {'addressId': address.id}) }}" class='hover:text-theme' type='button'>
+			<span>{{ ux_icon("edit") }}</span>
+			{{ 'Modify'|trans }}
+		</a>
+		{% if not address.isDefault %}
+			<button {% if disabled %} disabled {% endif %} class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}' type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %} data-url="{{ path('account_address_delete', {'addressId': address.id}) }}">
+				<span>{{ ux_icon("delete") }}</span>
+				{{ 'Delete'|trans }}
+			</button>
+		{% endif %}
+	</div>
 </div>
