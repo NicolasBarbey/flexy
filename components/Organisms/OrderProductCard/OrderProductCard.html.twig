@@ -1,8 +1,21 @@
 <div class="OrderProductCard">
 	<div class="OrderProductCard-mainContent">
-		<figure class="OrderProductCard-img">
-			<img src="{{ img.src }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
-		</figure>
+		{{getImages({
+      'source_type': 'product',
+      'source_id': product.id,
+      'filters': 'order_card_detail',
+      'wrapper': 'figure',
+      'wrapper_attrs': {
+        'class' : 'OrderProductCard-img'
+      },
+      'limit': 1,
+      'img_attrs': {
+          'loading': 'lazy',
+          'widht': '112',
+          'height': '112'
+      },
+      'placeholder': asset('dist/images/placeholder.webp')
+    })|raw}}
 		<div class="OrderProductCard-desc">
 			<a href="{{product.publicUrl ~ '?ref=' ~ orderProduct.productRef }}" class="OrderProductCard-title">{{ productTitle }}</a>
 			<div class="OrderProductCard-orderInfos paragraph-6">

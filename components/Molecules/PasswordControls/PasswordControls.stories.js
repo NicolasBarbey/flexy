@@ -1,6 +1,5 @@
 import PasswordControls from './PasswordControls.html.twig';
 import FieldInput from '../Fields/FieldInput/FieldInput.html.twig';
-import PasswordControlsFunction from './PasswordControls';
 
 export default {
   title: 'Design System/Molecules/PasswordControls'
@@ -23,8 +22,4 @@ export const Base = () => {
       </div>
       ${passwordControlsHTML}
     </div>`;
-};
-
-Base.play = () => {
-  PasswordControlsFunction();
 };

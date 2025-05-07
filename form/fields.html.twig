@@ -54,20 +54,21 @@
     } %}
 
 	{% elseif type == 'password' %}
-		{% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" with {
+		<div {{ stimulus_controller('password') }}>
+			{% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" with {
       label: label,
       name: form.vars.full_name,
       id: form.vars.id,
       type: type,
       placeholder: placeholder,
       required: form.vars.required,
-      errors: errors
+      errors: errors,
+      control : widget_attr.password_control
     } %}
-		{% if widget_attr.password_control %}
-			{% include "@components/Molecules/PasswordControls/PasswordControls.html.twig" with {
-          control : form.vars.id,
-        } %}
-		{% endif %}
+			{% if widget_attr.password_control %}
+				{% include "@components/Molecules/PasswordControls/PasswordControls.html.twig" %}
+			{% endif %}
+		</div>
 	{% elseif type == 'textarea'  %}
 		{% include "@components/Molecules/Fields/FieldTextArea/FieldTextArea.html.twig" with {
         label: label,
@@ -95,25 +96,25 @@
 {% endblock %}
 
 {% block form_errors %}
-  {% for error in errors %}
-    {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {text: error.message, variant: 'error', withIcon:true,size: "full"} %}
-  {% endfor %}
+	{% for error in errors %}
+		{% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {text: error.message, variant: 'error', withIcon:true,size: "full"} %}
+	{% endfor %}
 {% endblock %}
 
 
 {% block fieldset_row %}
-  {% set class = form.vars.attr.class|default('') %}
-  {% set label = form.vars.label|default(null) %}
-  <fieldset {% if class %} class="Fieldset {{ class }}" {% endif %}>
-    {% if label %}
-      <legend class="Fieldset-legend {{ form.vars.label_attr.class|default(" ") }}">{{ label }}</legend>
-    {% endif %}
-    <ul class="Fieldset-group">
-      {% for row in form.vars.form.children %}
-        <li>
-          {{ form_row(row) }}
-        </li>
-      {% endfor %}
-    </ul>
-  </fieldset>
+	{% set class = form.vars.attr.class|default('') %}
+	{% set label = form.vars.label|default(null) %}
+	<fieldset {% if class %} class="Fieldset {{ class }}" {% endif %}>
+		{% if label %}
+			<legend class="Fieldset-legend {{ form.vars.label_attr.class|default(" ") }}">{{ label }}</legend>
+		{% endif %}
+		<ul class="Fieldset-group">
+			{% for row in form.vars.form.children %}
+				<li>
+					{{ form_row(row) }}
+				</li>
+			{% endfor %}
+		</ul>
+	</fieldset>
 {% endblock %}

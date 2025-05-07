@@ -43,7 +43,19 @@
 				{% set img = img|default({src: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
 			{% endif %}
 			<a href="{{product.publicUrl ~ '?ref=' ~ pse.ref }}" class='OrderCard-image'>
-				<img src='{{ img.src }}' alt='{{ img.alt }}' loading="lazy"/>
+				{{getImages({
+          'source_type': 'product',
+          'source_id': product.id,
+          'filters': 'order_card',
+          'limit': 1,
+          'img_attrs': {
+              'class': 'w-full h-full object-center object-contain',
+              'loading': 'lazy',
+              'widht': '72',
+              'height': '72'
+          },
+          'placeholder': asset('dist/images/placeholder.webp')
+        })|raw}}
 			</a>
 
 		{% endfor %}

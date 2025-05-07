@@ -5,8 +5,10 @@
 	{{ encore_entry_script_tags('register') }}
 {% endblock %}
 
-{% block title %}Register
+{% block title %}
+	{{'Register'|trans}}
 {% endblock %}
+
 
 {% block body %}
 	{% include '@components/Layout/CheckoutSteps/CheckoutSteps.html.twig' with {steps: ["Your login"|trans, "Your informations"|trans], current: 1} %}

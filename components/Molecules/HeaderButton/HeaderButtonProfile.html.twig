@@ -24,11 +24,6 @@
 	</ul>
 </div>
 
-{% include '@components/Molecules/HeaderButton/HeaderButton.html.twig'
-    with headerButtonConfig|merge({
-      attributes: { 'data-drawer-toggle': '#profil', 'type': 'button' },
-      classes:'HeaderNav-btn HeaderButton--theme profile lg:hidden'
-  }) %}
 
 <div class='block MobileDrawer lg:hidden' id='profil'>
 	<div class='MobileDrawer-header'>
