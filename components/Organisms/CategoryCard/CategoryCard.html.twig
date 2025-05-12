@@ -1,5 +1,5 @@
 {% set title = title|default('') %}
-{% set img = img|default({url: '/images/placeholder2.webp', alt:''}) %}
+{% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:''}) %}
 {% set classes = classes|default('') %}
 {% set button = button|default({label: '', href:''}) %}
 {% set url = url|default('#') %}
@@ -9,7 +9,7 @@
   <div class="CategoryCard-mainContent">
     <a class="CategoryCard-imgLink" href="{{ url }}">
       <figure class="CategoryCard-img">
-        <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}"  loading="lazy">
+        <img src="{{ img.url != "" ? img.url : asset('dist/images/placeholder2.webp') }}" alt="{{ img.alt }}" title="{{ img.alt }}"  loading="lazy">
       </figure>
     </a>
     <div class="CategoryCard-desc">

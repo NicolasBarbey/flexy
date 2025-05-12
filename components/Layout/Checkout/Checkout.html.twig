@@ -33,7 +33,7 @@
   {{ component('Flexy:Organisms:CartItemDelete') }}
 </div>
 {% if page == "cart" %}
-  {% set recentlyViews = resources('/api/recently_viewed', {itemsPerPage:3}) %}
+  {# {% set recentlyViews = resources('/api/recently_viewed', {itemsPerPage:3}) %} #}
   <div class="bg-theme-lighter">
     {% include '@components/Layout/CrossSelling/CrossSelling.html.twig' with {products: recentlyViews, title: 'Consultés récemment'} %}
   </div>

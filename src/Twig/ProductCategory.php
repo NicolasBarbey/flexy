@@ -15,13 +15,14 @@ namespace FlexyBundle\Twig;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use TwigEngine\Service\DataAccess\DataAccessService;
+use TheliaLibrary\Service\ImageService;
 
 #[AsTwigComponent(template: 'components/Layout/ProductCategory/ProductCategory.html.twig')]
 class ProductCategory
 {
     public string $categoryId;
 
-    public function __construct(private DataAccessService $dataAccessService, private TranslatorInterface $translator)
+    public function __construct(private DataAccessService $dataAccessService, private TranslatorInterface $translator, private ImageService $imageService)
     {
     }
 
@@ -30,8 +31,19 @@ class ProductCategory
         $categories = $this->dataAccessService->resources('/api/front/categories', [
             'itemsPerPage' => 3,
         ]);
-
+       
         return array_map(function ($item) {
+            $params = [
+                'source_type' => 'category',
+                'source_id' => $item['id'],
+                'filters'=> 'default',
+                'position' => 1
+                
+            ];
+            $images = $this->imageService->getImages($params);
+
+     
+           
             return [
                 'title' => $item['i18ns']['title'],
                 'button' => [
@@ -39,8 +51,8 @@ class ProductCategory
                     'href' => $item['publicUrl'],
                 ],
                 'img' => [
-                    'url' => '/legacy-image-library/category_image_'.$item['id'].'/full/%5E*!386,280/0/default.webp',
-                    'alt' => $item['i18ns']['title'],
+                    'url' => $images[0]['sources'][0]['url'] ?? null,
+                    'alt' => $images[0]['data']['title'] ?? $item['i18ns']['title'],
                 ],
                 'url' => $item['publicUrl'],
             ];

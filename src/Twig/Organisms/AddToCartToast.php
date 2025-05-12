@@ -36,6 +36,8 @@ class AddToCartToast extends BaseFrontController
     public ?string $title = null;
     #[LiveProp]
     public ?string $secondaryTitle = null;
+    #[LiveProp]
+    public ?string $productId = null;
 
     #[LiveProp]
     public ?array $attributesAv = null;
@@ -53,7 +55,7 @@ class AddToCartToast extends BaseFrontController
         $pse = ProductSaleElementsQuery::create()->findPk($this->pseId);
         $this->title = $pse->getProduct()->getTitle();
         $this->secondaryTitle = $pse->getProduct()->getChapo();
-
+        $this->productId = $pse->getProduct()->getId();
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
     }
 

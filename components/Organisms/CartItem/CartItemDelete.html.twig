@@ -3,20 +3,27 @@
   {% for cartItem in cartItems %}
     {% set cartItemId = cartItem.id %}
     {% set title = cartItem.title %}
-    {% set imageId = cartItem.imageId %}
-
+    {% set productId = cartItem.productId %}
+    {% set product_image_params = {
+       'source_type': 'product',
+            'source_id': productId,
+            'filters': 'default',
+              'wrapper': 'figure',
+               'wrapper_attrs':{
+              'class':'CartItemDelete-img'
+            },
+            'position': 1,
+            'img_attrs': {
+                'loading': 'lazy'
+            },
+            'placeholder': asset('dist/images/placeholder2.webp')
+  } %} 
+  {% set productImage = getImages(product_image_params) %}
     <div class='CartItemDelete '>
       {% if cartItemId %}
-        {% if imageId is defined %}
-          {% set img = {url: '/legacy-image-library/product_image_'~ imageId ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
-        {% else %}
-          {% set img = cartItem.img|default({url: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
-        {% endif %}
         <button class='CartItemDelete-iconClose'>{{ ux_icon("close") }}</button>
         <div class="CartItemDelete-mainContent">
-          <figure class="CartItemDelete-img">
-            <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
-          </figure>
+         {{productImage|raw}}
           <div class="CartItemDelete-desc">
             <div class="CartItemDelete-message">
               {{ title }}

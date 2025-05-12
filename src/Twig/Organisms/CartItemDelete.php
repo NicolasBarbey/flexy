@@ -40,12 +40,13 @@ class CartItemDelete
     }
 
     #[LiveListener('removeCartItem')]
-    public function showToast(#[LiveArg] int $id, #[LiveArg] string $title, #[LiveArg] ?int $imageId): void
+    public function showToast(#[LiveArg] int $id, #[LiveArg] string $title, #[LiveArg] ?int $imageId, #[LiveArg] ?int $productId): void
     {
         $this->cartItems[$id] = [
           'id' => $id,
           'title' => $title,
           'imageId' => $imageId,
+          'productId' => $productId,
         ];
         $this->dispatchBrowserEvent('cartitem:toast', ['timer' => $this->timer, 'id' => $id]);
     }

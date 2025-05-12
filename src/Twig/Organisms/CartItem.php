@@ -140,6 +140,7 @@ class CartItem
           'id' => (int) $this->cartItemId,
           'title' => $this->cartItem['product']['i18ns']['title'],
           'imageId' => $this->imageId,
+          'productId' => $this->cartItem['product']['id']
         ]);
     }
 

@@ -46,16 +46,22 @@
 	{% set isNew = defaultPse ? defaultPse.newness|default(false) : false %}
 {% endif %}
 
-{% if id is defined and img is not defined %}
-	{% set images = resources('/api/front/product_images', {'product.id':id,'position':'ASC', itemsPerPage:1}) %}
-	{% if images %}
-		{% set img = {url: '/legacy-image-library/product_image_'~ images|first.id ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
-	{% endif %}
-{% endif %}
+{% set product_image_params = {
+       'source_type': 'product',
+            'source_id': id,
+            'filters': 'default',
+              'wrapper': 'figure',
+               'wrapper_attrs':{
+              'class':'ProductCard-img'
+            },
+            'position': 1,
+            'img_attrs': {
+                'loading': 'lazy'
+            },
+            'placeholder': asset('dist/images/placeholder2.webp')
+ } %} 
+  {% set productImage = getImages(product_image_params) %}
 
-{% if img is not defined %}
-	{% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:''}) %}
-{% endif %}
 <div class="ProductCard {{ classes }}">
 	<div class="ProductCard-header">
 		<div class="ProductCard-tagList">
@@ -80,9 +86,7 @@
 	</div>
 	<div class="ProductCard-mainContent">
 		<a class="ProductCard-imgLink" href="{{ productLink }}">
-			<figure class="ProductCard-img">
-				<img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
-			</figure>
+			{{productImage|raw}}
 		</a>
 		<div class="ProductCard-desc">
 			<a href="{{ productLink }}" class="ProductCard-title">{{ title }}</a>

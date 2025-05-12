@@ -2,11 +2,21 @@
   {% set outOfStock = outOfStock|default(cartItem.productSaleElements.quantity <= 0) %}
   {% set product = cartItem.product %}
   {% set secondaryTitle = product.i18ns.chapo %}
-  {% if imageId is defined %}
-    {% set img = {url: '/legacy-image-library/product_image_'~ imageId ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
-  {% else %}
-    {% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:'Default image'|trans}) %}
-  {% endif %}
+  {% set product_image_params = {
+       'source_type': 'product',
+            'source_id': product.id,
+            'filters': 'default',
+              'wrapper': 'figure',
+               'wrapper_attrs':{
+              'class':'CartItem-img'
+            },
+            'position': 1,
+            'img_attrs': {
+                'loading': 'lazy'
+            },
+            'placeholder': asset('dist/images/placeholder2.webp')
+ } %} 
+  {% set productImage = getImages(product_image_params) %}
 
   <div class='{{ outOfStock ? 'CartItem-outOfStock' :'' }} {% if hide %}hidden{% endif %}' {{ attributes }}>
     {% if outOfStock %}
@@ -18,9 +28,7 @@
     <div class="CartItem {{ classes }}">
       <div class="CartItem-mainContent">
         <a class="CartItem-imgLink" href="{{ product.publicUrl }}">
-          <figure class="CartItem-img">
-            <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
-          </figure>
+         {{productImage|raw}}
         </a>
         <div class="CartItem-desc">
           <a href="{{ product.publicUrl }}" class="ProductCard-title">{{ product.i18ns.title }}</a>
