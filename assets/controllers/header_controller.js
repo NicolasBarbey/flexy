@@ -12,52 +12,51 @@ class HeaderController extends Controller {
     this.togglerTarget?.addEventListener('click', () =>
       this.menuTarget.classList.toggle('is-open')
     );
-
-    this.backTarget.addEventListener('click', () => {
-      displaySubMenu(this.previous);
-    });
   }
 
   close() {
     this.menuTarget.classList.remove('is-open');
     this.backTarget.dataset.menuBack = -1;
-    this.subTargets.forEach((sub) => {
-      sub.classList.remove('is-active');
+    this.subTargets.forEach((sub) => sub.classList.remove('is-active'));
+  }
+
+  displaySubMenu({ params }) {
+    const { item } = params;
+
+    this.subTargets.forEach((sub) => sub.classList.remove('is-active'));
+
+    const targetSub = this.subTargets.find(
+      (sub) => sub.dataset.menuSub === item.toString()
+    );
+
+    if (targetSub) {
+      this.previous = targetSub.dataset.menuPrevious;
+      targetSub.classList.add('is-active');
+
+      if (this.previous !== undefined) {
+        const previousSub = this.subTargets.find(
+          (s) => s.dataset.menuSub === this.previous
+        );
+        if (previousSub) {
+          previousSub.classList.add('is-active');
+        }
+      }
+    } else {
+      this.previous = -1;
+    }
+
+    displayBackBtn(this.backTarget, this.previous);
+  }
+
+  back(event) {
+    this.displaySubMenu({
+      params: { item: event.currentTarget.dataset.menuBack }
     });
-  }
-
-  sub(e) {
-    displaySubMenu(
-      e.currentTarget.dataset.menuItem,
-      this.subTargets,
-      this.previous,
-      this.backTarget
-    );
-  }
-
-  back() {
-    displaySubMenu(
-      this.previous,
-      this.subTargets,
-      this.previous - 1,
-      this.backTarget
-    );
   }
 }
 
-function displaySubMenu(current, subs = [], previous, back) {
-  subs.forEach((sub) => {
-    sub.classList.remove('is-active');
-
-    if (sub.dataset.menuSub === current) {
-      previous = sub.dataset.menuPrevious;
-      sub.classList.add('is-active');
-      [...subs]
-        .find((s) => s.dataset.menuSub === previous)
-        ?.classList.add('is-active');
-      back.dataset.menuBack = previous ?? -1;
-    }
-  });
+function displayBackBtn(backBtn, previous) {
+  backBtn.dataset.menuBack = previous;
 }
 
 export default HeaderController;

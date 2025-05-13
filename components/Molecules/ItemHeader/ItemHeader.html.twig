@@ -8,12 +8,13 @@
 		{{ customText }}
 	</a>
 	{% if sub %}
-		<button type="button" data-menu-item="{{sub}}" data-action="header#sub">{{ ux_icon("arrow-right") }}</button>
+		<button type="button" data-action="header#displaySubMenu" data-header-item-param="{{sub}}">{{ ux_icon("arrow-right") }}</button>
 		<ul data-menu-sub="{{sub}}" data-menu-previous="0" data-header-target="sub">
 			<li>
-				<a href="#0">Titre sous menu</a>
-				<button type="button" data-menu-item="5" data-header-target="item" data-action="header#sub">{{ ux_icon("arrow-right") }}</button>
-				<ul data-menu-sub="5" data-menu-previous="{{sub}}" data-header-target="sub">
+				<a href="#0">Titre sous menu
+				</a>
+				<button type="button" data-action="header#displaySubMenu" data-header-item-param="{{sub}}_5">{{ ux_icon("arrow-right") }}</button>
+				<ul data-menu-sub="{{sub}}_5" data-menu-previous="{{sub}}" data-header-target="sub">
 					<li>
 						<a href="#0">Titre sous sous menu</a>
 					</li>
