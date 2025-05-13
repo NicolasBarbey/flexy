@@ -46,7 +46,7 @@ class Checkout
     public function __construct(
         private readonly DataAccessService $dataAccessService,
         private readonly AttributeAccessService $attributeAccessService,
-        private readonly CartService $cartService
+        private readonly CartService $cartService,
     ) {
     }
 
@@ -73,6 +73,13 @@ class Checkout
     public function getCart(): array
     {
         return $this->cart;
+    }
+
+    public function setPage(string $page): string
+    {
+        $this->page = $page;
+
+        return $this->page;
     }
 
     protected function setCart(): void

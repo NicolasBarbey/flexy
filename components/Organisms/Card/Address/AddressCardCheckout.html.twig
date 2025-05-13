@@ -17,28 +17,26 @@
   'data-id': ''
 }) %}
 
-<div class='AddressCard {% if selected %}selected{% endif %}'>
-  <div class='AddressCard-top'>
-    {% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
-  </div>
-  <label class='AddressCard-content'>
-    {% include '@components/Atoms/Form/Radio.html.twig' with {classes:radio ? "" : "invisible max-w-0", type:"span", name:"test", value:1, checked:selected} %}
+<div class='AddressCard AddressCard--checkout {% if selected %}selected{% endif %}'>
+	<div class='AddressCard-top'>
+		{% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
+	</div>
+	<label class='AddressCard-content'>
+		{% include '@components/Atoms/Form/Radio.html.twig' with {classes:radio ? "" : "invisible max-w-0", type:"span", name:"test", value:1, checked:selected} %}
 
-    {% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
+		{% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
 
-  </label>
-  <div class="bottom-card-buttons">
-    <button {% if disabled %}disabled{% endif %} class='hover:text-theme' type='button' data-action='live#emit'
-            data-live-event-param='editAddress' data-live-id-param="{{ address.id }}">
-      <span>{{ ux_icon("edit") }}</span>
-      {{ 'Modify'|trans }}
-    </button>
-    <button {% if disabled %}disabled{% endif %}
-            class='hover:text-theme{% if attributesDelete.class|default('') %} {{ attributesDelete.class }}{% endif %}'
-            type='button' {% if attributesDelete['data-id']|default('') %}data-id="{{ attributesDelete['data-id'] }}"{% endif %}
-            data-action='live#emit' data-live-event-param='deleteAddress' data-live-id-param="{{ address.id }}">
-      <span>{{ ux_icon("delete") }}</span>
-      {{ 'Delete'|trans }}
-    </button>
-  </div>
+	</label>
+	<div class="bottom-card-buttons">
+		<button {% if disabled %} disabled {% endif %} class='hover:text-theme' type='button' data-action='live#emit' data-live-event-param='editAddress' data-live-id-param="{{ address.id }}">
+			<span>{{ ux_icon("edit") }}</span>
+			{{ 'Modify'|trans }}
+		</button>
+		{% if not isDefault %}
+			<button {% if disabled %} disabled {% endif %} class='hover:text-theme{% if attributesDelete.class|default(' ') %} {{ attributesDelete.class }}{% endif %}' type='button' {% if attributesDelete['data-id']|default('') %} data-id="{{ attributesDelete['data-id'] }}" {% endif %} data-action='live#emit' data-live-event-param='deleteAddress' data-live-id-param="{{ address.id }}">
+				<span>{{ ux_icon("delete") }}</span>
+				{{ 'Delete'|trans }}
+			</button>
+		{% endif %}
+	</div>
 </div>

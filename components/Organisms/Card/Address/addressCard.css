@@ -58,4 +58,10 @@
     padding-left: rem-convert(24px);
     text-align: right;
   }
+
+  &--checkout {
+    .Favorite {
+      cursor: default;
+    }
+  }
 }
