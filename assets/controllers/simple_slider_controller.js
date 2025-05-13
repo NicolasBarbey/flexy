@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-class SimpleSlider extends Controller {
+class SimpleSliderController extends Controller {
   static targets = ['input'];
   connect() {
     const slider = this.element;
@@ -52,4 +52,4 @@ function move(e, pageX, slider, watcher) {
   slider.scrollLeft = watcher.scrollLeft - walk;
 }
 
-export default SimpleSlider;
+export default SimpleSliderController;
