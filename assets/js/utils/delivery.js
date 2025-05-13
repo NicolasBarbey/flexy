@@ -7,7 +7,7 @@ export function deliveryModule() {
       allPickupPoints.forEach((pickupPoint) => {
         pickupPoint.classList.remove('selected');
       });
-      const parent = this.closest('.DeliveryModule');
+      const parent = this.closest('.DeliveryModule'); 
       parent.classList.toggle('selected', input.checked);
     });
   });

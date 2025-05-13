@@ -14,18 +14,9 @@ export function Menu() {
 
   let previous = 0;
 
-  const closeBtn = menu.querySelector('[data-menu-close]');
   const backBtn = menu.querySelector('[data-menu-back]');
   const subBtns = menu.querySelectorAll('[data-menu-item]');
   const subs = menu.querySelectorAll('[data-menu-sub]');
-
-  closeBtn?.addEventListener('click', () => {
-    menu.classList.remove('is-open');
-    backBtn.dataset.menuBack = -1;
-    subs.forEach((sub) => {
-      sub.classList.remove('is-active');
-    });
-  });
 
   backBtn?.addEventListener('click', () => {
     displaySubMenu(previous);
