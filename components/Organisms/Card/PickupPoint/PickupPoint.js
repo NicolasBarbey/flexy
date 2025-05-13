@@ -1,6 +1,6 @@
 export function pickupPointHours() {
   const pickupPointModule = document.querySelector('.PickupPointModule');
-  pickupPointModule.addEventListener('click', function (event) {
+  pickupPointModule?.addEventListener('click', function (event) {
     if (event.target.matches('.PickupPoint-hours')) {
       const parent = event.target.closest('.PickupPoint');
       const hoursListing = parent.querySelector('.PickupPoint-hoursListing');
