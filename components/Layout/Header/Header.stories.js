@@ -13,7 +13,6 @@ export const base = {
   render: (args) => Header(args),
   play: () => {
     HeaderScript();
-    headerButtonProfileFunction();
   },
   args: {
     type: 'generic'

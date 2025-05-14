@@ -41,9 +41,6 @@
     &:focus-visible {
       outline-offset: 2px;
       outline: 1px solid var(--theme);
-    }
-
-    &--filled {
       border-color: var(--theme);
     }
 
@@ -184,6 +181,25 @@
     }
     .FieldInput-input {
       padding-right: rem-convert(40px);
+    }
+  }
+
+  &-togglePassword {
+    position: relative;
+    &.is-visible {
+      &:before {
+        content: '';
+        width: 120%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 3px;
+        background-color: var(--grey-dark);
+        border: 0.5px solid white;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(45deg);
+        border-radius: 8px;
+      }
     }
   }
 }

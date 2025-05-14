@@ -6,6 +6,7 @@
 {% set icon = icon|default(null) %}
 {% set text = text|default('') %}
 {% set link = link|default('') %}
+{% set target = target|default(null) %}
 {% set type = 'button' %}
 {% set attributes = attributes|default({}) %}
 
@@ -14,7 +15,7 @@
 {% endif %}
 
 
-<{{type}} {% if id %} id="{{ id }}" {% endif %} {% if link %} href="{{ link }}" {% endif %} class='HeaderButton {% if inactive %}HeaderButton--inactive{% endif %} {{ classes }} {% if small %}HeaderButton--small{% endif %}' {% for attr, value in attributes %} {{ attr }}="{{ value }}" {% endfor %}>
+<{{type}} {% if id %} id="{{ id }}" {% endif %} {% if link %} href="{{ link }}" {% endif %} class='HeaderButton {% if inactive %}HeaderButton--inactive{% endif %} {{ classes }} {% if small %}HeaderButton--small{% endif %}' {% for attr, value in attributes %} {{ attr }}="{{ value }}" {% endfor %} {% if target %} data-header-target="{{target}}" {% endif %}>
 	{% if icon %}
 		<span class='HeaderButton-icon'>{{ ux_icon(icon) }}</span>
 	{% endif %}

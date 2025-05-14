@@ -17,10 +17,10 @@
 }
 @media screen and (max-width: theme('screens.lg')) {
   #Menu {
-    @apply hidden fixed inset-0 bg-white text-black;
+    @apply fixed inset-0 hidden text-black bg-white;
 
     > ul {
-      @apply h-full relative;
+      @apply relative h-full;
     }
     ul {
       @apply flex flex-col items-stretch gap-0 pb-[var(--header-nav-height)] pt-[var(--padding-top-menu)] justify-start;
@@ -78,5 +78,5 @@
 }
 
 [data-menu-back='-1'] {
-  @apply hidden;
+  display: none;
 }

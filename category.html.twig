@@ -11,9 +11,6 @@
 	{{ encore_entry_link_tags('category') }}
 {% endblock %}
 
-{% block title %}
-	{{ 'Category'|trans }}
-{% endblock %}
 
 {% block body %}
 	{% include '@components/Layout/Subheader/Category/SubheaderCategory.html.twig' with {title: attr('category', 'title'), description: attr('category', 'chapo'), nbProducts: 9, breadcrumb}  %}

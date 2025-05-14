@@ -1,11 +1,6 @@
 {%  extends 'base.html.twig' %}
 
-{% block title %}
-	{{ 'Folder page'|trans }}
-{% endblock %}
-
 {% block body %}
-
 
 	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: attr('folder', 'title'), description: attr('folder', 'chapo') }  %}
 

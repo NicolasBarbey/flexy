@@ -48,7 +48,7 @@
     font-weight: 400;
     @screen md {
       span:not(.AddressCard-phone) {
-        display: inline;
+        display: inline-block;
       }
     }
   }

@@ -7,6 +7,7 @@
   bottom: 0;
   left: 0;
   z-index: 99;
+  background-color: var(--theme-lightest);
 
   @screen sm {
     top: 30px;
@@ -18,7 +19,6 @@
     align-items: center;
     box-shadow: 0px 0px 8px 0px #5454544d;
     max-width: 518px;
-    background-color: var(--theme-lightest);
     padding: 24px 20px;
     width: calc(100vw - 60px);
   }
@@ -121,7 +121,7 @@
   }
 
   &-message {
-    @apply h4 font-bold;
+    @apply font-bold h4;
     color: var(--black);
     margin-bottom: 16px;
     text-align: center;
@@ -159,7 +159,6 @@
     text-decoration: none;
     transition: inherit;
     display: block;
-
   }
 
   &-bottom {
@@ -187,8 +186,6 @@
     display: none;
   }
 }
-
-
 
 .Colors {
   display: flex;

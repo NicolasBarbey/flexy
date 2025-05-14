@@ -5,9 +5,6 @@
 {% set pageImage = pageImages|first|default({URL: '', ID: null}) %}
 {% set pageHTML = getTheliaBLocksRenderedContent(pageData.getVirtualColumn('block_group_content')|default('')) %}
 
-{% block title %}
-	{{ pageData.title }}
-{% endblock %}
 
 {% block body %}
 	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: pageData.title, description: pageData.chapo|raw, img: {src: pageImage.URL, alt: pageImage.ID} }  %}

@@ -21,6 +21,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
+use Thelia\Model\Base\ProductSaleElementsProductImageQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 
 #[AsLiveComponent(template: '@components/Organisms/AddToCartToast/AddToCartToast.html.twig')]
@@ -36,6 +37,8 @@ class AddToCartToast extends BaseFrontController
     public ?string $title = null;
     #[LiveProp]
     public ?string $secondaryTitle = null;
+    #[LiveProp]
+    public ?int $imageId = null;
 
     #[LiveProp]
     public ?array $attributesAv = null;
@@ -54,6 +57,7 @@ class AddToCartToast extends BaseFrontController
         $this->title = $pse->getProduct()->getTitle();
         $this->secondaryTitle = $pse->getProduct()->getChapo();
 
+        $this->imageId = ProductSaleElementsProductImageQuery::create()->filterByProductSaleElementsId($this->pseId)->findOne()?->getProductImageId();
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
     }
 
