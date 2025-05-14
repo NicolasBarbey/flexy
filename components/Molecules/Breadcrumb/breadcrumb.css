@@ -30,6 +30,14 @@
     &:last-child {
       color: var(--grey);
     }
+
+    &:not(:first-child) {
+      &:before {
+        font-size: var(--font-size-2xs);
+        display: inline-block;
+        content: '/';
+      }
+    }
   }
 
   &-compressed {
