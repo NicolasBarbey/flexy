@@ -1,38 +1,33 @@
 {% set classes = classes|default('') %}
 {% set items = items|default([]) %}
-{% set backIcon = backIcon|default(false) %}
-
 
 {% if items is not empty %}
-	<nav class="Breadcrumb{{ classes }}" aria-label="Fil d'Ariane">
-		<ol class="Breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
-			{% if backIcon %}
+	<aside class="Breadcrumb {{ classes }}" aria-label="Fil d'Ariane">
+		<nav>
+			<ol class="Breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
 				<li class="Breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-					<span class="w-5 h-5">{{ ux_icon('chevron-left') }}</span>
+					<a href="/" class="Breadcrumb-link" itemprop="item">
+						<span itemprop="name">{{'Home'|trans}}</span>
+					</a>
+					<meta itemprop="position" content="1"/>
 				</li>
-			{% endif %}
-
-			{% if items|length > 3 %}
-				<li id="Breadcrumb-compressed" class="Breadcrumb-item Breadcrumb-item--isLink">
-					<button class="Breadcrumb-item-link Breadcrumb-compressed">...</button>
-				</li>
-			{% endif %}
-
-			{% for item in items %}
-				<li class="Breadcrumb-item{% if item.href|default(null) %} Breadcrumb-item--isLink{% endif %}{% if loop.index <= (items|length - 3) %} hide{% endif %}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-					{% if item.href|default(null) %}
-						<a class="Breadcrumb-item-link" href="{{ item.href }}" itemprop="item">
-							<span itemprop="name">{{ item.label }}</span>
-						</a>
-						<meta itemprop="position" content="{{ loop.index + 1 }}"/>
-					{% else %}
-						<span itemprop="name" aria-current="page">
-							{{ item.label }}
-						</span>
-						<meta itemprop="position" content="{{ loop.index + 1 }}"/>
-					{% endif %}
-				</li>
-			{% endfor %}
-		</ol>
-	</nav>
+				{% for item in items %}
+					<li class="Breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+						<span class="inline-block text-2xs">/</span>
+						{% if item.href %}
+							<a class="Breadcrumb-link" href="{{ item.href }}" itemprop="item">
+								<span itemprop="name">{{ item.label }}</span>
+							</a>
+							<meta itemprop="position" content="{{ loop.index + 1 }}"/>
+						{% else %}
+							<span class="Breadcrumb-link" itemprop="name" aria-current="page">
+								{{ item.label }}
+							</span>
+							<meta itemprop="position" content="{{ loop.index + 1 }}"/>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ol>
+		</nav>
+	</aside>
 {% endif %}

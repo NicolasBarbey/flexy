@@ -27,8 +27,8 @@
 			{{ component('Molecules:Breadcrumb:Breadcrumb', {
         items: [
           { href: productCategory.publicUrl|default('#'), label:productCategory.i18ns.title},
-        ],
-        backIcon: true
+          { label: attr('product', 'title')},
+        ]
       }) }}
 		</div>
 		<div class="container">

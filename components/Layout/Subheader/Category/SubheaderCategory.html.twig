@@ -6,7 +6,7 @@
 
 <div class='text-black Subheader Subheader--category'>
 	{% if breadcrumb|length > 0 %}
-		{% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {items: breadcrumb} %}
+		{% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {items: breadcrumb, backIcon: true} %}
 	{% endif %}
 	<div class='w-full px-0 Category-grid'>
 		<div class="col-span-1 lg:col-span-2 lg:col-start-2">
