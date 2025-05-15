@@ -1,5 +1,5 @@
 {% set type = type|default("generic") %}
-{% set categories = resources('/api/front/categories') %}
+{% set categories = resources('/api/front/categories', {parent : 0}) %}
 
 <header class='Header {% if type == "sticky" %}is-sticky{% endif %} {% if type == "searchbar" %}Header--withSearchBar{% endif %}' {{stimulus_controller('header')}}>
 	<div class='flex'>
