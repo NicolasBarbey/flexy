@@ -13,7 +13,9 @@
 
 		<meta name="description" content="{% block meta_desc %}{% endblock %}">
 		<link rel="canonical" href="{{SEOnePageCanonical()}}"/>
-		{{SEOneBreadcrumbJsonLd(breadcrumb)|raw}}
+		{% block breadcrumb_json %}
+			{{SEOneBreadcrumbJsonLd(breadcrumb)|raw}}
+		{% endblock %}
 		<link rel="icon" type=" image/png" href="{{asset("dist/favicons/favicon-96x96.png")}} " sizes=" 96x96"/>
 		<link rel="icon" type=" image/svg+xml" href="{{asset("dist/favicons/favicon.svg")}}"/>
 		<link rel="shortcut icon" href="{{asset('dist/favicons/favicon.ico')}}"/>
@@ -25,9 +27,9 @@
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
-
 	</head>
-	<body class=" no-js">
+
+	<body class="no-js">
 		{% block header %}
 			{% include '@components/Layout/Header/Header.html.twig' with { type: "generic" } %}
 		{% endblock %}
