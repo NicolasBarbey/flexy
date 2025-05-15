@@ -19,6 +19,7 @@
     "thelia/twig-engine-module": "dev-twig",
     "thelia/header-highlights-module": "dev-main",
     "thelia/recently-viewed-module": "dev-twig",
+    "thelia/seone-module": "dev-main",
     "twig/extra-bundle": "^3.17",
     "twig/intl-extra": "^3.17",
     "symfony/http-client": "*"
