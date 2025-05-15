@@ -17,7 +17,7 @@
     "thelia/thelia-library-module": "dev-twig",
     "thelia/thelia-blocks-module": "dev-twig",
     "thelia/twig-engine-module": "dev-twig",
-    "thelia/header-highlights-module": "dev-main",
+    "thelia/header-highlights-module": "dev-twig",
     "thelia/recently-viewed-module": "dev-twig",
     "thelia/seone-module": "dev-main",
     "twig/extra-bundle": "^3.17",
