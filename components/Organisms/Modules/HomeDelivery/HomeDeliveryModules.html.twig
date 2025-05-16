@@ -1,0 +1,12 @@
+<div class="my-5" {{attributes}}>
+	<ul class="flex flex-col gap-2">
+		{% for module in modules|filter(module => module.deliveryMode == "delivery") %}
+			{% for option in module.options|filter(option => option.valid) %}
+				<li>
+					{% include '@components/Organisms/Card/DeliveryModule/DeliveryModule.html.twig' with { module: option, selected:selectedDeliveryModuleId == module.id , id: module.id  } %}
+				</li>
+			{% endfor %}
+		{% endfor %}
+    
+	</ul>
+</div>

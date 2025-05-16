@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
 class SimpleSliderController extends Controller {
-  static targets = ['input'];
   connect() {
     const slider = this.element;
 

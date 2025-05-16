@@ -17,6 +17,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Service\Model\CartService;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 use TwigEngine\Service\DataAccess\DataAccessService;
@@ -36,6 +37,9 @@ class Checkout
     public array $cart;
 
     #[LiveProp]
+    public bool $deliveryModuleView = false;
+
+    #[LiveProp]
     public array $summary = [
         'item_count' => null,
         'total_price_without_discount' => null,
@@ -45,6 +49,7 @@ class Checkout
 
     public function __construct(
         private readonly DataAccessService $dataAccessService,
+        private readonly Session $session,
         private readonly AttributeAccessService $attributeAccessService,
         private readonly CartService $cartService,
     ) {
@@ -99,5 +104,19 @@ class Checkout
         foreach ($this->summary as $key => &$value) {
             $value = $this->attributeAccessService->attributeCart($key);
         }
+    }
+
+    #[LiveListener('showDeliveryModuleView')]
+    public function showDeliveryModuleView(): void
+    {
+        if ($this->session->getOrder()->getChoosenDeliveryAddress()) {
+            $this->deliveryModuleView = true;
+        }
+    }
+
+    #[LiveListener('hideDeliveryModuleView')]
+    public function hideDeliveryModuleView(): void
+    {
+        $this->deliveryModuleView = false;
     }
 }

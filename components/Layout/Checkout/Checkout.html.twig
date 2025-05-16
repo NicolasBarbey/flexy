@@ -6,7 +6,11 @@
 			{% if page == "cart" %}
 				{% include '@components/Page/Checkout/Cart.html.twig' with {items: this.cart.items, totalItems:summary.item_count} %}
 			{% elseif page == "delivery" %}
-				{% include '@components/Page/Checkout/Delivery.html.twig' %}
+				{% if  deliveryModuleView %}
+					{% include '@components/Page/Checkout/DeliveryModules.html.twig' %}
+				{% else %}
+					{% include '@components/Page/Checkout/Delivery.html.twig' %}
+				{% endif %}
 			{% endif %}
 		</div>
 	</div>

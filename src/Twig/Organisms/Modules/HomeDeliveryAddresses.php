@@ -24,70 +24,84 @@ use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Log\Tlog;
 use Thelia\Model\Customer;
 use Thelia\Service\Model\AddressService;
+use Thelia\Service\Model\CartService;
 
 #[AsLiveComponent(template: '@components/Organisms/Modules/HomeDelivery/HomeDeliveryAddresses.html.twig')]
 class HomeDeliveryAddresses extends BaseFrontController
 {
-  use DefaultActionTrait;
+    use DefaultActionTrait;
 
-  #[LiveProp]
-  public array $addresses = [];
-  #[LiveProp]
-  public ?int  $update    = null;
-  #[LiveProp]
-  public bool  $create    = false;
+    #[LiveProp]
+    public array $addresses = [];
+    #[LiveProp(writable: true)]
+    public ?int $selectedAddressesId = null;
+    #[LiveProp]
+    public ?int $update = null;
+    #[LiveProp]
+    public bool $create = false;
+    #[LiveProp]
+    public bool $deliveryModuleView = false;
 
-  public function __construct(
-    private readonly Session $session,
-    private readonly AddressService $addressService,
-  ) {
-  }
-
-  public function mount(): void
-  {
-    /** @var Customer $user */
-    $user      = $this->session->getCustomerUser();
-    $addresses = $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
-
-    $this->addresses = $addresses;
-  }
-
-  #[LiveListener('homeDeliveryAddresses:refresh')]
-  public function refresh(): void
-  {
-    $this->mount();
-    $this->create = false;
-    $this->update = null;
-  }
-
-  #[LiveAction]
-  public function newAddress(): void
-  {
-    $this->create = true;
-  }
-
-  #[LiveListener('cancelUpdateCreate')]
-  public function cancelUpdateCreate(): void
-  {
-    $this->create = false;
-    $this->update = null;
-  }
-
-  #[LiveListener('editAddress')]
-  public function editAddress(#[LiveArg] int $id): void
-  {
-    $this->update = $id;
-  }
-
-  #[LiveListener('deleteAddress')]
-  public function deleteAddress(#[LiveArg] int $id): void
-  {
-    $this->checkAuth();
-    try {
-      $this->addressService->deleteAddress($id);
-      $this->refresh();
-    } catch (\Exception $e) {
-      Tlog::getInstance()->error(sprintf('Error during address deletion : %s', $e->getMessage()));
+    public function __construct(
+        private readonly Session $session,
+        private readonly AddressService $addressService,
+        private readonly CartService $cartService,
+    ) {
     }
-  }
+
+    public function mount(): void
+    {
+        /** @var Customer $user */
+        $user = $this->session->getCustomerUser();
+        $addresses = $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
+
+        $this->addresses = $addresses;
+        $this->selectedAddressesId = $this->session->getOrder()->getChoosenDeliveryAddress();
+    }
+
+    #[LiveListener('homeDeliveryAddresses:refresh')]
+    public function refresh(): void
+    {
+        $this->mount();
+        $this->create = false;
+        $this->update = null;
+    }
+
+    #[LiveAction]
+    public function newAddress(): void
+    {
+        $this->create = true;
+    }
+
+    #[LiveAction]
+    public function setSelectedAddressesId(?int $id): void
+    {
+        $this->selectedAddressesId = $id;
+        $this->session->getOrder()->setChoosenDeliveryAddress($this->selectedAddressesId);
+    }
+
+    #[LiveListener('cancelUpdateCreate')]
+    public function cancelUpdateCreate(): void
+    {
+        $this->create = false;
+        $this->update = null;
+    }
+
+    #[LiveListener('editAddress')]
+    public function editAddress(#[LiveArg] int $id): void
+    {
+        $this->update = $id;
+    }
+
+    #[LiveListener('deleteAddress')]
+    public function deleteAddress(#[LiveArg] int $id): void
+    {
+        $this->checkAuth();
+        try {
+            $this->addressService->deleteAddress($id);
+            $this->refresh();
+        } catch (\Exception $e) {
+            Tlog::getInstance()->error(\sprintf('Error during address deletion : %s', $e->getMessage()));
+        }
+    }
 }
