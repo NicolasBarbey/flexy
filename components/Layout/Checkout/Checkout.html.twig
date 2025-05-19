@@ -3,7 +3,6 @@
 	<div class='col-span-12 md:col-span-7 Checkout-main'>
 
 		<div class='Checkout-main-container'>
-			{{dump(cart)}}
 
 			{% if page == "cart" %}
 				{% include '@components/Page/Checkout/Cart.html.twig' with {items: this.cart.items, totalItems:summary.item_count} %}
