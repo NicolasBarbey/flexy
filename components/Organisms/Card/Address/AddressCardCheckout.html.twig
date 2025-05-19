@@ -26,7 +26,7 @@
 		{% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
 	</div>
 	<label class='AddressCard-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {classes, type:"span", name:"delivery_address", value:address.id, checked: selected, model : 'selectedAddressesId'}  %}
+		{% include '@components/Atoms/Form/Radio.html.twig' with {classes, type:"span", value:address.id, checked: selected, model : 'deliveryAddressId'}  %}
 
 		{% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
 

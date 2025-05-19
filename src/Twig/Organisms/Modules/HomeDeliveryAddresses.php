@@ -18,6 +18,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
@@ -29,18 +30,22 @@ use Thelia\Service\Model\CartService;
 #[AsLiveComponent(template: '@components/Organisms/Modules/HomeDelivery/HomeDeliveryAddresses.html.twig')]
 class HomeDeliveryAddresses extends BaseFrontController
 {
+    use ComponentToolsTrait;
     use DefaultActionTrait;
 
     #[LiveProp]
     public array $addresses = [];
-    #[LiveProp(writable: true)]
-    public ?int $selectedAddressesId = null;
+
+    #[LiveProp(writable: true, onUpdated: 'setDeliveryOrderAddressId')]
+    public ?int $deliveryAddressId = null;
+
+    #[LiveProp(writable: true, onUpdated: 'setInvoiceOrderAddressId')]
+    public ?int $invoiceAddressId = null;
+
     #[LiveProp]
     public ?int $update = null;
     #[LiveProp]
     public bool $create = false;
-    #[LiveProp]
-    public bool $deliveryModuleView = false;
 
     public function __construct(
         private readonly Session $session,
@@ -56,7 +61,8 @@ class HomeDeliveryAddresses extends BaseFrontController
         $addresses = $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
 
         $this->addresses = $addresses;
-        $this->selectedAddressesId = $this->session->getOrder()->getChoosenDeliveryAddress();
+        $this->deliveryAddressId = $this->cartService->getCart()->getAddressDeliveryId();
+        $this->invoiceAddressId = $this->cartService->getCart()->getAddressInvoiceId();
     }
 
     #[LiveListener('homeDeliveryAddresses:refresh')]
@@ -74,10 +80,15 @@ class HomeDeliveryAddresses extends BaseFrontController
     }
 
     #[LiveAction]
-    public function setSelectedAddressesId(?int $id): void
+    public function setDeliveryOrderAddressId(): void
     {
-        $this->selectedAddressesId = $id;
-        $this->session->getOrder()->setChoosenDeliveryAddress($this->selectedAddressesId);
+        $this->cartService->getCart()->setAddressDeliveryId($this->deliveryAddressId);
+    }
+
+    #[LiveAction]
+    public function setInvoiceOrderAddressId(): void
+    {
+        $this->cartService->getCart()->setAddressInvoiceId($this->invoiceAddressId);
     }
 
     #[LiveListener('cancelUpdateCreate')]

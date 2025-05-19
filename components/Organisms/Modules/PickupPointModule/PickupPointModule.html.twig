@@ -4,23 +4,22 @@
 {% set price = price|default('') %}
 {% set carbone = carbone|default('') %}
 {% set pickupServices = pickupServices|default([]) %}
-{# pickupServices: [{name: 'Mondial relais', value: 'mondial_relais', img: '' }, ...] #}
 {% set pickups = pickups|default([]) %}
-{# pickups: [{ selected: false, closed: false, title: 'Nom du point relais', date: 'JJ/MM', address, price: '7,80€', img: { alt: 'Logo Mondial Relay', src: '/images/mondialRelay.svg' },hours}, ...] #}
 {% set name = name|default('') %}
 
 {% set pickupstest = resources('/api/front/delivery_modules', {'by_code': 1}) %}
 
-
 <div class='PickupPointModule DeliveryModule {% if selected %}selected{% endif %}'>
 	<label class='PickupPointModule-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:name, value:1, checked:selected} %}
+		{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", value: 'pickup', model:'deliveryMode'} %}
 		<span>
 			<span class='PickupPointModule-top'>
 				<span>
 					<span class='PickupPointModule-title'>{{ title }}</span>
-					<span class='PickupPointModule-description'>{{ 'Estimated delivery on'|trans }}
-						{{ date }}</span>
+					{% if date %}
+						<span class='PickupPoint-description'>{{ 'Estimated delivery on'|trans }}{{ date }}</span>
+					{% endif %}
+
 				</span>
 				<span class="w-12 h-12 text-theme-medium">
 					{{ ux_icon("reinsurance-pickup") }}

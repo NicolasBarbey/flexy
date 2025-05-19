@@ -39,6 +39,9 @@ class Checkout
     #[LiveProp]
     public bool $deliveryModuleView = false;
 
+    #[LiveProp(writable: true)]
+    public ?string $deliveryMode = null;
+
     #[LiveProp]
     public array $summary = [
         'item_count' => null,
@@ -61,6 +64,7 @@ class Checkout
         $this->step = (int) $step;
         $this->setCart();
         $this->setSummary();
+        $this->deliveryMode = $this->session->get('delivery_mode');
     }
 
     #[LiveListener('resetCart')]
@@ -95,7 +99,6 @@ class Checkout
         }
 
         $items = $sessionCart->getCartItems();
-
         $this->cart = [...$sessionCart->toArray(TableMap::TYPE_CAMELNAME), 'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME)];
     }
 
@@ -111,6 +114,7 @@ class Checkout
     {
         if ($this->session->getOrder()->getChoosenDeliveryAddress()) {
             $this->deliveryModuleView = true;
+            $this->deliveryMode = 'delivery';
         }
     }
 
@@ -118,5 +122,10 @@ class Checkout
     public function hideDeliveryModuleView(): void
     {
         $this->deliveryModuleView = false;
+    }
+
+    public function setDeliveryModeInSession(): void
+    {
+        $this->session->set('delivery_mode', $this->deliveryMode);
     }
 }

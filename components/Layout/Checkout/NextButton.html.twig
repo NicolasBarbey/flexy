@@ -2,12 +2,17 @@
 {% set url = '' %}
 
 {% if page == 'cart' %}
-  {% set label = 'Order' %}
-  {% set url = '/checkout/delivery' %}
+	{% set label = 'Order' %}
+	{% set url = '/checkout/delivery' %}
+	{% set condition = url != '' and label != '' %}
+{% elseif page == 'delivery' %}
+	{% set label = 'Order' %}
+	{% set url = '/checkout/payment' %}
+	{% set condition = cart.addressDeliveryId and  cart.deliveryModuleId %}
 {% endif %}
 
-{% if url != '' and label != '' %}
-  <div class='mt-[30px]'>
-    {% include '@components/Molecules/Button/Button.html.twig' with {text: label|trans, href: url, classes:'md:Button--unfill Button--fill'} %}
-  </div>
+{% if condition %}
+	<div class='mt-[30px]'>
+		{% include '@components/Molecules/Button/Button.html.twig' with {text: label|trans, href: url, classes:'md:Button--unfill Button--fill'} %}
+	</div>
 {% endif %}

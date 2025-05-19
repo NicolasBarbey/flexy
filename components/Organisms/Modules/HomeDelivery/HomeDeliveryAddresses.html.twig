@@ -18,17 +18,19 @@
 				<ul class='flex flex-col gap-2'>
 					{% for address in addresses %}
 						<li>
-							{% include '@components/Organisms/Card/Address/AddressCardCheckout.html.twig' with { address, selected:selectedAddressesId == address.id , isDefault:address.isDefault  } %}
+							{% include '@components/Organisms/Card/Address/AddressCardCheckout.html.twig' with { address, selected:deliveryAddressId == address.id , isDefault:address.isDefault  } %}
+							{% if deliveryAddressId == address.id %}
+
+								<div class='my-4'>
+									{% include '@components/Atoms/Form/Checkbox.html.twig' with { label: "Use this address for billing"|trans, checked : order.invoiceOrderAddressId == address.id,value: address.id, model: "invoiceAddressId" } %}
+								</div>
+							{% endif %}
 						</li>
 					{% endfor %}
 				</ul>
 
-				<div class='my-4'>
-					{% include '@components/Atoms/Form/Checkbox.html.twig' with { label: "Use this address for billing"|trans } %}
-				</div>
-
 				<div class='flex flex-col gap-2 mt-4 lg:flex-row lg:items-center'>
-					{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Choose this address'|trans, classes:'Button--fill lg:w-1/2', disabled : not selectedAddressesId ,liveEvent: 'showDeliveryModuleView'} %}
+					{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Choose this address'|trans, classes:'Button--fill lg:w-1/2', disabled : not deliveryAddressId ,liveEvent: 'showDeliveryModuleView'} %}
 					{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Use another address'|trans, classes:'Button--secondary lg:w-1/2', liveAction: 'newAddress'} %}
 				</div>
 			</div>

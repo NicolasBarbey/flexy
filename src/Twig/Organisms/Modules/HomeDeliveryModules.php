@@ -15,6 +15,7 @@ namespace FlexyBundle\Twig\Organisms\Modules;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
@@ -26,8 +27,8 @@ use TwigEngine\Service\DataAccess\DataAccessService;
 #[AsLiveComponent(template: '@components/Organisms/Modules/HomeDelivery/HomeDeliveryModules.html.twig')]
 class HomeDeliveryModules extends BaseFrontController
 {
+    use ComponentToolsTrait;
     use DefaultActionTrait;
-
     #[LiveProp()]
     public ?array $modules = [];
 
@@ -44,8 +45,11 @@ class HomeDeliveryModules extends BaseFrontController
 
     public function mount(): void
     {
-        $this->modules = $this->dataAccessService->resources('/api/front/delivery_modules');
-        $this->selectedDeliveryModuleId = $this->session->getOrder()->getModuleRelatedByDeliveryModuleId()->getId();
+        $deliveryModules = $this->dataAccessService->resources('/api/front/delivery_modules', ['by_code' => 1]);
+
+        $this->modules = $deliveryModules['delivery'];
+
+        $this->selectedDeliveryModuleId = $this->session->getOrder()->getDeliveryModuleId();
     }
 
     #[LiveAction]
