@@ -2,6 +2,9 @@
   "name": "thelia/flexy",
   "type": "symfony-bundle",
   "description": "thelia design system",
+  "keywords": [
+    "thelia-frontoffice-template"
+  ],
   "license": "LGPL-3.0+",
   "require": {
     "symfony/webpack-encore-bundle": "^2.1",
