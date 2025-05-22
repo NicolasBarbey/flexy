@@ -85,6 +85,9 @@ class Checkout
     protected function setCart(): void
     {
         $sessionCart = $this->cartService->getCart();
+        if (null === $sessionCart) {
+          return;
+        }
 
         $items = $sessionCart->getCartItems();
 
