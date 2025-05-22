@@ -1,0 +1,8 @@
+<h1 class='text-black h4'>{{ 'Choose a payment method'|trans }}</h1>
+{{ component('Flexy:Organisms:Modules:PaymentModules') }}
+{% include "@components/Molecules/Link/Link.html.twig" with {
+  iconLeft: 'chevron-left',
+  customText: 'Previous Step' | trans,
+  href: path('checkout_delivery'),
+  classes:'gap-2'
+} %}

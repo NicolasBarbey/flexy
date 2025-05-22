@@ -112,7 +112,7 @@ class Checkout
     #[LiveListener('showDeliveryModuleView')]
     public function showDeliveryModuleView(): void
     {
-        if ($this->session->getOrder()->getChoosenDeliveryAddress()) {
+        if ($this->cartService->getCart()->getAddressDeliveryId()) {
             $this->deliveryModuleView = true;
             $this->deliveryMode = 'delivery';
         }

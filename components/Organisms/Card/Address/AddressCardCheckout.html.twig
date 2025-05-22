@@ -1,6 +1,7 @@
 {% set title = title|default('') %}
 {% set disabled = disabled|default(false) %}
 {% set classes = classes|default(null) %}
+{% set model = model|default(null) %}
 {% set purchaseFunnel = purchaseFunnel|default(false) %}
 {% set isDefault = isDefault|default(false) %}
 {% set selected = selected|default(false) %}
@@ -26,7 +27,7 @@
 		{% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: isDefault} %}
 	</div>
 	<label class='AddressCard-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {classes, type:"span", value:address.id, checked: selected, model : 'deliveryAddressId'}  %}
+		{% include '@components/Atoms/Form/Radio.html.twig' with {classes, type:"span", value:address.id, checked: selected}  %}
 
 		{% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title : title, address:address} %}
 

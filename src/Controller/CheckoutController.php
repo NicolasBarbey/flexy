@@ -22,9 +22,11 @@ class CheckoutController extends BaseFrontController
 {
     public const STEP_CART = 'cart';
     public const STEP_DELIVERY = 'delivery';
+    public const STEP_PAYMENT = 'payment';
     public const STEPS = [
-      self::STEP_CART => 1,
-      self::STEP_DELIVERY => 2,
+        self::STEP_CART => 1,
+        self::STEP_DELIVERY => 2,
+        self::STEP_PAYMENT => 3,
     ];
 
     #[Route('', name: 'no_route')]
@@ -37,8 +39,8 @@ class CheckoutController extends BaseFrontController
     public function cartAction(): Response
     {
         return $this->render('checkout', [
-          'page' => self::STEP_CART,
-          'current' => self::STEPS[self::STEP_CART],
+            'page' => self::STEP_CART,
+            'current' => self::STEPS[self::STEP_CART],
         ]);
     }
 
@@ -49,8 +51,22 @@ class CheckoutController extends BaseFrontController
         $this->checkCartNotEmpty($eventDispatcher);
 
         return $this->render('checkout', [
-          'page' => self::STEP_DELIVERY,
-          'current' => self::STEPS[self::STEP_DELIVERY],
+            'page' => self::STEP_DELIVERY,
+            'current' => self::STEPS[self::STEP_DELIVERY],
+        ]);
+    }
+
+    #[Route('/payment', name: 'payment')]
+    public function paymentAction(EventDispatcherInterface $eventDispatcher): Response
+    {
+        $this->checkAuth();
+        $this->checkCartNotEmpty($eventDispatcher);
+
+        // TODO le paiment n'est accessible que lorsqu'on a une adresse de livraison et un module dans le cart
+
+        return $this->render('checkout', [
+            'page' => self::STEP_PAYMENT,
+            'current' => self::STEPS[self::STEP_PAYMENT],
         ]);
     }
 }

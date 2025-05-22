@@ -42,7 +42,7 @@
 			{% endif %}
 		</label>
 		{% if tooltip %}
-			{% include '../../Tooltip/Tooltip.html.twig' with {tooltip: tooltip, position: 'bottom'} %}
+			{% include '@components/Molecules/Tooltip/Tooltip.html.twig' with {tooltip: tooltip, position: 'bottom'} %}
 		{% endif %}
 	</div>
 	<div class='FieldInput-blockInput {% if iconButton and iconButtonLeft %}FieldInput-blockInputIconLeft{% endif %}{% if type == ' password' %}fieldinput-blockinputiconright{% endif %}'>

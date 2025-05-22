@@ -1,10 +1,13 @@
 {% set label = '' %}
 {% set url = '' %}
+{% set totalItems = totalItems|default(0) %}
 
 {% if page == 'cart' %}
 	{% set label = 'Order' %}
 	{% set url = '/checkout/delivery' %}
-	{% set condition = url != '' and label != '' %}
+	{% set condition = url != '' and label != '' and totalItems %}
+
+
 {% elseif page == 'delivery' %}
 	{% set label = 'Order' %}
 	{% set url = '/checkout/payment' %}

@@ -27,17 +27,14 @@ use Thelia\Model\Customer;
 use Thelia\Service\Model\AddressService;
 use Thelia\Service\Model\CartService;
 
-#[AsLiveComponent(template: '@components/Organisms/Modules/HomeDelivery/HomeDeliveryAddresses.html.twig')]
-class HomeDeliveryAddresses extends BaseFrontController
+#[AsLiveComponent(template: '@components/Organisms/Modules/InvoiceAddresses/InvoiceAddresses.html.twig')]
+class InvoiceAddresses extends BaseFrontController
 {
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
     #[LiveProp]
     public array $addresses = [];
-
-    #[LiveProp(writable: true, onUpdated: 'setDeliveryOrderAddressId')]
-    public ?int $deliveryAddressId = null;
 
     #[LiveProp(writable: true, onUpdated: 'setInvoiceOrderAddressId')]
     public ?int $invoiceAddressId = null;
@@ -46,6 +43,8 @@ class HomeDeliveryAddresses extends BaseFrontController
     public ?int $update = null;
     #[LiveProp]
     public bool $create = false;
+    #[LiveProp]
+    public bool $switchView = false;
 
     public function __construct(
         private readonly Session $session,
@@ -61,16 +60,16 @@ class HomeDeliveryAddresses extends BaseFrontController
         $addresses = $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
 
         $this->addresses = $addresses;
-        $this->deliveryAddressId = $this->cartService->getCart()->getAddressDeliveryId();
-        $this->invoiceAddressId = $this->cartService->getCart()->getAddressInvoiceId();
+        $this->invoiceAddressId = $this->cartService->getCart()->getAddressInvoiceId() ?? 2;
     }
 
-    #[LiveListener('homeDeliveryAddresses:refresh')]
+    #[LiveListener('InvoiceAddresses:refresh')]
     public function refresh(): void
     {
         $this->mount();
         $this->create = false;
         $this->update = null;
+        $this->switchView = false;
     }
 
     #[LiveAction]
@@ -80,10 +79,9 @@ class HomeDeliveryAddresses extends BaseFrontController
     }
 
     #[LiveAction]
-    public function setDeliveryOrderAddressId(): void
+    public function switchAddress(): void
     {
-        $this->cartService->getCart()->setAddressDeliveryId($this->deliveryAddressId);
-        $this->emit('resetCart');
+        $this->switchView = !$this->switchView;
     }
 
     #[LiveAction]
