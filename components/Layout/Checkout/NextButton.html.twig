@@ -6,12 +6,15 @@
 	{% set label = 'Order' %}
 	{% set url = '/checkout/delivery' %}
 	{% set condition = url != '' and label != '' and totalItems %}
-
-
 {% elseif page == 'delivery' %}
 	{% set label = 'Order' %}
 	{% set url = '/checkout/payment' %}
 	{% set condition = cart.addressDeliveryId and  cart.deliveryModuleId %}
+{% elseif page == 'payment' %}
+	{% set label = 'Order' %}
+	{% set url = '/checkout/gateway' %}
+	{% set condition = true %}
+
 {% endif %}
 
 {% if condition %}
