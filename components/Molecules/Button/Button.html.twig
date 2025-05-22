@@ -3,6 +3,7 @@
 {% set disabled = disabled|default(false) %}
 {% set href = href|default(false) %}
 {% set liveAction = liveAction|default(null) %}
+{% set liveParams = liveParams|default(null) %}
 {% set liveEvent = liveEvent|default(null) %}
 {% set inLiveComp = inLiveComp|default(false) %}
 {% set type = type|default(inLiveComp ? 'submit':'button') %}
@@ -41,7 +42,11 @@
 {% endif %}
 
 {% if liveEvent %}
-  {% set props = props|merge({'data-action': "live#emit",'data-live-event-param': liveEvent}) %}
+	{% set props = props|merge({'data-action': "live#emit",'data-live-event-param': liveEvent}) %}
+{% endif %}
+
+{% if liveParams %}
+	{% set props = props|merge(liveParams) %}
 {% endif %}
 
 <{{tag}} {% if id %} id="{{id}}" {% endif %} class='Button {{ classes }}' {% for key,value in props %} {{ key }}="{{ value }}" {% endfor %} {% if disabled %} disabled {% endif %} {% if href %} href='{{ href }}' {% else %} type='{{ type }}' {% endif %} {% if onClick %} onclick="{{ onClick }}" {% endif %} {% if name %} data-id="{{ name }}" {% endif %} {% if liveAction %} data-action="live#action" data-live-action-param="{{ liveAction }}" {% endif %} {% if toggleDrawer %} data-drawer-toggle="{{ toggleDrawer }}" {% endif %}>

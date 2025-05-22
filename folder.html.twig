@@ -1,5 +1,9 @@
 {%  extends 'base.html.twig' %}
 
+{% set contents = resources('/api/front/contents', {'contentFolders.folder.id':attr('folder', 'id')}) %}
+{% set childFolders = resources('/api/front/folders', {parent:attr('folder', 'id')}) %}
+{% set ps = attr('folder', 'postscriptum') %}
+
 {% block body %}
 
 	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: attr('folder', 'title'), description: attr('folder', 'chapo') }  %}
@@ -8,11 +12,41 @@
 		<article class="wysiwyg">
 			{{ attr('folder', 'description') }}
 			{{ component('Flexy:Components:Blocks', {item_type: 'folder', item_id: attr('folder', 'id')}) }}
+
+			{% if childFolders|length %}
+				<ul class="grid gap-4 my-8 md:grid-cols-3">
+					{% for folder in childFolders %}
+						<li>
+							{% include '@components/Organisms/Card/Article/Article.html.twig' with {
+                id: folder.id,
+                source : 'folder',
+                href : folder.publicUrl,
+                title: "Titre",
+                }  %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if contents|length %}
+				<ul class="grid grid-cols-3 gap-4 my-8">
+					{% for content in contents %}
+						<li>
+							{% include '@components/Organisms/Card/Article/Article.html.twig' with {
+                id: content.id,
+                source : 'content',
+                href : content.publicUrl,
+                title: content.i18ns.title,
+                }%}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if ps %}
+				<small>{{ps}}</small>
+			{% endif %}
+
 		</article>
-		<aside class="hidden lg:block w-[340px]">
-			{% include '@components/Molecules/Shortcut/Shortcut.html.twig' with {customText: "Section title" | trans} %}
-			{% include '@components/Molecules/Shortcut/Shortcut.html.twig' with {customText: "Section title" | trans} %}
-			{% include '@components/Molecules/Shortcut/Shortcut.html.twig' with {customText: "Section title" | trans} %}
-		</aside>
 	</div>
 {% endblock %}

@@ -1,8 +1,9 @@
 .Breadcrumb {
+  --gap: 12px;
   &-list {
     display: flex;
     flex-wrap: wrap;
-    gap: rem-convert(8px);
+    gap: var(--gap);
     align-items: center;
   }
 
@@ -10,14 +11,8 @@
     @apply paragraph-4;
     color: var(--black);
     display: flex;
-    gap: rem-convert(8px);
-
-    &--isLink + .Breadcrumb-item--isLink {
-      &::before {
-        content: '/';
-        font-size: rem-convert(10px);
-      }
-    }
+    align-items: center;
+    gap: var(--gap);
 
     &-link {
       outline: none;
@@ -34,6 +29,14 @@
 
     &:last-child {
       color: var(--grey);
+    }
+
+    &:not(:first-child) {
+      &:before {
+        font-size: var(--font-size-2xs);
+        display: inline-block;
+        content: '/';
+      }
     }
   }
 

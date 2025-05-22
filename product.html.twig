@@ -23,13 +23,8 @@
 
 {% block body %}
 	<div class="ProductPage">
-		<div class="lg:justify-between lg:items-center mb-[29px] lg:flex">
-			{{ component('Molecules:Breadcrumb:Breadcrumb', {
-        items: [
-          { href: productCategory.publicUrl|default('#'), label:productCategory.i18ns.title},
-        ],
-        backIcon: true
-      }) }}
+		<div class="p-5 lg:justify-between lg:items-center lg:flex">
+			{{ component('Molecules:Breadcrumb:Breadcrumb', { breadcrumb }) }}
 		</div>
 		<div class="container">
 			<div class="ProductPage-grid">

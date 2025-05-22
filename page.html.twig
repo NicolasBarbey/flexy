@@ -1,13 +1,24 @@
 {%  extends 'base.html.twig' %}
 
 {% set pageData = getPageData() %}
-{% set pageImages = getImages("page", pageData.id,"^!664","390",'webp') %}
-{% set pageImage = pageImages|first|default({URL: '', ID: null}) %}
+{% set img = getImages({
+  'source_type': 'page',
+  'source_id': pageData.id,
+  'filters': 'default',
+  'wrapper': 'div',
+  'wrapper_attrs': {
+    'class':'Subheader-image'
+  },
+  'img_attrs': {
+      'width': 1920,
+      'height': 500
+  },
+}) %}
 {% set pageHTML = getTheliaBLocksRenderedContent(pageData.getVirtualColumn('block_group_content')|default('')) %}
 
 
 {% block body %}
-	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: pageData.title, description: pageData.chapo|raw, img: {src: pageImage.URL, alt: pageImage.ID} }  %}
+	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: pageData.title, description: pageData.chapo|raw, img }  %}
 
 	<div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
 		<article class="wysiwyg">

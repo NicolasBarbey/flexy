@@ -1,31 +1,45 @@
-<div class='grid grid-cols-12' {{ attributes }}>
+{% set displaySummary = page != 'gateway' and page != 'confirm' %}
+<div class='grid grid-cols-12 {% if not displaySummary %}my-auto{% endif %}' {{ attributes }}>
 
-	<div class='col-span-12 md:col-span-7 Checkout-main'>
+	<div class='col-span-12 Checkout-main{% if displaySummary %} md:col-span-7 {% else %} margin-auto{% endif %}'>
 
 		<div class='Checkout-main-container'>
+
 			{% if page == "cart" %}
 				{% include '@components/Page/Checkout/Cart.html.twig' with {items: this.cart.items, totalItems:summary.item_count} %}
 			{% elseif page == "delivery" %}
-				{% include '@components/Page/Checkout/Delivery.html.twig' %}
+				{% if  deliveryModuleView %}
+					{% include '@components/Page/Checkout/DeliveryModules.html.twig' %}
+				{% else %}
+					{% include '@components/Page/Checkout/Delivery.html.twig' %}
+				{% endif %}
+			{% elseif page == "payment" %}
+				{% include '@components/Page/Checkout/Payment.html.twig' %}
+			{% elseif page == "gateway" %}
+				{% include '@components/Page/Checkout/Gateway.html.twig' %}
+			{% elseif page == "confirm" %}
+				{% include '@components/Page/Checkout/Confirm.html.twig' %}
 			{% endif %}
 		</div>
 	</div>
+	{% if displaySummary %}
 
+		<div class='col-span-12 Checkout-sidebar md:col-span-5'>
 
-	<div class='col-span-12 Checkout-sidebar md:col-span-5'>
-		<div class='Checkout-sidebar-container'>
-			<h2 class='text-black h3'>{{ 'Summary'|trans }}</h2>
-			{% include '@components/Organisms/SummaryCard/SummaryCard.html.twig' with {
+			<div class='Checkout-sidebar-container'>
+				<h2 class='text-black h3'>{{ 'Summary'|trans }}</h2>
+				{% include '@components/Organisms/SummaryCard/SummaryCard.html.twig' with {
         totalItems: summary.item_count,
         subTotal: summary.total_price_without_discount|format_currency('EUR', locale: 'fr'),
         total: summary.total_taxed_price|format_currency('EUR', locale: 'fr'),
         tax: summary.total_tax_amount|format_currency('EUR', locale: 'fr'),
       } %}
 
-			{% include '@components/Layout/Checkout/NextButton.html.twig' with {page: page} %}
+				{% include '@components/Layout/Checkout/NextButton.html.twig' with {page, totalItems:summary.item_count} %}
 
+			</div>
 		</div>
-	</div>
+	{% endif %}
 	{{ component('Flexy:Organisms:CartItemDelete') }}
 	{% if page == "cart" %}
 		{% set recentlyViews = resources('/api/recently_viewed', {itemsPerPage:3}) %}

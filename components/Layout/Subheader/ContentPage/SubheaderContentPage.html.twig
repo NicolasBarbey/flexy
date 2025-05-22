@@ -1,15 +1,21 @@
 {% set title = title|default('') %}
 {% set description = description|default('') %}
-{% set img = img|default({src:'/images/placeholder2.webp', alt:""}) %}
+{% set img = img|default(null) %}
 
 <div class='Subheader Subheader--contentPage'>
-	<div class='Subheader-image'>
-		<img src='{{ img.src }}' alt='{{ img.alt }}' loading="lazy"/>
-	</div>
-	<div class='container flex flex-col justify-center mx-auto grow'>
-		<h1 class='Subheader-title'>{{ title }}</h1>
-		<div class='Subheader-description'>
-			{{ description|raw }}
+	{{img|raw}}
+	<div class='container flex flex-col grow'>
+		{% if breadcrumb|length > 0 %}
+			{% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {items: breadcrumb} %}
+		{% endif %}
+		<div class="my-auto">
+			<h1 class='Subheader-title'>{{ title }}</h1>
+			{% if description %}
+				<div class='Subheader-description'>
+					{{ description|raw }}
+				</div>
+			{% endif %}
 		</div>
 	</div>
+
 </div>

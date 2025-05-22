@@ -3,22 +3,15 @@
 {% set name = name|default('') %}
 {% set value = value|default('') %}
 {% set id = id|default(0) %}
+{% set model = model|default(null)%}
 {% set disabled = disabled|default(false) %}
 {% set checked = checked|default(false) %}
 {% set label = label|default('') %}
 {% set type = type|default('label') %}
 {% set props = props|default([]) %}
-<{{ type }} class="Radio {{ classes }} {{ error ? 'error'  : '' }}">
-<input
-  type="radio"
-  name='{{ name }}'
-  value='{{ value }}'
-  class="{% if checked %}checked{% endif %}"
-  {% if id %}id='{{ id }}'{% endif %}
-  {% if disabled %}disabled{% endif %}
-  {% if checked %}checked{% endif %}
-   {% for key,value in props %} {{ key }}="{{ value }}" {% endfor %}
->
-<span class="checkmark"></span>
-<span>{{ label }}</span>
-</{{ type }}>
+
+<{{type}} class="Radio {{ classes }} {{ error ? 'error'  : '' }}">
+	<input type="radio" {% if name %} name='{{ name }}' {% endif %} value='{{ value }}' class="{% if checked %}checked{% endif %}" {% if id %} id='{{ id }}' {% endif %} {% if disabled %} disabled {% endif %} {% if checked %} checked {% endif %} {% for key,value in props %} {{ key }}="{{ value }}" {% endfor %} {% if model %} data-model="{{model}}" {% endif %}>
+	<span class="checkmark"></span>
+	<span>{{ label }}</span>
+</{{type}}>

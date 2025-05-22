@@ -1,10 +1,7 @@
 {%  extends 'base.html.twig' %}
 {% set page = app.request.get('page')|default(1) %}
 {% set categoryId = attr('category', 'id') %}
-{% set breadcrumb = [
-  {label: 'Home'|trans, href:"/"},
-  {label: attr('category', 'title')}
-] %}
+
 
 {% block stylesheets %}
 	{{ parent() }}

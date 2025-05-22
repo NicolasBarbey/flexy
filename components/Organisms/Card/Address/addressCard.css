@@ -13,6 +13,7 @@
   &.selected {
     background: var(--white);
   }
+
   &-top {
     position: absolute;
     padding: rem-convert(10px);
@@ -62,6 +63,12 @@
   &--checkout {
     .Favorite {
       cursor: default;
+    }
+  }
+
+  &--module {
+    &.selected {
+      background: var(--theme-lighter);
     }
   }
 }
