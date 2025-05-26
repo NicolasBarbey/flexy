@@ -220,4 +220,15 @@ export declare const ERASE_FILTERS: Message<{ 'messages': { parameters: NoParame
 export declare const NO_PRODUCTS_FOUND: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const PREVIOUS_STEP: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const CHECKOUT: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const CHOOSE_A_CARRIER: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const DELIVERY_ESTIMATION: Message<{ 'messages': { parameters: { '%min%': string, '%max%': string } } }, 'en_US'|'fr_FR'>;
+export declare const NO_AVAILABLE_CARRIER_FOR_YOUR_CURRENT_ADDRESS: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const CHOOSE_A_PAYMENT_METHOD: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const YOUR_CART_IS_CURENTLY_EMPTY: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const BACK_TO_THE_STORE: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const PAYMENT_PROCESSING: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const FOR_YOUR_ORDER: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const YOUR_PAYMENT_HAS_BEEN_CONFIRMED: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const WE_LL_DO_EVERYTHING_WE_CAN_TO_SEND_YOUR_ORDER_AS_QUICKLY_AS_POSSIBLE: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const ENTER_THE_CODE_RECEIVED_BY_E_MAIL: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_ADDRESS_1: Message<{ 'messages': { parameters: NoParametersType } }, 'fr_FR'>;

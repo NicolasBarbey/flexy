@@ -35,7 +35,7 @@ class CartItemDelete
     public int $timer = 3;
 
     public function __construct(
-        private CartService $cartService
+        private CartService $cartService,
     ) {
     }
 
@@ -43,9 +43,9 @@ class CartItemDelete
     public function showToast(#[LiveArg] int $id, #[LiveArg] string $title, #[LiveArg] ?int $imageId): void
     {
         $this->cartItems[$id] = [
-          'id' => $id,
-          'title' => $title,
-          'imageId' => $imageId,
+            'id' => $id,
+            'title' => $title,
+            'imageId' => $imageId,
         ];
         $this->dispatchBrowserEvent('cartitem:toast', ['timer' => $this->timer, 'id' => $id]);
     }
