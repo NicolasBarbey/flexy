@@ -1,0 +1,6 @@
+{% set name = name|default('text') %}
+{% set id = id|default('null') %}
+
+<label for="{{id}}" class="FieldCode">
+	<input id="{{id}}" type="text" name="{{name}}" data-register-validation-code-target="input" placeholder data-action='register-validation-code#input'>
+</label>

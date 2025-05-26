@@ -54,7 +54,7 @@ class CartItem
     public function __construct(
         private DataAccessService $dataAccessService,
         private CartService $cartService,
-        private ProductSaleElementsService $pseService
+        private ProductSaleElementsService $pseService,
     ) {
     }
 
@@ -137,9 +137,9 @@ class CartItem
     {
         $this->hide = true;
         $this->emit('removeCartItem', [
-          'id' => (int) $this->cartItemId,
-          'title' => $this->cartItem['product']['i18ns']['title'],
-          'imageId' => $this->imageId,
+            'id' => (int) $this->cartItemId,
+            'title' => $this->cartItem['product']['i18ns']['title'],
+            'imageId' => $this->imageId,
         ]);
     }
 

@@ -1,15 +1,15 @@
 {% block form_row %}
-  {% set type = form.vars.block_prefixes|slice(-2, 1)[0] %}
-  {% set widget_value = form.vars.value %}
-  {% set widget_attr = form.vars.attr %}
-  {% set label = label is defined ? label : form.vars.label %}
-  {% set placeholder = placeholder is defined ? placeholder : form.vars.placeholder is defined ? form.vars.placeholder :  form.vars.help is defined ? form.vars.help : null %}
+	{% set type = form.vars.block_prefixes|slice(-2, 1)[0] %}
+	{% set widget_value = form.vars.value %}
+	{% set widget_attr = form.vars.attr %}
+	{% set label = label is defined ? label : form.vars.label %}
+	{% set placeholder = placeholder is defined ? placeholder : form.vars.placeholder is defined ? form.vars.placeholder :  form.vars.help is defined ? form.vars.help : null %}
 
-  {% set errors = [] %}
+	{% set errors = [] %}
 
-  {% for error in form.vars.errors %}
-    {% set errors = errors + [error.message] %}
-  {% endfor %}
+	{% for error in form.vars.errors %}
+		{% set errors = errors + [error.message] %}
+	{% endfor %}
 
 	{% if type == 'checkbox' %}
 		{% include "@components/Atoms/Form/Checkbox.html.twig" with {
@@ -21,18 +21,18 @@
 	{% elseif type == 'sort' %}
 		{% include '@formTwig/fields/sort.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value} %}
 		{{ form_errors(form) }}
-  {% elseif type == 'choice' %}
-    {% if form.vars.expanded %}
-      {% include '@formTwig/fields/choice.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value } %}
-    {% else %}
-      {% include '@formTwig/fields/select.html.twig' with {choices: form.vars.choices, title: form.vars.label,  value: form.vars.value, required: form.vars.required } %}
-    {% endif %}
-    {{ form_errors(form) }}
+	{% elseif type == 'choice' %}
+		{% if form.vars.expanded %}
+			{% include '@formTwig/fields/choice.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value } %}
+		{% else %}
+			{% include '@formTwig/fields/select.html.twig' with {choices: form.vars.choices, title: form.vars.label,  value: form.vars.value, required: form.vars.required } %}
+		{% endif %}
+		{{ form_errors(form) }}
 	{% elseif type == 'pill' %}
 		{% include '@formTwig/fields/choice.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value } %}
-    
-  {% elseif type == 'search' %}
-    {% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" with {
+
+	{% elseif type == 'search' %}
+		{% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" with {
       label:  label,
       name: form.vars.full_name,
       id: form.vars.id,
@@ -85,6 +85,11 @@
       type,
       placeholder: placeholder,
       required: form.vars.required,
+    } %}
+	{% elseif type == 'code' %}
+		{% include "@components/Molecules/Fields/FieldCode/FieldCode.html.twig" with {
+      name: form.vars.full_name,
+      id: form.vars.id,
     } %}
 	{%  else %}
 		{# Appel du rendu par défaut si vous n'avez pas besoin de personnaliser davantage #}
