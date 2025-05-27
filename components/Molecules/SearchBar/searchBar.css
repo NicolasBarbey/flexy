@@ -4,9 +4,12 @@
   color: var(--grey);
   outline: 1px solid var(--grey-lighter);
   border-radius: rem-convert(50px);
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
   z-index: 1000;
 
+  @screen lg {
+    padding: 1rem 1.25rem;
+  }
   button {
     margin-right: rem-convert(10px);
     color: var(--black);
@@ -17,7 +20,7 @@
   }
   input {
     flex-grow: 1;
-    @apply paragraph-2 ml-4;
+    @apply ml-4 paragraph-2;
     color: var(--black);
     &:focus-visible {
       outline: none;

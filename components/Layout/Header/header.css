@@ -12,8 +12,6 @@
 }
 
 .Header {
-  @apply h-[var(--header-height)] flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-[1] bg-white;
-
   .HeaderButton {
     &--search,
     &--menu {
@@ -70,12 +68,15 @@
     }
   }
 
+  &-top {
+    @apply h-[var(--header-height)] flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-[1] bg-white;
+  }
   &-logo {
     @apply w-[60px] h-[18px] sm:w-[98px] sm:h-[30px];
   }
 
   &-navWrap {
-    @apply flex justify-center bg-grey-lightest h-[78px];
+    @apply relative flex justify-center bg-grey-lightest h-[78px] z-[1];
   }
   &-navigation {
     @apply flex items-stretch justify-center gap-[30px] xl:gap-[50px] list-none h-full;
@@ -91,9 +92,9 @@
     }
   }
   &.is-sticky {
-    @screen sm {
-      --header-height: 60px;
-    }
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
     .Header-logo {
       @apply sm:w-[80px] sm:h-[24px];
