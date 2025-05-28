@@ -231,4 +231,7 @@ export declare const FOR_YOUR_ORDER: Message<{ 'messages': { parameters: NoParam
 export declare const YOUR_PAYMENT_HAS_BEEN_CONFIRMED: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const WE_LL_DO_EVERYTHING_WE_CAN_TO_SEND_YOUR_ORDER_AS_QUICKLY_AS_POSSIBLE: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const ENTER_THE_CODE_RECEIVED_BY_E_MAIL: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const RESEND_CODE: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const DONT_T_HAVE_RECEIVE_CODE: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
+export declare const EVERY_CAT: Message<{ 'messages': { parameters: NoParametersType } }, 'en_US'|'fr_FR'>;
 export declare const ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_ADDRESS_1: Message<{ 'messages': { parameters: NoParametersType } }, 'fr_FR'>;

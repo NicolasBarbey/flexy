@@ -1,4 +1,5 @@
 <div class='HeaderNav'>
+	{{ component('Flexy:Molecules:LangSelect') }}
 
 	{% if isAuthenticatedFront() %}
 		{% include '@components/Molecules/HeaderButton/HeaderButtonProfile.html.twig' %}
