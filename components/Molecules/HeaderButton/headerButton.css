@@ -65,6 +65,10 @@
   &--cart {
     @apply text-white bg-black md:bg-inherit md:text-black lg:text-white lg:bg-black hover:bg-black hover:text-white;
   }
+
+  &.is-selected {
+    background-color: var(--theme);
+  }
 }
 
 .DropdownProfile {

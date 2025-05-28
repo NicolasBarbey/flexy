@@ -7,7 +7,7 @@
 	{% set classes = classes ~ ' SearchBar--' ~ type %}
 {% endif %}
 
-<div {{ attributes }} class="w-[500px] 2xl:w-[800px] z-50 self-center">
+<div {{ attributes }} class="w-[500px] 2xl:w-[800px] z-50 self-center ml-8 lg:ml-0">
 	<label class="SearchBar" aria-label={{"Search"|trans}}>
 		<button class='w-4 h-4'>{{ ux_icon("search") }}</button>
 		<input type="text" name="query" placeholder={{"e.g. Shoes, T-shirts, ..."|trans}} autocomplete='off' data-model="debounce(300)|query"/>

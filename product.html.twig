@@ -22,6 +22,7 @@
 {% endif %}
 
 {% block body %}
+	{{dump()}}
 	<div class="ProductPage">
 		<div class="p-5 lg:justify-between lg:items-center lg:flex">
 			{{ component('Molecules:Breadcrumb:Breadcrumb', { breadcrumb }) }}

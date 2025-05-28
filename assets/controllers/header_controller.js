@@ -9,14 +9,18 @@ class HeaderController extends Controller {
   }
 
   connect() {
-    this.togglerTarget?.addEventListener('click', () =>
-      this.menuTarget.classList.toggle('is-open')
-    );
+    this.togglerTarget?.addEventListener('click', () => {
+      this.menuTarget.classList.toggle('is-open');
+      this.togglerTarget.classList.toggle('is-selected');
+      document.body.classList.toggle('locked');
+    });
   }
 
   close() {
     this.menuTarget.classList.remove('is-open');
     this.backTarget.dataset.menuBack = -1;
+    this.togglerTarget.classList.remove('is-selected');
+    document.body.classList.remove('locked');
     this.subTargets.forEach((sub) => sub.classList.remove('is-active'));
   }
 

@@ -5,23 +5,14 @@
   --padding-button-close: 24px;
 }
 
-@media screen and (min-width: theme('screens.lg')) {
-  #Menu {
-    ul {
-      button,
-      ul {
-        @apply hidden;
-      }
-    }
-  }
-}
 @media screen and (max-width: theme('screens.lg')) {
   #Menu {
     @apply fixed inset-0 hidden text-black bg-white;
 
-    > ul {
+    .Header-navigation {
       @apply relative h-full;
     }
+
     ul {
       @apply flex flex-col items-stretch gap-0 pb-[var(--header-nav-height)] pt-[var(--padding-top-menu)] justify-start;
 
@@ -34,12 +25,12 @@
         line-height: var(--line-height-paragraph-1);
         gap: calc(30px - var(--padding-button-sub));
       }
-      a {
+
+      .Submenu-link,
+      .ItemHeader-link {
         @apply py-[var(--padding-button-sub)];
       }
-      button {
-        @apply p-[var(--padding-button-sub)];
-      }
+
       svg {
         @apply w-[28px];
       }
@@ -47,7 +38,7 @@
         @apply hidden fixed bg-white left-0 right-0 top-[var(--padding-top-menu)] bottom-[var(--header-nav-height)] pt-0;
 
         &.is-active {
-          @apply block;
+          @apply flex;
         }
       }
     }

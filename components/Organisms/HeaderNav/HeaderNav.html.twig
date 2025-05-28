@@ -1,6 +1,4 @@
 <div class='HeaderNav'>
-	{% include '@components/Molecules/HeaderButton/HeaderButton.html.twig' with { icon: 'search', classes: 'HeaderNav-btn HeaderButton--light', text: 'Search'|trans, small: true } %}
-	{% include '@components/Molecules/HeaderButton/HeaderButton.html.twig' with { icon: 'heart-fill', classes: 'HeaderNav-btn HeaderButton--light', text: 'Wishlist'|trans, small: true } %}
 
 	{% if isAuthenticatedFront() %}
 		{% include '@components/Molecules/HeaderButton/HeaderButtonProfile.html.twig' %}

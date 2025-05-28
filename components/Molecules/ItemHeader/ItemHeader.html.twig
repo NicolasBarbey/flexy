@@ -2,34 +2,35 @@
 {% set classes = classes|default('') %}
 {% set customText = customText|default('') %}
 {% set sub = sub|default(null) %}
+{% set subCategories = resources('/api/front/categories', {parent : sub}) %}
+{% set isActive = false %}
 
-<li class="flex">
-	<a href='{{ href }}' class='ItemHeader {{ classes }}'>
-		{{ customText }}
-	</a>
-	{% if sub %}
-		<button type="button" data-action="header#displaySubMenu" data-header-item-param="{{sub}}">{{ ux_icon("arrow-right") }}</button>
-		<ul data-menu-sub="{{sub}}" data-menu-previous="0" data-header-target="sub">
-			<li>
-				<a href="#0">Titre sous menu
-				</a>
-				<button type="button" data-action="header#displaySubMenu" data-header-item-param="{{sub}}_5">{{ ux_icon("arrow-right") }}</button>
-				<ul data-menu-sub="{{sub}}_5" data-menu-previous="{{sub}}" data-header-target="sub">
-					<li>
-						<a href="#0">Titre sous sous menu</a>
-					</li>
-				</ul>
+<li class="ItemHeader" {{stimulus_controller('item-header')}}>
+	{% if subCategories|length %}
+		<button type="button" class='ItemHeader-link {{ classes }} {% if isActive %}is-active{% endif %}' data-action='item-header#toggle' data-item-header-target="toggler">{{ customText }}</button>
+		<button type="button" class="ItemHeader-back" data-action="header#displaySubMenu" data-header-item-param="{{sub}}">{{ ux_icon("arrow-right") }}</button>
+		<ul class="Submenu" data-menu-sub="{{sub}}" data-menu-previous="0" data-header-target="sub">
+			<li class="ItemHeader-all">
+				{% include "@components/Molecules/Button/Button.html.twig" with { href, text: "every_cat" | trans({'%cat':customText}), variant: "", classes: "w-full lg:w-auto mt-4 lg:mt-auto" } %}
 			</li>
-			<li>
-				<a href="#0">Titre sous menu</a>
-			</li>
-			<li>
-				<a href="#0">Titre sous menu</a>
-			</li>
-			<li>
-				<a href="#0">Titre sous menu</a>
-			</li>
+			{% for category in subCategories %}
+				<li class="Submenu-item">
+					{% set sub2Categories = resources('/api/front/categories', {parent : category.id, visible: true}) %}
+					<a href="{{category.publicUrl}}" class="Submenu-link">{{category.i18ns.title}}</a>
+					{% if sub2Categories %}
+						<button type="button" class="ItemHeader-back" data-action="header#displaySubMenu" data-header-item-param="{{sub}}_5">{{ ux_icon("arrow-right") }}</button>
+						<ul class="Submenu-sub" data-menu-sub="{{sub}}_5" data-menu-previous="{{sub}}" data-header-target="sub">
+							{% for subCat in sub2Categories %}
+								<li class="Submenu-subItem">
+									<a href="{{subCat.publicUrl}}">{{subCat.i18ns.title}}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</li>
+			{% endfor %}
 		</ul>
+	{% else %}
+		<a href='{{ href }}' class='ItemHeader-link {{ classes }}' data-item-header-target="toggler">{{ customText }}</a>
 	{% endif %}
-
 </li>
