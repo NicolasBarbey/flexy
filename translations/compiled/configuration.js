@@ -1,1 +1,1 @@
-export const localeFallbacks = {"en_US":"en","en":"fr_FR","fr":"fr_FR","fr_FR":"fr"};
+export const localeFallbacks = {"fr_FR":"fr","fr":"fr_FR"};

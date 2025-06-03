@@ -4,15 +4,15 @@
 <section class="Category-grid" {{ attributes.defaults(stimulus_controller('filters')) }}>
 	{% if filters %}
 		{% set ActiveFiltersCount = filters_count(formValues|filter(f => f is iterable)) %}
-		<div id="FilterDrawer" class="CategoryFilter MobileDrawer MobileDrawer--reset-lg" data-action="change->filters#filterChange">
+		<div class="CategoryFilter MobileDrawer lg:reset-drawer" data-action="change->filters#filterChange" data-drawer-target="drawer">
 			<div class='MobileDrawer-header lg:hidden'>
-				<button class='MobileDrawer-close' type='button' data-drawer-close>{{ ux_icon("close") }}</button>
+				<button class='MobileDrawer-close' type='button' data-action="drawer#close">{{ ux_icon("close") }}</button>
 			</div>
 			{{ form(form)}}
 				<div class="flex items-center mt-[30px] flex-row-reverse">
-					<button type="button" class="ml-auto leading-3 Button Button--primary Button--large lg:hidden" data-drawer-close="#FilterDrawer">{{'Apply'|trans}}</button>
+					<button type="button" class="ml-auto leading-3 Button Button--primary Button--large lg:hidden" data-action="drawer#close">{{'Apply'|trans}}</button>
 					{% if filtersCount %}
-						<button type="button" class="leading-3 Button Button--secondary CategoryFilter-erase" data-action="click->filters#resetForm">{{'Erase'|trans}}
+						<button type="button" class="leading-3 Button Button--secondary CategoryFilter-erase" data-action="filters#resetForm drawer#close">{{'Erase'|trans}}
 							({{filtersCount}})
 						{% endif %}
 					</button>
@@ -61,23 +61,13 @@
 					</div>
 				{% endif %}
 			</div>
-
-			{# <div class='mx-auto lg:mx-0 lg:ml-auto w-max'>
-												        {% include '@components/Molecules/Pagination/Pagination.html.twig' with {
-												          prevText: 'Previous' | trans,
-												          nextText: 'Next' | trans,
-												          currentPage: page,
-												          totalPages: 3
-												        } %}
-												      </div> #}
 			<div id="description" class="lg:pt-[56px] lg:pb-[96px] max-w-[664px] pt-[102px] pb-[52px] mx-auto">
 				{% if attr('category', 'description') %}
-					<div class=" paragraph-4 lg:paragraph-2">
+					<div class="paragraph-4 lg:paragraph-2">
 						{{ attr('category', 'description') }}
 					</div>
 				{% endif %}
 				{{ component('Flexy:Components:Blocks', {item_type: 'category', item_id: categoryId}) }}
 			</div>
-
 		</div>
 	</section>

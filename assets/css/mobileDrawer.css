@@ -13,6 +13,10 @@
   border-radius: rem-convert(20px) rem-convert(20px) 0px 0px;
   z-index: 20;
 
+  &.is-open {
+    @apply translate-y-0;
+  }
+
   &:before {
     content: '';
     position: absolute;
@@ -34,9 +38,6 @@
     width: rem-convert(38px);
     height: rem-convert(38px);
   }
-  &-show {
-    @apply translate-y-0;
-  }
 
   /* Navigation au clavier */
   &:has(label:focus) {
@@ -49,71 +50,5 @@
     z-index: 10;
     opacity: 0.8;
     background-color: var(--black);
-  }
-
-  &--reset-sm {
-    @screen sm {
-      all: revert;
-
-      &:before {
-        content: none;
-      }
-      .MobileDrawer-header {
-        display: none;
-      }
-      & + .MobileDrawer-overlay {
-        display: none;
-      }
-    }
-  }
-  &--reset-md {
-    @screen md {
-      all: revert;
-
-      &:before {
-        content: none;
-      }
-      .MobileDrawer-header {
-        display: none;
-      }
-      & + .MobileDrawer-overlay {
-        display: none;
-      }
-    }
-  }
-
-  &--reset-lg {
-    @screen lg {
-      all: revert;
-
-      &:before {
-        content: none;
-      }
-
-      .MobileDrawer-header {
-        display: none;
-      }
-      & + .MobileDrawer-overlay {
-        display: none;
-      }
-    }
-  }
-
-  &--reset-xl {
-    @screen xl {
-      all: revert;
-
-      &:before {
-        content: none;
-      }
-
-      .MobileDrawer-header {
-        display: none;
-      }
-
-      & + .MobileDrawer-overlay {
-        display: none;
-      }
-    }
   }
 }

@@ -1,6 +1,6 @@
 .FilterChoice {
   &-label {
-    @apply flex sm:text-black sm:font-semibold paragraph-4 sm:mb-2;
+    @apply flex sm:text-black sm:font-semibold paragraph-4 sm:mb-2 sm:pointer-events-none;
   }
 
   &-list {
@@ -46,9 +46,7 @@
   }
 }
 
-
-form
-{
+form {
   hr {
     height: 1px;
     color: var(--theme-medium);

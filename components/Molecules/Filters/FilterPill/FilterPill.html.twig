@@ -9,17 +9,17 @@
 {% set closeButton = closeButton|default(null) %}
 {% set iconColor = iconColor|default(null) %}
 {% set inputType = inputType|default('checkbox') %}
-{% set drawer = drawer|default(true) %}
+{% set inDrawer = inDrawer|default(false) %}
 
 {% set classes = '' %}
 {% if icon %}
 	{% set classes = classes ~ ' FilterPill--withIcon' %}
 {% endif %}
-{% if drawer %}
+{% if inDrawer %}
 	{% set classes = classes ~ ' FilterPill--drawer' %}
 {% endif %}
 
-<label class="FilterPill{{ classes }}" {% if drawer %} data-select-option="{{customText}}" {% endif %}>
+<label class="FilterPill{{ classes }}" {% if inDrawer %} data-action="click->filter-choice#updateLabel click->drawer#close" data-filter-choice-label-param="{{customText}}" {% endif %}>
 	<input type='{{ inputType }}' class='hidden' value='{{ value }}' name='{{ name }}' {% if disabled %} disabled {% endif %} {% if model %} data-model="{{model}}" {% endif %} {% if selected %} checked {% endif %}/>
 	{% if icon %}
 		<span class="FilterPill-icon" {% if iconColor %} style="color:{{ iconColor }}" {% endif %}>{{ ux_icon(icon) }}</span>
