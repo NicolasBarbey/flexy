@@ -1,0 +1,58 @@
+<?php
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace FlexyBundle\Twig\Molecules;
+
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
+use Thelia\Core\HttpFoundation\Session\Session;
+use TwigEngine\Service\DataAccess\DataAccessService;
+
+#[AsTwigComponent(template: '@components/Molecules/LangSelect/LangSelect.html.twig')]
+class LangSelect
+{
+    use DefaultActionTrait;
+
+    #[ExposeInTemplate()]
+    public bool $open = true;
+
+    #[ExposeInTemplate()]
+    public array $currentLang = [];
+
+    #[ExposeInTemplate()]
+    public array $langs = [];
+
+    public function __construct(private DataAccessService $dataAccessService, private readonly Session $session)
+    {
+    }
+
+    public function getLangs(): array
+    {
+        $this->langs = $this->dataAccessService->resources('/api/front/languages', [
+            'active' => true,
+        ]);
+
+        return $this->langs;
+    }
+
+    public function getCurrentLang()
+    {
+        $filters = array_filter($this->getLangs(), function ($lang) {
+            return $lang['id'] === $this->session->getLang()->getId();
+        });
+
+        $this->currentLang = reset($filters);
+
+        return $this->currentLang;
+    }
+}

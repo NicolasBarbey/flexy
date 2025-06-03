@@ -12,6 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
 
   &.locked {
     overflow: hidden;
@@ -76,4 +77,23 @@ hr {
 
 footer {
   margin-top: auto;
+}
+
+@layer components {
+  .reset-drawer {
+    all: revert;
+
+    &:before {
+      content: none;
+    }
+    .MobileDrawer-header {
+      display: none;
+    }
+    .FilterChoice-label {
+      pointer-events: none;
+    }
+    & + .MobileDrawer-overlay {
+      display: none;
+    }
+  }
 }

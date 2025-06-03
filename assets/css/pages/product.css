@@ -102,9 +102,7 @@
       @apply grid sm:gap-4;
 
       li:last-child {
-        .FilterChoice-label {
-          border-top: none;
-        }
+        margin-top: -1px;
       }
     }
   }

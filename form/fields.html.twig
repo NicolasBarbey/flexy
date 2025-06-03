@@ -29,7 +29,7 @@
 		{% endif %}
 		{{ form_errors(form) }}
 	{% elseif type == 'pill' %}
-		{% include '@formTwig/fields/choice.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value } %}
+		{% include '@formTwig/fields/choice.html.twig' with {choices: form.vars.choices, title: form.vars.label, values: widget_value, inDrawer: true } %}
 
 	{% elseif type == 'search' %}
 		{% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" with {
