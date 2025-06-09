@@ -25,6 +25,9 @@ class FlexyBundle extends AbstractBundle
         $serviceConfigurator = $containerConfigurator->services();
 
         $resourcePath = THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src';
+        if(!is_dir($resourcePath)) {
+          return;
+        }
 
         $serviceConfigurator->load('FlexyBundle\\', $resourcePath)
           ->autowire()
