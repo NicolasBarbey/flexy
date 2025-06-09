@@ -24,8 +24,10 @@ class FlexyBundle extends AbstractBundle
     {
         $serviceConfigurator = $containerConfigurator->services();
 
-        $resourcePath = THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src';
-
+        $resourcePath = $this->getResourcePath();
+        if (!is_dir($resourcePath)) {
+            return;
+        }
         $serviceConfigurator->load('FlexyBundle\\', $resourcePath)
           ->autowire()
           ->autoconfigure();
@@ -33,7 +35,15 @@ class FlexyBundle extends AbstractBundle
   
     public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
     {
+      if (!is_dir($this->getResourcePath())) {
+            return;
+        }
         $containerConfigurator->import('../config/packages/*.yaml');
+    }
+
+    private function getResourcePath(): string
+    {
+        return THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src';
     }
 
     
