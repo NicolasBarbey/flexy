@@ -15,7 +15,7 @@ namespace FlexyBundle\Controller;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Controller\Front\BaseFrontController;
-use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends BaseFrontController
