@@ -8,7 +8,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Controller\BaseController;
 use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Form\TheliaFormValidator;
-use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Template\Parser\ParserResolver;
