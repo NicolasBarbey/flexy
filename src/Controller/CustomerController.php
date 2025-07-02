@@ -20,7 +20,7 @@ use Thelia\Action\RedirectException;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
-use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\AuthenticationException;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
