@@ -23,7 +23,8 @@
     margin-left: rem-convert(4px);
   }
 
-  &:has(:checked) {
+  &:has(:checked),
+  &.active {
     background-color: var(--theme-light);
     border: 1.5px solid var(--theme-medium);
     .FilterPill-iconClose {
@@ -38,7 +39,7 @@
     margin-right: rem-convert(4px);
   }
 
-  &:has(:disabled) {
+  &:disabled {
     border-color: var(--grey-lighter);
     color: var(--grey-lighter);
     cursor: not-allowed;

@@ -10,19 +10,8 @@ import '@components/base.css';
 
 import './bootstrap.js';
 
-import { quantityButton } from '@components/Molecules/Button/button';
-import { ModalFunction } from '@components/Molecules/Modal/Modal';
-import headerButtonProfileFunction from '@components/Molecules/HeaderButton/HeaderButtonProfile';
-
-import StepsFunction from '@components/Molecules/Step/Steps.js';
-
 function main() {
   document.body.classList.remove('no-js');
-
-  quantityButton();
-  StepsFunction();
-  ModalFunction();
-  headerButtonProfileFunction();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
