@@ -75,6 +75,11 @@
 				{{ source('assets/images/nothing.svg') }}
 			</div>
 			<h3 class="mt-4 mb-6 h3">{{ 'You have no registered address yet' | trans }}</h3>
+      {% include '@components/Molecules/Button/Button.html.twig' with {
+        text: "Add an address" | trans,
+        classes: "mt-8 w-[340px]",
+        href: path('account_address_new')
+      } %}
 		</div>
 	{% endif %}
 {% endblock %}
