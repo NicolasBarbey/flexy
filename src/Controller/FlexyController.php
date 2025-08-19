@@ -1,19 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Controller\BaseController;
 use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Form\TheliaFormValidator;
-use Symfony\Component\HttpFoundation\Response;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Template\Parser\ParserResolver;
 use Thelia\Core\Template\ParserContext;
-use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateHelperInterface;
 use TwigEngine\Service\SecurityService;
 
@@ -25,17 +36,16 @@ class FlexyController extends BaseController
     protected string $currentRouter = 'router.front';
 
     public function __construct(
-        public SecurityContext           $securityContext,
-        public ParserContext             $parserContext,
-        public TemplateHelperInterface   $templateHelper,
-        public ParserResolver            $parserResolver,
-        public TheliaFormValidator       $theliaFormValidator,
-        public RequestStack              $requestStack,
-        public TranslatorInterface       $translator,
-        public TheliaFormFactory         $theliaFormFactory,
+        public SecurityContext $securityContext,
+        public ParserContext $parserContext,
+        public TemplateHelperInterface $templateHelper,
+        public ParserResolver $parserResolver,
+        public TheliaFormValidator $theliaFormValidator,
+        public RequestStack $requestStack,
+        public TranslatorInterface $translator,
+        public TheliaFormFactory $theliaFormFactory,
         private readonly SecurityService $securityService,
-    )
-    {
+    ) {
     }
 
     public function getControllerType(): string
@@ -60,12 +70,12 @@ class FlexyController extends BaseController
         return new Response($this->renderRaw($templateName, $args), $status);
     }
 
-    protected function renderRaw(string $templateName, array $args = [], $templateDir = null): string
+    protected function renderRaw(string $templateName, array $args = [], ?string $templateDir = null): string
     {
         return $this->getParser()->render($templateName, $args);
     }
 
-    protected function getParser(?string $template = null): ParserInterface
+    protected function getParser(?string $template = null)
     {
         $path = $this->getTemplateHelper()->getActiveFrontTemplate()->getAbsolutePath();
         $parser = $this->parserResolver->getParser($path, $template);

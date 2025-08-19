@@ -16,13 +16,12 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints;
 use Thelia\Core\Translation\Translator;
+use Thelia\Form\BaseForm;
 
-class CustomerInformationsForm extends CustomerRegisterForm
+class CustomerInformationsForm extends BaseForm
 {
     protected function buildForm(): void
     {
-        parent::buildForm();
-
         $this->formBuilder
           ->add('firstname', TextType::class, [
               'constraints' => [
@@ -43,22 +42,9 @@ class CustomerInformationsForm extends CustomerRegisterForm
               ],
           ])
           ->add(
-              'newsletter',
-              CheckboxType::class,
-              [
-                  'label' => Translator::getInstance()->trans('I would like to receive the newsletter or the latest news.'),
-                  'label_attr' => [
-                      'for' => 'newsletter',
-                  ],
-              ]
-          )
-          ->add(
               'accept_privacy_policy',
               CheckboxType::class,
               [
-                  'constraints' => [
-                      new Constraints\NotBlank(),
-                  ],
                   'label' => Translator::getInstance()->trans('By subscribing to our newsletter, you agree to our privacy policy.*'),
                   'label_attr' => [
                       'for' => 'accept_privacy_policy',

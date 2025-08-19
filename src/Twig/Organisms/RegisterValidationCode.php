@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,11 +14,13 @@
 
 namespace FlexyBundle\Twig\Organisms;
 
-use FlexyBundle\Form\Type\CodeType;
+use FlexyBundle\Form\CustomerActivationForm;
+use FlexyBundle\Service\Customer\CustomerCodeProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
@@ -27,26 +31,44 @@ class RegisterValidationCode extends AbstractController
     use DefaultActionTrait;
     public const CODE_CHARSETS_COUNT = 6;
 
+    #[LiveProp]
+    public ?string $email = null;
+
     public ?int $nbChars = 0;
 
-    public function __construct()
+    public function __construct(protected CustomerCodeProcessor $customerCodeProcessor)
     {
+    }
+
+    public function mount(?string $email = null): void
+    {
+        $this->email = $email;
     }
 
     protected function instantiateForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder(null);
-
-        for ($i = 1; $i <= self::CODE_CHARSETS_COUNT; ++$i) {
-            $formBuilder->add($i, CodeType::class);
-        }
-
-        return $formBuilder->getForm();
+        return $this->createForm(CustomerActivationForm::class, [
+            'customer_email' => $this->email,
+        ]);
     }
 
     #[LiveAction]
     public function save(): void
     {
-        dd('form processing');
+        $this->submitForm();
+
+        $form = $this->getForm();
+        try {
+            $this->customerCodeProcessor->activateCustomerByCode(
+                $form->get('customer_email')->getData(),
+                (string) $form->get('activation_code')->getData()
+            );
+            $this->addFlash('success', 'Customer activated successfully.');
+            dd('ok');
+        } catch (\Exception $e) {
+
+            dd($e);
+            $this->addFlash('error', 'Activation failed: '.$e->getMessage());
+        }
     }
 }
