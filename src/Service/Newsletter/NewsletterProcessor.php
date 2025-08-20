@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Service\Newsletter;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\Event\Newsletter\NewsletterEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\Request;
@@ -25,17 +26,21 @@ readonly class NewsletterProcessor
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,
-        private Request $httpRequest,
+        private RequestStack $requestStack,
     ) {
     }
 
     public function subscribeToNewsletter(
         Customer $customer,
     ): void {
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request instanceof Request) {
+            throw new \RuntimeException('Current request is not an instance of Thelia\Core\HttpFoundation\Request');
+        }
         $newsletterEmail = $customer->getEmail();
         $newsletterEvent = (new NewsletterEvent(
             $newsletterEmail,
-            $this->httpRequest->getSession()->getLang()?->getLocale()
+            $request->getSession()->getLang()?->getLocale()
         ))
             ->setFirstname($customer->getFirstname())
             ->setLastname($customer->getLastname());

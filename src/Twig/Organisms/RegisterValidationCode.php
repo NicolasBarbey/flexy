@@ -64,10 +64,8 @@ class RegisterValidationCode extends AbstractController
                 (string) $form->get('activation_code')->getData()
             );
             $this->addFlash('success', 'Customer activated successfully.');
-            dd('ok');
         } catch (\Exception $e) {
 
-            dd($e);
             $this->addFlash('error', 'Activation failed: '.$e->getMessage());
         }
     }
