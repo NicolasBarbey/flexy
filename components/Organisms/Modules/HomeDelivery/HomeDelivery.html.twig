@@ -6,7 +6,12 @@
 
 <div class='HomeDelivery DeliveryModule {% if selected %}selected{% endif %}'>
 	<label class='HomeDelivery-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", value: 'delivery', model:'deliveryMode'} %}
+		{% include '@components/Atoms/Form/Radio.html.twig' with {
+			type:"span", 
+			value: enum('Thelia\\Core\\Enum\\DeliveryMode').DELIVERY.value, 
+			model:'deliveryMode'
+			} 
+		%}
 
 		<span>
 			<div class='flex justify-between'>
