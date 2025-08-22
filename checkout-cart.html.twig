@@ -1,0 +1,16 @@
+{% extends 'checkout-base.html.twig' %}
+
+{% block title %}
+	{{'Cart'|trans}}
+{% endblock %}
+
+
+{% block checkoutContent %}
+	{{ component('Flexy:Checkout:Cart') }}
+{% endblock %}
+
+{%- block checkoutSummary -%}
+	{%- if not emptyCart -%}
+		{{ component('Flexy:Checkout:Summary') }}
+	{%- endif -%}
+{%- endblock -%}

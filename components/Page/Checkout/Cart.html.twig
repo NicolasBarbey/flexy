@@ -6,7 +6,7 @@
 		</div>
 		<div class='flex flex-col gap-4'>
 			{% for item in items %}
-				{{ component('Flexy:Organisms:CartItem', {cartItemId: item.id}) }}
+				{{ component('Flexy:CartItem', {cartItemId: item.id}) }}
 			{% endfor %}
 		</div>
 	{% else %}

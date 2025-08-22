@@ -25,17 +25,21 @@ class FlexyBundle extends AbstractBundle
         $serviceConfigurator = $containerConfigurator->services();
 
         $resourcePath = $this->getResourcePath();
-        if (!is_dir($resourcePath)) {
-            return;
+        if (is_dir($resourcePath)) {
+            $serviceConfigurator->load('FlexyBundle\\', $resourcePath)
+                ->autowire()
+                ->autoconfigure();
         }
-        $serviceConfigurator->load('FlexyBundle\\', $resourcePath)
-          ->autowire()
-          ->autoconfigure();
+
+
+        $serviceConfigurator->load('FlexyBundle\\UiComponents\\', $this->getUiComponentsPath())
+            ->autowire()
+            ->autoconfigure();
     }
-  
+
     public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
     {
-      if (!is_dir($this->getResourcePath())) {
+        if (!is_dir($this->getResourcePath())) {
             return;
         }
         $containerConfigurator->import('../config/packages/*.yaml');
@@ -43,8 +47,10 @@ class FlexyBundle extends AbstractBundle
 
     private function getResourcePath(): string
     {
-        return THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src';
+        return THELIA_TEMPLATE_DIR . TemplateDefinition::FRONT_OFFICE_SUBDIR . DS . ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default') . DS . 'src';
     }
-
-    
+    private function getUiComponentsPath(): string
+    {
+        return THELIA_TEMPLATE_DIR . TemplateDefinition::FRONT_OFFICE_SUBDIR . DS . ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default') . DS . 'src' . DS . 'UiComponents';
+    }
 }

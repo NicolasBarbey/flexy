@@ -45,17 +45,20 @@ class CheckoutController extends FlexyController
     #[Route('', name: 'no_route')]
     public function noRouteAction(): Response
     {
-        return $this->pageNotFound();
+        return $this->generateRedirect('/checkout/cart');
+        // return $this->pageNotFound();
     }
 
     #[Route('/cart', name: 'cart')]
-    public function cartAction(CheckoutService $checkoutService): Response
+    public function cartAction(CheckoutService $checkoutService, CartService $cartService): Response
     {
         $checkoutService->resetCheckout();
 
-        return $this->render('checkout', [
-            'page' => self::STEP_CART,
-            'current' => self::STEPS[self::STEP_CART],
+        $cartItems = $cartService->getCart()?->getCartItems();
+
+
+        return $this->render('checkout-cart', [
+            'emptyCart' => null === $cartItems || count($cartItems) <= 0
         ]);
     }
 
@@ -98,7 +101,7 @@ class CheckoutController extends FlexyController
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (MissingAddressException|InvalidDeliveryException $e) {
+        } catch (MissingAddressException | InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
         } catch (\Exception $e) {
             Tlog::getInstance()->error(\sprintf('Failed to set payment part : %s', $e->getMessage()));

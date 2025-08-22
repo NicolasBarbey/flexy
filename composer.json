@@ -31,8 +31,7 @@
   },
   "autoload": {
     "psr-4": {
-      "FlexyBundle\\": "src/",
-      "FlexyBundle\\Twig\\": "src/Twig/"
+      "FlexyBundle\\": "src/"
     }
   },
   "extra": {

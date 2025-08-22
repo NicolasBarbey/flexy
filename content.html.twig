@@ -18,7 +18,7 @@
 			<div>
 				{{ attr('content', 'description') }}
 			</div>
-			{{ component('Flexy:Components:Blocks', {item_type: 'content', item_id: attr('content', 'id')}) }}
+			{{ component('Flexy:Blocks', {item_type: 'content', item_id: attr('content', 'id')}) }}
 			{% if ps %}
 				<small>{{ ps }}</small>
 			{% endif %}

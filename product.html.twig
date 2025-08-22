@@ -22,7 +22,7 @@
 		</div>
 		<div class="container">
 			<div class="ProductPage-grid">
-				{{ component('Flexy:Page:Product', {product}) }}
+				{{ component('Flexy:Pages:Product', {product}) }}
 
 				<section id="description" class="ProductPage-description">
 
@@ -60,10 +60,10 @@
 			</div>
 		</div>
 		<div class="container mx-auto">
-			{{ component('Flexy:Components:Blocks', {item_type: 'product', item_id: product.id}) }}
+			{{ component('Flexy:Blocks', {item_type: 'product', item_id: product.id}) }}
 		</div>
 		<div class="bg-theme-lighter mt-[50px]">
-			{{ component('Flexy:Layout:CrossSelling',{categoryId:productCategory.id,title:'Last seen products'|trans}) }}
+			{{ component('Flexy:CrossSelling',{categoryId:productCategory.id,title:'Last seen products'|trans}) }}
 		</div>
 		{% include '@components/Layout/Reinsurance/Reinsurance.html.twig' with { data: [
       {
@@ -89,6 +89,6 @@
       }
     ] } %}
 	</div>
-	{{ component('Flexy:Organisms:AddToCartToast') }}
+	{{ component('Flexy:AddToCartToast') }}
 
 {% endblock %}

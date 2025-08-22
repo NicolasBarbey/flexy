@@ -1,0 +1,29 @@
+{% set img = {url: '/legacy-image-library/product_image_'~ imageId ~'/full/%5E*!386,280/0/default.webp', alt: title} %}
+
+<div class="CartItemsDelete">
+    <div class="CartItemDelete">
+        <button class="CartItemDelete-iconClose">{{ ux_icon("close") }}</button>
+        <div class="CartItemDelete-mainContent">
+            <figure class="CartItemDelete-img">
+                <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
+            </figure>
+            <div class="CartItemDelete-desc">
+                <div class="CartItemDelete-message">
+                {{ title }}
+                {{ 'has been removed from your cart.' |trans }}
+                </div>
+
+                <button 
+                    {{live_action('addCartItem', {
+                        pseId: pseId, 
+                        productId: productId,
+                        quantity: quantity
+                    })}}
+                >
+                {{'Restore'|trans}}
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</div>	

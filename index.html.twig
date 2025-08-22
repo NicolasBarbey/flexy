@@ -4,16 +4,18 @@
 
 {% block body %}
 
+
+
 	{{ component('HeaderHighlights') }}
 
-	{{ component('Flexy:Layout:CrossSelling', {categoryId: 1, title: 'Last seen products' | trans}) }}
+	{{ component('Flexy:CrossSelling', {categoryId: 1, title: 'Last seen products' | trans}) }}
 
 
 	<div class="bg-theme-lighter">
-		{{ component('Flexy:Layout:CrossSelling', {categoryId: 2, title: 'Popular products' | trans}) }}
+		{{ component('Flexy:CrossSelling', {categoryId: 2, title: 'Popular products' | trans}) }}
 	</div>
 	<div class="bg-theme-lightest">
-		{{ component('Flexy:Layout:CrossSelling', {categoryId: 3, title: 'Promotions' | trans}) }}
+		{{ component('Flexy:CrossSelling', {categoryId: 3, title: 'Promotions' | trans}) }}
 	</div>
 	{{ component('Flexy:ProductCategory', {title: 'Our product categories' | trans})   }}
 
@@ -32,7 +34,7 @@
 	</div>
 
 	<div class="bg-theme-lighter">
-		{{ component('Flexy:Layout:SimilarContent', {title: 'Our news' | trans, button: {label: "See all news" | trans, href: "#"}}) }}
+		{{ component('Flexy:SimilarContent', {title: 'Our news' | trans, button: {label: "See all news" | trans, href: "#"}}) }}
 	</div>
 
 {% endblock %}

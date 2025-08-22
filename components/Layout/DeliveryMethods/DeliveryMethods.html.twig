@@ -28,7 +28,7 @@
             } %}
         {% endif %}
         {% if deliveryModules.hasDelivery %}
-            {% include '@components/Organisms/Modules/HomeDelivery/HomeDelivery.html.twig' with {
+            {% include '@UiComponents/HomeDelivery/HomeDelivery.html.twig' with {
                 title: 'Home Delivery'|trans,
                 selected : deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').DELIVERY.value
             } %}

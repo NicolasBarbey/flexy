@@ -1,0 +1,49 @@
+<div class="my-5" {{attributes}}>
+	{% set invoiceAddress = addresses|find(a => a.id == invoiceAddressId) %}
+
+	<h2 class="mb-4 font-bold text-black paragraph-1">{{"Billing address"|trans}}</h2>
+	<div class="HomeDelivery p-[30px]">
+		<div class="flex flex-col">
+			{% if switchView %}
+				{% set addressId = create ? null : update %}
+				{% set key =  create ? 'create' : 'update_' ~ update %}
+				<div class={{ (update or create) ? '' : 'hidden' }}>
+					{{ component('Flexy:HomeDelivery:AddressesForm', {addressId, key }) }}
+				</div>
+				<div class={{ (update or create) ? 'hidden' : '' }}>
+					{% if addresses|length <= 0 %}
+						<div class="flex flex-col items-start">
+							<span class="HomeDelivery-noAddress">
+								{{ 'You have no registered address' |trans }}:
+							</span>
+
+							{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Add an address'|trans, classes:'mt-4'} %}
+						</div>
+					{% else %}
+						<div>
+							<ul class='flex flex-col gap-2'>
+								{% for address in addresses %}
+									<li>
+										{% include '@components/Organisms/Card/Address/AddressCardCheckout.html.twig' with { address, selected:invoiceAddressId == address.id , isDefault:address.isDefault,model: 'invoiceAddressId'  } %}
+									</li>
+								{% endfor %}
+							</ul>
+
+							<div class='flex flex-col gap-2 mt-4 lg:flex-row lg:items-center'>
+								{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Choose this address'|trans, classes:'Button--fill lg:w-1/2', disabled : not invoiceAddressId ,liveAction: 'switchAddress'} %}
+								{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Use another address'|trans, classes:'Button--secondary lg:w-1/2', liveAction: 'newAddress'} %}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			{% else %}
+				<span class='HomeDelivery-title'>{{invoiceAddress.label}}</span>
+				<span class="block mb-[20px]">
+					{{[invoiceAddress.firstname~' '~invoiceAddress.lastname, invoiceAddress.address1, invoiceAddress.address2,invoiceAddress.address3,invoiceAddress.zipcode~' '~invoiceAddress.city,invoiceAddress.phone ]|filter(f =>f)|join(', ')}}
+				</span>
+				{% include "@components/Molecules/Button/Button.html.twig" with {type:"button", text: "Edit the address"|trans, variant: 'secondary', size: "large", liveAction: 'switchAddress', classes: 'self-end' } %}
+			{% endif %}
+
+		</div>
+	</div>
+</div>
