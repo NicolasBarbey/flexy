@@ -62,10 +62,9 @@ class CustomerController extends FlexyController
     public function loginAction(
         EventDispatcherInterface $eventDispatcher,
         CustomerLoginProcessor $customerLoginProcessor,
-    ): ?Response
-    {
+    ): ?Response {
         if ($this->getSecurityContext()->hasCustomerUser()) {
-            return $this->generateRedirectFromRoute('index');
+            return $this->generateRedirect('/');
         }
 
         $request = $this->getRequest();
@@ -184,8 +183,8 @@ class CustomerController extends FlexyController
         $form->setErrorMessage($message);
 
         $this->parserContext
-          ->addForm($form)
-          ->setGeneralError($message);
+            ->addForm($form)
+            ->setGeneralError($message);
 
         if ($form->hasErrorUrl()) {
             return $this->generateErrorRedirect($form);
@@ -257,8 +256,8 @@ class CustomerController extends FlexyController
         $form->setErrorMessage($message);
 
         $this->getParserContext()
-          ->addForm($form)
-          ->setGeneralError($message);
+            ->addForm($form)
+            ->setGeneralError($message);
 
         if ($form->hasErrorUrl()) {
             return $this->generateErrorRedirect($form);

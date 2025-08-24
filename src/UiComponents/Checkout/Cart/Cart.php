@@ -16,6 +16,7 @@ namespace FlexyBundle\UiComponents\Checkout\Cart;
 
 use FlexyBundle\Service\ProductSaleElementsService;
 use FlexyBundle\UiComponents\Checkout\CartManipulationTrait;
+use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -64,13 +65,13 @@ class Cart
             $this->pendingDelete = null;
         }
 
-        $this->emit(self::ADD_ITEM_EVENT, [
+        $this->emit(CheckoutEvents::ADD_ITEM_EVENT, [
             'pseId' => $pseId,
         ]);
     }
 
 
-    #[LiveListener(self::DELETE_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     public function appendDeleted(#[LiveArg()] int $id): void
     {
         $sessionCart = $this->cartService->getCart();
@@ -119,7 +120,7 @@ class Cart
         $this->cartService->changeItem($id, $quantity);
 
 
-        $this->emit(self::UPDATE_ITEM_QUANTITY_EVENT, [
+        $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT, [
             'id' => $id,
             'quantity' => $quantity
         ]);
@@ -131,7 +132,7 @@ class Cart
         if (!$id) {
             return;
         }
-        $this->emit(self::DELETE_ITEM_EVENT, [
+        $this->emit(CheckoutEvents::DELETE_ITEM_EVENT, [
             'id' => $id,
         ]);
     }

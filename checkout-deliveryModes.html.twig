@@ -1,12 +1,21 @@
 {% extends 'checkout-base.html.twig' %}
 
 {% block title %}
-	{{'Cart'|trans}}
+	{{'Delivery Modes'|trans}}
 {% endblock %}
 
 
 {% block checkoutContent %}
-	{{ component('Flexy:Checkout:Cart') }}
+	{{ component('Flexy:Checkout:DeliveryModes') }}
+{% endblock %}
+
+{% block checkoutBackButton %}
+	{% include "@components/Molecules/Link/Link.html.twig" with {
+		iconLeft: 'chevron-left',
+		customText: 'Previous Step' | trans,
+		href: path('checkout_cart'),
+		classes:'gap-2'
+	} %}
 {% endblock %}
 
 {%- block checkoutSummary -%}
@@ -20,7 +29,7 @@
 		include '@components/Molecules/Button/Button.html.twig' with 
 		{
 			text: 'Order'|trans, 
-			href: path('checkout_delivery_modes'), 
+			href: path('checkout_delivery'), 
 			classes:'md:Button--unfill Button--fill'
 		} only
 	-%}

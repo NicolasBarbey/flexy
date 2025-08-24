@@ -1,0 +1,14 @@
+
+<{{type}} {{attributes.defaults({class: 'Radio ' ~ (hasError ? 'error' : '') })}}> 
+    <input 
+        type="radio" 
+        name="{{name}}"
+        id="{{id}}"
+        value="{{value}}"
+		{% if disabled %} disabled {% endif %} 
+		{% if checked %} checked {% endif %}         
+        {{ attributes.nested('input') }}  
+    />
+    <span class="checkmark"></span>
+	<span>{{ label }}</span>
+</type>

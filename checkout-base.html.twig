@@ -28,6 +28,7 @@
         <div class='col-span-12 Checkout-main{% if useSidebar %} md:col-span-7 {% else %} margin-auto{% endif %}'>
             <div class="Checkout-main-container">
             {% block checkoutContent %}{% endblock %}
+            {% block checkoutBackButton %}{% endblock %}
             </div>
         </div>
 
@@ -36,6 +37,12 @@
                 <div class='Checkout-sidebar-container'>
                     <h2 class='text-black h3'>{{ 'Summary'|trans }}</h2>
                     {% block checkoutSummary %}{% endblock %}
+
+                    {% if block('checkoutNextButton') is defined %}
+                        <div class='mt-[30px]'>
+                        {% block checkoutNextButton %}{% endblock %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}

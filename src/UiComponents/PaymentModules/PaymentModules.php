@@ -23,7 +23,7 @@ use Thelia\Service\Model\AddressService;
 use Thelia\Service\Model\CartService;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: "Flexy:CartItem", template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
+#[AsLiveComponent(name: "Flexy:PaymentModules", template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
 class PaymentModules extends BaseFrontController
 {
     use ComponentToolsTrait;

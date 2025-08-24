@@ -1,0 +1,57 @@
+<?php
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\StoreDelivery;
+
+use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryMode;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use TwigEngine\Service\DataAccess\AttributeAccessService;
+
+#[AsTwigComponent(name: "Flexy:Checkout:DeliveryModes:StoreDelivery", template: '@UiComponents/Checkout/DeliveryModes/StoreDelivery/StoreDelivery.html.twig')]
+class StoreDelivery extends DeliveryMode
+{
+
+    public string $type = "StoreDelivery";
+    public bool $closed = false;
+
+
+
+    public function __construct(private AttributeAccessService $attributeAccessService) {}
+
+    public function getAddress()
+    {
+
+        return [
+            'address1' => $this->attributeAccessService->attributeConfig('store_address1'),
+            'address2' => $this->attributeAccessService->attributeConfig('store_address2'),
+            'address3' => $this->attributeAccessService->attributeConfig('store_address3'),
+            'zipCode' => $this->attributeAccessService->attributeConfig('store_zipcode'),
+            'city' => $this->attributeAccessService->attributeConfig('store_city'),
+        ];
+    }
+    public function getHours()
+    {
+
+        return [
+            [
+                'day' => 'Lundi (fake)',
+                'hours' => '14h - 19h'
+            ],
+            [
+                'day' => 'Mardi (fake)',
+                'hours' => '14h - 19h'
+            ]
+        ];
+    }
+}

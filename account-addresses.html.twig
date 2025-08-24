@@ -13,12 +13,12 @@
 
 	<div class="relative">
 		{% include "@components/Molecules/Button/Button.html.twig" with {
-      text: 'My account' | trans,
-      href: '/account',
-      variant: 'minimal',
-      icon_left: 'chevron-left',
-      classes: 'absolute top-2 lg:top-6 lg:left-5',
-    } %}
+			text: 'My account' | trans,
+			href: '/account',
+			variant: 'minimal',
+			icon_left: 'chevron-left',
+			classes: 'absolute top-2 lg:top-6 lg:left-5',
+		} %}
 
 		{% include '@components/Layout/Subheader/TitleOnly/SubheaderTitle.html.twig' with {title: "My addresses" | trans, position: "centered" } %}
 	</div>
@@ -53,21 +53,20 @@
 				{% for address in addresses %}
 					{% set country = resources('/api/front/countries/'~address.country.id) %}
 					<li>
-						{% include '@components/Organisms/Card/Address/AddressCard.html.twig' with {
-              address: address|merge({
-                country
-              }),
-              classes: 'h-full'
-            } %}
+					 {{ component('Flexy:AddressCard', {
+						addressId: address.id,
+						class: 'h-full',
+						withModal: true
+					 }) }}
 					</li>
 				{% endfor %}
 			</ul>
 
 			{% include '@components/Molecules/Button/Button.html.twig' with {
-        text: "Add an address" | trans,
-        classes: "mt-8 w-[340px]",
-        href: path('account_address_new')
-      } %}
+				text: "Add an address" | trans,
+				classes: "mt-8 w-[340px]",
+				href: path('account_address_new')
+			} %}
 		</div>
 	{% else %}
 		<div class="flex flex-col items-center justify-center mb-20 text-center mt-11 lg:mt-12">
@@ -75,11 +74,11 @@
 				{{ source('assets/images/nothing.svg') }}
 			</div>
 			<h3 class="mt-4 mb-6 h3">{{ 'You have no registered address yet' | trans }}</h3>
-      {% include '@components/Molecules/Button/Button.html.twig' with {
-        text: "Add an address" | trans,
-        classes: "mt-8 w-[340px]",
-        href: path('account_address_new')
-      } %}
+			{% include '@components/Molecules/Button/Button.html.twig' with {
+				text: "Add an address" | trans,
+				classes: "mt-8 w-[340px]",
+				href: path('account_address_new')
+			} %}
 		</div>
 	{% endif %}
 {% endblock %}
@@ -111,7 +110,7 @@
 	{% endset %}
 
 	{% include '@components/Molecules/Modal/Modal.html.twig' with {
-    name: 'confirmDefaultAdress',
-    content: setDefaultModalContent
-  } %}
+		name: 'confirmDefaultAdress',
+		content: setDefaultModalContent
+	} %}
 {% endblock %}

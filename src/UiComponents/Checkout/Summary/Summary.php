@@ -4,6 +4,7 @@ namespace FlexyBundle\UiComponents\Checkout\Summary;
 
 use FlexyBundle\UiComponents\Checkout\Cart\Cart;
 use FlexyBundle\UiComponents\Checkout\CartManipulationTrait;
+use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
@@ -19,8 +20,9 @@ class Summary
 
     public function __construct() {}
 
-    #[LiveListener(Cart::DELETE_ITEM_EVENT)]
-    #[LiveListener(Cart::UPDATE_ITEM_QUANTITY_EVENT)]
-    #[LiveListener(Cart::ADD_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT)]
+    #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
     public function syncCart(): void {}
 }

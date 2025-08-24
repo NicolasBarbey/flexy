@@ -39,9 +39,7 @@ trait CartManipulationTrait
         $this->attributeAccessService = $this->attributeAccessService ?: $attributeAccessService;
     }
 
-    public const UPDATE_ITEM_QUANTITY_EVENT = 'UPDATE_ITEM_QUANTITY_EVENT';
-    public const ADD_ITEM_EVENT = 'CART_ADD_ITEM_EVENT';
-    public const DELETE_ITEM_EVENT = 'CART_DELETE_ITEM_EVENT';
+
 
     public function getCart()
     {

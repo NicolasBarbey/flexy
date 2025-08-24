@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\UiComponents\HomeDelivery\AddressesForm;
+namespace FlexyBundle\UiComponents\AddressesForm;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -26,7 +26,7 @@ use Thelia\Model\AddressQuery;
 use Thelia\Service\Model\AddressService;
 use TwigEngine\Service\FormService;
 
-#[AsLiveComponent(name: "Flexy:HomeDelivery:AddressesForm", template: '@UiComponents/HomeDelivery/AddressesForm.html.twig')]
+#[AsLiveComponent(name: "Flexy:AddressesForm", template: '@UiComponents/AddressesForm/AddressesForm.html.twig')]
 class AddressesForm extends BaseFrontController
 {
   use ComponentToolsTrait;

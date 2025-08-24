@@ -1,7 +1,13 @@
-.HomeDelivery {
+.DeliveryMode {
   background: var(--theme-lightest);
   border: 1px solid var(--theme-lightest);
   border-radius: rem-convert(8px);
+
+  &.checked {
+    background: var(--theme-lighter);
+    border: 1px solid var(--theme-medium);
+  }
+
   label {
     cursor: pointer;
   }
@@ -19,13 +25,10 @@
     color: var(--grey);
   }
 
-  &-noAddress {
-    @apply paragraph-2;
+  &-price {
+    @apply paragraph-4;
+    font-weight: 600;
     color: var(--black);
-    font-weight: 700;
-    @screen md {
-      @apply paragraph-1;
-    }
   }
 
   &-content {
@@ -49,23 +52,4 @@
       }
     }
   }
-
-  &-bottom {
-    padding: 1rem 2.5rem;
-    @apply paragraph-4 py-4 px-5 lg:px-10;
-    font-weight: 600;
-    border-radius: 0 0 rem-convert(8px) rem-convert(8px);
-    justify-content: space-between;
-    align-items: center;
-    display: none;
-  }
-
-  &.selected {
-    background: var(--theme-lighter);
-    border: 1px solid var(--theme-medium);
-    .HomeDelivery-bottom {
-      display: flex;
-    }
-  }
-
 }

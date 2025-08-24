@@ -58,10 +58,30 @@ class CheckoutController extends FlexyController
 
 
         return $this->render('checkout-cart', [
-            'emptyCart' => null === $cartItems || count($cartItems) <= 0
+            'emptyCart' => null === $cartItems || count($cartItems) <= 0,
+            'current' => self::STEPS[self::STEP_CART],
         ]);
     }
 
+    #[Route('/delivery-modes', name: 'delivery_modes')]
+    public function deliveryModesAction(CartService $cartService, DeliveryService $deliveryService): Response
+    {
+        $this->checkAuth();
+        try {
+            $cartService->checkCartNotEmpty();
+
+            $cart = $cartService->getCart();
+            if ($cart->isVirtual()) {
+                $deliveryService->setupVirtualDelivery();
+            }
+
+            return $this->render('checkout-deliveryModes', [
+                'current' => self::STEPS[self::STEP_DELIVERY],
+            ]);
+        } catch (EmptyCartException $e) {
+            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
+        }
+    }
     #[Route('/delivery', name: 'delivery')]
     public function deliveryAction(CartService $cartService, DeliveryService $deliveryService): Response
     {
@@ -74,7 +94,7 @@ class CheckoutController extends FlexyController
                 $deliveryService->setupVirtualDelivery();
             }
 
-            return $this->render('checkout', [
+            return $this->render('checkout-delivery', [
                 'page' => self::STEP_DELIVERY,
                 'current' => self::STEPS[self::STEP_DELIVERY],
             ]);
