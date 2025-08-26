@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\RegisterValidationCode;
 
 use FlexyBundle\Form\CustomerActivationForm;
-use FlexyBundle\Service\Customer\CustomerCodeProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -23,6 +22,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Domain\Customer\Registration\CustomerCodeManager;
 
 #[AsLiveComponent(name: "Flexy:RegisterValidationCode", template: '@UiComponents/RegisterValidationCode/RegisterValidationCode.html.twig')]
 class RegisterValidationCode extends AbstractController
@@ -36,7 +36,7 @@ class RegisterValidationCode extends AbstractController
 
     public ?int $nbChars = 0;
 
-    public function __construct(protected CustomerCodeProcessor $customerCodeProcessor) {}
+    public function __construct(protected CustomerCodeManager $customerCodeProcessor) {}
 
     public function mount(?string $email = null): void
     {

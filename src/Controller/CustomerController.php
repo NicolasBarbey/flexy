@@ -16,10 +16,6 @@ namespace FlexyBundle\Controller;
 
 use FlexyBundle\Form\CustomerInformationsForm;
 use FlexyBundle\Form\CustomerRegisterForm;
-use FlexyBundle\Service\Customer\CustomerCodeProcessor;
-use FlexyBundle\Service\Customer\CustomerLoginProcessor;
-use FlexyBundle\Service\Customer\CustomerRegistrationProcessor;
-use FlexyBundle\Service\Newsletter\NewsletterProcessor;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,6 +28,10 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
+use Thelia\Domain\Customer\CustomerLoginProcessor;
+use Thelia\Domain\Customer\Registration\CustomerCodeManager;
+use Thelia\Domain\Customer\Registration\CustomerRegistrationService;
+use Thelia\Domain\Marketing\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
@@ -157,8 +157,8 @@ class CustomerController extends FlexyController
 
     #[Route('/register', name: 'register_create', methods: ['POST'])]
     public function registerCreate(
-        CustomerRegistrationProcessor $customerRegistrationProcessor,
-        SessionInterface $session,
+        CustomerRegistrationService $customerRegistrationProcessor,
+        SessionInterface            $session,
     ): RedirectResponse {
         $form = $this->createForm(CustomerRegisterForm::class);
 
@@ -219,9 +219,9 @@ class CustomerController extends FlexyController
 
     #[Route('/informations', name: 'informations_create', methods: ['POST'])]
     public function informationsCreate(
-        CustomerCodeProcessor $customerCodeProcessor,
-        SessionInterface $session,
-        NewsletterProcessor $newsletterProcessor,
+        CustomerCodeManager  $customerCodeProcessor,
+        SessionInterface     $session,
+        NewsletterSubscriber $newsletterProcessor,
     ): RedirectResponse {
         $form = $this->createForm(CustomerInformationsForm::class);
 
@@ -235,7 +235,7 @@ class CustomerController extends FlexyController
             }
 
             if ($formValidated->get('accept_privacy_policy')->getData()) {
-                $newsletterProcessor->subscribeToNewsletter($customer);
+                $newsletterProcessor->subscribe($customer);
             }
 
             $customer
@@ -298,8 +298,8 @@ class CustomerController extends FlexyController
      */
     #[Route('/send-code/{email}', name: 'send_code', methods: ['GET'])]
     public function sendCode(
-        string $email,
-        CustomerCodeProcessor $customerCodeProcessor,
+        string              $email,
+        CustomerCodeManager $customerCodeProcessor,
     ): Response {
         $customer = CustomerQuery::create()->findOneByEmail($email);
         if (!$customer instanceof Customer) {
