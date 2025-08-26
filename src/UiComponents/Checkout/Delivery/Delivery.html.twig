@@ -5,7 +5,7 @@
         {% if this.deliveryModulesOptions is defined and not empty %}
 
             {% for option in this.deliveryModulesOptions %}
-                {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').DELIVERY.value %}
+                {% if option.deliveryMode == enum('Thelia\\Domain\\Checkout\\Enum\\DeliveryMode').DELIVERY.value %}
                     {{ component('Flexy:Checkout:Delivery:HomeDelivery', {
                         title: option.title,
                         date: "TODO BACK",
@@ -16,7 +16,7 @@
                         type: 'HomeDelivery'
                     }) }}
                 {% endif %}
-                {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').LOCAL_PICKUP.value %}
+                {% if option.deliveryMode == enum('Thelia\\Domain\\Checkout\\Enum\\DeliveryMode').LOCAL_PICKUP.value %}
                     {{ component('Flexy:Checkout:Delivery:StoreDelivery', {
                         title: option.title,
                         date: "TODO BACK",
