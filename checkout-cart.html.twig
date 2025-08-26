@@ -16,12 +16,10 @@
 {%- endblock -%}
 
 {%- block checkoutNextButton -%}
-	{%- 
-		include '@components/Molecules/Button/Button.html.twig' with 
-		{
-			text: 'Order'|trans, 
+	{%- if not emptyCart -%}
+		{{ component('Flexy:Checkout:NextButton', {
 			href: path('checkout_delivery_modes'), 
-			classes:'md:Button--unfill Button--fill'
-		} only
-	-%}
+			step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::CART')
+		}) }}
+	{%- endif -%}
 {%- endblock -%}

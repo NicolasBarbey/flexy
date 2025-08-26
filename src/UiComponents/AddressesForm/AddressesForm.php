@@ -12,6 +12,7 @@
 
 namespace FlexyBundle\UiComponents\AddressesForm;
 
+use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -67,15 +68,14 @@ class AddressesForm extends BaseFrontController
   public function save(): void
   {
     $this->checkAuth();
-    // Submit the form! If validation fails, an exception is thrown
-    // and the component is automatically re-rendered with the errors
+
     $this->submitForm();
     if (!$this->getForm()->isValid()) {
       return;
     }
     try {
       $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
-      $this->emitUp('homeDeliveryAddresses:refresh');
+      $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
     } catch (\Exception $e) {
       Tlog::getInstance()->error(sprintf('Error during address creation process : %s', $e->getMessage()));
     }

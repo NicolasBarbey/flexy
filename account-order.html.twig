@@ -7,13 +7,15 @@
 {% block body %}
 	{% set order = resources('/api/front/account/orders/'~ orderId ) %}
 	<main>
-		{% include "@components/Molecules/Button/Button.html.twig" with {
+
+    {{ component('Flexy:Button', {
       text: 'My orders' | trans,
       href: '/account/orders',
-      variant: 'minimal',
+      color: 'minimal',
       icon_left: 'chevron-left',
-      classes: 'mt-2 lg:mt-6 lg:ml-5',
-    } %}
+      class: 'mt-2 lg:mt-6 lg:ml-5',
+    })}}  
+
 		<div class="lg:w-[540px] mx-6 lg:mx-auto mt-8 lg:mt-4 mb-[56px] md:mb-[94px]">
 			<div class='text-black h3'>{{ 'Order N°' | trans }}
 				{{ order.ref }}</div>

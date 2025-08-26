@@ -25,21 +25,12 @@ use Thelia\Tools\URL;
 
 class ModuleService
 {
-  public function __construct(protected readonly ContainerInterface $container, protected readonly Session $session)
-  {
-  }
+  public function __construct(protected readonly ContainerInterface $container, protected readonly Session $session) {}
 
   public function getModuleLogoUrl(Module $module, $region = 'full', $size = '%5E*!40,40')
   {
     $imageId = $module->getModuleImages()->getFirst()?->getId();
 
     return URL::getInstance()->absoluteUrl('legacy-image-library' . DS . 'module_image_' . $imageId . DS . $region . DS . $size . DS . '0' . DS . 'default.webp');
-  }
-
-  public function getDeliveryModuleList(): array
-  {
-    $modules = $this->getModuleList(moduleType: BaseModule::DELIVERY_MODULE_TYPE);
-
-    return $this->getModuleDeliveryByModes($modules);
   }
 }

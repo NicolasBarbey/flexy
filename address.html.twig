@@ -6,13 +6,14 @@
 
 {% block body %}
 	<main>
-		{% include "@components/Molecules/Button/Button.html.twig" with {
-      text: 'My delivery addresses' | trans,
-      href: path('account_addresses'),
-      variant: 'minimal',
-      icon_left: 'chevron-left',
-      classes: 'mt-2 lg:mt-6 lg:ml-5',
-    } %}
+		{{ component('Flexy:Button', {
+			text: 'My delivery addresses' | trans,
+			href: path('account_addresses'),
+			color: 'minimal',
+			icon_left: 'chevron-left',
+			class: 'mt-2 lg:mt-6 lg:ml-5',
+		})}} 
+
 		<div class="lg:w-[400px] mx-6 lg:mx-auto mt-4 lg:mt-8 lg:mt-120 mb-20">
 			<div class='text-black h3 mb-6 lg:mb-[44px]'>{{'New Address' | trans}}</div>
 
@@ -29,7 +30,11 @@
 			{{form_rest(form)}}
 			{{ form_errors(form) }}
 			<div class="flex justify-center mt-4">
-				{% include "@components/Molecules/Button/Button.html.twig" with {text: 'Create address' | trans, classes: 'Button--large lg:w-full', type: 'submit' } %}
+				{{ component('Flexy:Button', {
+					text: 'Create address' | trans,
+					class: 'Button--large lg:w-full', 
+					type: 'submit' 
+				})}} 					
 			</div>
 			{{ form_end(form) }}
 		</div>

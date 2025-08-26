@@ -1,43 +1,37 @@
 <div {{attributes}}>
-
-{{dump(this.deliveryModulesOptions, this.selectedModule)}}
     <h1 class='text-black  h4'>{{ 'Choose a delivery method'|trans }}</h1>
-    <div>
-        <div class='flex flex-col gap-3.5 my-5'>
-            {% if this.deliveryModulesOptions is defined and not empty %}
 
-    			{% for option in this.deliveryModulesOptions %}
-                    {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').DELIVERY.value %}
-                        {{ component('Flexy:Checkout:DeliveryModes:HomeDelivery', {
-                            title: option.title,
-                            date: "TODO BACK",
-                            price: option.postage,
-                            optionCode: option.code,
-                            moduleId: option.moduleId,
-                            checked : option.moduleId is defined and this.selectedModule == option.moduleId,
-                            icon: 'reinsurance-homedelivery',
-                            type: 'HomeDelivery'
-                        }) }}
-                    {% endif %}
-                    {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').LOCAL_PICKUP.value %}
-                        {{ component('Flexy:Checkout:DeliveryModes:StoreDelivery', {
-                            title: option.title,
-                            date: "TODO BACK",
-                            price: option.postage,
-                            optionCode: option.code,
-                            moduleId: option.moduleId,
-                            checked : option.moduleId is defined and this.selectedModule == option.moduleId,
-                            icon: 'reinsurance-store'
-                        }) }}
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-warning">
-                    {{ "No delivery method is available for this order."|trans }}
-                </div>
-            {% endif %}
-        </div>
+    <div class='flex flex-col gap-3.5 my-5'>
+        {% if this.deliveryModulesOptions is defined and not empty %}
 
+            {% for option in this.deliveryModulesOptions %}
+                {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').DELIVERY.value %}
+                    {{ component('Flexy:Checkout:DeliveryModes:HomeDelivery', {
+                        title: option.title,
+                        date: "TODO BACK",
+                        price: option.postage,
+                        optionCode: option.code,
+                        moduleId: option.moduleId,
+                        icon: 'reinsurance-homedelivery',
+                        type: 'HomeDelivery'
+                    }) }}
+                {% endif %}
+                {% if option.deliveryMode == enum('Thelia\\Core\\Enum\\DeliveryMode').LOCAL_PICKUP.value %}
+                    {{ component('Flexy:Checkout:DeliveryModes:StoreDelivery', {
+                        title: option.title,
+                        date: "TODO BACK",
+                        price: option.postage,
+                        optionCode: option.code,
+                        moduleId: option.moduleId,
+                        icon: 'reinsurance-store'
+                    }) }}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning">
+                {{ "No delivery method is available for this order."|trans }}
+            </div>
+        {% endif %}
     </div>
 
 </div>

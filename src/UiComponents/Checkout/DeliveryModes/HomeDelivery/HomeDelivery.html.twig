@@ -1,60 +1,98 @@
 {% extends '@UiComponents/Checkout/DeliveryModes/DeliveryMode/DeliveryMode.html.twig' %}
 
 {% block footer %}
-<div class='flex-1' {{ attributes }}>
-	{% set addressId = create ? null : update %}
-	{% set key =  create ? 'create' : 'update_' ~ update %}
-	<div class={{ (update or create) ? '' : 'hidden' }}>
-		{# component('Flexy:AddressesForm', {addressId:addressId, key: key }) #}
-	</div>
-	<div class={{ (update or create) ? 'hidden' : '' }}>
-		{% if addresses|length <= 0 %}
-			<div class="flex flex-col items-start">
-				<span class="HomeDelivery-noAddress">
-					{{ 'You have no registered address' |trans }}:
-				</span>
+	<div class="flex-1">
+	{% if this.checked and this.showNewAddressForm %}
+		<div>			
+			{% component('Flexy:AddressesForm') %}
+			 	{% block footer %}
+				
+					{{ component('Flexy:Button', {
+						type: 'button',
+						color: 'secondary',
+						text: 'Cancel' | trans,
+						'data-action': 'live#emitUp',
+						'data-live-event-param': 'cancelAddressForm'
+					})}} 
 
-				{% include '@components/Molecules/Button/Button.html.twig' with {
-					text: 'Add an address'|trans, 
-					classes:'mt-4'} 
-				%}
-			</div>
-		{% else %}
-			<div>
-				<ul class='flex flex-col gap-2'>
-					{% for address in addresses %}
-						<li>
-							{{ component('Flexy:Checkout:AddressCardCheckout', {addressId:address.id, key: key }) }}
+					{{ component('Flexy:Button', {
+						type: 'submit',
+						text: 'Save the address' | trans,
+					})}} 
 
-							{% if deliveryAddressId == address.id %}
-								<div class='my-4'>
-									{% include '@components/Atoms/Form/Checkbox.html.twig' with { 
-										label: "Use this address for billing"|trans, 
-										checked : invoiceAddressId == address.id,
-										value: address.id, 
-										model: "invoiceAddressId" } 
-									%}
-								</div>
-							{% endif %}
-						</li>
-					{% endfor %}
-				</ul>
+				{% endblock %}
+			{% endcomponent  %}
+		</div>
+	{% elseif this.checked  and this.editingAddressId %}
+		<div>	
+		oi		
+			{% component('Flexy:AddressesForm') with {addressId: this.editingAddressId} %}
+			 	{% block footer %}
 
-				<div class='flex flex-col gap-2 mt-4 lg:flex-row lg:items-center'>
-					{% include '@components/Molecules/Button/Button.html.twig' with {
-						text: 'Choose this address'|trans, 
-						classes:'Button--fill lg:w-1/2', 
-						disabled : not deliveryAddressId ,
-						liveEvent: 'showDeliveryModuleView'} 
-					%}
-					{% include '@components/Molecules/Button/Button.html.twig' with {
-						text: 'Use another address'|trans, 
-						classes:'Button--secondary lg:w-1/2', 
-						liveAction: 'newAddress'} 
-					%}
+					{{ component('Flexy:Button', {
+						type: 'button',
+						color: 'secondary',
+						text: 'Cancel' | trans,
+						'data-action': 'live#emitUp',
+						'data-live-event-param': 'cancelAddressForm'
+					})}} 	
+
+					{{ component('Flexy:Button', {
+						type: 'submit',
+						text: 'Save the address' | trans,
+					})}} 
+
+				{% endblock %}
+			{% endcomponent  %}
+		</div>	
+	{% elseif this.checked %}
+		<div>
+			{% if this.addressList|length <= 0 %}
+				<div class="flex flex-col items-start">
+					<span class="HomeDelivery-noAddress">
+						{{ 'You have no registered address' |trans }}:
+					</span>
+					{{ component('Flexy:Button', {
+						type: 'button',
+						text: 'Add an address' |trans,
+						'data-action': 'live#action',
+						'data-live-action-param': 'toggleNewAddressForm'
+					})}} 						
 				</div>
-			</div>
-		{% endif %}
+			{% else %}
+				<div>
+					<ul class='flex flex-col gap-2'>
+						{% for address in this.addressList %}
+							<li>
+							
+								{{ component('Flexy:Checkout:AddressCardCheckout', {addressId:address.id, key: key, isDefault: address.isDefault }) }}
+
+								{% if deliveryAddressId == address.id %}
+									<div class='my-4'>
+										{% include '@components/Atoms/Form/Checkbox.html.twig' with { 
+											label: "Use this address for billing"|trans, 
+											checked : invoiceAddressId == address.id,
+											value: address.id, 
+											model: "invoiceAddressId" } 
+										%}
+									</div>
+								{% endif %}
+							</li>
+						{% endfor %}
+					</ul>
+
+					<div class='flex flex-col gap-2 mt-4 lg:flex-row lg:items-center'>
+
+						{{ component('Flexy:Button', {
+							type: 'button',
+							text: 'Use another address' |trans,
+							'data-action': 'live#action',
+							'data-live-action-param': 'toggleNewAddressForm'
+						})}} 						
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
 	</div>
-</div>
 {% endblock %}

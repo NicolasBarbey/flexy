@@ -3,25 +3,12 @@
 namespace FlexyBundle\UiComponents\CartItem;
 
 use FlexyBundle\Service\ProductSaleElementsService;
-use FlexyBundle\UiComponents\Checkout\Cart\Cart;
-use FlexyBundle\UiComponents\Checkout\CartManipulationTrait;
-use Propel\Runtime\Map\TableMap;
-use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\Attribute\LiveArg;
-use Symfony\UX\LiveComponent\Attribute\LiveListener;
-use Symfony\UX\LiveComponent\Attribute\LiveProp;
-use Symfony\UX\LiveComponent\ComponentToolsTrait;
-use Symfony\UX\LiveComponent\DefaultActionTrait;
+
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Exception\Checkout\InvalidDeliveryException;
-use Thelia\Exception\Checkout\MissingAddressException;
 use Thelia\Model\CartItemQuery;
 use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\CheckoutService;
-use Thelia\Service\Model\DeliveryService;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: "Flexy:CartItem", template: '@UiComponents/CartItem/CartItem.html.twig')]

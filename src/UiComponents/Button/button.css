@@ -58,7 +58,9 @@
   &:has(:focus-visible) {
     outline: var(--theme-medium) solid 2px;
   }
-  &:disabled {
+
+  &:disabled,
+  &[disabled] {
     background: var(--grey-lighter);
   }
 

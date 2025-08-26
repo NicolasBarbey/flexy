@@ -2,14 +2,16 @@
 
 namespace FlexyBundle\UiComponents\Checkout\DeliveryModes;
 
-use FlexyBundle\UiComponents\Checkout\CartManipulationTrait;
+use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
+use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Service\Model\CartService;
 use Thelia\Service\Model\DeliveryService;
 
 #[AsLiveComponent(name: "Flexy:Checkout:DeliveryModes", template: '@UiComponents/Checkout/DeliveryModes/DeliveryModes.html.twig')]
@@ -18,12 +20,20 @@ class DeliveryModes
 
     use ComponentToolsTrait;
     use DefaultActionTrait;
-    use CartManipulationTrait;
 
-    #[LiveProp(writable: true)]
-    public ?string $selectedModule = null;
 
-    public function __construct(private readonly DeliveryService $deliveryModuleService,) {}
+    #[LiveProp]
+    public ?int $deliveryModuleId = null;
+
+    #[LiveProp]
+    public ?int $deliveryAddressId = null;
+
+    public function __construct(private readonly DeliveryService $deliveryModuleService, private readonly CartService $cartService, private readonly FlexyCheckoutService $flexyCheckoutService) {}
+
+    public function mount()
+    {
+        $this->deliveryAddressId = $this->flexyCheckoutService->getDeliveryAddress();
+    }
 
     public function getDeliveryModulesOptions()
     {
@@ -51,11 +61,30 @@ class DeliveryModes
         return $deliveryOptions;
     }
 
+    public function getCart()
+    {
+        $cart = $this->cartService->getCart();
+        $items = $cart->getCartItems();
+        return [
+            ...$cart->toArray(TableMap::TYPE_CAMELNAME),
+            'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
+            'totalItems' => $cart->countCartItems(),
+        ];
+    }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
     public function selectDeliveryModuleOption(#[LiveArg] string $optionCode, #[LiveArg] int $moduleId)
     {
-        $this->cartService->setDeliveryModule($moduleId);
-        $this->selectedModule = $moduleId;
+        $this->flexyCheckoutService->setDeliveryAddress(null);
+        $this->deliveryAddressId = null;
+
+        $this->flexyCheckoutService->setDeliveryModule($moduleId);
+    }
+
+    #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
+    public function selectDeliveryAddress(#[LiveArg] int $addressId)
+    {
+        $this->flexyCheckoutService->setDeliveryAddress($addressId);
+        $this->deliveryAddressId = $addressId;
     }
 }

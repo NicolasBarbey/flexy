@@ -1,0 +1,61 @@
+
+
+{% props 
+    icon_left = null, 
+    icon_right = null, 
+    color = null, 
+    size = null, 
+    fill = false, 
+    rectangle = false,
+    sharp = false,
+    round = false,
+%}
+
+{% set button = html_cva(
+    base: 'Button',
+    variants: {
+        color: {
+            secondary: 'Button--secondary',
+            minimal: 'Button--minimal',
+            error: 'Button--error',
+        },
+        size: {
+            large: 'Button--large',
+            small: 'Button--small',
+        },
+        fill: {
+            false: null,
+            true: 'Button--fill'
+        },
+        rectangle: {
+            false: null,
+            true: 'Button--rectangle'
+        },
+        sharp: {
+            false: null,
+            true: 'Button--sharp'
+        },
+        round: {
+            false: null,
+            true: 'Button--round'
+        }
+    }
+) %}
+
+<{{tag}} class="{{ button.apply({color, size, fill, rectangle, sharp, round}, attributes.render('class')) }}" {{attributes.without('class')}}>
+	{% if icon_left %}
+		<span class='icon icon-left'>
+			{{ ux_icon(icon_left) }}
+		</span>
+	{% endif %}
+    
+    {% block content %}
+        {{ this.text|striptags('<span>')|raw }}
+    {% endblock %}
+
+	{% if icon_right %}
+		<span class='icon icon-right'>
+			{{ ux_icon(icon_right) }}
+		</span>
+	{% endif %}
+</{{tag}}>

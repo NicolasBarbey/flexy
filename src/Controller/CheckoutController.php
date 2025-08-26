@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
+use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Thelia\Action\Delivery;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Translation\Translator;
 use Thelia\Exception\Checkout\EmptyCartException;
@@ -29,18 +31,6 @@ use Thelia\Service\Model\DeliveryService;
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController
 {
-    public const STEP_CART = 'cart';
-    public const STEP_DELIVERY = 'delivery';
-    public const STEP_PAYMENT = 'payment';
-    public const STEP_GATEWAY = 'gateway';
-    public const STEP_CONFIRM = 'confirm';
-    public const STEPS = [
-        self::STEP_CART => 1,
-        self::STEP_DELIVERY => 2,
-        self::STEP_PAYMENT => 3,
-        self::STEP_GATEWAY => 3,
-        self::STEP_CONFIRM => 4,
-    ];
 
     #[Route('', name: 'no_route')]
     public function noRouteAction(): Response
@@ -53,13 +43,17 @@ class CheckoutController extends FlexyController
     public function cartAction(CheckoutService $checkoutService, CartService $cartService): Response
     {
         $checkoutService->resetCheckout();
+        $emptyCart = false;
 
-        $cartItems = $cartService->getCart()?->getCartItems();
-
+        try {
+            $cartService->checkCartNotEmpty();
+        } catch (EmptyCartException $e) {
+            $emptyCart = true;
+        }
 
         return $this->render('checkout-cart', [
-            'emptyCart' => null === $cartItems || count($cartItems) <= 0,
-            'current' => self::STEPS[self::STEP_CART],
+            'emptyCart' => $emptyCart,
+            'current' => CheckoutSteps::CART,
         ]);
     }
 
@@ -76,36 +70,13 @@ class CheckoutController extends FlexyController
             }
 
             return $this->render('checkout-deliveryModes', [
-                'current' => self::STEPS[self::STEP_DELIVERY],
+                'current' => CheckoutSteps::DELIVERY,
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         }
     }
-    #[Route('/delivery', name: 'delivery')]
-    public function deliveryAction(CartService $cartService, DeliveryService $deliveryService): Response
-    {
-        $this->checkAuth();
-        try {
-            $cartService->checkCartNotEmpty();
 
-            $cart = $cartService->getCart();
-            if ($cart->isVirtual()) {
-                $deliveryService->setupVirtualDelivery();
-            }
-
-            return $this->render('checkout-delivery', [
-                'page' => self::STEP_DELIVERY,
-                'current' => self::STEPS[self::STEP_DELIVERY],
-            ]);
-        } catch (EmptyCartException $e) {
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Failed to set delivery part : %s', $e->getMessage()));
-
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, Translator::getInstance()->trans('Critical delivery error, check logs for more information !'));
-        }
-    }
 
     #[Route('/payment', name: 'payment')]
     public function paymentAction(CartService $cartService): Response
@@ -116,8 +87,7 @@ class CheckoutController extends FlexyController
             $cartService->checkValidDelivery();
 
             return $this->render('checkout', [
-                'page' => self::STEP_PAYMENT,
-                'current' => self::STEPS[self::STEP_PAYMENT],
+                'current' => CheckoutSteps::PAYMENT,
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
@@ -136,8 +106,7 @@ class CheckoutController extends FlexyController
         $this->checkAuth();
 
         return $this->render('checkout', [
-            'page' => self::STEP_GATEWAY,
-            'current' => self::STEPS[self::STEP_GATEWAY],
+            'current' => CheckoutSteps::GATEWAY,
         ]);
     }
 
@@ -147,8 +116,7 @@ class CheckoutController extends FlexyController
         $this->checkAuth();
 
         return $this->render('checkout', [
-            'page' => self::STEP_CONFIRM,
-            'current' => self::STEPS[self::STEP_CONFIRM],
+            'current' => CheckoutSteps::CONFIRM,
         ]);
     }
 }

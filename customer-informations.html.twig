@@ -17,18 +17,25 @@
 		</p>
 		{% set form = getForm('flexybundle_form_customer_informations_form') %}
 		<div class="flex flex-col gap-6 mb-3">
-			{{ form_start(form, {attr : {
-          class: 'flex flex-col gap-6',
-          'action': path('customer_informations_create'),
-          'method': 'POST'
-        }})}}
+			{{ form_start(form, {
+				attr : {
+					class: 'flex flex-col gap-6',
+					'action': path('customer_informations_create'),
+					'method': 'POST'
+        		}
+			})}}
 			{{ form_errors(form) }}
 
 			{{form_row(form.success_url, { value: path('customer_activation', {'email': email}) }) }}
 			{{form_row(form.error_url, { value: path('customer_informations') }) }}
 			{{form_rest(form)}}
+
 			<div class="flex flex-col items-start">
-				{% include "@components/Molecules/Button/Button.html.twig" with {type:"submit", text: "Confirm my registration"|trans, variant: "large" } %}
+				{{ component('Flexy:Button', {
+					type:"submit",
+					text: "Confirm my registration"|trans, 
+					size: "large"
+				})}} 
 			</div>
 
 			{% if form.accept_privacy_policy.vars.help %}

@@ -2,7 +2,7 @@
 
 	
 
-	{% if this.cart.totalItems  %}
+	{% if this.cart.totalItems or this.pendingDelete  %}
 		<div class='Checkout-main-header'>
 			{{this.cart.totalItems}}
 			{{ this.cart.totalItems <= 1 ? 'article'|trans : 'articles'|trans }}
@@ -19,7 +19,11 @@
 		<div class="my-8 text-center">
 			{{ux_icon('empty', {width: 245, height: 185, class :'w-[245px] h-[185px] block mx-auto mb-[56px]'})}}
 			<h1 class="mb-6 h3">{{'Your cart is empty'|trans}}</h1>
-			{% include "@components/Molecules/Button/Button.html.twig" with {href:'/', text: "Back to the store"|trans, variant: "large" } %}
+			{{ component('Flexy:Button', {
+				href: path('index'),
+				text: 'Back to the store'|trans,
+				size: 'large',
+			})}}	
 		</div>
 	{% endif %}
 </div>

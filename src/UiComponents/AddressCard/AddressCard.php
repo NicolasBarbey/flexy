@@ -23,8 +23,6 @@ class AddressCard
 
     public int $addressId;
     public ?array $address;
-    public bool $hasForm = false;
-    public bool $disabled = false;
     public bool $withModal;
 
 
@@ -39,5 +37,7 @@ class AddressCard
         if ($withModal) {
             $this->withModal = $withModal;
         }
+
+        $this->addressId = $addressId;
     }
 }

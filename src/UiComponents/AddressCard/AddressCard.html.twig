@@ -1,4 +1,4 @@
-{% props selected = false, title = "" %}
+{% props selected = false, title = "", disabled = false %}
 
 <div {{attributes.defaults({class: 'AddressCard ' ~ (this.selected ? 'selected' : '') })}} {{this.withModal ? stimulus_controller('address-card',{} ,{}, {'modal' : '.Modal' } )}}>
 	<div class='AddressCard-top'>
@@ -12,17 +12,8 @@
 	</div>
 
 	<label class='AddressCard-content'>
-		{% if hasForm %}
-			{% block form %}
-
-				{{ component('Flexy:Inputs:Radio', {
-					'type': 'span',
-					'value': this.address.id,
-					'name': 'address',
-					'checked':selected
-				}) }}
-			{% endblock %}
-		{% endif %}
+		
+		{% block form %}{% endblock %}
 
 		{% block infos %}
 			{% include '@UiComponents/AddressCard/AddressInfo.html.twig' with {
@@ -48,38 +39,3 @@
 	</div>
 
 </div>
-
-{# 
-<div class='AddressCard {% if selected %}selected{% endif %} {{ classes }}' {{stimulus_controller('address-card',{} ,{}, {'modal' : '.Modal' } )}}>
-		<div class='AddressCard-top'>
-			{% block header %}
-				{% include '@components/Molecules/Favorite/Favorite.html.twig' with {text: 'Favourite'|trans, selected: address.isDefault, addressId : address.id} %}
-			{% endblock %}
-		</div>
-
-	<label class='AddressCard-content'>
-		{% block form %}
-			{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span", name:"test", value:1, checked:selected} %}
-		{% endblock %}
-		{% block infos %}
-			{% include '@components/Organisms/Card/Address/AddressInfo.html.twig' with {title,address} %}
-		{% endblock %}
-	</label>
-	{% endblock %}
-
-	<div class="mt-auto bottom-card-buttons">
-		{% block bottom %}
-			<a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {'addressId': address.id}) }}" class='hover:text-theme' type='button'>
-				<span>{{ ux_icon("edit") }}</span>
-				{{ 'Modify'|trans }}
-			</a>
-			{% if not address.isDefault %}
-				<button {% if disabled %} disabled {% endif %} class='hover:text-theme' type='button' data-action="address-card#openModal" data-modal="confirmDeleteAddress" data-confirm="{{ path('account_address_delete', {'addressId': address.id}) }}">
-					<span>{{ ux_icon("delete") }}</span>
-					{{ 'Delete'|trans }}
-				</button>
-			{% endif %}
-		{% endblock %}
-	</div>
-</div>
-#}

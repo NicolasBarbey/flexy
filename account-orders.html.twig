@@ -7,13 +7,14 @@
 
 {% block body %}
 	<div class="relative">
-		{% include "@components/Molecules/Button/Button.html.twig" with {
-      text: 'My account' | trans,
-      href: '/account',
-      variant: 'minimal',
-      icon_left: 'chevron-left',
-      classes: 'absolute top-2 lg:top-6 lg:left-5',
-    } %}
+
+	    {{ component('Flexy:Button', {
+      		text: 'My account' | trans,
+			href: '/account',
+			color: 'minimal',
+			icon_left: 'chevron-left',
+			class: 'absolute top-2 lg:top-6 lg:left-5',
+		})}}  
 
 		{% include '@components/Layout/Subheader/Orders/SubheaderOrders.html.twig' with {title: 'My orders' | trans} %}
 	</div>

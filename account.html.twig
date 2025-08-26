@@ -13,13 +13,13 @@
 	{% set customer = resources('/api/front/account/customers/'~ customerId) %}
 	{% set defaultAddress = resources('/api/front/account/addresses', {'customer.id': attr('customer', 'id')})|first %}
 	<div class="relative">
-		{% include "@components/Molecules/Button/Button.html.twig" with {
-      text: 'My account' | trans,
-      href: '/account',
-      variant: 'minimal',
-      icon_left: 'chevron-left',
-      classes: 'absolute top-2 lg:top-6 lg:left-5',
-    } %}
+	    {{ component('Flexy:Button', {
+      		text: 'My account' | trans,
+			href: '/account',
+			color: 'minimal',
+			icon_left: 'chevron-left',
+			class: 'absolute top-2 lg:top-6 lg:left-5',
+		})}} 	
 
 		{% include '@components/Layout/Subheader/TitleOnly/SubheaderTitle.html.twig' with {title: "My profile" | trans, position: "centered" } %}
 	</div>
@@ -33,7 +33,13 @@
 				{% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "birthday", label: "Birthday" | trans, type: "date"} %}
 				{% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "email", label: "E-mail" | trans, disabled: true,value:customer.email} %}
 				{% include '@components/Molecules/Fields/FieldInput/FieldInput.html.twig' with {name: "phone", label: "Phone number" | trans, value: defaultAddress.cellphone} %}
-				{% include "@components/Molecules/Button/Button.html.twig" with {text: 'Edit my information' | trans, href: '#', classes: 'Button--large mt-1.5'} %}
+				
+				{{ component('Flexy:Button', {
+					text: 'Edit my information' | trans,
+					href: '#',
+					size: 'large',
+					class: 'mt-1.5',
+				})}} 
 			</form>
 		</div>
 		<div class="flex flex-col gap-6" {{ attributes }}>
@@ -45,15 +51,22 @@
 
 			{% set form = getForm("thelia_customer_password_update") %}
 
-			{{ form_start(form, {attr : {
-        class: 'flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-theme-lighter',
-        'action': path('account_password'),
-      }}) }}
+			{{ form_start(form, {
+				attr : {
+					class: 'flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-theme-lighter',
+					'action': path('account_password'),
+				}
+			}) }}
 
 			{{ form_row(form.success_url, { value: path('account_index',{password_success : 1}) }) }}
 			{{ form_row(form.error_url, { value: path('account_index') }) }}
 			{{ form_rest(form) }}
-			{% include "@components/Molecules/Button/Button.html.twig" with {text: 'Update my password' | trans, classes: 'Button--large mt-1.5 open-modal', type: 'submit' } %}
+			{{ component('Flexy:Button', {
+				text: 'Update my password' | trans,
+				type: 'submit',
+				size: 'large',
+				class: 'mt-1.5 open-modal',
+			})}} 
 			{{ form_end(form) }}
 		</div>
 	</div>
@@ -68,34 +81,38 @@
 	{% set customContentUpdatePassword %}
 	<div class='h4'>{{ "Your password has been changed successfully"| trans }}</div>
 	<div class='flex flex-col gap-4 mt-8 md:flex-row'>
-		{% include '@components/Molecules/Button/Button.html.twig' with {
-        text: 'Return to my profile'| trans,
-        variant: 'secondary',
-        fill: true,
-        classes: 'close-button'
-      } %}
-		{% include '@components/Molecules/Button/Button.html.twig' with {
-        text: 'Continue my shopping'| trans,
-        fill: true,
-        href: '/'
-      } %}
+		{{ component('Flexy:Button', {
+			text: 'Return to my profile'| trans,
+			color: 'secondary',
+			fill: true,
+			class: 'close-button'
+		})}} 
+
+		{{ component('Flexy:Button', {
+			text: 'Continue my shopping'| trans,
+			fill: true,
+			href: '/'
+		})}} 
+
 	</div>
 	{% endset %}
 
 	{% set customContentUpdateInfos %}
 	<div class='h4'>{{ "Your information has been successfully modified"| trans }}</div>
 	<div class='flex flex-col gap-4 mt-8 md:flex-row'>
-		{% include '@components/Molecules/Button/Button.html.twig' with {
-        text: 'Return to my profile'| trans,
-        variant: 'secondary',
-        fill: true,
-        classes: 'close-button'
-      } %}
-		{% include '@components/Molecules/Button/Button.html.twig' with {
-        text: 'Continue my shopping'| trans,
-        fill: true,
-        href: '/'
-      } %}
+
+		{{ component('Flexy:Button', {
+			text: 'Return to my profile'| trans,
+			color: 'secondary',
+			fill: true,
+			class: 'close-button'
+		})}} 
+
+		{{ component('Flexy:Button', {
+			text: 'Continue my shopping'| trans,
+			fill: true,
+			href: '/'
+		})}} 
 	</div>
 	{% endset %}
 

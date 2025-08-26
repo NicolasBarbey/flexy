@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Checkout\Cart;
 
 use FlexyBundle\Service\ProductSaleElementsService;
-use FlexyBundle\UiComponents\Checkout\CartManipulationTrait;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -32,14 +31,26 @@ use TwigEngine\Service\FormService;
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
 class Cart
 {
-    use CartManipulationTrait;
+
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
     #[LiveProp()]
     public ?array $pendingDelete = null;
 
-    public function __construct(private ProductSaleElementsService $pseService, private FormService $formService) {}
+    public function __construct(private ProductSaleElementsService $pseService, private FormService $formService, private CartService $cartService) {}
+
+
+    public function getCart()
+    {
+        $cart = $this->cartService->getCart();
+        $items = $cart->getCartItems();
+        return [
+            ...$cart->toArray(TableMap::TYPE_CAMELNAME),
+            'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
+            'totalItems' => \count($items),
+        ];
+    }
 
     #[LiveAction]
     public function addCartItem(#[LiveArg] int $pseId, #[LiveArg] int $productId, #[LiveArg] ?int $quantity): void

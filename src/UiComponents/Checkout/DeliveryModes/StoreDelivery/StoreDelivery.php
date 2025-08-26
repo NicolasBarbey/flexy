@@ -12,22 +12,25 @@
 
 namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\StoreDelivery;
 
-use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryMode;
-use Symfony\UX\LiveComponent\ComponentToolsTrait;
-use Symfony\UX\LiveComponent\DefaultActionTrait;
+use FlexyBundle\Service\FlexyCheckoutService;
+use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryModeTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
 #[AsTwigComponent(name: "Flexy:Checkout:DeliveryModes:StoreDelivery", template: '@UiComponents/Checkout/DeliveryModes/StoreDelivery/StoreDelivery.html.twig')]
-class StoreDelivery extends DeliveryMode
+class StoreDelivery
 {
+    use DeliveryModeTrait;
 
     public string $type = "StoreDelivery";
     public bool $closed = false;
 
 
 
-    public function __construct(private AttributeAccessService $attributeAccessService) {}
+    public function __construct(
+        private AttributeAccessService $attributeAccessService,
+        private FlexyCheckoutService $flexyCheckoutService
+    ) {}
 
     public function getAddress()
     {
@@ -53,5 +56,10 @@ class StoreDelivery extends DeliveryMode
                 'hours' => '14h - 19h'
             ]
         ];
+    }
+
+    public function getChecked()
+    {
+        return $this->flexyCheckoutService->getDeliveryModule() === $this->moduleId;
     }
 }

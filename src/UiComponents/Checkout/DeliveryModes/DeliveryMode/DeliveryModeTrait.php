@@ -12,13 +12,10 @@
 
 namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode;
 
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent(name: "Flexy:Checkout:DeliveryModes:DeliveryMode", template: '@UiComponents/Checkout/DeliveryModes/DeliveryMode/DeliveryMode.html.twig')]
-class DeliveryMode
+trait DeliveryModeTrait
 {
 
-    public bool $checked = false;
     public int $moduleId;
     public string $optionCode;
     public string $title;

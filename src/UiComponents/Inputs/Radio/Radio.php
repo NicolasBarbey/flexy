@@ -25,9 +25,5 @@ class Radio
     public string $id;
     public string $name;
     public string $value = '';
-
-    public function getClasses()
-    {
-        return ['toto'];
-    }
+    public bool $checked = false;
 }

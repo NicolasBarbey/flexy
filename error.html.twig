@@ -10,9 +10,15 @@
 		<div class="w-[150px] h-[150px] lg:w-[220px] lg:h-[220px] mb-4">
 			{{ source('assets/images/volcano.svg') }}
 		</div>
-		<h3 class="mt-4 mb-2 h3">XXX</h3>
-		<p class="mb-6 paragraph-2">Ici une description de l’erreur pour aider l’utilisateur à comprendre.</p>
-		{% include '@components/Molecules/Button/Button.html.twig' with {text: 'Homepage',  classes:'Button--large', href: "/", variant: 'primary', icon_left: "chevron-left"} %}
+		<h3 class="mt-4 mb-2 h3">TODO</h3>
+		<p class="mb-6 paragraph-2">TODO</p>
+
+		{{ component('Flexy:Button', {
+			text: 'Homepage' | trans,  
+			class:'Button--large', 
+			href: path('index'), 
+			icon_left: "chevron-left"
+		})}} 
 	</div>
 {% endblock %}
 

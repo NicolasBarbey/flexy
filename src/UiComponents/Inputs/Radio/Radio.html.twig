@@ -5,8 +5,8 @@
         name="{{name}}"
         id="{{id}}"
         value="{{value}}"
-		{% if disabled %} disabled {% endif %} 
-		{% if checked %} checked {% endif %}         
+		{% if this.disabled %} disabled {% endif %} 
+		{% if this.checked %} checked {% endif %}         
         {{ attributes.nested('input') }}  
     />
     <span class="checkmark"></span>

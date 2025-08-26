@@ -60,7 +60,18 @@
 					<span class="line-through paragraph-4">{{ currentPse.price|format_currency('EUR', locale: lang_code) }}</span>
 				{% endif %}
 			</div>
-			{% include '@components/Molecules/Button/QuantityButton.html.twig' with {value: field_value(form.quantity), classes:'Button--large', text:'Add to cart'|trans, icon:'cart', fill:true, inLiveComp: true, btnLiveAction: 'getQuantity',name:field_name(form.quantity) } %}
+
+			{% include '@components/Molecules/Button/QuantityButton.html.twig' with {
+				value: field_value(form.quantity), 
+				classes:'Button--large', 
+				text:'Add to cart'|trans, 
+				icon:'cart', 
+				fill:true, 
+				inLiveComp: true, 
+				btnLiveAction: 'getQuantity',
+				name:field_name(form.quantity) 
+				}
+			%}
 		{% else %}
 			<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
 		{% endif %}

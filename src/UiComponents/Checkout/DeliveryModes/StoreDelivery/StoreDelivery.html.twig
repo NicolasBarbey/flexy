@@ -1,6 +1,7 @@
 {% extends '@UiComponents/Checkout/DeliveryModes/DeliveryMode/DeliveryMode.html.twig' %}
 
 {% block content %}
+	
 	{% if this.closed != null %}
 		<span class='StoreDelivery-opening  {% if this.closed %}closed {% endif %}'>
 			{{ closed?'Close':'Open'|trans }}
@@ -25,9 +26,14 @@
 {% block footer %}
 	{% if this.hours is not empty %}
 		<div class="StoreDelivery-bottom" {{stimulus_controller('store-delivery')}}>
-			<button class='StoreDelivery-hours' data-show-hours={{ 'See opening hours' |trans }} data-hide-hours={{ 'hide opening times' |trans }}>{{ ux_icon("clock") }}
-				<span>{{ 'See opening hours' |trans }}</span>
-			</button>
+			{{ component('Flexy:Button', {
+				class:'StoreDelivery-hours',
+				'data-show-hours': 'See opening hours' | trans,
+				'data-hide-hours': 'hide opening times' | trans,
+				icon_left: 'clock',
+				text: 'See opening hours' |trans,
+				color: 'minimal'
+			})}} 	
 		</div>
 		<div class='StoreDelivery-hoursListing md:hidden'>
 			<table>
@@ -40,9 +46,4 @@
 			</table>
 		</div>
 	{% endif %}
-	{# 
-    {% if this.checked %}
-        {% include '@components/Molecules/Button/Button.html.twig' with {text: 'Choose'|trans, classes:'Button--fill lg:w-1/4 mt-4', liveEvent: 'forceCustomerDefaultDeliveryAddress'} %}
-    {% endif %}
-	#}
 {% endblock %}

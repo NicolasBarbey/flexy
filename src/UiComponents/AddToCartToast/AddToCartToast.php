@@ -65,12 +65,6 @@ class AddToCartToast extends BaseFrontController
         $this->resetValues();
     }
 
-    #[LiveAction]
-    public function viewCart(): Response
-    {
-        return $this->generateRedirect('checkout/cart');
-    }
-
     protected function resetValues(): void
     {
         $this->quantity = null;

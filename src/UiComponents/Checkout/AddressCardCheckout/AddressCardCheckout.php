@@ -12,11 +12,26 @@
 
 namespace FlexyBundle\UiComponents\Checkout\AddressCardCheckout;
 
+use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\AddressCard\AddressCard;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsTwigComponent(name: "Flexy:Checkout:AddressCardCheckout", template: '@UiComponents/Checkout/AddressCardCheckout/AddressCardCheckout.html.twig')]
 class AddressCardCheckout extends AddressCard
 {
     public bool $hasForm = true;
+    public bool $checked = false;
+
+    public function __construct(private readonly FlexyCheckoutService $flexyCheckoutService) {}
+
+
+    #[PostMount()]
+    public function postMount()
+    {
+        $savedAddress = $this->flexyCheckoutService->getDeliveryAddress();
+        if (null !== $savedAddress) {
+            $this->checked = $this->flexyCheckoutService->getDeliveryAddress() === $this->addressId;
+        }
+    }
 }
