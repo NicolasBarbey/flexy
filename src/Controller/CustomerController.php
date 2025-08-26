@@ -28,10 +28,10 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
-use Thelia\Domain\Customer\CustomerLoginProcessor;
-use Thelia\Domain\Customer\Registration\CustomerCodeManager;
-use Thelia\Domain\Customer\Registration\CustomerRegistrationService;
-use Thelia\Domain\Marketing\NewsletterSubscriber;
+use Thelia\Domain\Customer\Service\CustomerCodeManager;
+use Thelia\Domain\Customer\Service\CustomerAuthenticator;
+use Thelia\Domain\Customer\Service\CustomerRegistrationService;
+use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
@@ -61,7 +61,7 @@ class CustomerController extends FlexyController
     #[Route('/login', name: 'login_action', methods: ['POST'])]
     public function loginAction(
         EventDispatcherInterface $eventDispatcher,
-        CustomerLoginProcessor $customerLoginProcessor,
+        CustomerAuthenticator    $customerLoginProcessor,
     ): ?Response {
         if ($this->getSecurityContext()->hasCustomerUser()) {
             return $this->generateRedirect('/');

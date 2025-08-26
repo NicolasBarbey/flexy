@@ -22,7 +22,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Domain\Customer\Registration\CustomerCodeManager;
+use Thelia\Domain\Customer\Service\CustomerCodeManager;
 
 #[AsLiveComponent(name: "Flexy:RegisterValidationCode", template: '@UiComponents/RegisterValidationCode/RegisterValidationCode.html.twig')]
 class RegisterValidationCode extends AbstractController

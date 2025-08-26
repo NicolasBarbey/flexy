@@ -17,16 +17,14 @@ namespace FlexyBundle\Controller;
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Thelia\Action\Delivery;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
-use Thelia\Core\Translation\Translator;
 use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Checkout\CheckoutService;
+use Thelia\Domain\Cart\Service\CartRetriever;
 use Thelia\Domain\Checkout\Exception\EmptyCartException;
 use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
 use Thelia\Domain\Checkout\Exception\MissingAddressException;
-use Thelia\Domain\Shipping\DeliveryService;
-use Thelia\Log\Tlog;
+use Thelia\Domain\Checkout\Service\CheckoutService;
+use Thelia\Domain\Shipping\Service\DeliveryService;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController
@@ -58,7 +56,10 @@ class CheckoutController extends FlexyController
     }
 
     #[Route('/delivery', name: 'delivery')]
-    public function deliveryModesAction(CartService $cartService, DeliveryService $deliveryService): Response
+    public function deliveryModesAction(
+        CartRetriever $cartRetriever,
+        DeliveryService $deliveryService
+    ): Response
     {
         $this->checkAuth();
         try {

@@ -11,8 +11,15 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Shipping\DeliveryService;
+use Thelia\Domain\Cart\Service\CartRetriever;
+use Thelia\Domain\Checkout\CheckoutFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
+use Thelia\Domain\Customer\CustomerFacade;
+use Thelia\Domain\Shipping\Service\DeliveryService;
+use Thelia\Domain\Shipping\ShippingFacade;
+use Thelia\Model\Module;
 
 #[AsLiveComponent(name: "Flexy:Checkout:Delivery", template: '@UiComponents/Checkout/Delivery/Delivery.html.twig')]
 class Delivery
@@ -29,31 +36,30 @@ class Delivery
     public ?int $deliveryAddressId = null;
 
     public function __construct(
-        private readonly DeliveryService $deliveryModuleService,
-        private readonly CartService $cartService,
-        private readonly FlexyCheckoutService $flexyCheckoutService
+        private readonly ShippingFacade $shippingFacade,
+        private readonly CartFacade $cartFacade,
+        private readonly CheckoutFacade $checkoutFacade,
+        private readonly CustomerFacade $customerFacade,
     ) {
     }
 
-    public function mount()
+    public function mount(): void
     {
-        $this->deliveryAddressId = $this->flexyCheckoutService->getDeliveryAddress();
+        $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+
     }
 
-    public function getDeliveryModulesOptions()
+    public function getDeliveryModulesOptions(): array
     {
-        $deliveryModules = $this->deliveryModuleService->getValidDeliveryModuleCollection()->getAll();
+        $cart = $this->cartFacade->getOrCreateForCustomer($this->customerFacade->getCurrentCustomer());
+        $deliveryModules = $this->shippingFacade->listValidMethods($cart);
 
         $deliveryOptions = [];
 
+        /** @var Module $module */
         foreach ($deliveryModules as $module) {
-            if (!isset($module['valid']) || !$module['valid']) {
-                continue;
-            }
-
+            // @todo
             foreach ($module['options'] as $option) {
-
-
                 $deliveryOptions[$option['code']] = [
                     'title' => isset($module['title']) ? $module['title'] : $module['code'],
                     'moduleId' => $module['id'],
@@ -66,9 +72,9 @@ class Delivery
         return $deliveryOptions;
     }
 
-    public function getCart()
+    public function getCart(): array
     {
-        $cart = $this->cartService->getCart();
+        $cart = $this->cartFacade->getOrCreateForCustomer($this->customerFacade->getCurrentCustomer());
         $items = $cart->getCartItems();
         return [
             ...$cart->toArray(TableMap::TYPE_CAMELNAME),
@@ -78,18 +84,26 @@ class Delivery
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
-    public function selectDeliveryModuleOption(#[LiveArg] string $optionCode, #[LiveArg] int $moduleId)
+    public function selectDeliveryModuleOption(#[LiveArg] string $optionCode, #[LiveArg] int $moduleId): void
     {
-        $this->flexyCheckoutService->setDeliveryAddress(null);
+        $this->cartFacade->setDeliveryAddress(new CheckoutDTO(
+            $this->cartFacade->getOrCreateForCustomer($this->customerFacade->getCurrentCustomer())
+        ));
         $this->deliveryAddressId = null;
 
-        $this->flexyCheckoutService->setDeliveryModule($moduleId);
+        $this->cartFacade->setDeliveryModule(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateForCustomer($this->customerFacade->getCurrentCustomer()),
+            deliveryModuleId: $moduleId,
+        ));
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
-    public function selectDeliveryAddress(#[LiveArg] int $addressId)
+    public function selectDeliveryAddress(#[LiveArg] int $addressId): void
     {
-        $this->flexyCheckoutService->setDeliveryAddress($addressId);
+        $this->cartFacade->setDeliveryAddress(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateForCustomer($this->customerFacade->getCurrentCustomer()),
+            deliveryAddressId: $addressId,
+        ));
         $this->deliveryAddressId = $addressId;
     }
 }

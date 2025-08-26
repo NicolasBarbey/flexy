@@ -12,7 +12,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Checkout\CheckoutService;
+use Thelia\Domain\Checkout\Service\CheckoutService;
 
 #[AsLiveComponent(name: "Flexy:OrderCreator", template: '@UiComponents/OrderCreator/OrderCreator.html.twig')]
 class OrderCreator extends AbstractController

@@ -11,7 +11,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Shipping\DeliveryService;
+use Thelia\Domain\Shipping\Service\DeliveryService;
 
 #[AsLiveComponent(name: "Flexy:Checkout:NextButton", template: '@UiComponents/Checkout/NextButton/NextButton.html.twig')]
 class NextButton
