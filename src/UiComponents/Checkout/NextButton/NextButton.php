@@ -10,9 +10,8 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\DeliveryService;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Shipping\DeliveryService;
 
 #[AsLiveComponent(name: "Flexy:Checkout:NextButton", template: '@UiComponents/Checkout/NextButton/NextButton.html.twig')]
 class NextButton

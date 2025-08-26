@@ -23,6 +23,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Domain\Cart\CartService;
 use Thelia\Form\Definition\FrontForm;
 use TwigEngine\Service\FormService;
 

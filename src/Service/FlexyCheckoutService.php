@@ -16,11 +16,15 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Cart\CartCheckoutEvent;
 use Thelia\Core\Event\TheliaEvents;
-use Thelia\Service\Model\CartService;
+use Thelia\Domain\Cart\CartService;
 
 class FlexyCheckoutService
 {
-    public function __construct(private CartService $cartService, private EventDispatcherInterface $eventDispatcher, private LoggerInterface $logger) {}
+    public function __construct(
+        private CartService $cartService,
+        private EventDispatcherInterface $eventDispatcher,
+        private LoggerInterface $logger
+    ) {}
 
     public function setDeliveryModule(?int $deliveryModuleId = null): void
     {
@@ -39,7 +43,7 @@ class FlexyCheckoutService
         $this->handlePostageOnCart();
     }
 
-    public function getDeliveryModule()
+    public function getDeliveryModule(): ?int
     {
         return $this->cartService->getCart()->getDeliveryModuleId();
     }
@@ -62,12 +66,12 @@ class FlexyCheckoutService
         }
     }
 
-    public function getDeliveryAddress()
+    public function getDeliveryAddress(): ?int
     {
         return $this->cartService->getCart()->getAddressDeliveryId();
     }
 
-    public function handlePostageOnCart()
+    public function handlePostageOnCart(): void
     {
         try {
             $postageEvent = new CartCheckoutEvent($this->cartService->getCart());
