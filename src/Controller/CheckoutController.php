@@ -57,7 +57,7 @@ class CheckoutController extends FlexyController
         ]);
     }
 
-    #[Route('/delivery-modes', name: 'delivery_modes')]
+    #[Route('/delivery', name: 'delivery')]
     public function deliveryModesAction(CartService $cartService, DeliveryService $deliveryService): Response
     {
         $this->checkAuth();
@@ -69,7 +69,7 @@ class CheckoutController extends FlexyController
                 $deliveryService->setupVirtualDelivery();
             }
 
-            return $this->render('checkout-deliveryModes', [
+            return $this->render('checkout-delivery', [
                 'current' => CheckoutSteps::DELIVERY,
             ]);
         } catch (EmptyCartException $e) {
@@ -86,17 +86,13 @@ class CheckoutController extends FlexyController
             $cartService->checkCartNotEmpty();
             $cartService->checkValidDelivery();
 
-            return $this->render('checkout', [
+            return $this->render('checkout-payment', [
                 'current' => CheckoutSteps::PAYMENT,
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         } catch (MissingAddressException | InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Failed to set payment part : %s', $e->getMessage()));
-
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, Translator::getInstance()->trans('Critical payment error, check logs for more information !'));
         }
     }
 

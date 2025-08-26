@@ -10,12 +10,12 @@
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\HomeDelivery;
+namespace FlexyBundle\UiComponents\Checkout\Delivery\HomeDelivery;
 
 use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
-use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryMode;
-use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryModeTrait;
+use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryMode;
+use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Propel\Runtime\Map\TableMap;
 use Psr\Log\LoggerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -32,7 +32,7 @@ use Thelia\Service\Model\AddressService;
 use Thelia\Service\Model\CartService;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
-#[AsLiveComponent(name: "Flexy:Checkout:DeliveryModes:HomeDelivery", template: '@UiComponents/Checkout/DeliveryModes/HomeDelivery/HomeDelivery.html.twig')]
+#[AsLiveComponent(name: "Flexy:Checkout:Delivery:HomeDelivery", template: '@UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.html.twig')]
 class HomeDelivery
 {
     use DefaultActionTrait;

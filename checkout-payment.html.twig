@@ -1,19 +1,19 @@
 {% extends 'checkout-base.html.twig' %}
 
 {% block title %}
-	{{'Delivery Modes'|trans}}
+	{{'Payment'|trans}}
 {% endblock %}
 
 
 {% block checkoutContent %}
-	{{ component('Flexy:Checkout:DeliveryModes') }}
+	{{ component('Flexy:Checkout:Payment') }}
 {% endblock %}
 
 {% block checkoutBackButton %}
 	{% include "@components/Molecules/Link/Link.html.twig" with {
 		iconLeft: 'chevron-left',
 		customText: 'Previous Step' | trans,
-		href: path('checkout_cart'),
+		href: path('checkout_delivery'),
 		classes:'gap-2'
 	} %}
 {% endblock %}
@@ -27,8 +27,8 @@
 {%- block checkoutNextButton -%}
 	{%- if not emptyCart -%}
 		{{ component('Flexy:Checkout:NextButton', {
-			href: path('checkout_payment'), 
-			step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::DELIVERY')
+			href: path('checkout_gateway'), 
+			step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::PAYMENT')
 		}) }}
 	{%- endif -%}
 {%- endblock -%}

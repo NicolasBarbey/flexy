@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode;
+namespace FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode;
 
 
 trait DeliveryModeTrait

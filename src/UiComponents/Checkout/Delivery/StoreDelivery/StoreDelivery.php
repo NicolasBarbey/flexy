@@ -10,14 +10,14 @@
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\UiComponents\Checkout\DeliveryModes\StoreDelivery;
+namespace FlexyBundle\UiComponents\Checkout\Delivery\StoreDelivery;
 
 use FlexyBundle\Service\FlexyCheckoutService;
-use FlexyBundle\UiComponents\Checkout\DeliveryModes\DeliveryMode\DeliveryModeTrait;
+use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
-#[AsTwigComponent(name: "Flexy:Checkout:DeliveryModes:StoreDelivery", template: '@UiComponents/Checkout/DeliveryModes/StoreDelivery/StoreDelivery.html.twig')]
+#[AsTwigComponent(name: "Flexy:Checkout:Delivery:StoreDelivery", template: '@UiComponents/Checkout/Delivery/StoreDelivery/StoreDelivery.html.twig')]
 class StoreDelivery
 {
     use DeliveryModeTrait;

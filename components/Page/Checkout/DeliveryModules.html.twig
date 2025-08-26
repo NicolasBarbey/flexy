@@ -1,9 +1,0 @@
-<h1 class='text-black h4'>{{ 'Choose a carrier'|trans }}</h1>
-{{ component('Flexy:Layout:DeliveryModuleList', {deliveryMode: this.deliveryMode}) }}
-
-{% include "@components/Molecules/Link/Link.html.twig" with {
-    iconLeft: 'chevron-left',
-    customText: 'Previous Step' | trans,
-    href: path('checkout_delivery'),
-    classes:'gap-2'
-} %}

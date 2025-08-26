@@ -1,6 +1,6 @@
 <?php
 
-namespace FlexyBundle\UiComponents\Checkout\DeliveryModes;
+namespace FlexyBundle\UiComponents\Checkout\Delivery;
 
 use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
@@ -14,8 +14,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Service\Model\CartService;
 use Thelia\Service\Model\DeliveryService;
 
-#[AsLiveComponent(name: "Flexy:Checkout:DeliveryModes", template: '@UiComponents/Checkout/DeliveryModes/DeliveryModes.html.twig')]
-class DeliveryModes
+#[AsLiveComponent(name: "Flexy:Checkout:Delivery", template: '@UiComponents/Checkout/Delivery/Delivery.html.twig')]
+class Delivery
 {
 
     use ComponentToolsTrait;
