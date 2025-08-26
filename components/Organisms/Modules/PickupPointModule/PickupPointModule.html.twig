@@ -12,10 +12,10 @@
 <div class='PickupPointModule DeliveryModule {% if selected %}selected{% endif %}'>
 	<label class='PickupPointModule-content'>
 		{% include '@components/Atoms/Form/Radio.html.twig' with {
-			type:"span", 
-			value: enum('Thelia\\Core\\Enum\\DeliveryMode').PICKUP.value,
+			type:"span",
+			value: enum('Thelia\\Domain\\Checkout\\Enum\\DeliveryMode').PICKUP.value,
 			model:'deliveryMode'
-		} 
+		}
 		%}
 		<span>
 			<span class='PickupPointModule-top'>

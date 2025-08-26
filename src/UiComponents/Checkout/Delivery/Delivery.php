@@ -11,8 +11,8 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\DeliveryService;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Shipping\DeliveryService;
 
 #[AsLiveComponent(name: "Flexy:Checkout:Delivery", template: '@UiComponents/Checkout/Delivery/Delivery.html.twig')]
 class Delivery
@@ -28,7 +28,12 @@ class Delivery
     #[LiveProp]
     public ?int $deliveryAddressId = null;
 
-    public function __construct(private readonly DeliveryService $deliveryModuleService, private readonly CartService $cartService, private readonly FlexyCheckoutService $flexyCheckoutService) {}
+    public function __construct(
+        private readonly DeliveryService $deliveryModuleService,
+        private readonly CartService $cartService,
+        private readonly FlexyCheckoutService $flexyCheckoutService
+    ) {
+    }
 
     public function mount()
     {

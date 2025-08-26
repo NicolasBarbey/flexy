@@ -14,7 +14,6 @@ namespace FlexyBundle\UiComponents\Checkout\Delivery\HomeDelivery;
 
 use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
-use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryMode;
 use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Propel\Runtime\Map\TableMap;
 use Psr\Log\LoggerInterface;
@@ -25,12 +24,10 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Log\Tlog;
-use Thelia\Service\Model\AddressService;
-use Thelia\Service\Model\CartService;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Domain\Adressing\AddressService;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Model\Customer;
 
 #[AsLiveComponent(name: "Flexy:Checkout:Delivery:HomeDelivery", template: '@UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.html.twig')]
 class HomeDelivery

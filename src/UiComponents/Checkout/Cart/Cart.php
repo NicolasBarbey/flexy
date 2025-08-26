@@ -16,7 +16,6 @@ namespace FlexyBundle\UiComponents\Checkout\Cart;
 
 use FlexyBundle\Service\ProductSaleElementsService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
-use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -25,7 +24,6 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Form\Definition\FrontForm;
-use Thelia\Service\Model\CartService;
 use TwigEngine\Service\FormService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]

@@ -7,8 +7,10 @@ use FlexyBundle\Service\ProductSaleElementsService;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Model\ProductSaleElementsProductImage;
 use Thelia\Model\CartItemQuery;
-use Thelia\Service\Model\CartService;
+use Thelia\Model\ProductImage;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: "Flexy:CartItem", template: '@UiComponents/CartItem/CartItem.html.twig')]

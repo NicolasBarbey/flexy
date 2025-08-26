@@ -11,8 +11,8 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\CheckoutService;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Checkout\CheckoutService;
 
 #[AsLiveComponent(name: "Flexy:OrderCreator", template: '@UiComponents/OrderCreator/OrderCreator.html.twig')]
 class OrderCreator extends AbstractController

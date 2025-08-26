@@ -20,13 +20,13 @@ use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Action\Delivery;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Translation\Translator;
-use Thelia\Exception\Checkout\EmptyCartException;
-use Thelia\Exception\Checkout\InvalidDeliveryException;
-use Thelia\Exception\Checkout\MissingAddressException;
+use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Checkout\CheckoutService;
+use Thelia\Domain\Checkout\Exception\EmptyCartException;
+use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
+use Thelia\Domain\Checkout\Exception\MissingAddressException;
+use Thelia\Domain\Shipping\DeliveryService;
 use Thelia\Log\Tlog;
-use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\CheckoutService;
-use Thelia\Service\Model\DeliveryService;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController

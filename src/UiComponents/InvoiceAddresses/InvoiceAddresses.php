@@ -22,10 +22,10 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Domain\Adressing\AddressService;
+use Thelia\Domain\Cart\CartService;
 use Thelia\Log\Tlog;
 use Thelia\Model\Customer;
-use Thelia\Service\Model\AddressService;
-use Thelia\Service\Model\CartService;
 
 #[AsLiveComponent(name: "Flexy:InvoiceAddresses", template: '@UiComponents/InvoiceAddresses/InvoiceAddresses.html.twig')]
 class InvoiceAddresses extends BaseFrontController
