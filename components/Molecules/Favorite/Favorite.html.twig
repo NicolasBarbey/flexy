@@ -1,11 +1,13 @@
 {% set text = text|default('') %}
 {% set selected = selected|default(false) %}
-{% set contentType = "div" %}
+{% set contentType = 'div' %}
 {% set addressId = addressId|default(null) %}
 
-<button class='Favorite {% if selected %}selected{% endif %}' {% if not selected %} data-action="address-card#openModal" data-confirm="{{path('account_address_default',{addressId})}}" data-modal="confirmDefaultAdress" {% endif %}>
-	<span class='text'>{{ text }}</span>
-	<span class='star'>
-		{{ ux_icon('star') }}
-	</span>
+<button class="Favorite {% if selected %}selected{% endif %}" {% if not selected %} data-action="address-card#openModal" data-confirm="{{ path('account_address_default', {addressId: addressId}) }}" data-modal="confirmDefaultAdress" {% endif %}>
+    <span class="text">
+        {{ text }}
+    </span>
+    <span class="star">
+        {{ ux_icon('star') }}
+    </span>
 </button>

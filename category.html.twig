@@ -1,51 +1,51 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 {% set page = app.request.get('page')|default(1) %}
 {% set categoryId = attr('category', 'id') %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	{{ encore_entry_link_tags('category-css') }}
+    {{ parent() }}
+    {{ encore_entry_link_tags('category-css') }}
 {% endblock %}
 
 {% block stimulus_controller %}
-	{{stimulus_controller('drawer')}}
+    {{ stimulus_controller('drawer') }}
 {% endblock %}
 
 {% block body %}
-	{% include '@components/Layout/Subheader/Category/SubheaderCategory.html.twig' with {title: attr('category', 'title'), description: attr('category', 'chapo'), nbProducts: 9, breadcrumb}  %}
-	
+    {{ include('@components/Layout/Subheader/Category/SubheaderCategory.html.twig', {title: attr('category', 'title'), description: attr('category', 'chapo'), nbProducts: 9, breadcrumb: breadcrumb}) }}
+
   {{ component('Flexy:CategoryProducts', {
-    initialCategoryId: categoryId, 
-    initialPage: page, 
-    sourceData : {
+    initialCategoryId: categoryId,
+    initialPage: page,
+    sourceData: {
       title: category.i18ns.title|default(null),
       chapo: category.i18ns.chapo|default(null),
-      description: category.i18ns.description|default(null)
-    }
-    }) 
+      description: category.i18ns.description|default(null),
+    },
+    })
   }}
 
-	{% include '@components/Layout/Reinsurance/Reinsurance.html.twig' with { data: [
+    {{ include('@components/Layout/Reinsurance/Reinsurance.html.twig', {data: [
       {
-        strongText: 'Free delivery' | trans,
-        text: 'For any order over €100' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Free delivery'|trans,
+        text: 'For any order over €100'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-delivery'
+        icon: 'reinsurance-delivery',
       },
       {
-        strongText: 'Secure payment' | trans,
-        text: 'Credit card, Paypal' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Secure payment'|trans,
+        text: 'Credit card, Paypal'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-payment'
+        icon: 'reinsurance-payment',
       },
       {
-        strongText: 'Satisfied or refunded' | trans,
-        text: 'Exchange or refund offered within 30 days' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Satisfied or refunded'|trans,
+        text: 'Exchange or refund offered within 30 days'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-satisfied'
-      }
-    ] } %}
+        icon: 'reinsurance-satisfied',
+      },
+    ]}) }}
 {% endblock %}

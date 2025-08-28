@@ -1,4 +1,4 @@
-{% extends "@UiComponents/AddressCard/AddressCard.html.twig" %}
+{% extends '@UiComponents/AddressCard/AddressCard.html.twig' %}
 
 {% block form %}
 
@@ -8,41 +8,38 @@
         'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID'),
         'data-live-address-id-param': this.address.id,
         text: this.checked ? 'checked' : 'select',
-        round: true
-    })}} 	
-    
+        round: true,
+    }) }}
+
 {% endblock %}
 
 {% block bottom %}
 
     {{ component('Flexy:Button', {
         type: 'button',
-        text: 'Modify' | trans,
+        text: 'Modify'|trans,
         icon_left: 'edit',
-        disabled,
+        disabled: disabled,
         color: 'minimal',
-        class:'hover:text-theme',
+        class: 'hover:text-theme',
         'data-action': 'live#emit',
-        'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::EDIT_DELIVERY_ADDRESS'), 
-        'data-live-address-id-param': address.id, 
-    })}} 
-
+        'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::EDIT_DELIVERY_ADDRESS'),
+        'data-live-address-id-param': address.id,
+    }) }}
 
     {% if not address.isDefault %}
 
         {{ component('Flexy:Button', {
             type: 'button',
-            text: 'Delete' | trans,
+            text: 'Delete'|trans,
             icon_left: 'delete',
-            disabled,
+            disabled: disabled,
             color: 'minimal',
-            class:'hover:text-theme',
+            class: 'hover:text-theme',
             'data-action': 'live#emit',
-            'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::DELETE_DELIVERY_ADDRESS'), 
-            'data-live-address-id-param': address.id, 
-        })}} 
+            'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::DELETE_DELIVERY_ADDRESS'),
+            'data-live-address-id-param': address.id,
+        }) }}
 
     {% endif %}
 {% endblock %}
-
-

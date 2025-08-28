@@ -30,117 +30,116 @@
 
 {% if product.productSaleElements is defined %}
 
-	{% set defaultPse = null %}
+    {% set defaultPse = null %}
 
-	{% for pse in productSaleElements %}
-		{% if pse.isDefault %}
-			{% set defaultPse = pse %}
-		{% endif %}
-	{% endfor %}
-	{% set price = defaultPse.productPrices|first.price|format_currency('EUR', locale: lang_code) %}
-	{% set promoPrice = defaultPse.productPrices|first.promoPrice|format_currency('EUR', locale: lang_code) %}
+    {% for pse in productSaleElements %}
+        {% if pse.isDefault %}
+            {% set defaultPse = pse %}
+        {% endif %}
+    {% endfor %}
+    {% set price = defaultPse.productPrices|first.price|format_currency('EUR', locale: lang_code) %}
+    {% set promoPrice = defaultPse.productPrices|first.promoPrice|format_currency('EUR', locale: lang_code) %}
 
-	{% set isPromo = defaultPse ? defaultPse.promo|default(false) : false %}
-	{% set isNew = defaultPse ? defaultPse.newness|default(false) : false %}
+    {% set isPromo = defaultPse ? defaultPse.promo|default(false) : false %}
+    {% set isNew = defaultPse ? defaultPse.newness|default(false) : false %}
 {% endif %}
 
 {% if id is defined and img is not defined %}
-	{% set images = resources('/api/front/product_images', {'product.id':id,'position':'ASC', itemsPerPage:1}) %}
-	{% if images %}
-		{% set img = {url: '/legacy-image-library/product_image_'~ images|first.id ~'/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
-	{% endif %}
+    {% set images = resources('/api/front/product_images', {'product.id': id, position: 'ASC', itemsPerPage: 1}) %}
+    {% if images %}
+        {% set img = {url: '/legacy-image-library/product_image_' ~ images|first.id ~ '/full/%5E*!386,280/0/default.webp', alt: product.i18ns.title} %}
+    {% endif %}
 {% endif %}
 
 {% if img is not defined %}
-	{% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt:''}) %}
+    {% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt: ''}) %}
 {% endif %}
 <div class="ProductCard {{ classes }}">
-	<div class="ProductCard-header">
-		<div class="ProductCard-tagList">
-			{% if isNew %}
-				{% include '@components/Molecules/Tag/Tag.html.twig' with {customText: 'New'|trans, variant: 'vermillon'} %}
-			{% endif %}
-			{% if isPromo %}
-				{% include '@components/Molecules/Tag/Tag.html.twig' with {customText: '-15%', variant: 'error'} %}
-			{% endif %}
-		</div>
+    <div class="ProductCard-header">
+        <div class="ProductCard-tagList">
+            {% if isNew %}
+                {{ include('@components/Molecules/Tag/Tag.html.twig', {customText: 'New'|trans, variant: 'vermillon'}) }}
+            {% endif %}
+            {% if isPromo %}
+                {{ include('@components/Molecules/Tag/Tag.html.twig', {customText: '-15%', variant: 'error'}) }}
+            {% endif %}
+        </div>
 
-		{% if wishButton %}
-			<button type="button" class="ButtonWishList {% if inWishlist %}in-wishlist{% endif %}">
-				<span class="in-wishlist-icon">
-					<span>{{ ux_icon("heart-fill") }}</span>
-				</span>
-				<span class="not-in-wishlist-icon">
-					<span>{{ ux_icon("heart") }}</span>
-				</span>
-			</button>
-		{% endif %}
-	</div>
-	<div class="ProductCard-mainContent">
-		<a class="ProductCard-imgLink" href="{{ productLink }}">
-			<figure class="ProductCard-img">
-				<img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
-			</figure>
-		</a>
-		<div class="ProductCard-desc">
-			<a href="{{ productLink }}" class="ProductCard-title">{{ title }}</a>
+        {% if wishButton %}
+            <button type="button" class="ButtonWishList {% if inWishlist %}in-wishlist{% endif %}">
+                <span class="in-wishlist-icon">
+                    <span>{{ ux_icon('heart-fill') }}</span>
+                </span>
+                <span class="not-in-wishlist-icon">
+                    <span>{{ ux_icon('heart') }}</span>
+                </span>
+            </button>
+        {% endif %}
+    </div>
+    <div class="ProductCard-mainContent">
+        <a class="ProductCard-imgLink" href="{{ productLink }}">
+            <figure class="ProductCard-img">
+                <img src="{{ img.url }}" alt="{{ img.alt }}" title="{{ img.alt }}" loading="lazy">
+            </figure>
+        </a>
+        <div class="ProductCard-desc">
+            <a href="{{ productLink }}" class="ProductCard-title">{{ title }}</a>
 
-			{% if secondaryTitle %}
-				<div class="ProductCard-subTitle paragraph-3">{{ secondaryTitle }}</div>
-			{% endif %}
+            {% if secondaryTitle %}
+                <div class="ProductCard-subTitle paragraph-3">{{ secondaryTitle }}</div>
+            {% endif %}
 
-
-			<div class="ProductCard-footer">
-				{% if rate != null or colors|length > 0 %}
-					<div class="ProductCard-footerLeft">
-						{% if rate != null %}
-							<div class="Rating">
-								<div class="Rating-mark">
-									{% for i in 1..5 %}
-										{% if rate >= i %}
-											<div>
-												{{ ux_icon("star-full") }}
-											</div>
-										{% elseif rate <= i and rate > i - 1 %}
-											<div>
-												{{ ux_icon("star-half-empty") }}
-											</div>
-										{% else %}
-											<div class="star-empty">
-												{{ ux_icon("star-full") }}
-											</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-								<span class="Rating-reviewCount indication-small">
-									{{ reviewCount }}
-									{{ 'Reviews' |trans }}
-								</span>
-							</div>
-						{% endif %}
-						{% if hasColors %}
-							<div class="Colors">
-								{% set limit = 6 %}
-								{% for color in colors %}
-									{% if loop.index0 < limit %}
-										<a href="#" class="Colors-item" style="background-color:{{ color }}"></a>
-									{% else %}
-										<div class="Colors-others">...</div>
-									{% endif %}
-								{% endfor %}
-							</div>
-						{% endif %}
-					</div>
-				{% endif %}
-				{% if isPromo %}
-					<div class="ProductCard-footerRight">
-						<div class="ProductCard-price">{{ promoPrice }}</div>
-						<div class="ProductCard-originalPrice">{{ price }}</div>
-					</div>
-				{% else %}
-					<div class="ProductCard-price">{{ price }}</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+            <div class="ProductCard-footer">
+                {% if rate != null or colors|length > 0 %}
+                    <div class="ProductCard-footerLeft">
+                        {% if rate != null %}
+                            <div class="Rating">
+                                <div class="Rating-mark">
+                                    {% for i in 1..5 %}
+                                        {% if rate >= i %}
+                                            <div>
+                                                {{ ux_icon('star-full') }}
+                                            </div>
+                                        {% elseif rate <= i and rate > i - 1 %}
+                                            <div>
+                                                {{ ux_icon('star-half-empty') }}
+                                            </div>
+                                        {% else %}
+                                            <div class="star-empty">
+                                                {{ ux_icon('star-full') }}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <span class="Rating-reviewCount indication-small">
+                                    {{ reviewCount }}
+                                    {{ 'Reviews'|trans }}
+                                </span>
+                            </div>
+                        {% endif %}
+                        {% if hasColors %}
+                            <div class="Colors">
+                                {% set limit = 6 %}
+                                {% for color in colors %}
+                                    {% if loop.index0 < limit %}
+                                        <a href="#" class="Colors-item" style="background-color:{{ color }}"></a>
+                                    {% else %}
+                                        <div class="Colors-others">...</div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if isPromo %}
+                    <div class="ProductCard-footerRight">
+                        <div class="ProductCard-price">{{ promoPrice }}</div>
+                        <div class="ProductCard-originalPrice">{{ price }}</div>
+                    </div>
+                {% else %}
+                    <div class="ProductCard-price">{{ price }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,7 +1,7 @@
-{% set direction = "SearchItem--horizontal" %}
+{% set direction = 'SearchItem--horizontal' %}
 
 {% if vertical %}
-  {% set direction = "SearchItem--vertical" %}
+  {% set direction = 'SearchItem--vertical' %}
 {% endif %}
 
 <a class="SearchItem {{ direction }}" href='{{ publicUrl|default('#') }}'>

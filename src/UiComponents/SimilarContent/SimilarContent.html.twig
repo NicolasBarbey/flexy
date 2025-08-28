@@ -4,20 +4,22 @@
 
 <div class="px-6 py-20 mx-auto md:px-12 md:pr-0 lg:px-0 lg:container">
 
-	<div class='pb-6 text-black h4'>{{ title }}</div>
+    <div class="pb-6 text-black h4">
+        {{ title }}
+    </div>
 
-	<div class='SimilarContents' {{ stimulus_controller('simple-slider') }}>
-		{% for similarContent in similarContents %}
-			{% include '@components/Organisms/SimilarContentCard/SimilarContentCard.html.twig' with similarContent %}
-		{% endfor %}
-	</div>
-	{% if button %}
-		{{ component('Flexy:Button', {
+    <div class="SimilarContents" {{ stimulus_controller('simple-slider') }}>
+        {% for similarContent in similarContents %}
+            {{ include('@components/Organisms/SimilarContentCard/SimilarContentCard.html.twig', similarContent) }}
+        {% endfor %}
+    </div>
+    {% if button %}
+        {{ component('Flexy:Button', {
           href: button.href,
           text: button.label,
-          icon_right:'chevron-right',
-		  color:'secondary', 
-		  class: 'mt-5'
-        })}}
-	{% endif %}
+          icon_right: 'chevron-right',
+          color: 'secondary',
+          class: 'mt-5',
+        }) }}
+    {% endif %}
 </div>

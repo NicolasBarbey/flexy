@@ -1,17 +1,19 @@
-<div {{attributes}}>
-    <h1 class='text-black h4'>{{ 'Choose a payment method'|trans }}</h1>
-	<ul class="flex flex-col gap-3.5 my-5">
+<div {{ attributes }}>
+    <h1 class="text-black h4">
+        {{ 'Choose a payment method'|trans }}
+    </h1>
+    <ul class="flex flex-col gap-3.5 my-5">
         {% if this.modules is defined and not empty %}
             {% for module in this.modules %}
                 <li>
-                    {{module.i18ns.title}}
+                    {{ module.i18ns.title }}
                     {# include '@components/Organisms/Modules/Payment/Payment.html.twig' with { title: module.i18ns.title,id: module.id, selected:paymentModuleId == module.id  } #}
                 </li>
             {% endfor %}
-		{% endif %}
-	</ul>
+        {% endif %}
+    </ul>
 
-	{% if paymentModuleId %}
-		{{ component('Flexy:Organisms:Modules:InvoiceAddresses') }}
-	{% endif %}
+    {% if paymentModuleId %}
+        {{ component('Flexy:Organisms:Modules:InvoiceAddresses') }}
+    {% endif %}
 </div>

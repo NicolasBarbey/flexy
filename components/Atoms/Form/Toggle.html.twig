@@ -7,8 +7,7 @@
 {% set labelOff = labelOff|default(null) %}
 {% set labelOn = labelOn|default(null) %}
 
-
-<label class="ToggleButton  {{ classes }} {{ error ? 'error'  : ''}}">
+<label class="ToggleButton  {{ classes }} {{ error ? 'error' : '' }}">
   <input type="checkbox"
          name='{{ name }}'
          value='{{ value }}'

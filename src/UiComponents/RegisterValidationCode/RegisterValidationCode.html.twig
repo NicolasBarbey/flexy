@@ -2,19 +2,19 @@
     {{ form_start(form) }}
 
     <div class="flex justify-center gap-[10px] lg:gap-4">
-        {{ form_widget(form.customer_email, {'value': email}) }}
+        {{ form_widget(form.customer_email, {value: email}) }}
         {{ form_widget(form.activation_code) }}
         {{ form_rest(form) }}
     </div>
-    {% include '@components/Molecules/Button/Button.html.twig' with {
+    {{ include('@components/Molecules/Button/Button.html.twig', {
         text: 'Validate Code'|trans,
-        classes:'md:Button--unfill Button--fill',
+        classes: 'md:Button--unfill Button--fill',
         props: {
              type: 'button',
-            'data-action': "live#action:prevent",
-            "data-live-action-param":"save"
-        }
-    } %}
+            'data-action': 'live#action:prevent',
+            'data-live-action-param': 'save',
+        },
+    }) }}
 
     {{ form_end(form) }}
 </div>

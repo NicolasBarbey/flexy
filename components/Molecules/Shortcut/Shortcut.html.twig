@@ -2,6 +2,8 @@
 {% set customText = customText|default('') %}
 {% set active = active|default(false) %}
 
-<button class='Shortcut {{ classes }} {% if active %}active{% endif %}'>
-  <span>{{ customText }}</span>
+<button class="Shortcut {{ classes }} {% if active %}active{% endif %}">
+    <span>
+        {{ customText }}
+    </span>
 </button>

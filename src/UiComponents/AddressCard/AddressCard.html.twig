@@ -1,41 +1,43 @@
-{% props selected = false, title = "", disabled = false %}
+{% props selected = false, title = '', disabled = false %}
 
-<div {{attributes.defaults({class: 'AddressCard ' ~ (this.selected ? 'selected' : '') })}} {{this.withModal ? stimulus_controller('address-card',{} ,{}, {'modal' : '.Modal' } )}}>
-	<div class='AddressCard-top'>
-		{% block header %}
-			{% include '@components/Molecules/Favorite/Favorite.html.twig' with {
-				text: 'Favourite'|trans, 
-				selected: this.address.isDefault, 
-				addressId : address.id
-			} %}
-		{% endblock %}
-	</div>
+<div {{ attributes.defaults({class: 'AddressCard ' ~ (this.selected ? 'selected' : '')}) }} {{ this.withModal ? stimulus_controller('address-card', {}, {}, {modal: '.Modal'}) }}>
+    <div class="AddressCard-top">
+        {% block header %}
+            {{ include('@components/Molecules/Favorite/Favorite.html.twig', {
+                text: 'Favourite'|trans,
+                selected: this.address.isDefault,
+                addressId: address.id,
+            }) }}
+        {% endblock %}
+    </div>
 
-	<label class='AddressCard-content'>
-		
-		{% block form %}{% endblock %}
+    <label class="AddressCard-content"> {% block form %}{% endblock %}
 
-		{% block infos %}
-			{% include '@UiComponents/AddressCard/AddressInfo.html.twig' with {
-				title,
-				address: this.address} 
-			%}
-		{% endblock %}
-	</label>
-		
-	<div class="mt-auto bottom-card-buttons">
-		{% block bottom %}
-			<a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {'addressId': address.id}) }}" class='hover:text-theme' type='button'>
-				<span>{{ ux_icon("edit") }}</span>
-				{{ 'Modify'|trans }}
-			</a>
-			{% if not address.isDefault %}
-				<button {% if disabled %} disabled {% endif %} class='hover:text-theme' type='button' data-action="address-card#openModal" data-modal="confirmDeleteAddress" data-confirm="{{ path('account_address_delete', {'addressId': address.id}) }}">
-					<span>{{ ux_icon("delete") }}</span>
-					{{ 'Delete'|trans }}
-				</button>
-			{% endif %}
-		{% endblock %}
-	</div>
+        {% block infos %}
+            {{ include('@UiComponents/AddressCard/AddressInfo.html.twig', {
+                title: title,
+                address: this.address},
+            ) }}
+        {% endblock %}
+    </label>
+
+    <div class="mt-auto bottom-card-buttons">
+        {% block bottom %}
+            <a {% if disabled %} disabled {% endif %} href="{{ path('account_address_update', {addressId: address.id}) }}" class="hover:text-theme" type="button">
+                <span>
+                    {{ ux_icon('edit') }}
+                </span>
+                {{ 'Modify'|trans }}
+            </a>
+            {% if not address.isDefault %}
+                <button {% if disabled %} disabled {% endif %} class="hover:text-theme" type="button" data-action="address-card#openModal" data-modal="confirmDeleteAddress" data-confirm="{{ path('account_address_delete', {addressId: address.id}) }}">
+                    <span>
+                        {{ ux_icon('delete') }}
+                    </span>
+                    {{ 'Delete'|trans }}
+                </button>
+            {% endif %}
+        {% endblock %}
+    </div>
 
 </div>

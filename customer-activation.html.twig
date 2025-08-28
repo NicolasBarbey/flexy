@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-	{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 {% block body %}
 
-	<div class="text-black w-full max-w-[540px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
-		{{ux_icon('letter',{width: 234, height: 192, class: 'w-[128px] h-[105px] lg:w-[235px] lg:h-[192px] block mb-[30px] mx-auto'})}}
+    <div class="text-black w-full max-w-[540px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
+        {{ ux_icon('letter', {width: 234, height: 192, class: 'w-[128px] h-[105px] lg:w-[235px] lg:h-[192px] block mb-[30px] mx-auto'}) }}
 
-		<h1 class="mb-5 text-center h3">{{'Enter the code received by e-mail'|trans}}</h1>
+        <h1 class="mb-5 text-center h3">{{ 'Enter the code received by e-mail'|trans }}</h1>
 
-		{{ component('Flexy:RegisterValidationCode', { email: email }) }}
+        {{ component('Flexy:RegisterValidationCode', {email: email}) }}
 
-		<div class="mt-[40px] pt-[40px] border-t border-gray-700 text-center">
-			<strong class="block">{{"Dont't have receive code ?"|trans}}</strong>
-			<span>{{"resend_code"|trans({'%h': path('customer_send_code', {'email': email} )})|raw}}</span>
-		</div>
+        <div class="mt-[40px] pt-[40px] border-t border-gray-700 text-center">
+            <strong class="block">{{ "Dont't have receive code ?"|trans }}</strong>
+            <span>{{ 'resend_code'|trans({'%h': path('customer_send_code', {email: email})})|raw }}</span>
+        </div>
 
-	</div>
+    </div>
 
 {% endblock %}

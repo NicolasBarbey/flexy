@@ -4,31 +4,31 @@
 {% set url = url|default('') %}
 
 <div class="SimilarContentCard {{ classes }}">
-	<div class="SimilarContentCard-imgLink">
-		{% set product_image_params = {
-      'source_type': 'content',
-      'source_id': id,
-      'filters': 'similar_content_default',
-      'wrapper': 'figure',
-      'wrapper_attrs':{
-        'class':'SimilarContentCard-img'
+    <div class="SimilarContentCard-imgLink">
+        {% set product_image_params = {
+      source_type: 'content',
+      source_id: id,
+      filters: 'similar_content_default',
+      wrapper: 'figure',
+      wrapper_attrs: {
+        class: 'SimilarContentCard-img',
       },
-      'position': 1,
-      'img_attrs': {
-          'loading': 'lazy'
+      position: 1,
+      img_attrs: {
+          loading: 'lazy',
       },
-      'placeholder': asset('dist/images/placeholder.webp')
+      placeholder: asset('dist/images/placeholder.webp'),
     } %}
-		{% set productImage = getImages(product_image_params) %}
+        {% set productImage = getImages(product_image_params) %}
 
-		{{productImage|raw}}
-	</div>
-	<div class="SimilarContentCard-desc">
+        {{ productImage|raw }}
+    </div>
+    <div class="SimilarContentCard-desc">
 
-		<a href="{{ url }}" class="SimilarContentCard-title">{{ title }}</a>
+        <a href="{{ url }}" class="SimilarContentCard-title">{{ title }}</a>
 
-		<div class="SimilarContentCard-footer">
-			{{ date|date("d/m/Y") }}
-		</div>
-	</div>
+        <div class="SimilarContentCard-footer">
+            {{ date|date('d/m/Y') }}
+        </div>
+    </div>
 </div>

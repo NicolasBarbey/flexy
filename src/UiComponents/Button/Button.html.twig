@@ -1,11 +1,9 @@
-
-
-{% props 
-    icon_left = null, 
-    icon_right = null, 
-    color = null, 
-    size = null, 
-    fill = false, 
+{% props
+    icon_left = null,
+    icon_right = null,
+    color = null,
+    size = null,
+    fill = false,
     rectangle = false,
     sharp = false,
     round = false,
@@ -25,37 +23,37 @@
         },
         fill: {
             false: null,
-            true: 'Button--fill'
+            true: 'Button--fill',
         },
         rectangle: {
             false: null,
-            true: 'Button--rectangle'
+            true: 'Button--rectangle',
         },
         sharp: {
             false: null,
-            true: 'Button--sharp'
+            true: 'Button--sharp',
         },
         round: {
             false: null,
-            true: 'Button--round'
-        }
-    }
+            true: 'Button--round',
+        },
+    },
 ) %}
 
-<{{tag}} class="{{ button.apply({color, size, fill, rectangle, sharp, round}, attributes.render('class')) }}" {{attributes.without('class')}}>
-	{% if icon_left %}
-		<span class='icon icon-left'>
-			{{ ux_icon(icon_left) }}
-		</span>
-	{% endif %}
-    
+<{{ tag }} class="{{ button.apply({color: color, size: size, fill: fill, rectangle: rectangle, sharp: sharp, round: round}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {% if icon_left %}
+        <span class="icon icon-left">
+            {{ ux_icon(icon_left) }}
+        </span>
+    {% endif %}
+
     {% block content %}
         {{ this.text|striptags('<span>')|raw }}
     {% endblock %}
 
-	{% if icon_right %}
-		<span class='icon icon-right'>
-			{{ ux_icon(icon_right) }}
-		</span>
-	{% endif %}
-</{{tag}}>
+    {% if icon_right %}
+        <span class="icon icon-right">
+            {{ ux_icon(icon_right) }}
+        </span>
+    {% endif %}
+</{{ tag }}>

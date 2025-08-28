@@ -2,72 +2,93 @@
 {% set filtersCount = filters_count(formValues|filter(f => f is iterable)) %}
 
 <section class="Category-grid" {{ attributes.defaults(stimulus_controller('filters')) }}>
-	{% if filters %}
-		{% set ActiveFiltersCount = filters_count(formValues|filter(f => f is iterable)) %}
-		<div class="CategoryFilter MobileDrawer lg:reset-drawer" data-action="change->filters#filterChange" data-drawer-target="drawer">
-			<div class='MobileDrawer-header lg:hidden'>
-				<button class='MobileDrawer-close' type='button' data-action="drawer#close">{{ ux_icon("close") }}</button>
-			</div>
-			{{ form(form)}}
-				<div class="flex items-center mt-[30px] flex-row-reverse">
-					<button type="button" class="ml-auto leading-3 Button Button--primary Button--large lg:hidden" data-action="drawer#close">{{'Apply'|trans}}</button>
-					{% if filtersCount %}
-						<button type="button" class="leading-3 Button Button--secondary CategoryFilter-erase" data-action="filters#resetForm drawer#close">{{'Erase'|trans}}
-							({{filtersCount}})
-						{% endif %}
-					</button>
-				</div>
-			</div>
-		{% endif %}
-		<div class="flex-1">
-			<div class="justify-between items-end mb-[29px] hidden lg:flex">
-				{% if products|length %}
-					<span>{{ products|length }}
-						{{ 'item(s)'|trans }}</span>
-				{% endif %}
+    {% if filters %}
+        {% set ActiveFiltersCount = filters_count(formValues|filter(f => f is iterable)) %}
+        <div
+            class="CategoryFilter MobileDrawer lg:reset-drawer"
+            data-action="change->filters#filterChange"
+            data-drawer-target="drawer">
+            <div class="MobileDrawer-header lg:hidden">
+                <button class="MobileDrawer-close" type="button" data-action="drawer#close">
+                    {{ ux_icon('close') }}
+                </button>
+            </div>
+            {{ form(form) }}
+                <div class="flex items-center mt-[30px] flex-row-reverse">
+                    <button
+                        type="button"
+                        class="ml-auto leading-3 Button Button--primary Button--large lg:hidden"
+                        data-action="drawer#close">
+                        {{ 'Apply'|trans }}
+                    </button>
+                    {% if filtersCount %}
+                        <button
+                            type="button"
+                            class="leading-3 Button Button--secondary CategoryFilter-erase"
+                            data-action="filters#resetForm drawer#close">
+                            {{ 'Erase'|trans }}
+                            (
+                            {{ filtersCount }}
+                            )
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+        <div class="flex-1">
+            <div class="justify-between items-end mb-[29px] hidden lg:flex">
+                {% if products|length %}
+                    <span>
+                        {{ products|length }}
+                        {{ 'item(s)'|trans }}
+                    </span>
+                {% endif %}
 
+                <div class="ml-auto w-[250px]">
+                    {{ include('@components/Molecules/Fields/FieldSelect/FieldSelect.html.twig', {
+                    label: 'Sort by'|trans,
+                    placeholder: 'Sort by'|trans,
+                    options: sorts|map(sort => sort|merge({label: sort.title})),
+                    dataAction: 'change->filters#sortChange',
+                }) }}
+                </div>
+            </div>
 
-				<div class="ml-auto w-[250px]">
-				{% include '@components/Molecules/Fields/FieldSelect/FieldSelect.html.twig' with {
-					label: "Sort by" | trans,
-					placeholder: "Sort by" | trans,
-					options: sorts|map(sort => sort|merge({'label':sort.title})),
-					dataAction: 'change->filters#sortChange'
-				} %}
-				</div>
-			</div>
-
-			<div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8 mb-[40px] transition" data-loading="addClass(opacity-50)">
-				{% if products|length %}
-					{% for product in products %}
-						{% include '@UiComponents/ProductCard/ProductCard.html.twig' with product|merge({displayWishButton: true}) %}
-					{% endfor %}
-				{% else %}
-					<div class="flex justify-center flex-col items-center h-[400px] col-span-full">
-						<div class="w-[250px] h-[150px] lg:w-[300px] lg:h-[200px] mb-6">
-							{{ source('@assets/images/not-found.svg') }}
-						</div>
-						<h3 class="text-center h4">{{"No products found"|trans}}</h3>
-						{% if ActiveFiltersCount %}
-							<button type="button" class="mt-4 Button--medium Button Button--secondary" data-action="click->filters#resetForm">
-								{{'Erase filters'|trans}}
-								({{filtersCount}})
-							</button>
-						{% else %}
-							<a href="/" class="mt-4 Button--medium Button Button--secondary">
-								{{'Home'|trans}}
-							</a>
-						{% endif %}
-					</div>
-				{% endif %}
-			</div>
-			<div id="description" class="lg:pt-[56px] lg:pb-[96px] max-w-[664px] pt-[102px] pb-[52px] mx-auto">
-				{% if attr('category', 'description') %}
-					<div class="paragraph-4 lg:paragraph-2">
-						{{ attr('category', 'description') }}
-					</div>
-				{% endif %}
-				{{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
-			</div>
-		</div>
-	</section>
+            <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8 mb-[40px] transition" data-loading="addClass(opacity-50)">
+                {% if products|length %}
+                    {% for product in products %}
+                        {{ include('@UiComponents/ProductCard/ProductCard.html.twig', product|merge({displayWishButton: true})) }}
+                    {% endfor %}
+                {% else %}
+                    <div class="flex justify-center flex-col items-center h-[400px] col-span-full">
+                        <div class="w-[250px] h-[150px] lg:w-[300px] lg:h-[200px] mb-6">
+                            {{ source('@assets/images/not-found.svg') }}
+                        </div>
+                        <h3 class="text-center h4">
+                            {{ 'No products found'|trans }}
+                        </h3>
+                        {% if ActiveFiltersCount %}
+                            <button type="button" class="mt-4 Button--medium Button Button--secondary" data-action="click->filters#resetForm">
+                                {{ 'Erase filters'|trans }}
+                                (
+                                {{ filtersCount }}
+                                )
+                            </button>
+                        {% else %}
+                            <a href="/" class="mt-4 Button--medium Button Button--secondary">
+                                {{ 'Home'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <div id="description" class="lg:pt-[56px] lg:pb-[96px] max-w-[664px] pt-[102px] pb-[52px] mx-auto">
+                {% if attr('category', 'description') %}
+                    <div class="paragraph-4 lg:paragraph-2">
+                        {{ attr('category', 'description') }}
+                    </div>
+                {% endif %}
+                {{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
+            </div>
+        </div>
+    </section>

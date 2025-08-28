@@ -1,12 +1,5 @@
 <div class="block mx-auto text-center text-black my-[60px]">
-	<div class="w-[240px] h-[215] mx-auto mb-[30px]">
-		{{ux_icon('confirm',{width: 240, height: 215})}}
-	</div>
-	<h1 class="h3">{{"Thanks !"|trans}}</h1>
-	<strong class="block mb-5">{{'for your order'}}</strong>
-	<p>{{'Your payment has been confirmed'}}</p>
-	<p>{{"We'll do everything we can to send your order as quickly as possible!"}}</p>
-	<div class='mt-[30px]'>
-		{% include '@components/Molecules/Button/Button.html.twig' with {href: '/',text: 'Back to the store'|trans,} %}
-	</div>
+    <div class="mt-[30px]">
+        {{ include('@components/Molecules/Button/Button.html.twig', {href: '/', text: 'Back to the store'|trans}) }}
+    </div>
 </div>

@@ -1,56 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{'Checkout'|trans}}
+    {{ 'Checkout'|trans }}
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block header %}
-	{% include '@components/Layout/Header/HeaderCheckout.html.twig' %}
+    {{ include('@components/Layout/Header/HeaderCheckout.html.twig') }}
 {% endblock %}
 
 {% block body %}
 
-    {% set useSidebar = block('checkoutSummary') is defined and block('checkoutSummary') != "" %}
+    {% set useSidebar = block('checkoutSummary') is defined and block('checkoutSummary') != '' %}
 
     {% block checkoutSteps %}
-        {% include '@components/Layout/CheckoutSteps/CheckoutSteps.html.twig' with {steps: ["Your cart", "Delivery", "Payment", "Confirmation"], current: current} %}
+        {{ include('@components/Layout/CheckoutSteps/CheckoutSteps.html.twig', {steps: ['Your cart', 'Delivery', 'Payment', 'Confirmation'], current: current}) }}
     {% endblock %}
-    
-    <div class="grid grid-cols-12 {% if useSidebar %}my-auto{% endif %}">    
-        <div class='col-span-12 Checkout-main{% if useSidebar %} md:col-span-7 {% else %} margin-auto{% endif %}'>
+
+    <div class="grid grid-cols-12 {% if useSidebar %}my-auto{% endif %}">
+        <div class="col-span-12 Checkout-main{% if useSidebar %} md:col-span-7 {% else %} margin-auto{% endif %}">
             <div class="Checkout-main-container">
-            {% block checkoutContent %}{% endblock %}
-            {% block checkoutBackButton %}{% endblock %}
+                {% block checkoutContent %}
+                {% endblock %}
+                {% block checkoutBackButton %}
+                {% endblock %}
             </div>
         </div>
 
         {% if useSidebar %}
-            <div class='col-span-12 Checkout-sidebar md:col-span-5'>
-                <div class='Checkout-sidebar-container'>
-                    <h2 class='text-black h3'>{{ 'Summary'|trans }}</h2>
-                    {% block checkoutSummary %}{% endblock %}
+            <div class="col-span-12 Checkout-sidebar md:col-span-5">
+                <div class="Checkout-sidebar-container">
+                    <h2 class="text-black h3">
+                        {{ 'Summary'|trans }}
+                    </h2>
+                    {% block checkoutSummary %}
+                    {% endblock %}
 
                     {% if block('checkoutNextButton') is defined %}
-                        <div class='mt-[30px]'>
-                        {% block checkoutNextButton %}{% endblock %}
-                        </div>
-                    {% endif %}
+                        <div class="mt-[30px]"> {% block checkoutNextButton %}{% endblock %}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    </div>
+            {% endif %}
+        </div>
 
-{% endblock %}
-{% block footer %}
-	{% include '@components/Layout/Footer/FooterCheckout.html.twig' %}
-{% endblock %}
-
-
+    {% endblock %}
+    {% block footer %}
+        {{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
+    {% endblock %}

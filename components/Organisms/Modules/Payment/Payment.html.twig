@@ -1,11 +1,13 @@
 {% set selected = selected|default(false) %}
 {% set title = title|default('') %}
 
-<div class='Payment {% if selected %}selected{% endif %}'>
-	<label class='Payment-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {type:"span",  value:id, checked:selected, model: 'paymentModuleId'} %}
-		<div class='flex justify-between'>
-			<span class='Payment-title'>{{ title }}</span>
-		</div>
-	</label>
+<div class="Payment {% if selected %}selected{% endif %}">
+    <label class="Payment-content">
+        {{ include('@components/Atoms/Form/Radio.html.twig', {type: 'span', value: id, checked: selected, model: 'paymentModuleId'}) }}
+        <div class="flex justify-between">
+            <span class="Payment-title">
+                {{ title }}
+            </span>
+        </div>
+    </label>
 </div>

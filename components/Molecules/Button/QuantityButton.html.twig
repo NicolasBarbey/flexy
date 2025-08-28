@@ -7,15 +7,14 @@
 {% set btnLiveAction = btnLiveAction|default(null) %}
 {% set name = name|default('') %}
 
+<div class="Button-quantityButton">
+    {{ include('@components/Molecules/Button/Quantity.html.twig', {disabled: disabled, value: value, classes: classes, name: name, btnLiveAction: btnLiveAction}) }}
 
-<div class='Button-quantityButton'>
-  {% include '@components/Molecules/Button/Quantity.html.twig' with {disabled, value, classes,name, btnLiveAction} %}
-  
     {{ component('Flexy:Button', {
-      disabled, 
-      text, 
+      disabled: disabled,
+      text: text,
       large: true,
-      icon_left: icon, 
+      icon_left: icon,
       fill: true,
-    })}}  
+    }) }}
 </div>

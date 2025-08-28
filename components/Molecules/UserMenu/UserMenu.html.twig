@@ -6,12 +6,14 @@
 
 {% set classes = classes ~ ' UserMenu--' ~ variant %}
 {% if icon %}
-	{% set classes = classes ~ ' UserMenu--withIcon' %}
+    {% set classes = classes ~ ' UserMenu--withIcon' %}
 {% endif %}
 
-<a href="{{ href }}" class='UserMenu {{ classes }}'>
-	{{ customText }}
-	{% if icon %}
-		<span class='UserMenu-icon'>{{ ux_icon("chevron-right") }}</span>
-	{% endif %}
+<a href="{{ href }}" class="UserMenu {{ classes }}">
+    {{ customText }}
+    {% if icon %}
+        <span class="UserMenu-icon">
+            {{ ux_icon('chevron-right') }}
+        </span>
+    {% endif %}
 </a>

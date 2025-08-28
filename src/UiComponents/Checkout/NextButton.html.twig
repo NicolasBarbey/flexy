@@ -4,29 +4,29 @@
 {% set total = total|default('') %}
 
 {% if page == 'cart' %}
-	{% set label = 'Order' %}
-	{% set url = '/checkout/delivery' %}
-	{% set condition = url != '' and label != '' and totalItems %}
+    {% set label = 'Order' %}
+    {% set url = '/checkout/delivery' %}
+    {% set condition = url != '' and label != '' and totalItems %}
 {% elseif page == 'delivery' %}
-	{% set label = 'Payment (' ~ total ~ ')' %}
-	{% set url = '/checkout/payment' %}
-	{% set condition = cart.addressDeliveryId and  cart.deliveryModuleId %}
+    {% set label = 'Payment (' ~ total ~ ')' %}
+    {% set url = '/checkout/payment' %}
+    {% set condition = cart.addressDeliveryId and cart.deliveryModuleId %}
 {% elseif page == 'payment' %}
-	{% set label = 'Order' %}
-	{% set url = '/checkout/gateway' %}
-	{% set condition = true %}
+    {% set label = 'Order' %}
+    {% set url = '/checkout/gateway' %}
+    {% set condition = true %}
 
 {% endif %}
 
 {% if condition %}
-	<div class='mt-[30px]'>
-		{%- 
-			include '@components/Molecules/Button/Button.html.twig' with 
-			{
-				text: label|trans, 
-				href: url, 
-				classes:'md:Button--unfill Button--fill'
-			} only
-		-%}
-	</div>
+    <div class="mt-[30px]">
+        {{-
+            include('@components/Molecules/Button/Button.html.twig',
+            {
+                text: label|trans,
+                href: url,
+                classes: 'md:Button--unfill Button--fill',
+            }
+        , false) -}}
+    </div>
 {% endif %}

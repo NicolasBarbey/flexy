@@ -1,49 +1,65 @@
 {% extends '@UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.html.twig' %}
 
 {% block content %}
-	
-	{% if this.closed != null %}
-		<span class='StoreDelivery-opening  {% if this.closed %}closed {% endif %}'>
-			{{ closed?'Close':'Open'|trans }}
-			{{ 'currently'|trans }}
-		</span>
-	{% endif %}
-	
-	{% if this.address is defined %}
-		<span class='StoreDelivery-address'>
-			<span>{{ this.address.address1 }},</span>
-			{% if this.address.address2 %}
-				<span>{{ this.address.address2 }},</span>
-			{% endif %}
-			{% if this.address.address3 %}
-				<span>{{ this.address.address3 }},</span>
-			{% endif %}
-			<span>{{ this.address.zipCode }} {{ this.address.city }}</span>
-		</span>
-	{% endif %}
+
+    {% if this.closed != null %}
+        <span class="StoreDelivery-opening  {% if this.closed %}closed {% endif %}">
+            {{ closed ? 'Close' : 'Open'|trans }}
+            {{ 'currently'|trans }}
+        </span>
+    {% endif %}
+
+    {% if this.address is defined %}
+        <span class="StoreDelivery-address">
+            <span>
+                {{ this.address.address1 }}
+                ,
+            </span>
+            {% if this.address.address2 %}
+                <span>
+                    {{ this.address.address2 }}
+                    ,
+                </span>
+            {% endif %}
+            {% if this.address.address3 %}
+                <span>
+                    {{ this.address.address3 }}
+                    ,
+                </span>
+            {% endif %}
+            <span>
+                {{ this.address.zipCode }}
+                {{ this.address.city }}
+            </span>
+        </span>
+    {% endif %}
 {% endblock %}
 
 {% block footer %}
-	{% if this.hours is not empty %}
-		<div class="StoreDelivery-bottom" {{stimulus_controller('store-delivery')}}>
-			{{ component('Flexy:Button', {
-				class:'StoreDelivery-hours',
-				'data-show-hours': 'See opening hours' | trans,
-				'data-hide-hours': 'hide opening times' | trans,
-				icon_left: 'clock',
-				text: 'See opening hours' |trans,
-				color: 'minimal'
-			})}} 	
-		</div>
-		<div class='StoreDelivery-hoursListing md:hidden'>
-			<table>
-				{% for hour in this.hours %}
-					<tr>
-						<td>{{ hour.day }}</td>
-						<td>{{ hour.hours }}</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</div>
-	{% endif %}
+    {% if this.hours is not empty %}
+        <div class="StoreDelivery-bottom" {{ stimulus_controller('store-delivery') }}>
+            {{ component('Flexy:Button', {
+                class: 'StoreDelivery-hours',
+                'data-show-hours': 'See opening hours'|trans,
+                'data-hide-hours': 'hide opening times'|trans,
+                icon_left: 'clock',
+                text: 'See opening hours'|trans,
+                color: 'minimal',
+            }) }}
+        </div>
+        <div class="StoreDelivery-hoursListing md:hidden">
+            <table>
+                {% for hour in this.hours %}
+                    <tr>
+                        <td>
+                            {{ hour.day }}
+                        </td>
+                        <td>
+                            {{ hour.hours }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}

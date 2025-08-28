@@ -4,10 +4,14 @@
 {% set classes = '' %}
 {% set classes = classes ~ ' Tooltip-text--' ~ position %}
 
-<div class='Tooltip'>
-  <span class='Tooltip-icon'>{{ ux_icon("help") }}</span>
-  <span class='Tooltip-text{{ classes }}'>
-    <span class='Tooltip-close'>{{ ux_icon("close") }}</span>
-    {{ tooltip }}
-  </span>
+<div class="Tooltip">
+    <span class="Tooltip-icon">
+        {{ ux_icon('help') }}
+    </span>
+    <span class="Tooltip-text{{ classes }}">
+        <span class="Tooltip-close">
+            {{ ux_icon('close') }}
+        </span>
+        {{ tooltip }}
+    </span>
 </div>

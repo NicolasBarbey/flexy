@@ -7,38 +7,45 @@
 {% set pickups = pickups|default([]) %}
 {% set name = name|default('') %}
 
-{% set pickupstest = resources('/api/front/delivery_modules', {'by_code': 1}) %}
+{% set pickupstest = resources('/api/front/delivery_modules', {by_code: 1}) %}
 
-<div class='PickupPointModule DeliveryModule {% if selected %}selected{% endif %}'>
-	<label class='PickupPointModule-content'>
-		{% include '@components/Atoms/Form/Radio.html.twig' with {
-			type:"span",
-			value: enum('Thelia\\Domain\\Checkout\\Enum\\DeliveryMode').PICKUP.value,
-			model:'deliveryMode'
-		}
-		%}
-		<span>
-			<span class='PickupPointModule-top'>
-				<span>
-					<span class='PickupPointModule-title'>{{ title }}</span>
-					{% if date %}
-						<span class='PickupPoint-description'>{{ 'Estimated delivery on'|trans }}{{ date }}</span>
-					{% endif %}
+<div class="PickupPointModule DeliveryModule {% if selected %}selected{% endif %}">
+    <label class="PickupPointModule-content">
+        {{ include('@components/Atoms/Form/Radio.html.twig', {
+            type: 'span',
+            value: enum('Thelia\\Domain\\Checkout\\Enum\\DeliveryMode').PICKUP.value,
+            model: 'deliveryMode',
+        },
+        ) }}
+        <span>
+            <span class="PickupPointModule-top">
+                <span>
+                    <span class="PickupPointModule-title">
+                        {{ title }}
+                    </span>
+                    {% if date %}
+                        <span class="PickupPoint-description">
+                            {{ 'Estimated delivery on'|trans }}
+                            {{ date }}
+                        </span>
+                    {% endif %}
 
-				</span>
-				<span class="w-12 h-12 text-theme-medium">
-					{{ ux_icon("reinsurance-pickup") }}
-				</span>
-			</span>
-			<div class='flex items-center justify-between mt-6'>
-				<span class='PickupPointModule-price'>{{ price }}</span>
-				{% if carbone %}
-					{% include '@components/Molecules/Tag/Tag.html.twig' with { icon: "carbone", customText: carbone } %}
-				{% endif %}
-			</div>
-		</span>
-	</label>
+                </span>
+                <span class="w-12 h-12 text-theme-medium">
+                    {{ ux_icon('reinsurance-pickup') }}
+                </span>
+            </span>
+            <div class="flex items-center justify-between mt-6">
+                <span class="PickupPointModule-price">
+                    {{ price }}
+                </span>
+                {% if carbone %}
+                    {{ include('@components/Molecules/Tag/Tag.html.twig', {icon: 'carbone', customText: carbone}) }}
+                {% endif %}
+            </div>
+        </span>
+    </label>
 
-	{{ component('Flexy:PickupPointSearch') }}
+    {{ component('Flexy:PickupPointSearch') }}
 
 </div>

@@ -1,57 +1,58 @@
 <div class="ProductGallery">
-	<div class="ProductGallery-list" data-product-target="thumblist">
-		<ul>
-			{% for image in images %}
-				<li class="ProductGallery-item cursor-pointer{% if loop.first  %} is-active{% endif %}">
-					<button type="button" data-product-target="thumbnail{% if image.isProductImg %} productImg{% endif %}" {% if image.pseIds|length %} {{ live_action('updateCurrentPseFromId', {pseIds: image.pseIds|join(',')} ) }} data-pse-id="{{image.pseIds|join(',')}}" {% endif %} data-index="{{loop.index - 1}}">
-						{{getImages({
-            'img_id': image.id,
-            'source_type': 'product',
-            filters: 'default',
-            'img_attrs': {
-              'class' : 'ProductGallery-thumbnail',
-              loading: 'lazy',
-            },
-            placeholder: asset('dist/images/placeholder.webp')
-          })|raw}}
-					</button>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
+    <div class="ProductGallery-list" data-product-target="thumblist">
+        <ul>
+            {% for image in images %}
+                <li class="ProductGallery-item cursor-pointer{% if loop.first %} is-active{% endif %}">
+                    <button type="button" data-product-target="thumbnail{% if image.isProductImg %} productImg{% endif %}" {% if image.pseIds|length %} {{ live_action('updateCurrentPseFromId', {pseIds: image.pseIds|join(',')}) }} data-pse-id="{{ image.pseIds|join(',') }}" {% endif %} data-index="{{ loop.index - 1 }}">
+                        {{ getImages({
+                            img_id: image.id,
+                            source_type: 'product',
+                            filters: 'default',
+                            img_attrs: {
+                                class: 'ProductGallery-thumbnail',
+                                loading: 'lazy',
+                            },
+                            placeholder: asset('dist/images/placeholder.webp'),
+                            })|raw
+                        }}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
+    <div class="ProductGallery-main" data-live-ignore>
+        <section class="splide" aria-label="{{ 'Product visuals'|trans }}" data-product-target="slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for image in images %}
+                        <li class="splide__slide" data-product-target="slide" data-pse-ids="{{ image.pseIds|join(',') }}">
+                            {{ getImages({
+                                img_id: image.id,
+                                source_type: 'product',
+                                filters: 'default',
+                                img_attrs: {
+                                    loading: 'lazy',
+                                    'data-image-id': image.id,
+                                },
+                                placeholder: asset('dist/images/placeholder.webp'),
+                            })|raw
+                            }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if images|length %}
+                <div class="splide__arrows">
+                    <button class="splide__arrow splide__arrow--prev">
+                        {{ ux_icon('arrow-left') }}
+                    </button>
+                    <button class="splide__arrow splide__arrow--next">
+                        {{ ux_icon('arrow-right') }}
+                    </button>
+                </div>
+            {% endif %}
 
-	<div class="ProductGallery-main" data-live-ignore>
-		<section class="splide" aria-label="{{"Product's visuals"|trans}}" data-product-target='slider'>
-			<div class="splide__track">
-				<ul class="splide__list">
-					{% for image in images %}
-						<li class="splide__slide" data-product-target="slide" data-pse-ids="{{image.pseIds|join(',')}}">
-							{{getImages({
-                'img_id': image.id,
-                'source_type': 'product',
-                filters: 'default',
-                'img_attrs': {
-                  loading: 'lazy',
-                  'data-image-id': image.id,
-                },
-                placeholder: asset('dist/images/placeholder.webp')
-              })|raw}}
-						</li>
-					{% endfor %}
-				</ul>
-			</div>
-			{% if images|length %}
-				<div class="splide__arrows">
-					<button class="splide__arrow splide__arrow--prev">
-						{{ ux_icon('arrow-left') }}
-					</button>
-					<button class="splide__arrow splide__arrow--next">
-						{{ ux_icon('arrow-right') }}
-					</button>
-				</div>
-			{% endif %}
-
-		</section>
-	</div>
+        </section>
+    </div>
 </div>

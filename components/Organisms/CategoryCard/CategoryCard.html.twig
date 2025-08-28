@@ -1,7 +1,7 @@
 {% set title = title|default('') %}
-{% set img = img|default({url: '/images/placeholder2.webp', alt:''}) %}
+{% set img = img|default({url: '/images/placeholder2.webp', alt: ''}) %}
 {% set classes = classes|default('') %}
-{% set button = button|default({label: '', href:''}) %}
+{% set button = button|default({label: '', href: ''}) %}
 {% set url = url|default('#') %}
 
 <div class="CategoryCard {{ classes }}">
@@ -20,8 +20,8 @@
         {{ component('Flexy:Button', {
           href: button.href,
           text: button.label|trans,
-          icon_right:'chevron-right'
-        })}}
+          icon_right: 'chevron-right',
+        }) }}
       </div>
     </div>
   </div>
