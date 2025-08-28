@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
+use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
@@ -50,7 +51,7 @@ class CheckoutController extends FlexyController
 
         try {
             $cartGuard->checkCartNotEmpty($cart);
-        } catch (EmptyCartException $e) {
+        } catch (EmptyCartException) {
             $emptyCart = true;
         }
 

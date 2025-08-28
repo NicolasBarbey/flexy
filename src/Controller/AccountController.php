@@ -74,7 +74,7 @@ class AccountController extends FlexyController
                 return $this->generateRedirectFromRoute('default');
             }
 
-            if ($address->getCustomer()->getId() != $customer->getId()) {
+            if ($address->getCustomer()->getId() !== $customer->getId()) {
                 return $this->generateRedirectFromRoute('default');
             }
 

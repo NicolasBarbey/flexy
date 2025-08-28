@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Thelia\Core\EventListener\ViewListener as TheliaViewListener;
+use Thelia\Core\TheliaHttpKernel;
 
 class ViewListener implements EventSubscriberInterface
 {
@@ -32,7 +32,7 @@ class ViewListener implements EventSubscriberInterface
     public function beforeKernelView(ViewEvent $event): void
     {
         if (null !== $this->request->attributes->get('_live_action')) {
-            $this->request->attributes->set(TheliaViewListener::IGNORE_THELIA_VIEW, true);
+            $this->request->attributes->set(TheliaHttpKernel::IGNORE_THELIA_VIEW, true);
         }
     }
 
