@@ -16,6 +16,7 @@ namespace FlexyBundle\UiComponents\Checkout\Cart;
 
 use FlexyBundle\Service\ProductSaleElementsService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
+use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -23,8 +24,12 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Cart\DTO\CartItemAddDTO;
+use Thelia\Domain\Cart\DTO\CartItemDeleteDTO;
+use Thelia\Domain\Cart\DTO\CartItemUpdateQuantityDTO;
 use Thelia\Form\Definition\FrontForm;
+use Thelia\Model\ProductImage;
 use TwigEngine\Service\FormService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
@@ -37,15 +42,21 @@ class Cart
     #[LiveProp()]
     public ?array $pendingDelete = null;
 
-    public function __construct(private ProductSaleElementsService $pseService, private FormService $formService, private CartService $cartService) {}
+    public function __construct(
+        private readonly ProductSaleElementsService $pseService,
+        private readonly FormService                $formService,
+        private readonly CartFacade $cartFacade
+    ) {}
 
 
-    public function getCart()
+    public function getCart(): array
     {
-        $cart = $this->cartService->getCart();
-        $items = $cart->getCartItems();
+        $cart = $this->cartFacade->getCartFromSession();
+        $items = $cart
+            ? $cart->getCartItems()
+            : [];
         return [
-            ...$cart->toArray(TableMap::TYPE_CAMELNAME),
+            ...$cart ? $cart->toArray(TableMap::TYPE_CAMELNAME) : [],
             'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
             'totalItems' => \count($items),
         ];
@@ -57,7 +68,7 @@ class Cart
         if (!$pseId || !$productId) {
             return;
         }
-
+        $cart = $this->cartFacade->getCartFromSession();
         $form = $this->formService->getFormByName(FrontForm::CART_ADD);
 
         $form->submit([
@@ -69,7 +80,15 @@ class Cart
         ]);
         $form->isValid();
 
-        $this->cartService->addItem($form);
+        $this->cartFacade->addItem(
+            new CartItemAddDTO(
+                cart: $cart,
+                productId: $productId,
+                productSaleElementId: $pseId,
+                quantity: $quantity,
+                append: true
+            )
+        );
 
         if ($this->pendingDelete && $this->pendingDelete['pseId'] === $pseId) {
             $this->pendingDelete = null;
@@ -84,10 +103,12 @@ class Cart
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     public function appendDeleted(#[LiveArg()] int $id): void
     {
-        $sessionCart = $this->cartService->getCart();
-        $items = $sessionCart->getCartItems();
+        $sessionCart = $this->cartFacade->getCartFromSession();
+        $items = $sessionCart?->getCartItems();
 
-        if (null === $items) return;
+        if (null === $items) {
+            return;
+        }
 
         foreach ($items as $item) {
             if ($item->getId() === $id) {
@@ -118,17 +139,26 @@ class Cart
             }
         }
 
-        $this->cartService->deleteItem($id);
+        $this->cartFacade->removeItem(new CartItemDeleteDTO(
+            cart: $sessionCart,
+            cartItemId: $id
+        ));
     }
 
     #[LiveAction]
-    public function setQuantity(#[LiveArg] int $id, #[LiveArg] ?int $quantity = 1): void
+    public function setQuantity(
+        #[LiveArg] int $id,
+        #[LiveArg] ?int $quantity = 1
+    ): void
     {
         if ($quantity < 2) {
             $quantity = 1;
         }
-        $this->cartService->changeItem($id, $quantity);
-
+        $this->cartFacade->updateItemQuantity(new CartItemUpdateQuantityDTO(
+            cart: $this->cartFacade->getCartFromSession(),
+            cartItemId: $id,
+            quantity: $quantity
+        ));
 
         $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT, [
             'id' => $id,

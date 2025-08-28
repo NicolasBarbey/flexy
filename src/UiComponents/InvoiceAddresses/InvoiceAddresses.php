@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -23,7 +25,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Adressing\Service\AddressService;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use Thelia\Log\Tlog;
 use Thelia\Model\Customer;
 
@@ -49,17 +52,18 @@ class InvoiceAddresses extends BaseFrontController
     public function __construct(
         private readonly Session $session,
         private readonly AddressService $addressService,
-        private readonly CartService $cartService,
+        private readonly CartFacade $cartFacade,
     ) {}
 
     public function mount(): void
     {
+        $cart = $this->cartFacade->getOrCreateFromSession();
         /** @var Customer $user */
         $user = $this->session->getCustomerUser();
         $addresses = $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
 
         $this->addresses = $addresses;
-        $this->invoiceAddressId = $this->cartService->getCart()->getAddressInvoiceId();
+        $this->invoiceAddressId = $cart->getAddressInvoiceId();
         $this->switchView = !$this->invoiceAddressId;
     }
 
@@ -87,7 +91,10 @@ class InvoiceAddresses extends BaseFrontController
     #[LiveAction]
     public function setInvoiceOrderAddressId(): void
     {
-        $this->cartService->setInvoiceAddress($this->invoiceAddressId);
+        $this->cartFacade->setInvoiceAddress(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateFromSession(),
+            invoiceAddressId: $this->invoiceAddressId
+        ));
         $this->emit('resetCart');
     }
 

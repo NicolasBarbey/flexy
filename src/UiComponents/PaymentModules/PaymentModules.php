@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -20,7 +22,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Adressing\Service\AddressService;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: "Flexy:PaymentModules", template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
@@ -41,21 +44,27 @@ class PaymentModules extends BaseFrontController
     public function __construct(
         private readonly Session        $session,
         private readonly AddressService $addressService,
-        private readonly CartService    $cartService,
+        private readonly CartFacade    $cartFacade,
         private DataAccessService       $dataAccessService,
     ) {}
 
     public function mount(): void
     {
+        $cart = $this->cartFacade->getOrCreateFromSession();
         $this->modules = $this->dataAccessService->resources('/api/front/payment/modules');
-        $this->invoiceAddressId = $this->cartService->getCart()->getAddressInvoiceId();
+        $this->invoiceAddressId = $cart->getAddressInvoiceId();
     }
 
     #[LiveAction]
     public function setCartPaymentModuleId(): void
     {
         if ($this->paymentModuleId) {
-            $this->cartService->setPaymentModule($this->paymentModuleId);
+            $this->cartFacade->setPaymentModule(
+                new CheckoutDTO(
+                    cart: $this->cartFacade->getOrCreateFromSession(),
+                    paymentModuleId: $this->paymentModuleId
+                )
+            );
             $this->emit('resetCart');
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,9 +14,9 @@
 
 namespace FlexyBundle\UiComponents\Checkout\Delivery\StoreDelivery;
 
-use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Thelia\Domain\Cart\CartFacade;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
 #[AsTwigComponent(name: "Flexy:Checkout:Delivery:StoreDelivery", template: '@UiComponents/Checkout/Delivery/StoreDelivery/StoreDelivery.html.twig')]
@@ -25,16 +27,13 @@ class StoreDelivery
     public string $type = "StoreDelivery";
     public bool $closed = false;
 
-
-
     public function __construct(
-        private AttributeAccessService $attributeAccessService,
-        private FlexyCheckoutService $flexyCheckoutService
+        private readonly AttributeAccessService $attributeAccessService,
+        private readonly CartFacade             $cartFacade,
     ) {}
 
-    public function getAddress()
+    public function getAddress(): array
     {
-
         return [
             'address1' => $this->attributeAccessService->attributeConfig('store_address1'),
             'address2' => $this->attributeAccessService->attributeConfig('store_address2'),
@@ -43,9 +42,8 @@ class StoreDelivery
             'city' => $this->attributeAccessService->attributeConfig('store_city'),
         ];
     }
-    public function getHours()
+    public function getHours(): array
     {
-
         return [
             [
                 'day' => 'Lundi (fake)',
@@ -58,8 +56,8 @@ class StoreDelivery
         ];
     }
 
-    public function getChecked()
+    public function getChecked(): bool
     {
-        return $this->flexyCheckoutService->getDeliveryModule() === $this->moduleId;
+        return $this->cartFacade->getDeliveryModuleId() === $this->moduleId;
     }
 }

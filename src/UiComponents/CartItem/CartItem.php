@@ -6,12 +6,11 @@ use FlexyBundle\Service\ProductSaleElementsService;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Controller\Front\BaseFrontController;
-use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Localization\Service\LangService;
+use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
 use Thelia\Model\ProductSaleElementsProductImage;
 use Thelia\Model\CartItemQuery;
 use Thelia\Model\ProductImage;
-use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: "Flexy:CartItem", template: '@UiComponents/CartItem/CartItem.html.twig')]
 class CartItem extends BaseFrontController
@@ -28,9 +27,9 @@ class CartItem extends BaseFrontController
     public ?array $prices = null;
 
     public function __construct(
-        private DataAccessService $dataAccessService,
-        private CartService $cartService,
         private ProductSaleElementsService $pseService,
+        private TaxEngine $taxEngine,
+        private LangService $langService,
     ) {}
 
     public function mount(string $cartItemId): void
@@ -38,9 +37,9 @@ class CartItem extends BaseFrontController
         // TODO: Move to a service
         $this->cartItemId = $cartItemId;
         $cartItemModel = CartItemQuery::create()->findPk($cartItemId);
-        $product = $cartItemModel->getProduct(null);
+        $product = $cartItemModel->getProduct();
         $productSaleElement = $cartItemModel->getProductSaleElements();
-        $taxCountry = $this->container->get('thelia.taxEngine')->getDeliveryCountry();
+        $taxCountry = $this->taxEngine->getDeliveryCountry();
 
         $this->prices['price'] = $cartItemModel->getPrice();
         $this->prices['promoPrice'] = $cartItemModel->getPromoPrice();
@@ -54,9 +53,7 @@ class CartItem extends BaseFrontController
         $this->title = $product->getTitle();
         $this->secondaryTitle = $product->getChapo();
 
-        /** @var ?Session $session */
-        $session = $this->getRequest()?->getSession();
-        $locale = $session?->getLang()->getLocale();
+        $locale = $this->langService->getLocale();
         $this->url = $product->getUrl($locale);
 
         /** @var ProductSaleElementsProductImage $pseImage */

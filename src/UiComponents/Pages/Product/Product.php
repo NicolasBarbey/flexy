@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -23,7 +25,8 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Cart\DTO\CartItemAddDTO;
 use Thelia\Form\Definition\FrontForm;
 use TwigEngine\Service\DataAccess\DataAccessService;
 use TwigEngine\Service\DataAccess\ProductSaleElementsAccessService;
@@ -71,8 +74,8 @@ class Product
         private ProductSaleElementsAccessService $pseAccessService,
         private FormService $formService,
         private FormFactoryInterface $formFactory,
-        private CartService $cartService,
-        public RequestStack $requestStack,
+        private CartFacade $cartFacade,
+        private RequestStack $requestStack,
     ) {}
 
     public function mount(array $product): void
@@ -171,7 +174,17 @@ class Product
     public function save(): void
     {
         $this->submitForm();
-        $this->cartService->addItem($this->getForm());
+        $formDatas = $this->getForm()->getData();
+        $this->cartFacade->addItem(
+            new CartItemAddDTO(
+                cart: $this->cartFacade->getOrCreateFromSession(),
+                productId: $formDatas['product'],
+                productSaleElementId:  $formDatas['product_sale_elements_id'],
+                quantity: $formDatas['quantity'],
+                append: (bool) $formDatas['append'],
+                newness: (bool) $formDatas['newness'],
+            )
+        );
         $this->emit('addToCart', [
             'values' => $this->formValues,
         ]);
@@ -200,12 +213,12 @@ class Product
 
     private function setImages(): void
     {
-        $imgs = $this->dataAccessService->resources(
+        $images = $this->dataAccessService->resources(
             '/api/front/product_sale_elements_product_image',
             ['productSaleElements.product.id' => $this->product['id']]
         );
 
-        $this->psesImgs = $this->getUniquePseImg($imgs);
+        $this->psesImgs = $this->getUniquePseImg($images);
 
         $this->productImgs = $this->dataAccessService->resources(
             '/api/front/product_images',
@@ -216,9 +229,9 @@ class Product
         );
     }
 
-    private function getUniquePseImg(array $imgs): array
+    private function getUniquePseImg(array $images): array
     {
-        $grouped = array_reduce($imgs, function ($carry, $item) {
+        $grouped = array_reduce($images, static function ($carry, $item) {
             $imageId = $item['productImageId'];
             $pseId = (string) $item['productSaleElementsId'];
 
@@ -237,7 +250,7 @@ class Product
     public function isAvailableAttrValue($variant): bool
     {
         $combination = array_replace($this->currentCombination, $variant);
-        $matchingPses = array_filter($this->getPses(), function ($pse) use (&$combination) {
+        $matchingPses = array_filter($this->getPses(), static function ($pse) use (&$combination) {
             return $pse['combination'] === $combination;
         });
 

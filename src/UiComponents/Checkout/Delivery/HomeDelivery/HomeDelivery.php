@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,7 +14,6 @@
 
 namespace FlexyBundle\UiComponents\Checkout\Delivery\HomeDelivery;
 
-use FlexyBundle\Service\FlexyCheckoutService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Propel\Runtime\Map\TableMap;
@@ -26,7 +27,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Adressing\Service\AddressService;
-use Thelia\Domain\Cart\CartService;
+use Thelia\Domain\Cart\CartFacade;
 use Thelia\Model\Customer;
 
 #[AsLiveComponent(name: "Flexy:Checkout:Delivery:HomeDelivery", template: '@UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.html.twig')]
@@ -68,8 +69,7 @@ class HomeDelivery
     public function __construct(
         private readonly Session $session,
         private readonly AddressService $addressService,
-        private readonly CartService $cartService,
-        private readonly FlexyCheckoutService $flexyCheckoutService,
+        private readonly CartFacade $cartFacade,
         private readonly LoggerInterface $logger
     ) {}
 
@@ -83,7 +83,7 @@ class HomeDelivery
     #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
     #[LiveListener(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS)]
     #[LiveListener('cancelAddressForm')]
-    public function resetAddressForm()
+    public function resetAddressForm(): void
     {
         $this->showNewAddressForm = false;
         $this->editingAddressId = null;
@@ -91,13 +91,13 @@ class HomeDelivery
 
 
     #[LiveListener(CheckoutEvents::EDIT_DELIVERY_ADDRESS)]
-    public function setEditingAddress(#[LiveArg] int $addressId)
+    public function setEditingAddress(#[LiveArg] int $addressId): void
     {
         $this->editingAddressId = $addressId;
     }
 
     #[LiveListener(CheckoutEvents::DELETE_DELIVERY_ADDRESS)]
-    public function deleteAddress(#[LiveArg] int $addressId)
+    public function deleteAddress(#[LiveArg] int $addressId): void
     {
 
         try {
@@ -108,17 +108,17 @@ class HomeDelivery
     }
 
     #[LiveAction]
-    public function toggleNewAddressForm()
+    public function toggleNewAddressForm(): void
     {
         $this->showNewAddressForm = !$this->showNewAddressForm;
     }
 
-    public function getChecked()
+    public function getChecked(): bool
     {
-        return $this->flexyCheckoutService->getDeliveryModule() === $this->moduleId;
+        return $this->cartFacade->getDeliveryModuleId() === $this->moduleId;
     }
 
-    public function getAddressList()
+    public function getAddressList(): ?array
     {
         /** @var Customer $user */
         $user = $this->session->getCustomerUser();

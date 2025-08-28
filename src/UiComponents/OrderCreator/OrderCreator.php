@@ -1,5 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\UiComponents\OrderCreator;
 
 use FlexyBundle\Form\CheckoutForm;
@@ -11,8 +23,9 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Checkout\Service\CheckoutService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Checkout\CheckoutFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 
 #[AsLiveComponent(name: "Flexy:OrderCreator", template: '@UiComponents/OrderCreator/OrderCreator.html.twig')]
 class OrderCreator extends AbstractController
@@ -22,19 +35,19 @@ class OrderCreator extends AbstractController
     use ComponentToolsTrait;
 
     public function __construct(
-        private readonly CartService     $cartService,
-        private readonly CheckoutService $checkoutService,
+        private readonly CartFacade     $cartFacade,
+        private readonly CheckoutFacade $checkoutFacade,
     ) {}
 
     protected function instantiateForm(): FormInterface
     {
-        $cart = $this->cartService->getCart();
+        $cart = $this->cartFacade->getOrCreateFromSession();
 
         $data = [
-            'delivery-module-id' => $cart?->getDeliveryModuleId(),
-            'payment-module-id' => $cart?->getPaymentModuleId(),
-            'delivery-address-id' => $cart?->getAddressDeliveryId(),
-            'invoice-address-id' => $cart?->getAddressInvoiceId(),
+            'delivery-module-id' => $cart->getDeliveryModuleId(),
+            'payment-module-id' => $cart->getPaymentModuleId(),
+            'delivery-address-id' => $cart->getAddressDeliveryId(),
+            'invoice-address-id' => $cart->getAddressInvoiceId(),
         ];
 
         return $this->createForm(CheckoutForm::class, $data);
@@ -48,11 +61,14 @@ class OrderCreator extends AbstractController
         if ($this->getForm()->isValid()) {
             $formData = $this->getForm()->getData();
 
-            $response = $this->checkoutService->pay(
-                deliveryAddressId: $formData['delivery-address-id'],
-                invoiceAddressId: $formData['invoice-address-id'],
-                deliveryModuleId: $formData['delivery-module-id'],
-                paymentModuleId: $formData['payment-module-id']
+            $response = $this->checkoutFacade->pay(
+                new CheckoutDTO(
+                    cart: $this->cartFacade->getOrCreateFromSession(),
+                    deliveryModuleId: $formData['delivery-module-id'],
+                    deliveryAddressId: $formData['delivery-address-id'],
+                    invoiceAddressId: $formData['invoice-address-id'],
+                    paymentModuleId: $formData['payment-module-id']
+                )
             );
 
             if ($response instanceof Response && $response->getStatusCode() === 200) {

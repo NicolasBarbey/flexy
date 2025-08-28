@@ -1,7 +1,18 @@
 <?php
 
-namespace FlexyBundle\UiComponents\Checkout\NextButton;
+declare(strict_types=1);
 
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace FlexyBundle\UiComponents\Checkout\NextButton;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
@@ -10,8 +21,8 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Shipping\Service\DeliveryService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Shipping\ShippingFacade;
 
 #[AsLiveComponent(name: "Flexy:Checkout:NextButton", template: '@UiComponents/Checkout/NextButton/NextButton.html.twig')]
 class NextButton
@@ -27,11 +38,11 @@ class NextButton
     public string $href;
 
     public function __construct(
-        private readonly CartService $cartService,
-        private readonly DeliveryService $deliveryService,
+        private readonly CartFacade $cartFacade,
+        private readonly ShippingFacade $shippingFacade,
     ) {}
 
-    public function mount(int $step, string $href)
+    public function mount(int $step, string $href): void
     {
         $this->step = $step;
         $this->href = $href;
@@ -41,9 +52,8 @@ class NextButton
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
-    public function getIsValid()
+    public function getIsValid(): bool
     {
-
         if ($this->step === CheckoutSteps::CART) {
             return $this->isCartValid();
         }
@@ -53,27 +63,24 @@ class NextButton
         return false;
     }
 
-    private function isCartValid()
+    private function isCartValid(): bool
     {
-        if ($this->cartService->getCart()->countCartItems() > 0) {
-            return true;
-        }
-
-        return false;
+        return $this->cartFacade->getOrCreateFromSession()->countCartItems() > 0;
     }
 
-    private function isDeliveryValid()
+    private function isDeliveryValid(): bool
     {
+        $cart = $this->cartFacade->getOrCreateFromSession();
         // test home delivery
         if (
             $this->isCartValid()
-            && $this->cartService->getCart()->getAddressDeliveryId()
-            && $this->cartService->getCart()->getDeliveryModuleId()
+            && $cart->getAddressDeliveryId()
+            && $cart->getDeliveryModuleId()
         ) {
             return true;
         }
 
-        // TODO test local picup & picku^p
+        // @TODO test local pickup & pickup
         return false;
     }
 }
