@@ -178,9 +178,9 @@ class Product
         $this->cartFacade->addItem(
             new CartItemAddDTO(
                 cart: $this->cartFacade->getOrCreateFromSession(),
-                productId: $formDatas['product'],
-                productSaleElementId:  $formDatas['product_sale_elements_id'],
-                quantity: $formDatas['quantity'],
+                productId: (int) $formDatas['product'],
+                productSaleElementId:  (int) $formDatas['product_sale_elements_id'],
+                quantity: (int) $formDatas['quantity'],
                 append: (bool) $formDatas['append'],
                 newness: (bool) $formDatas['newness'],
             )

@@ -18,13 +18,13 @@ use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
-use Thelia\Domain\Cart\CartService;
-use Thelia\Domain\Cart\Service\CartRetriever;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Cart\Service\CartGuard;
+use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\Exception\EmptyCartException;
 use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
 use Thelia\Domain\Checkout\Exception\MissingAddressException;
-use Thelia\Domain\Checkout\Service\CheckoutService;
-use Thelia\Domain\Shipping\Service\DeliveryService;
+use Thelia\Domain\Shipping\ShippingFacade;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController
@@ -38,13 +38,18 @@ class CheckoutController extends FlexyController
     }
 
     #[Route('/cart', name: 'cart')]
-    public function cartAction(CheckoutService $checkoutService, CartService $cartService): Response
+    public function cartAction(
+        CheckoutFacade $checkoutFacade,
+        CartGuard $cartGuard,
+        CartFacade $cartFacade
+    ): Response
     {
-        $checkoutService->resetCheckout();
+        $cart = $cartFacade->getOrCreateFromSession();
+        $checkoutFacade->resetCheckout($cart);
         $emptyCart = false;
 
         try {
-            $cartService->checkCartNotEmpty();
+            $cartGuard->checkCartNotEmpty($cart);
         } catch (EmptyCartException $e) {
             $emptyCart = true;
         }
@@ -57,17 +62,18 @@ class CheckoutController extends FlexyController
 
     #[Route('/delivery', name: 'delivery')]
     public function deliveryModesAction(
-        CartRetriever $cartRetriever,
-        DeliveryService $deliveryService
+        CartFacade $cartFacade,
+        CartGuard $cartGuard,
+        ShippingFacade $shippingFacade
     ): Response
     {
         $this->checkAuth();
+        $cart = $cartFacade->getOrCreateFromSession();
         try {
-            $cartService->checkCartNotEmpty();
+            $cartGuard->checkCartNotEmpty($cart);
 
-            $cart = $cartService->getCart();
             if ($cart->isVirtual()) {
-                $deliveryService->setupVirtualDelivery();
+                $shippingFacade->setupVirtualDelivery($cart);
             }
 
             return $this->render('checkout-delivery', [
@@ -80,12 +86,16 @@ class CheckoutController extends FlexyController
 
 
     #[Route('/payment', name: 'payment')]
-    public function paymentAction(CartService $cartService): Response
+    public function paymentAction(
+        CartGuard $cartGuard,
+        CartFacade $cartFacade,
+    ): Response
     {
         $this->checkAuth();
         try {
-            $cartService->checkCartNotEmpty();
-            $cartService->checkValidDelivery();
+            $cart = $cartFacade->getOrCreateFromSession();
+            $cartGuard->checkCartNotEmpty($cart);
+            $cartGuard->checkValidDelivery($cart);
 
             return $this->render('checkout-payment', [
                 'current' => CheckoutSteps::PAYMENT,
