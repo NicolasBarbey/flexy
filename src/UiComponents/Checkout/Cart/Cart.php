@@ -35,7 +35,6 @@ use TwigEngine\Service\FormService;
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
 class Cart
 {
-
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
@@ -44,10 +43,10 @@ class Cart
 
     public function __construct(
         private readonly ProductSaleElementsService $pseService,
-        private readonly FormService                $formService,
-        private readonly CartFacade $cartFacade
-    ) {}
-
+        private readonly FormService $formService,
+        private readonly CartFacade $cartFacade,
+    ) {
+    }
 
     public function getCart(): array
     {
@@ -55,6 +54,7 @@ class Cart
         $items = $cart
             ? $cart->getCartItems()
             : [];
+
         return [
             ...$cart ? $cart->toArray(TableMap::TYPE_CAMELNAME) : [],
             'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
@@ -99,7 +99,6 @@ class Cart
         ]);
     }
 
-
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     public function appendDeleted(#[LiveArg()] int $id): void
     {
@@ -112,14 +111,13 @@ class Cart
 
         foreach ($items as $item) {
             if ($item->getId() === $id) {
-
                 $this->pendingDelete = [
                     'title' => $item->getProduct()->getTitle(),
                     'productId' => $item->getProduct()->getId(),
                     'pseId' => $item->getProductSaleElementsId(),
                     'attributesAv' => $this->pseService->getAttributesAvFromPse($item->getProductSaleElements()),
                     'quantity' => $item->getQuantity(),
-                    'image' => null
+                    'image' => null,
                 ];
 
                 $pseImage = $item->getProductSaleElements()->getProductSaleElementsProductImages()->getFirst();
@@ -148,9 +146,8 @@ class Cart
     #[LiveAction]
     public function setQuantity(
         #[LiveArg] int $id,
-        #[LiveArg] ?int $quantity = 1
-    ): void
-    {
+        #[LiveArg] ?int $quantity = 1,
+    ): void {
         if ($quantity < 2) {
             $quantity = 1;
         }
@@ -162,7 +159,7 @@ class Cart
 
         $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT, [
             'id' => $id,
-            'quantity' => $quantity
+            'quantity' => $quantity,
         ]);
     }
 

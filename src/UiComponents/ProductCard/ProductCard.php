@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -10,14 +12,13 @@
  * file that was distributed with this source code.
  */
 
-
 namespace FlexyBundle\UiComponents\ProductCard;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsTwigComponent(name: "Flexy:ProductCard", template: '@UiComponents/ProductCard/ProductCard.html.twig')]
+#[AsTwigComponent(name: 'Flexy:ProductCard', template: '@UiComponents/ProductCard/ProductCard.html.twig')]
 class ProductCard
 {
     private DataAccessService $dataAccessService;
@@ -41,7 +42,7 @@ class ProductCard
             return null;
         }
 
-        $this->product = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
+        $this->product = $this->dataAccessService->resources('/api/front/products/'.$this->productId);
 
         return $this->product;
     }

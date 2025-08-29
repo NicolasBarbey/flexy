@@ -19,18 +19,19 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Domain\Cart\CartFacade;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
-#[AsTwigComponent(name: "Flexy:Checkout:Delivery:StoreDelivery", template: '@UiComponents/Checkout/Delivery/StoreDelivery/StoreDelivery.html.twig')]
+#[AsTwigComponent(name: 'Flexy:Checkout:Delivery:StoreDelivery', template: '@UiComponents/Checkout/Delivery/StoreDelivery/StoreDelivery.html.twig')]
 class StoreDelivery
 {
     use DeliveryModeTrait;
 
-    public string $type = "StoreDelivery";
+    public string $type = 'StoreDelivery';
     public bool $closed = false;
 
     public function __construct(
         private readonly AttributeAccessService $attributeAccessService,
-        private readonly CartFacade             $cartFacade,
-    ) {}
+        private readonly CartFacade $cartFacade,
+    ) {
+    }
 
     public function getAddress(): array
     {
@@ -42,17 +43,18 @@ class StoreDelivery
             'city' => $this->attributeAccessService->attributeConfig('store_city'),
         ];
     }
+
     public function getHours(): array
     {
         return [
             [
                 'day' => 'Lundi (fake)',
-                'hours' => '14h - 19h'
+                'hours' => '14h - 19h',
             ],
             [
                 'day' => 'Mardi (fake)',
-                'hours' => '14h - 19h'
-            ]
+                'hours' => '14h - 19h',
+            ],
         ];
     }
 

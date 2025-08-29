@@ -26,7 +26,7 @@ use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: "Flexy:PaymentModules", template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
+#[AsLiveComponent(name: 'Flexy:PaymentModules', template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
 class PaymentModules extends BaseFrontController
 {
     use ComponentToolsTrait;
@@ -42,11 +42,12 @@ class PaymentModules extends BaseFrontController
     public ?int $invoiceAddressId = null;
 
     public function __construct(
-        private readonly Session        $session,
+        private readonly Session $session,
         private readonly AddressService $addressService,
-        private readonly CartFacade    $cartFacade,
-        private DataAccessService       $dataAccessService,
-    ) {}
+        private readonly CartFacade $cartFacade,
+        private DataAccessService $dataAccessService,
+    ) {
+    }
 
     public function mount(): void
     {

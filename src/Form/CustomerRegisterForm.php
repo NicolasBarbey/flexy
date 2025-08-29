@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -97,7 +99,7 @@ class CustomerRegisterForm extends BaseForm
         }
     }
 
-    public function verifyEmailField($value,  ExecutionContextInterface $context): void
+    public function verifyEmailField($value, ExecutionContextInterface $context): void
     {
         $data = $context->getRoot()->getData();
 

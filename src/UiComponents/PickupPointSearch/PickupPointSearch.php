@@ -1,5 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\UiComponents\PickupPointSearch;
 
 use FlexyBundle\Form\Type\PickupAddressType;
@@ -16,73 +28,72 @@ use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: "Flexy:PickupPointSearch", template: '@UiComponents/PickupPointSearch/PickupPointSearch.html.twig')]
+#[AsLiveComponent(name: 'Flexy:PickupPointSearch', template: '@UiComponents/PickupPointSearch/PickupPointSearch.html.twig')]
 class PickupPointSearch extends AbstractController
 {
-  use ComponentWithFormTrait;
-  use DefaultActionTrait;
-  use ComponentToolsTrait;
+    use ComponentToolsTrait;
+    use ComponentWithFormTrait;
+    use DefaultActionTrait;
 
-  #[LiveProp]
-  public $initialFormData = null;
+    #[LiveProp]
+    public $initialFormData;
 
-  #[LiveProp]
-  public array $pickups = [];
+    #[LiveProp]
+    public array $pickups = [];
 
-  #[LiveProp]
-  public ?array $selectedPickup = null;
+    #[LiveProp]
+    public ?array $selectedPickup = null;
 
-  public function __construct(
-    private readonly HttpClientInterface $httpClient,
-    private DataAccessService $dataAccessService
-  ) {}
+    public function __construct(
+        private readonly HttpClientInterface $httpClient,
+        private DataAccessService $dataAccessService,
+    ) {
+    }
 
-  protected function instantiateForm(): FormInterface
-  {
-    return $this->createForm(PickupAddressType::class, $this->initialFormData);
-  }
+    protected function instantiateForm(): FormInterface
+    {
+        return $this->createForm(PickupAddressType::class, $this->initialFormData);
+    }
 
-  /**
-   * @throws TransportExceptionInterface
-   */
-  #[LiveAction]
-  public function save()
-  {
-    $this->submitForm();
-    $data = $this->getForm()->getData();
+    /**
+     * @throws TransportExceptionInterface
+     */
+    #[LiveAction]
+    public function save(): void
+    {
+        $this->submitForm();
+        $data = $this->getForm()->getData();
 
-    $response = $this->httpClient->request('GET', 'https://api-adresse.data.gouv.fr/search/', [
-      'query' => [
-        'q' => $data['address'],
-      ],
-    ]);
-    $feature = $response->toArray()['features'][0];
-    $place = $feature['properties'];
-    $coordinates = $feature['geometry']['coordinates'];
-    $this->pickups = $this->dataAccessService->resources(
-      '/api/front/delivery_pickup_locations/' . $place['city'] . '/' . $place['postcode'],
-      [
-        'address' => $place['name'],
-      ]
-    );
-    $this->dispatchBrowserEvent('pickuppoint:update', ['pickups' => $this->pickups, 'coordinates' => $coordinates]);
-  }
+        $response = $this->httpClient->request('GET', 'https://api-adresse.data.gouv.fr/search/', [
+            'query' => [
+                'q' => $data['address'],
+            ],
+        ]);
+        $feature = $response->toArray()['features'][0];
+        $place = $feature['properties'];
+        $coordinates = $feature['geometry']['coordinates'];
+        $this->pickups = $this->dataAccessService->resources(
+            '/api/front/delivery_pickup_locations/'.$place['city'].'/'.$place['postcode'],
+            [
+                'address' => $place['name'],
+            ]
+        );
+        $this->dispatchBrowserEvent('pickuppoint:update', ['pickups' => $this->pickups, 'coordinates' => $coordinates]);
+    }
 
-  #[LiveAction]
-  public function pickupPointClick(#[LiveArg] $pickup): void
-  {
-    $this->selectedPickup = $pickup;
-  }
+    #[LiveAction]
+    public function pickupPointClick(#[LiveArg] $pickup): void
+    {
+        $this->selectedPickup = $pickup;
+    }
 
-  #[LiveAction]
-  public function updateOption(#[LiveArg] string $id): void
-  {
-    $current = array_filter($this->pickups, function ($item) use ($id) {
-      return $item['id'] === $id;
-    });
+    #[LiveAction]
+    public function updateOption(#[LiveArg] string $id): void
+    {
+        $current = array_filter($this->pickups, fn ($item) => $item['id'] === $id);
 
-    $this->selectedPickup = reset($current);
+        $this->selectedPickup = reset($current);
 
-    $this->dispatchBrowserEvent('pickup:selected', ['pickup' => $this->selectedPickup]);
-  }
+        $this->dispatchBrowserEvent('pickup:selected', ['pickup' => $this->selectedPickup]);
+    }
 }

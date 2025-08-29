@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -15,12 +17,14 @@ namespace FlexyBundle\UiComponents\SimilarContent;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsTwigComponent(name: "Flexy:SimilarContent", template: '@UiComponents/SimilarContent/SimilarContent.html.twig')]
+#[AsTwigComponent(name: 'Flexy:SimilarContent', template: '@UiComponents/SimilarContent/SimilarContent.html.twig')]
 class SimilarContent
 {
     public array $similarContents;
 
-    public function __construct(private DataAccessService $dataAccessService) {}
+    public function __construct(private DataAccessService $dataAccessService)
+    {
+    }
 
     public function mount(array $similarContents = []): void
     {
@@ -35,12 +39,10 @@ class SimilarContent
             'itemsPerPage' => 3,
         ]);
 
-        return array_map(function ($item) {
-            return [
-                'title' => $item['i18ns']['title'] ?? '',
-                'date' => $item['createdAt'],
-                'url' => $item['publicUrl'],
-            ];
-        }, $contents);
+        return array_map(fn ($item) => [
+            'title' => $item['i18ns']['title'] ?? '',
+            'date' => $item['createdAt'],
+            'url' => $item['publicUrl'],
+        ], $contents);
     }
 }

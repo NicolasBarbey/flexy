@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
-use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
@@ -30,7 +29,6 @@ use Thelia\Domain\Shipping\ShippingFacade;
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController
 {
-
     #[Route('', name: 'no_route')]
     public function noRouteAction(): Response
     {
@@ -42,9 +40,8 @@ class CheckoutController extends FlexyController
     public function cartAction(
         CheckoutFacade $checkoutFacade,
         CartGuard $cartGuard,
-        CartFacade $cartFacade
-    ): Response
-    {
+        CartFacade $cartFacade,
+    ): Response {
         $cart = $cartFacade->getOrCreateFromSession();
         $checkoutFacade->resetCheckout($cart);
         $emptyCart = false;
@@ -65,9 +62,8 @@ class CheckoutController extends FlexyController
     public function deliveryModesAction(
         CartFacade $cartFacade,
         CartGuard $cartGuard,
-        ShippingFacade $shippingFacade
-    ): Response
-    {
+        ShippingFacade $shippingFacade,
+    ): Response {
         $this->checkAuth();
         $cart = $cartFacade->getOrCreateFromSession();
         try {
@@ -85,13 +81,11 @@ class CheckoutController extends FlexyController
         }
     }
 
-
     #[Route('/payment', name: 'payment')]
     public function paymentAction(
         CartGuard $cartGuard,
         CartFacade $cartFacade,
-    ): Response
-    {
+    ): Response {
         $this->checkAuth();
         try {
             $cart = $cartFacade->getOrCreateFromSession();
@@ -103,7 +97,7 @@ class CheckoutController extends FlexyController
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (MissingAddressException | InvalidDeliveryException $e) {
+        } catch (MissingAddressException|InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
         }
     }

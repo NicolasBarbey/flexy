@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,11 +14,10 @@
 
 namespace FlexyBundle\UiComponents\Button;
 
-
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 
-#[AsTwigComponent(name: "Flexy:Button", template: '@UiComponents/Button/Button.html.twig')]
+#[AsTwigComponent(name: 'Flexy:Button', template: '@UiComponents/Button/Button.html.twig')]
 class Button
 {
     public string $tag = 'button';
@@ -28,6 +29,7 @@ class Button
         if ($data['href'] ?? false) {
             $this->tag = 'a';
         }
+
         return $data;
     }
 }

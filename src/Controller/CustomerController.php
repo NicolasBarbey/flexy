@@ -28,8 +28,8 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
-use Thelia\Domain\Customer\Service\CustomerCodeManager;
 use Thelia\Domain\Customer\Service\CustomerAuthenticator;
+use Thelia\Domain\Customer\Service\CustomerCodeManager;
 use Thelia\Domain\Customer\Service\CustomerRegistrationService;
 use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
@@ -61,7 +61,7 @@ class CustomerController extends FlexyController
     #[Route('/login', name: 'login_action', methods: ['POST'])]
     public function loginAction(
         EventDispatcherInterface $eventDispatcher,
-        CustomerAuthenticator    $customerLoginProcessor,
+        CustomerAuthenticator $customerLoginProcessor,
     ): ?Response {
         if ($this->getSecurityContext()->hasCustomerUser()) {
             return $this->generateRedirect('/');
@@ -158,7 +158,7 @@ class CustomerController extends FlexyController
     #[Route('/register', name: 'register_create', methods: ['POST'])]
     public function registerCreate(
         CustomerRegistrationService $customerRegistrationProcessor,
-        SessionInterface            $session,
+        SessionInterface $session,
     ): RedirectResponse {
         $form = $this->createForm(CustomerRegisterForm::class);
 
@@ -219,8 +219,8 @@ class CustomerController extends FlexyController
 
     #[Route('/informations', name: 'informations_create', methods: ['POST'])]
     public function informationsCreate(
-        CustomerCodeManager  $customerCodeProcessor,
-        SessionInterface     $session,
+        CustomerCodeManager $customerCodeProcessor,
+        SessionInterface $session,
         NewsletterSubscriber $newsletterProcessor,
     ): RedirectResponse {
         $form = $this->createForm(CustomerInformationsForm::class);
@@ -274,7 +274,7 @@ class CustomerController extends FlexyController
         '/activation/{email}',
         name: 'activation',
         requirements: [
-            'email' => '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}'
+            'email' => '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}',
         ],
         methods: ['GET']
     )]
@@ -298,7 +298,7 @@ class CustomerController extends FlexyController
      */
     #[Route('/send-code/{email}', name: 'send_code', methods: ['GET'])]
     public function sendCode(
-        string              $email,
+        string $email,
         CustomerCodeManager $customerCodeProcessor,
     ): Response {
         $customer = CustomerQuery::create()->findOneByEmail($email);
@@ -334,7 +334,6 @@ class CustomerController extends FlexyController
         // Redirect to home page
         return $this->generateRedirect($this->generateUrl('index'));
     }
-
 
     protected function getRememberMeCookieName()
     {

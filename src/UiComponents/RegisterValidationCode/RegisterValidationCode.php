@@ -24,7 +24,7 @@ use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Domain\Customer\Service\CustomerCodeManager;
 
-#[AsLiveComponent(name: "Flexy:RegisterValidationCode", template: '@UiComponents/RegisterValidationCode/RegisterValidationCode.html.twig')]
+#[AsLiveComponent(name: 'Flexy:RegisterValidationCode', template: '@UiComponents/RegisterValidationCode/RegisterValidationCode.html.twig')]
 class RegisterValidationCode extends AbstractController
 {
     use ComponentWithFormTrait;
@@ -36,7 +36,9 @@ class RegisterValidationCode extends AbstractController
 
     public ?int $nbChars = 0;
 
-    public function __construct(protected CustomerCodeManager $customerCodeProcessor) {}
+    public function __construct(protected CustomerCodeManager $customerCodeProcessor)
+    {
+    }
 
     public function mount(?string $email = null): void
     {
@@ -63,8 +65,7 @@ class RegisterValidationCode extends AbstractController
             );
             $this->addFlash('success', 'Customer activated successfully.');
         } catch (\Exception $e) {
-
-            $this->addFlash('error', 'Activation failed: ' . $e->getMessage());
+            $this->addFlash('error', 'Activation failed: '.$e->getMessage());
         }
     }
 }

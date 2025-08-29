@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -16,12 +18,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsTwigComponent(name: "Flexy:ProductCategory", template: '@UiComponents/ProductCategory/ProductCategory.html.twig')]
+#[AsTwigComponent(name: 'Flexy:ProductCategory', template: '@UiComponents/ProductCategory/ProductCategory.html.twig')]
 class ProductCategory
 {
     public string $categoryId;
 
-    public function __construct(private DataAccessService $dataAccessService, private TranslatorInterface $translator) {}
+    public function __construct(private DataAccessService $dataAccessService, private TranslatorInterface $translator)
+    {
+    }
 
     public function getCategories(): array
     {
@@ -29,19 +33,17 @@ class ProductCategory
             'itemsPerPage' => 3,
         ]);
 
-        return array_map(function ($item) {
-            return [
-                'title' => $item['i18ns']['title'] ?? '',
-                'button' => [
-                    'label' => $this->translator->trans('Discover'),
-                    'href' => $item['publicUrl'],
-                ],
-                'img' => [
-                    'url' => '/legacy-image-library/category_image_' . $item['id'] . '/full/%5E*!386,280/0/default.webp',
-                    'alt' => $item['i18ns']['title'] ?? '',
-                ],
-                'url' => $item['publicUrl'],
-            ];
-        }, $categories);
+        return array_map(fn ($item) => [
+            'title' => $item['i18ns']['title'] ?? '',
+            'button' => [
+                'label' => $this->translator->trans('Discover'),
+                'href' => $item['publicUrl'],
+            ],
+            'img' => [
+                'url' => '/legacy-image-library/category_image_'.$item['id'].'/full/%5E*!386,280/0/default.webp',
+                'alt' => $item['i18ns']['title'] ?? '',
+            ],
+            'url' => $item['publicUrl'],
+        ], $categories);
     }
 }

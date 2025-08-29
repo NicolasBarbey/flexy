@@ -1,18 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\UiComponents\CartItem;
 
 use FlexyBundle\Service\ProductSaleElementsService;
-
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Domain\Localization\Service\LangService;
 use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
-use Thelia\Model\ProductSaleElementsProductImage;
 use Thelia\Model\CartItemQuery;
 use Thelia\Model\ProductImage;
+use Thelia\Model\ProductSaleElementsProductImage;
 
-#[AsTwigComponent(name: "Flexy:CartItem", template: '@UiComponents/CartItem/CartItem.html.twig')]
+#[AsTwigComponent(name: 'Flexy:CartItem', template: '@UiComponents/CartItem/CartItem.html.twig')]
 class CartItem extends BaseFrontController
 {
     public string $cartItemId;
@@ -30,7 +41,8 @@ class CartItem extends BaseFrontController
         private ProductSaleElementsService $pseService,
         private TaxEngine $taxEngine,
         private LangService $langService,
-    ) {}
+    ) {
+    }
 
     public function mount(string $cartItemId): void
     {

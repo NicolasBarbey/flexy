@@ -27,17 +27,18 @@ use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 
-#[AsLiveComponent(name: "Flexy:OrderCreator", template: '@UiComponents/OrderCreator/OrderCreator.html.twig')]
+#[AsLiveComponent(name: 'Flexy:OrderCreator', template: '@UiComponents/OrderCreator/OrderCreator.html.twig')]
 class OrderCreator extends AbstractController
 {
-    use DefaultActionTrait;
-    use ComponentWithFormTrait;
     use ComponentToolsTrait;
+    use ComponentWithFormTrait;
+    use DefaultActionTrait;
 
     public function __construct(
-        private readonly CartFacade     $cartFacade,
+        private readonly CartFacade $cartFacade,
         private readonly CheckoutFacade $checkoutFacade,
-    ) {}
+    ) {
+    }
 
     protected function instantiateForm(): FormInterface
     {

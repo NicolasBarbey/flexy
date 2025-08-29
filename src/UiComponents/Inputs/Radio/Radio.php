@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,14 +14,12 @@
 
 namespace FlexyBundle\UiComponents\Inputs\Radio;
 
-
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-
-#[AsTwigComponent(name: "Flexy:Inputs:Radio", template: '@UiComponents/Inputs/Radio/Radio.html.twig')]
+#[AsTwigComponent(name: 'Flexy:Inputs:Radio', template: '@UiComponents/Inputs/Radio/Radio.html.twig')]
 class Radio
 {
-    public string $type = "div";
+    public string $type = 'div';
     public bool $hasError = false;
     public bool $disabled = false;
     public string $id;

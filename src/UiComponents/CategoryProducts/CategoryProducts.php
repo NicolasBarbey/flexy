@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -28,7 +30,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: "Flexy:CategoryProducts", template: '@UiComponents/CategoryProducts/CategoryProducts.html.twig')]
+#[AsLiveComponent(name: 'Flexy:CategoryProducts', template: '@UiComponents/CategoryProducts/CategoryProducts.html.twig')]
 class CategoryProducts extends AbstractController
 {
     use ComponentWithFormTrait;
@@ -70,7 +72,9 @@ class CategoryProducts extends AbstractController
     #[ExposeInTemplate]
     public ?array $sourceData = [];
 
-    public function __construct(private DataAccessService $dataAccessService, private RequestStack $requestStack) {}
+    public function __construct(private DataAccessService $dataAccessService, private RequestStack $requestStack)
+    {
+    }
 
     public function mount(?int $initialCategoryId, ?int $initialPage, ?array $sourceData): void
     {
@@ -149,10 +153,10 @@ class CategoryProducts extends AbstractController
                     $values[$value['title']] = $value['id'];
                 }
 
-                $fieldName = 'tfilters_' . $filter['type'];
+                $fieldName = 'tfilters_'.$filter['type'];
 
                 if ($filter['id']) {
-                    $fieldName .= '_' . $filter['id'];
+                    $fieldName .= '_'.$filter['id'];
                 }
                 $formBuilder->get('tfilters')->add(
                     $fieldName,
@@ -217,9 +221,7 @@ class CategoryProducts extends AbstractController
     {
         $filters = [];
 
-        $provided_data = array_filter($formData, function ($filter) {
-            return \is_array($filter) && \count($filter) > 0;
-        });
+        $provided_data = array_filter($formData, fn ($filter) => \is_array($filter) && \count($filter) > 0);
 
         foreach ($provided_data as $name => $values) {
             $pathFilter = explode('_', $name);

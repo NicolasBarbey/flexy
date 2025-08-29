@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -17,36 +19,36 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: "Flexy:SearchBar", template: '@UiComponents/SearchBar/SearchBar.html.twig')]
+#[AsLiveComponent(name: 'Flexy:SearchBar', template: '@UiComponents/SearchBar/SearchBar.html.twig')]
 class SearchBar
 {
-  use DefaultActionTrait;
+    use DefaultActionTrait;
 
-  #[LiveProp(writable: true)]
-  public string $query = '';
+    #[LiveProp(writable: true)]
+    public string $query = '';
 
-  private DataAccessService $dataAccessService;
+    private DataAccessService $dataAccessService;
 
-  public function __construct(DataAccessService $dataAccessService)
-  {
-    $this->dataAccessService = $dataAccessService;
-  }
-
-  public function getProducts(): array
-  {
-    if (empty($this->query)) {
-      return [];
+    public function __construct(DataAccessService $dataAccessService)
+    {
+        $this->dataAccessService = $dataAccessService;
     }
 
-    return $this->dataAccessService->resources('/api/front/products', ['title' => $this->query, "limit" => 4]);
-  }
+    public function getProducts(): array
+    {
+        if (empty($this->query)) {
+            return [];
+        }
 
-  public function getCategories(): array
-  {
-    if (empty($this->query)) {
-      return [];
+        return $this->dataAccessService->resources('/api/front/products', ['title' => $this->query, 'limit' => 4]);
     }
 
-    return $this->dataAccessService->resources('/api/front/categories', ['title' => $this->query, "limit" => 4]);
-  }
+    public function getCategories(): array
+    {
+        if (empty($this->query)) {
+            return [];
+        }
+
+        return $this->dataAccessService->resources('/api/front/categories', ['title' => $this->query, 'limit' => 4]);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -13,7 +15,6 @@
 namespace FlexyBundle\UiComponents\AddToCartToast;
 
 use FlexyBundle\Service\ProductSaleElementsService;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -24,7 +25,7 @@ use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Model\Base\ProductSaleElementsProductImageQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 
-#[AsLiveComponent(name: "Flexy:AddToCartToast", template: '@UiComponents/AddToCartToast/AddToCartToast.html.twig')]
+#[AsLiveComponent(name: 'Flexy:AddToCartToast', template: '@UiComponents/AddToCartToast/AddToCartToast.html.twig')]
 class AddToCartToast extends BaseFrontController
 {
     use DefaultActionTrait;
@@ -43,7 +44,9 @@ class AddToCartToast extends BaseFrontController
     #[LiveProp]
     public ?array $attributesAv = null;
 
-    public function __construct(private ProductSaleElementsService $pseService) {}
+    public function __construct(private ProductSaleElementsService $pseService)
+    {
+    }
 
     #[LiveListener('addToCart')]
     public function addToCart(#[LiveArg] array $values): void

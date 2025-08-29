@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -18,7 +20,7 @@ use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Thelia\Core\HttpFoundation\Session\Session;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsTwigComponent(name: "Flexy:LangSelect", template: '@UiComponents/LangSelect/LangSelect.html.twig')]
+#[AsTwigComponent(name: 'Flexy:LangSelect', template: '@UiComponents/LangSelect/LangSelect.html.twig')]
 class LangSelect
 {
     use DefaultActionTrait;
@@ -32,7 +34,9 @@ class LangSelect
     #[ExposeInTemplate()]
     public array $langs = [];
 
-    public function __construct(private DataAccessService $dataAccessService, private readonly Session $session) {}
+    public function __construct(private DataAccessService $dataAccessService, private readonly Session $session)
+    {
+    }
 
     public function getLangs(): array
     {
@@ -45,9 +49,7 @@ class LangSelect
 
     public function getCurrentLang()
     {
-        $filters = array_filter($this->getLangs(), function ($lang) {
-            return $lang['id'] === $this->session->getLang()->getId();
-        });
+        $filters = array_filter($this->getLangs(), fn ($lang) => $lang['id'] === $this->session->getLang()->getId());
 
         $this->currentLang = reset($filters);
 

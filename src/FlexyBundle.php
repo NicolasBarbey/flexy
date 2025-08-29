@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -20,9 +22,9 @@ use Thelia\Model\ConfigQuery;
 
 class FlexyBundle extends AbstractBundle
 {
-    public function loadExtension(array $config, ContainerConfigurator $containerConfigurator, ContainerBuilder $builder): void
+    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $serviceConfigurator = $containerConfigurator->services();
+        $serviceConfigurator = $container->services();
 
         $resourcePath = $this->getResourcePath();
         if (is_dir($resourcePath)) {
@@ -31,26 +33,26 @@ class FlexyBundle extends AbstractBundle
                 ->autoconfigure();
         }
 
-
         $serviceConfigurator->load('FlexyBundle\\UiComponents\\', $this->getUiComponentsPath())
             ->autowire()
             ->autoconfigure();
     }
 
-    public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
+    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         if (!is_dir($this->getResourcePath())) {
             return;
         }
-        $containerConfigurator->import('../config/packages/*.yaml');
+        $container->import('../config/packages/*.yaml');
     }
 
     private function getResourcePath(): string
     {
-        return THELIA_TEMPLATE_DIR . TemplateDefinition::FRONT_OFFICE_SUBDIR . DS . ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default') . DS . 'src';
+        return THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src';
     }
+
     private function getUiComponentsPath(): string
     {
-        return THELIA_TEMPLATE_DIR . TemplateDefinition::FRONT_OFFICE_SUBDIR . DS . ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default') . DS . 'src' . DS . 'UiComponents';
+        return THELIA_TEMPLATE_DIR.TemplateDefinition::FRONT_OFFICE_SUBDIR.DS.ConfigQuery::read(TemplateDefinition::FRONT_OFFICE_CONFIG_NAME, 'default').DS.'src'.DS.'UiComponents';
     }
 }

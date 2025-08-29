@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,10 +14,8 @@
 
 namespace FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode;
 
-
 trait DeliveryModeTrait
 {
-
     public int $moduleId;
     public string $optionCode;
     public string $title;

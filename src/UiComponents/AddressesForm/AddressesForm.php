@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -27,57 +29,58 @@ use Thelia\Log\Tlog;
 use Thelia\Model\AddressQuery;
 use TwigEngine\Service\FormService;
 
-#[AsLiveComponent(name: "Flexy:AddressesForm", template: '@UiComponents/AddressesForm/AddressesForm.html.twig')]
+#[AsLiveComponent(name: 'Flexy:AddressesForm', template: '@UiComponents/AddressesForm/AddressesForm.html.twig')]
 class AddressesForm extends BaseFrontController
 {
-  use ComponentToolsTrait;
-  use ComponentWithFormTrait;
-  use DefaultActionTrait;
+    use ComponentToolsTrait;
+    use ComponentWithFormTrait;
+    use DefaultActionTrait;
 
-  #[LiveProp]
-  public ?int $addressId = null;
+    #[LiveProp]
+    public ?int $addressId = null;
 
-  public function __construct(
-    private readonly FormService $formService,
-    private readonly AddressService $addressService
-  ) {}
-
-  protected function instantiateForm(): FormInterface
-  {
-    $formName = $this->addressId ? FrontForm::ADDRESS_UPDATE : FrontForm::ADDRESS_CREATE;
-
-    $form = $this->formService->getFormByName($formName, $this->getData());
-    $form->remove('state');
-    $form->remove('address3');
-    $form->remove('company');
-
-    return $form;
-  }
-
-  private function getData(): array
-  {
-    if (!$this->addressId) {
-      return [];
+    public function __construct(
+        private readonly FormService $formService,
+        private readonly AddressService $addressService,
+    ) {
     }
-    $address = AddressQuery::create()->findPk($this->addressId);
 
-    return $this->addressService->mapModelToFormData($address);
-  }
+    protected function instantiateForm(): FormInterface
+    {
+        $formName = $this->addressId ? FrontForm::ADDRESS_UPDATE : FrontForm::ADDRESS_CREATE;
 
-  #[LiveAction]
-  public function save(): void
-  {
-    $this->checkAuth();
+        $form = $this->formService->getFormByName($formName, $this->getData());
+        $form->remove('state');
+        $form->remove('address3');
+        $form->remove('company');
 
-    $this->submitForm();
-    if (!$this->getForm()->isValid()) {
-      return;
+        return $form;
     }
-    try {
-      $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
-      $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
-    } catch (\Exception $e) {
-      Tlog::getInstance()->error(sprintf('Error during address creation process : %s', $e->getMessage()));
+
+    private function getData(): array
+    {
+        if (!$this->addressId) {
+            return [];
+        }
+        $address = AddressQuery::create()->findPk($this->addressId);
+
+        return $this->addressService->mapModelToFormData($address);
     }
-  }
+
+    #[LiveAction]
+    public function save(): void
+    {
+        $this->checkAuth();
+
+        $this->submitForm();
+        if (!$this->getForm()->isValid()) {
+            return;
+        }
+        try {
+            $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
+            $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
+        } catch (\Exception $e) {
+            Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $e->getMessage()));
+        }
+    }
 }

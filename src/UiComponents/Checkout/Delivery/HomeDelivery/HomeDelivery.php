@@ -30,14 +30,14 @@ use Thelia\Domain\Adressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Model\Customer;
 
-#[AsLiveComponent(name: "Flexy:Checkout:Delivery:HomeDelivery", template: '@UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.html.twig')]
+#[AsLiveComponent(name: 'Flexy:Checkout:Delivery:HomeDelivery', template: '@UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.html.twig')]
 class HomeDelivery
 {
-    use DefaultActionTrait;
     use ComponentToolsTrait;
+    use DefaultActionTrait;
     use DeliveryModeTrait;
 
-    public string $type = "HomeDelivery";
+    public string $type = 'HomeDelivery';
 
     #[LiveProp(updateFromParent: true)]
     public int $moduleId;
@@ -70,12 +70,12 @@ class HomeDelivery
         private readonly Session $session,
         private readonly AddressService $addressService,
         private readonly CartFacade $cartFacade,
-        private readonly LoggerInterface $logger
-    ) {}
+        private readonly LoggerInterface $logger,
+    ) {
+    }
 
     public function mount(string $icon, string $moduleId): void
     {
-
         $this->icon = $icon;
         $this->moduleId = $moduleId;
     }
@@ -89,7 +89,6 @@ class HomeDelivery
         $this->editingAddressId = null;
     }
 
-
     #[LiveListener(CheckoutEvents::EDIT_DELIVERY_ADDRESS)]
     public function setEditingAddress(#[LiveArg] int $addressId): void
     {
@@ -99,7 +98,6 @@ class HomeDelivery
     #[LiveListener(CheckoutEvents::DELETE_DELIVERY_ADDRESS)]
     public function deleteAddress(#[LiveArg] int $addressId): void
     {
-
         try {
             $this->addressService->deleteAddress($addressId);
         } catch (\Exception $e) {
@@ -122,6 +120,7 @@ class HomeDelivery
     {
         /** @var Customer $user */
         $user = $this->session->getCustomerUser();
+
         return $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
     }
 }

@@ -24,10 +24,9 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Shipping\ShippingFacade;
 
-#[AsLiveComponent(name: "Flexy:Checkout:NextButton", template: '@UiComponents/Checkout/NextButton/NextButton.html.twig')]
+#[AsLiveComponent(name: 'Flexy:Checkout:NextButton', template: '@UiComponents/Checkout/NextButton/NextButton.html.twig')]
 class NextButton
 {
-
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
@@ -40,7 +39,8 @@ class NextButton
     public function __construct(
         private readonly CartFacade $cartFacade,
         private readonly ShippingFacade $shippingFacade,
-    ) {}
+    ) {
+    }
 
     public function mount(int $step, string $href): void
     {
@@ -60,6 +60,7 @@ class NextButton
         if ($this->step === CheckoutSteps::DELIVERY) {
             return $this->isDeliveryValid();
         }
+
         return false;
     }
 

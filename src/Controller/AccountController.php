@@ -45,6 +45,7 @@ class AccountController extends FlexyController
     public function addresses(): Response
     {
         $this->checkAuth();
+
         return $this->render('account-addresses');
     }
 
@@ -52,6 +53,7 @@ class AccountController extends FlexyController
     public function address(?int $addressId = null): Response
     {
         $this->checkAuth();
+
         return $this->render('address-update', [
             'addressId' => $addressId,
         ]);
@@ -110,6 +112,7 @@ class AccountController extends FlexyController
     public function addressNew(): Response
     {
         $this->checkAuth();
+
         return $this->render('address');
     }
 
@@ -252,6 +255,7 @@ class AccountController extends FlexyController
     public function orders(): Response
     {
         $this->checkAuth();
+
         return $this->render('account-orders');
     }
 
@@ -259,6 +263,7 @@ class AccountController extends FlexyController
     public function order(?int $orderId = null): Response
     {
         $this->checkAuth();
+
         return $this->render('account-order', [
             'orderId' => $orderId,
         ]);

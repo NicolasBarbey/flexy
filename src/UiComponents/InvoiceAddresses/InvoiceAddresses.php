@@ -30,7 +30,7 @@ use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use Thelia\Log\Tlog;
 use Thelia\Model\Customer;
 
-#[AsLiveComponent(name: "Flexy:InvoiceAddresses", template: '@UiComponents/InvoiceAddresses/InvoiceAddresses.html.twig')]
+#[AsLiveComponent(name: 'Flexy:InvoiceAddresses', template: '@UiComponents/InvoiceAddresses/InvoiceAddresses.html.twig')]
 class InvoiceAddresses extends BaseFrontController
 {
     use ComponentToolsTrait;
@@ -53,7 +53,8 @@ class InvoiceAddresses extends BaseFrontController
         private readonly Session $session,
         private readonly AddressService $addressService,
         private readonly CartFacade $cartFacade,
-    ) {}
+    ) {
+    }
 
     public function mount(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -14,19 +16,16 @@ namespace FlexyBundle\UiComponents\AddressCard;
 
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use Thelia\Model\Address;
 use Thelia\Model\AddressQuery;
 
-#[AsTwigComponent(name: "Flexy:AddressCard", template: '@UiComponents/AddressCard/AddressCard.html.twig')]
+#[AsTwigComponent(name: 'Flexy:AddressCard', template: '@UiComponents/AddressCard/AddressCard.html.twig')]
 class AddressCard
 {
-
     public int $addressId;
     public ?array $address;
     public bool $withModal;
 
-
-    public function mount(int $addressId, ?bool $withModal = false)
+    public function mount(int $addressId, ?bool $withModal = false): void
     {
         $this->address = AddressQuery::create()
             ->useCountryQuery()

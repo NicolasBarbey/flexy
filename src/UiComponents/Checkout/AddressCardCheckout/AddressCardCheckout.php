@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -17,15 +19,15 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Thelia\Domain\Cart\CartFacade;
 
-#[AsTwigComponent(name: "Flexy:Checkout:AddressCardCheckout", template: '@UiComponents/Checkout/AddressCardCheckout/AddressCardCheckout.html.twig')]
+#[AsTwigComponent(name: 'Flexy:Checkout:AddressCardCheckout', template: '@UiComponents/Checkout/AddressCardCheckout/AddressCardCheckout.html.twig')]
 class AddressCardCheckout extends AddressCard
 {
     public bool $hasForm = true;
     public bool $checked = false;
 
     public function __construct(private readonly CartFacade $cartFacade)
-    {}
-
+    {
+    }
 
     #[PostMount]
     public function postMount(): void
