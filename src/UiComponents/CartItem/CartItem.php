@@ -31,7 +31,7 @@ class CartItem extends BaseFrontController
     public string $title;
     public string $secondaryTitle;
     public string $url;
-    public ?string $pseImageId;
+    public ?int $pseImageId;
     public bool $hide = false;
     public ?array $attributesAv = null;
     public int $quantity;
@@ -60,7 +60,7 @@ class CartItem extends BaseFrontController
         $this->prices['promo'] = $cartItemModel->getPromo() ? true : false;
 
         $this->outOfStock = $cartItemModel->getQuantity() <= 0;
-        $this->quantity = $cartItemModel->getQuantity();
+        $this->quantity = (int) $cartItemModel->getQuantity();
 
         $this->title = $product->getTitle();
         $this->secondaryTitle = $product->getChapo();
