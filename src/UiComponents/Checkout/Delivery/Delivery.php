@@ -63,17 +63,18 @@ class Delivery
         foreach ($deliveryModulesWithOption as $deliveryModuleWithOptionDTO) {
             $options = $deliveryModuleWithOptionDTO->getDeliveryModuleOption();
             $module = $deliveryModuleWithOptionDTO->getDeliveryModule();
-
             /** @var DeliveryModuleOption $option */
             foreach ($options as $option) {
-                $deliveryOptions[$option->getCode()] = [
+                $code = $option->getCode();
+                $deliveryOptions[$code] = [
+                    'code' => $code,
                     'title' => $option->getTitle(),
                     'moduleId' => $module->getId(),
-                    'deliveryMode' => $option->getDeliveryMode(),
+                    'deliveryMode' => $module->getDeliveryMode(),
+                    'postage' => $option->getPostage()
                 ];
             }
         }
-
         return $deliveryOptions;
     }
 

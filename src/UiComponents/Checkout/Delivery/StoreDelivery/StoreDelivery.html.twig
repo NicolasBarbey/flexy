@@ -1,7 +1,6 @@
 {% extends '@UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.html.twig' %}
 
 {% block content %}
-
     {% if this.closed != null %}
         <span class="StoreDelivery-opening  {% if this.closed %}closed {% endif %}">
             {{ closed ? 'Close' : 'Open'|trans }}

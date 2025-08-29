@@ -74,7 +74,7 @@ class HomeDelivery
     ) {
     }
 
-    public function mount(string $icon, string $moduleId): void
+    public function mount(string $icon, int $moduleId): void
     {
         $this->icon = $icon;
         $this->moduleId = $moduleId;
