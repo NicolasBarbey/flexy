@@ -55,6 +55,12 @@ class HomeDelivery
     public string $price;
 
     #[LiveProp(updateFromParent: true)]
+    public ?string $deliveryAddressId;
+
+    #[LiveProp(updateFromParent: true)]
+    public ?string $invoiceAddressId;
+
+    #[LiveProp(updateFromParent: true)]
     public ?string $icon = null;
 
     #[LiveProp]

@@ -1,16 +1,13 @@
-{% extends '@UiComponents/AddressCard/AddressCard.html.twig' %}
+{% extends '@UiComponents/AddressCard/AddressCard.html.twig'  %}
 
 {% block form %}
-
-    {# TODO: create a fake radio input using button #}
-    {{ component('Flexy:Button', {
+    {{ dump(this.checked) }}
+    {{ component('Flexy:RadioButton', {
         'data-action': 'live#emit',
         'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID'),
         'data-live-address-id-param': this.address.id,
-        text: this.checked ? 'checked' : 'select',
-        round: true,
+        checked: this.checked,
     }) }}
-
 {% endblock %}
 
 {% block bottom %}

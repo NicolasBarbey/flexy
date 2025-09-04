@@ -15,6 +15,7 @@ History: Historique
 Order N°: Commande N°
 of: de
 item: article
+items: articles
 Scheduled for delivery on: Prévu pour livraison le
 Order details: Détails de la commande
 See order details: Voir le détail de la commande
@@ -115,7 +116,8 @@ Verified Reviews: Avis vérifiés
 reviews: avis
 In stock: En stock
 Size: Taille
-Free delivery: Livraison gratuite
+Free delivery: Livraison offerte
+Free: Offert
 from 50€: à partir de 50€
 Shipping: Expédition
 within 24 hours: sous 24 heures

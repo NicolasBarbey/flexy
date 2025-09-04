@@ -40,7 +40,7 @@ class Summary
     {
     }
 
-    public function getSummary()
+    public function getSummary(): array
     {
         return [
             'item_count' => $this->attributeAccessService->attributeCart('item_count'),

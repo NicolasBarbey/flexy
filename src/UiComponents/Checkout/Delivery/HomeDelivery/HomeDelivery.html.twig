@@ -1,9 +1,10 @@
 {% extends '@UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.html.twig' %}
 {% block footer %}
-    <div class="flex-1">
+    {{ dump(this.deliveryAddressId) }}
+
+    <div class="flex-1 py-6 px-10 bg-theme-lightest">
         {% if this.checked and this.showNewAddressForm %}
-            <div>
-                {% component ('Flexy:AddressesForm') %}
+            {% component ('Flexy:AddressesForm') %}
                 {% block footer %}
 
                     {{ component('Flexy:Button', {
@@ -20,11 +21,9 @@
                     }) }}
 
                 {% endblock %}
-                {% endcomponent %}
-            </div>
+            {% endcomponent %}
         {% elseif this.checked and this.editingAddressId %}
             <div>
-                oi
                 {% component ('Flexy:AddressesForm') with {addressId: this.editingAddressId} %}
                 {% block footer %}
 
@@ -60,23 +59,13 @@
                     }) }}
                     </div>
                 {% else %}
-                    <div>
                         <ul class="flex flex-col gap-2">
                             {% for address in this.addressList %}
                                 <li>
-
-                                    {{ component('Flexy:Checkout:AddressCardCheckout', {addressId: address.id, key: key, isDefault: address.isDefault}) }}
-
-                                    {% if deliveryAddressId == address.id %}
-                                        <div class="my-4">
-                                            {{ include('@components/Atoms/Form/Checkbox.html.twig', {
-                                            label: 'Use this address for billing'|trans,
-                                            checked: invoiceAddressId == address.id,
-                                            value: address.id,
-                                            model: 'invoiceAddressId'},
-                                        ) }}
-                                        </div>
-                                    {% endif %}
+                                    {{ component('Flexy:Checkout:AddressCardCheckout', {
+                                        addressId: address.id,
+                                    })
+                                    }}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -90,7 +79,6 @@
                             'data-live-action-param': 'toggleNewAddressForm',
                         }) }}
                         </div>
-                    </div>
                 {% endif %}
             </div>
         {% endif %}

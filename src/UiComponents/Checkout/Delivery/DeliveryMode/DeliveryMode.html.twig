@@ -1,17 +1,13 @@
 
 <div {{attributes.defaults({class: 'DeliveryMode DeliveryModule ' ~ (this.checked ? 'selected ' : '') ~ type })}}>
 
-
     <label class='DeliveryMode-content'>
-
-        {# TODO: create a fake radio input using button #}
-        {{ component('Flexy:Button', {
+        {{ component('Flexy:RadioButton', {
             'data-action': 'live#emit',
             'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::SET_DELIVERY_MODULE_OPTION'),
             'data-live-option-code-param': this.optionCode,
             'data-live-module-id-param': this.moduleId,
-            text: this.checked ? 'checked' : 'select',
-            round: true
+            checked : this.checked
         })}}
 
         <span>

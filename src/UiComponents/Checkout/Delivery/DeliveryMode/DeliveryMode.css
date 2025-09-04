@@ -3,7 +3,8 @@
   border: 1px solid var(--theme-lightest);
   border-radius: rem-convert(8px);
 
-  &.checked {
+  &.checked,
+  &.selected {
     background: var(--theme-lighter);
     border: 1px solid var(--theme-medium);
   }

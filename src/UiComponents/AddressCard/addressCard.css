@@ -47,11 +47,6 @@
   &-address {
     @apply paragraph-4;
     font-weight: 400;
-    @screen md {
-      span:not(.AddressCard-phone) {
-        display: inline-block;
-      }
-    }
   }
   &-bottom {
     padding-bottom: rem-convert(31px);

@@ -15,6 +15,7 @@ History: History
 Order N°: Order N°
 of: of
 item: item
+items: items
 Scheduled for delivery on: Scheduled for delivery on
 Order details: Order details
 See order details: See order details
@@ -116,6 +117,7 @@ In stock: In stock
 Size: Size
 Color: Color
 Free delivery: Free delivery
+Free: Free
 from 50€: from 50€
 Shipping: Shipping
 within 24 hours: within 24 hours

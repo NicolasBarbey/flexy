@@ -1,5 +1,4 @@
 <div {{ attributes }}>
- {{ dump(this.isValid, not this.isValid, this.step, href) }}
     {{ component('Flexy:Button', {
         text: 'Order'|trans,
         disabled: not this.isValid,

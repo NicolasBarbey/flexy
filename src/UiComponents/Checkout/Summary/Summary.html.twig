@@ -14,8 +14,7 @@
                         <span class="font-normal paragraph-6 ">
                             (
                             {{ totalItems }}
-                            {{ 'item'|trans }}
-                            {{ totalItems > 1 ? 's' : '' }}
+                            {{ ( totalItems > 1 ? 'items' : 'item')|trans }}
                             )
                         </span>
                     </div>
@@ -28,7 +27,7 @@
                         {{ 'Delivery'|trans }}
                     </div>
                     <div>
-                        {{ taxed_postage ? taxed_postage : 'Free'|trans }}
+                        {{ taxed_postage ? taxed_postage : 'Free delivery'|trans }}
                     </div>
                 </div>
                 {% if not noPromo %}

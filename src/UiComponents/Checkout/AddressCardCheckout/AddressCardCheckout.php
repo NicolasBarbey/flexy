@@ -34,7 +34,7 @@ class AddressCardCheckout extends AddressCard
     {
         $savedAddress = $this->cartFacade->getDeliveryAddressId();
         if (null !== $savedAddress) {
-            $this->checked = $this->cartFacade->getDeliveryAddressId() === $this->addressId;
+            $this->checked = $savedAddress === $this->addressId;
         }
     }
 }

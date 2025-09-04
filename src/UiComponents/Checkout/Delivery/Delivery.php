@@ -22,6 +22,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Thelia\Api\Resource\DeliveryModuleOption;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\CheckoutFacade;
@@ -41,6 +42,9 @@ class Delivery
     #[LiveProp]
     public ?int $deliveryAddressId = null;
 
+    #[LiveProp]
+    public ?int $invoiceAddressId = null;
+
     public function __construct(
         private readonly ShippingFacade $shippingFacade,
         private readonly CartFacade $cartFacade,
@@ -52,6 +56,7 @@ class Delivery
     public function mount(): void
     {
         $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+        $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
     }
 
     public function getDeliveryModulesOptions(): array
@@ -71,10 +76,11 @@ class Delivery
                     'title' => $option->getTitle(),
                     'moduleId' => $module->getId(),
                     'deliveryMode' => $module->getDeliveryMode(),
-                    'postage' => $option->getPostage()
+                    'postage' => $option->getPostage(),
                 ];
             }
         }
+
         return $deliveryOptions;
     }
 
@@ -95,6 +101,7 @@ class Delivery
     {
         $this->cartFacade->setDeliveryAddress(new CheckoutDTO($this->cartFacade->getOrCreateFromSession()));
         $this->deliveryAddressId = null;
+        $this->invoiceAddressId = null;
 
         $this->cartFacade->setDeliveryModule(new CheckoutDTO(
             cart: $this->cartFacade->getOrCreateFromSession(),
@@ -109,6 +116,17 @@ class Delivery
             cart: $this->cartFacade->getOrCreateFromSession(),
             deliveryAddressId: $addressId,
         ));
-        $this->deliveryAddressId = $addressId;
+        $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+    }
+
+    #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]
+    public function selectInvoiceAddress(#[LiveArg] ?int $addressId): void
+    {
+        $this->cartFacade->setInvoiceAddress(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateFromSession(),
+            invoiceAddressId: $addressId,
+        ));
+        $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
+
     }
 }

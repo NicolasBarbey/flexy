@@ -1,13 +1,14 @@
 {% props selected = false, title = '', disabled = false %}
-
-<div {{ attributes.defaults({class: 'AddressCard ' ~ (this.selected ? 'selected' : '')}) }} {{ this.withModal ? stimulus_controller('address-card', {}, {}, {modal: '.Modal'}) }}>
+<div {{ attributes.defaults({class: 'AddressCard ' ~ (this.checked ? 'selected' : '')}) }} {{ this.withModal ? stimulus_controller('address-card', {}, {}, {modal: '.Modal'}) }}>
     <div class="AddressCard-top">
         {% block header %}
-            {{ include('@components/Molecules/Favorite/Favorite.html.twig', {
-                text: 'Favourite'|trans,
-                selected: this.address.isDefault,
-                addressId: address.id,
-            }) }}
+            {% if this.address.isDefault %}
+                {{ include('@components/Molecules/Favorite/Favorite.html.twig', {
+                    text: 'Favourite'|trans,
+                    selected: this.address.isDefault,
+                    addressId: address.id,
+                }) }}
+            {% endif %}
         {% endblock %}
     </div>
 
