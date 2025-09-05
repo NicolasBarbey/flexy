@@ -53,16 +53,15 @@ class NextButton
     #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]
     public function getIsValid(): bool
     {
-        if ($this->step === CheckoutSteps::CART) {
-            return $this->isCartValid();
-        }
-        if ($this->step === CheckoutSteps::DELIVERY) {
-            return $this->isDeliveryValid();
-        }
-
-        return false;
+        return match ($this->step) {
+            CheckoutSteps::CART => $this->isCartValid(),
+            CheckoutSteps::DELIVERY => $this->isDeliveryValid(),
+            CheckoutSteps::PAYMENT => $this->isPaymentValid(),
+            default => false,
+        };
     }
 
     private function isCartValid(): bool
@@ -83,6 +82,20 @@ class NextButton
         }
 
         // @TODO test local pickup & pickup
+        return false;
+    }
+
+    private function isPaymentValid(): bool
+    {
+        $cart = $this->cartFacade->getOrCreateFromSession();
+        if (
+            $this->isDeliveryValid() && $cart->getAddressDeliveryId()
+            && $cart->getPaymentModuleId()
+            && $cart->getAddressInvoiceId()
+        ) {
+            return true;
+        }
+
         return false;
     }
 }

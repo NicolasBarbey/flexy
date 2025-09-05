@@ -24,6 +24,7 @@ class AddressCardCheckout extends AddressCard
 {
     public bool $hasForm = true;
     public bool $checked = false;
+    public string $type = 'delivery';
 
     public function __construct(private readonly CartFacade $cartFacade)
     {
@@ -32,7 +33,7 @@ class AddressCardCheckout extends AddressCard
     #[PostMount]
     public function postMount(): void
     {
-        $savedAddress = $this->cartFacade->getDeliveryAddressId();
+        $savedAddress = $this->type == 'delivery' ? $this->cartFacade->getDeliveryAddressId() : $this->cartFacade->getInvoiceAddressId();
         if (null !== $savedAddress) {
             $this->checked = $savedAddress === $this->addressId;
         }

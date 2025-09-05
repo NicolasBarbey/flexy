@@ -14,11 +14,17 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\Checkout\Payment;
 
+use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
+use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Api\Service\DataAccess\DataAccessService;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
+use TwigEngine\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Payment', template: '@UiComponents/Checkout/Payment/Payment.html.twig')]
 class Payment
@@ -29,18 +35,44 @@ class Payment
     #[LiveProp]
     public ?int $paymentModuleId = null;
 
-    public function __construct(private readonly DataAccessService $dataAccessService)
+    #[LiveProp]
+    public ?int $invoiceAddressId = null;
+
+    public function __construct(
+        private readonly DataAccessService $dataAccessService,
+        private readonly AttributeAccessService $attributeAccessService,
+        private readonly CartFacade $cartFacade)
     {
     }
 
     public function mount(): void
     {
+        $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
+        $this->paymentModuleId = $this->cartFacade->getPaymentModuleId();
     }
 
-    public function getModules()
+    public function getModules(): array
     {
+        $total = $this->attributeAccessService->attributeCart('total_taxed_price');
         $modules = $this->dataAccessService->resources('/api/front/payment/modules');
 
-        return $modules;
+        foreach ($modules as $module) {
+            if ($total >= $module['minimumAmount'] && $total <= $module['maximumAmount']) {
+                $availableModules[] = $module;
+            }
+        }
+
+        return $availableModules ?? [];
+    }
+
+    #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]
+    public function selectPaymentModuleId(#[LiveArg] int $moduleId): void
+    {
+        $this->cartFacade->setDeliveryModule(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateFromSession(),
+            paymentModuleId: $moduleId,
+        ));
+
+        $this->paymentModuleId = $this->cartFacade->getPaymentModuleId();
     }
 }

@@ -42,6 +42,7 @@
   &-name {
     @apply paragraph-4;
     font-weight: 600;
+    display: block;
     margin-bottom: 10px;
   }
   &-address {

@@ -16,7 +16,7 @@
 
         {% block infos %}
             {{ include('@UiComponents/AddressCard/AddressInfo.html.twig', {
-                title: title,
+                title,
                 address: this.address},
             ) }}
         {% endblock %}
