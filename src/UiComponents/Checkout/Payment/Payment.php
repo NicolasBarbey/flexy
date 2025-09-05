@@ -53,16 +53,7 @@ class Payment
 
     public function getModules(): array
     {
-        $total = $this->attributeAccessService->attributeCart('total_taxed_price');
-        $modules = $this->dataAccessService->resources('/api/front/payment/modules');
-
-        foreach ($modules as $module) {
-            if ($total >= $module['minimumAmount'] && $total <= $module['maximumAmount']) {
-                $availableModules[] = $module;
-            }
-        }
-
-        return $availableModules ?? [];
+        return $this->dataAccessService->resources('/api/front/payment/modules');
     }
 
     #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]
