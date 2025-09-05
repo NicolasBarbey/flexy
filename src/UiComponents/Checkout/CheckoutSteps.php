@@ -20,5 +20,7 @@ class CheckoutSteps
     public const DELIVERY = 2;
     public const PAYMENT = 3;
     public const GATEWAY = 3;
+
+    public const FAILED = 3;
     public const CONFIRM = 4;
 }

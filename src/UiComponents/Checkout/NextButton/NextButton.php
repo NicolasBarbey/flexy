@@ -66,6 +66,7 @@ class NextButton
 
     private function isCartValid(): bool
     {
+
         return $this->cartFacade->getOrCreateFromSession()->countCartItems() > 0;
     }
 
@@ -73,6 +74,7 @@ class NextButton
     {
         $cart = $this->cartFacade->getOrCreateFromSession();
         // test home delivery
+
         if (
             $this->isCartValid()
             && $cart->getAddressDeliveryId()

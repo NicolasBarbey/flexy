@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Checkout\Payment;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
@@ -23,11 +25,12 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use TwigEngine\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Payment', template: '@UiComponents/Checkout/Payment/Payment.html.twig')]
-class Payment
+class Payment extends AbstractController
 {
     use ComponentToolsTrait;
     use DefaultActionTrait;
@@ -41,8 +44,9 @@ class Payment
     public function __construct(
         private readonly DataAccessService $dataAccessService,
         private readonly AttributeAccessService $attributeAccessService,
-        private readonly CartFacade $cartFacade)
-    {
+        private readonly CartFacade $cartFacade,
+        private readonly CheckoutFacade $checkoutFacade,
+    ) {
     }
 
     public function mount(): void
@@ -59,11 +63,27 @@ class Payment
     #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]
     public function selectPaymentModuleId(#[LiveArg] int $moduleId): void
     {
-        $this->cartFacade->setDeliveryModule(new CheckoutDTO(
+        $this->cartFacade->setPaymentModule(new CheckoutDTO(
             cart: $this->cartFacade->getOrCreateFromSession(),
             paymentModuleId: $moduleId,
         ));
 
         $this->paymentModuleId = $this->cartFacade->getPaymentModuleId();
+    }
+
+    #[LiveListener('submitCart')]
+    public function submitCart(): ?Response
+    {
+        $response = $this->checkoutFacade->pay(new CheckoutDTO(
+            cart: $this->cartFacade->getOrCreateFromSession(),
+            deliveryModuleId: $this->cartFacade->getDeliveryModuleId(),
+            deliveryAddressId: $this->cartFacade->getDeliveryAddressId(),
+            invoiceAddressId: $this->cartFacade->getInvoiceAddressId(),
+            paymentModuleId: $this->cartFacade->getPaymentModuleId(),
+        ));
+
+        if ($response !== null) {
+            return $response;
+        }
     }
 }

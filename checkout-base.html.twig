@@ -15,10 +15,9 @@
 {% block header %}
     {{ include('@components/Layout/Header/HeaderCheckout.html.twig') }}
 {% endblock %}
+    {% set useSidebar = block('checkoutSummary') is defined and block('checkoutSummary') != '' %}
 
 {% block body %}
-
-    {% set useSidebar = block('checkoutSummary') is defined and block('checkoutSummary') != '' %}
 
     {% block checkoutSteps %}
         {{ include('@components/Layout/CheckoutSteps/CheckoutSteps.html.twig', {steps: ['Your cart', 'Delivery', 'Payment', 'Confirmation'], current: current}) }}

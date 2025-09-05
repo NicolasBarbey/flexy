@@ -23,6 +23,7 @@ use Thelia\Domain\Cart\Service\CartGuard;
 use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\Exception\EmptyCartException;
 use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
+use Thelia\Domain\Checkout\Exception\InvalidPaymentException;
 use Thelia\Domain\Checkout\Exception\MissingAddressException;
 use Thelia\Domain\Shipping\ShippingFacade;
 
@@ -103,13 +104,16 @@ class CheckoutController extends FlexyController
     }
 
     #[Route('/gateway', name: 'gateway')]
-    public function gatewayAction(): Response
-    {
+    public function gatewayAction(
+        CartGuard $cartGuard,
+        CartFacade $cartFacade,
+    ): Response {
         $this->checkAuth();
 
-        return $this->render('checkout', [
+        return $this->render('checkout-gateway', [
             'current' => CheckoutSteps::GATEWAY,
         ]);
+
     }
 
     #[Route('/confirm', name: 'confirm')]
@@ -119,6 +123,16 @@ class CheckoutController extends FlexyController
 
         return $this->render('checkout', [
             'current' => CheckoutSteps::CONFIRM,
+        ]);
+    }
+
+    #[Route('/failed', name: 'failed')]
+    public function failedAction(): Response
+    {
+        $this->checkAuth();
+
+        return $this->render('checkout-failed', [
+            'current' => CheckoutSteps::FAILED,
         ]);
     }
 }
