@@ -23,6 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Address\AddressCreateOrUpdateEvent;
 use Thelia\Core\Event\Customer\CustomerCreateOrUpdateEvent;
 use Thelia\Core\Event\TheliaEvents;
+use Thelia\Domain\Adressing\Service\AddressService;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
@@ -117,21 +118,15 @@ class AccountController extends FlexyController
     }
 
     #[Route('/address/new', name: 'address_create', methods: ['POST'])]
-    public function addressCreate(EventDispatcherInterface $eventDispatcher): RedirectResponse
+    public function addressCreate(AddressService $addressService): RedirectResponse
     {
         $this->checkAuth();
 
         $addressCreate = $this->createForm(FrontForm::ADDRESS_CREATE);
 
         try {
-            /** @var Customer $customer */
-            $customer = $this->getSecurityContext()->getCustomerUser();
-
             $form = $this->validateForm($addressCreate, 'post');
-            $event = $this->createAddressEvent($form);
-            $event->setCustomer($customer);
-
-            $eventDispatcher->dispatch($event, TheliaEvents::ADDRESS_CREATE);
+            $addressService->createAddress($form);
 
             return $this->generateSuccessRedirect($addressCreate);
         } catch (FormValidationException $e) {
@@ -149,10 +144,7 @@ class AccountController extends FlexyController
           ->setGeneralError($message)
         ;
 
-        // Redirect to error URL if defined
-        if ($addressCreate->hasErrorUrl()) {
-            return $this->generateErrorRedirect($addressCreate);
-        }
+        return $this->generateErrorRedirect($addressCreate);
     }
 
     /**

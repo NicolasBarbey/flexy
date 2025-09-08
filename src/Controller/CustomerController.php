@@ -28,6 +28,8 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
+use Thelia\Domain\Adressing\Service\AddressService;
+use Thelia\Domain\Customer\DTO\CustomerRegisterDTO;
 use Thelia\Domain\Customer\Service\CustomerAuthenticator;
 use Thelia\Domain\Customer\Service\CustomerCodeManager;
 use Thelia\Domain\Customer\Service\CustomerRegistrationService;
@@ -165,12 +167,13 @@ class CustomerController extends FlexyController
         try {
             $formValidated = $this->validateForm($form, Request::METHOD_POST);
 
-            $customer = $customerRegistrationProcessor->registerCustomer([
-                'firstName' => 'TMP',
-                'lastName' => 'TMP',
-                'email' => $formValidated->get('email')->getData(),
-                'password' => $formValidated->get('password')->getData(),
-            ]);
+            $customer = $customerRegistrationProcessor->registerCustomer(
+                new CustomerRegisterDTO(
+                    firstname: $formValidated->get('firstname')->getData(),
+                    lastname: $formValidated->get('lastname')->getData(),
+                    email: $formValidated->get('email')->getData(),
+                    password: $formValidated->get('password')->getData()
+                ));
 
             $session->set('registration_customer_id', $customer->getId());
 
@@ -220,6 +223,7 @@ class CustomerController extends FlexyController
     #[Route('/informations', name: 'informations_create', methods: ['POST'])]
     public function informationsCreate(
         CustomerCodeManager $customerCodeProcessor,
+        AddressService $addressService,
         SessionInterface $session,
         NewsletterSubscriber $newsletterProcessor,
     ): RedirectResponse {
@@ -238,10 +242,7 @@ class CustomerController extends FlexyController
                 $newsletterProcessor->subscribe($customer);
             }
 
-            $customer
-                ->setFirstname($formValidated->get('firstname')->getData())
-                ->setLastname($formValidated->get('lastname')->getData())
-                ->save();
+            $addressService->createAddress($formValidated, $customer);
 
             $customerCodeProcessor->createCodeAndSendIt($customer);
 

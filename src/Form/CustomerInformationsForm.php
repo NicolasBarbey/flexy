@@ -15,34 +15,22 @@ declare(strict_types=1);
 namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Thelia\Core\Translation\Translator;
-use Thelia\Form\BaseForm;
+use Thelia\Form\AddressCreateForm;
 
-class CustomerInformationsForm extends BaseForm
+class CustomerInformationsForm extends AddressCreateForm
 {
     protected function buildForm(): void
     {
+        parent::buildForm();
+
+        $this->formBuilder->remove('is_default');
+        $this->formBuilder->add('is_default', HiddenType::class, [
+            'data' => true,
+        ]);
+
         $this->formBuilder
-          ->add('firstname', TextType::class, [
-              'constraints' => [
-                  new Constraints\NotBlank(),
-              ],
-              'label' => Translator::getInstance()->trans('Firstname'),
-              'label_attr' => [
-                  'for' => 'firstname',
-              ],
-          ])
-          ->add('lastname', TextType::class, [
-              'constraints' => [
-                  new Constraints\NotBlank(),
-              ],
-              'label' => Translator::getInstance()->trans('Lastname'),
-              'label_attr' => [
-                  'for' => 'lastname',
-              ],
-          ])
           ->add(
               'accept_privacy_policy',
               CheckboxType::class,
@@ -54,5 +42,10 @@ class CustomerInformationsForm extends BaseForm
                   'help' => Translator::getInstance()->trans('*Your data is processed by Thelia to manage our customer relations, to carry out statistical analyses, and to send you information about our products, services and events, if you have given your consent. You may object to these communications. You have the right to access, rectify, delete or object to the processing of your data. Contact our data manager at [dpo@domain.com].'),
               ]
           );
+    }
+
+    public static function getName():string
+    {
+        return 'flexybundle_form_customer_informations_form';
     }
 }

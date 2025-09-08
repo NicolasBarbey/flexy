@@ -30,6 +30,8 @@ class RegisterValidationCode extends AbstractController
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
+    public const CODE_CHARSETS_COUNT = 6;
+
     #[LiveProp]
     public ?string $email = null;
 

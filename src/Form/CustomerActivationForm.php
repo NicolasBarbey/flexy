@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Form;
 
-use FlexyBundle\Twig\Organisms\RegisterValidationCode;
+use FlexyBundle\UiComponents\RegisterValidationCode\RegisterValidationCode;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
