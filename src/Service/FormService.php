@@ -37,7 +37,7 @@ class FormService
                 ]
             ));
         }
-        match ($filter['fieldType']) {
+        match ($filter['fieldType'] ?? 'checkbox') {
             'checkbox', 'radio' => $this->renderCheckbox($filter, $fieldset->get($filter['type']), $tfilters),
             'input' => $this->renderInput($filter, $fieldset),
             'range' => $this->renderRange($filter, $fieldset->get($filter['type']), $tfilters),
@@ -50,7 +50,7 @@ class FormService
         $values = [];
 
         foreach ($filter['values'] as $value) {
-            $values[$value['title']] = $value['id'];
+            $values[$value['title'] ?? ''] = $value['id'];
         }
 
         $fieldset->add(

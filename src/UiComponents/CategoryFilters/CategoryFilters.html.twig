@@ -19,7 +19,7 @@
             </div>
         </div>
     {% endif %}
-    <div class="flex-1">
+    <div class="{{ filters ? 'flex-1' : 'col-span-full' }}">
         <div class="justify-between items-end mb-[29px] hidden lg:flex">
             {% if products|length %}
                 <span>{{ products|length }}
@@ -44,7 +44,7 @@
             {% endif %}
         </div>
 
-        <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8 mb-[40px] transition" data-loading="addClass(opacity-50)">
+        <div class="grid {{ filters ? 'sm:grid-cols-2 xl:grid-cols-3': 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' }} gap-8 mb-[40px] transition" data-loading="addClass(opacity-50)">
             {% if products|length %}
                 {% for product in products %}
                     {{ component('Flexy:ProductCard', product) }}

@@ -140,7 +140,6 @@ class CategoryFilters extends AbstractController
         }
 
         $fitlers = $this->getFilters();
-
         if ($fitlers) {
             $formBuilder->add($formBuilder->create(
                 'tfilters',
