@@ -8,28 +8,13 @@
         </span>
     {% endif %}
 
-    {% if this.address is defined %}
+    {% if this.address|length %}
+        {% set address = [] %}
         <span class="StoreDelivery-address">
-            <span>
-                {{ this.address.address1 }}
-                ,
-            </span>
-            {% if this.address.address2 %}
-                <span>
-                    {{ this.address.address2 }}
-                    ,
-                </span>
-            {% endif %}
-            {% if this.address.address3 %}
-                <span>
-                    {{ this.address.address3 }}
-                    ,
-                </span>
-            {% endif %}
-            <span>
-                {{ this.address.zipCode }}
-                {{ this.address.city }}
-            </span>
+            {% for value in this.address %}
+                {% set address = value ? address|merge([value]) : address %}
+            {% endfor %}
+            {{ address|join(', ') }}
         </span>
     {% endif %}
 {% endblock %}
@@ -37,28 +22,32 @@
 {% block footer %}
     {% if this.hours is not empty %}
         <div class="StoreDelivery-bottom" {{ stimulus_controller('store-delivery') }}>
-            {{ component('Flexy:Button', {
-                class: 'StoreDelivery-hours',
-                'data-show-hours': 'See opening hours'|trans,
-                'data-hide-hours': 'hide opening times'|trans,
-                icon_left: 'clock',
-                text: 'See opening hours'|trans,
-                color: 'minimal',
-            }) }}
+            <div class="flex items-center gap-2">
+                {{ ux_icon('clock',{class: 'w-4 h-4'}) }}
+                {{ component('Flexy:Button', {
+                    class: 'StoreDelivery-hours',
+                    'data-show-hours': 'See opening hours'|trans,
+                    'data-hide-hours': 'hide opening times'|trans,
+                    'data-action': 'store-delivery#toggle',
+                    text: 'See opening hours'|trans,
+                    color: 'minimal',
+                }) }}
+            </div>
+            <div class="StoreDelivery-hoursListing md:hidden" data-store-delivery-target="list">
+                <table>
+                    {% for hour in this.hours %}
+                        <tr>
+                            <td>
+                                {{ hour.day }}
+                            </td>
+                            <td>
+                                {{ hour.hours }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-        <div class="StoreDelivery-hoursListing md:hidden">
-            <table>
-                {% for hour in this.hours %}
-                    <tr>
-                        <td>
-                            {{ hour.day }}
-                        </td>
-                        <td>
-                            {{ hour.hours }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+
     {% endif %}
 {% endblock %}

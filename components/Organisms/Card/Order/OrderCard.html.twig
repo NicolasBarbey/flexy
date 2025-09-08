@@ -37,6 +37,7 @@
         {% endif %}
     </div>
     <div class="OrderCard-images">
+        {{ dump(order.orderProducts) }}
         {% for orderProduct in order.orderProducts %}
             {% set pse = resources('/api/front/product_sale_elements/' ~ orderProduct.productSaleElementsId) %}
             {% set product = resources('/api/front/products/' ~ pse.product.id) %}

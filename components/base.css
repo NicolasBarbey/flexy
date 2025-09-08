@@ -10,7 +10,7 @@
 
 body {
   font-family: 'Poppins', 'Roboto', serif;
-  color: var(--grey-dark);
+  color: var(--black);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
