@@ -17,6 +17,7 @@ namespace FlexyBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Thelia\Core\Translation\Translator;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class PickupAddressType extends AbstractType
 {

@@ -12,27 +12,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\UiComponents\CategoryProducts;
+namespace FlexyBundle\UiComponents\CategoryFilters;
 
 use FlexyBundle\Form\Type\FieldsetType;
-use FlexyBundle\Form\Type\FilterChoiceType;
-use FlexyBundle\Form\Type\SelectChoiceType;
-use FlexyBundle\Form\Type\SortChoiceType;
+use FlexyBundle\Service\FormService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
-#[AsLiveComponent(name: 'Flexy:CategoryProducts', template: '@UiComponents/CategoryProducts/CategoryProducts.html.twig')]
-class CategoryProducts extends AbstractController
+#[AsLiveComponent(name: 'Flexy:CategoryFilters', template: '@UiComponents/CategoryFilters/CategoryFilters.html.twig')]
+class CategoryFilters extends AbstractController
 {
+    use ComponentToolsTrait;
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
@@ -49,7 +50,7 @@ class CategoryProducts extends AbstractController
         ],
     ];
 
-    public const ITEMS_PER_PAGE = 12;
+    public const ITEMS_PER_PAGE = 30;
 
     #[LiveProp]
     public ?int $categoryId = null;
@@ -57,14 +58,17 @@ class CategoryProducts extends AbstractController
     #[LiveProp]
     public ?int $page = 1;
 
-    #[LiveProp(writable: false, url: true)]
+    #[LiveProp(writable: true, url: true)]
     public ?array $tfilters = [];
 
     #[ExposeInTemplate]
     public ?array $products = [];
 
+    #[LiveProp]
+    public ?array $pagination = [];
+
     #[ExposeInTemplate]
-    public ?array $filters = [];
+    public ?array $filters = null;
 
     #[ExposeInTemplate]
     public ?array $sorts = [];
@@ -72,8 +76,11 @@ class CategoryProducts extends AbstractController
     #[ExposeInTemplate]
     public ?array $sourceData = [];
 
-    public function __construct(private DataAccessService $dataAccessService, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private readonly DataAccessService $dataAccessService,
+        private readonly RequestStack $requestStack,
+        private readonly FormService $formService,
+    ) {
     }
 
     public function mount(?int $initialCategoryId, ?int $initialPage, ?array $sourceData): void
@@ -81,6 +88,7 @@ class CategoryProducts extends AbstractController
         $this->categoryId = $initialCategoryId;
         $this->page = $initialPage;
         $this->sourceData = $sourceData;
+
         $tfilters = $this->requestStack->getCurrentRequest()->get('tfilters');
 
         if (\is_array($tfilters) && \count($tfilters) > 0) {
@@ -92,8 +100,9 @@ class CategoryProducts extends AbstractController
             'tfilters' => $this->tfilters,
             'itemsPerPage' => self::ITEMS_PER_PAGE,
             'page' => $initialPage,
-            'order[productCategories.position]' => 'asc',
         ], 'jsonld');
+
+        $this->getPagination($request);
         $this->products = $request['hydra:member'];
     }
 
@@ -101,10 +110,11 @@ class CategoryProducts extends AbstractController
     {
         $formBuilder = $this->createFormBuilder(null, ['attr' => ['class' => 'relative flex flex-col gap-[30px]']]);
 
-        if (empty($this->getSorts())) {
-            $values = [];
+        $sorts = $this->getSorts();
 
-            foreach ($this->getSorts() as $sort) {
+        if ($sorts) {
+            $values = [];
+            foreach ($sorts as $sort) {
                 $values[$sort['title']] = $sort['value'];
             }
 
@@ -122,19 +132,20 @@ class CategoryProducts extends AbstractController
                         'class' => 'block mb-6 h4',
                     ],
                 ]
-            )->add('sort', SortChoiceType::class, [
+            )->add('sort', ChoiceType::class, [
                 'label' => 'Choose',
                 'choices' => $values,
                 'required' => false,
             ]));
         }
 
-        if (!empty($this->getFilters())) {
+        $fitlers = $this->getFilters();
+
+        if ($fitlers) {
             $formBuilder->add($formBuilder->create(
                 'tfilters',
                 FieldsetType::class,
                 [
-                    'by_reference' => true,
                     'label' => 'Filter By',
                     'inherit_data' => true,
                     'label_attr' => [
@@ -145,30 +156,8 @@ class CategoryProducts extends AbstractController
                     ],
                 ]
             ));
-
-            foreach ($this->getFilters() as $filter) {
-                $values = [];
-
-                foreach ($filter['values'] as $value) {
-                    $values[$value['title']] = $value['id'];
-                }
-
-                $fieldName = 'tfilters_'.$filter['type'];
-
-                if ($filter['id']) {
-                    $fieldName .= '_'.$filter['id'];
-                }
-                $formBuilder->get('tfilters')->add(
-                    $fieldName,
-                    $filter['inputType'] === 'select' ? SelectChoiceType::class : FilterChoiceType::class,
-                    [
-                        'label' => $filter['title'],
-                        'choices' => $values,
-                        'data' => $this->tfilters[$filter['type']] ?? null,
-                        'multiple' => true,
-                        'required' => false,
-                    ]
-                );
+            foreach ($fitlers as $filter) {
+                $this->formService->renderFieldFromFieldType($filter, $formBuilder->get('tfilters'), $this->tfilters ?? []);
             }
         }
 
@@ -176,35 +165,34 @@ class CategoryProducts extends AbstractController
     }
 
     #[LiveAction]
-    public function save(#[LiveArg] ?string $order = 'asc', #[LiveArg] ?bool $reset = false): void
+    public function save(#[LiveArg] $reset = false): void
     {
         $this->submitForm();
 
         if ($reset) {
-            $this->tfilters = [];
             $this->resetForm();
+            $this->tfilters = [];
         }
 
-        if ($this->getForm()->getData()) {
-            $this->tfilters = $this->normalizeFormDataToFilters($this->getForm()->getData());
+        if ($this->tfilters = $this->getForm()->getData()) {
+            $this->tfilters = $this->getForm()->getData();
         }
-
-        $filters = $this->tfilters;
-        $filters['category'] = $this->categoryId;
 
         $request = $this->dataAccessService->resources('/api/front/products', [
-            'tfilters' => $filters,
+            'productCategories.category.id' => $this->categoryId,
+            'tfilters' => $this->tfilters,
             'itemsPerPage' => self::ITEMS_PER_PAGE,
             'page' => $this->page,
-            'category_depth' => 3,
         ], 'jsonld');
+
+        $this->getPagination($request);
         $this->products = $request['hydra:member'];
     }
 
     public function getFilters(): array
     {
         $this->filters = $this->dataAccessService->resources('/api/front/tfilters/products', [
-            'tfilters[categories]' => $this->categoryId,
+            'tfilters[category]' => $this->categoryId,
         ]);
 
         return $this->filters;
@@ -217,24 +205,24 @@ class CategoryProducts extends AbstractController
         return $this->sorts;
     }
 
-    public function normalizeFormDataToFilters(array $formData): array
+    public function getPagination(array $request): void
     {
-        $filters = [];
 
-        $provided_data = array_filter($formData, fn ($filter) => \is_array($filter) && \count($filter) > 0);
+        $this->pagination = [];
+//        preg_match('/\d+/', $request['hydra:view']['@id'], $matches);
+//
+//        $baseUrl = $this->getProductUrl($this->requestStack->getCurrentRequest()->headers->get('referer') ?? '', $this->tfilters);
+//
+//        $this->pagination = [
+//            'totalItems' => $request['hydra:totalItems'],
+//            'itemsPerPage' => self::ITEMS_PER_PAGE,
+//            'currentPage' => $matches[0] ?? 1,
+//            'baseUrl' => $baseUrl,
+//        ];
+    }
 
-        foreach ($provided_data as $name => $values) {
-            $pathFilter = explode('_', $name);
-
-            if (\count($pathFilter) > 1 && $pathFilter[0] === 'tfilters') {
-                foreach ($values as $value) {
-                    $filters[$pathFilter[1]][] = $value;
-                }
-            } else {
-                $filters[$name] = $values;
-            }
-        }
-
-        return $filters;
+    public function getProductUrl(string $base, $params = []): string
+    {
+        return $base.(\count($params) ? '?' : '').http_build_query($params);
     }
 }

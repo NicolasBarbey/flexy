@@ -14,7 +14,7 @@
 {% block body %}
     {{ include('@components/Layout/Subheader/Category/SubheaderCategory.html.twig', {title: attr('category', 'title'), description: attr('category', 'chapo'), nbProducts: 9, breadcrumb: breadcrumb}) }}
 
-  {{ component('Flexy:CategoryProducts', {
+  {{ component('Flexy:CategoryFilters', {
     initialCategoryId: categoryId,
     initialPage: page,
     sourceData: {

@@ -1,12 +1,10 @@
 {% use '@formTwig/flexy_form_theme.html.twig' %}
 
-<label class="Checkbox {{ classes }} {{ error ? 'error'  : ''}}">
-    <input type="checkbox"
+<label class="Radio {{ classes }} {{ error ? 'error'  : ''}}">
+    <input type="radio"
         {{ block('widget_attributes') }}
         {% if value is defined %} value="{{ value }}"{% endif %}
         {% if checked %} checked="checked"{% endif %}>
-    <span class="checkmark">
-        {{ ux_icon('checkbox') }}
-    </span>
+    <span class="checkmark"></span>
     <span class="paragraph-5">{{ label }}</span>
 </label>

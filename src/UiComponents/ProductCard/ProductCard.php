@@ -16,6 +16,7 @@ namespace FlexyBundle\UiComponents\ProductCard;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
+use Symfony\UX\TwigComponent\Attribute\PreMount;
 use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:ProductCard', template: '@UiComponents/ProductCard/ProductCard.html.twig')]
@@ -30,6 +31,12 @@ class ProductCard
     public function __construct(DataAccessService $dataAccessService)
     {
         $this->dataAccessService = $dataAccessService;
+    }
+
+    #[PreMount]
+    public function preMount(array $product): void
+    {
+        $this->product = $product;
     }
 
     public function getProduct()

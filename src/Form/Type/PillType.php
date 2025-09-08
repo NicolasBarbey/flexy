@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PillType extends ChoiceType
 {

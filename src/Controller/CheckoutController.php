@@ -121,7 +121,7 @@ class CheckoutController extends FlexyController
     {
         $this->checkAuth();
 
-        return $this->render('checkout', [
+        return $this->render('checkout-confirm', [
             'current' => CheckoutSteps::CONFIRM,
         ]);
     }
