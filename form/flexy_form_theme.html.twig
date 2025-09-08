@@ -37,7 +37,7 @@
 {%- block form_widget_simple -%}
   {%- set type = type|default('text') -%}
 
-  {% if  type in ['range','file'] %}
+  {% if  type in ['range','file','hidden'] %}
       <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
   {% else %}
       {% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" %}
