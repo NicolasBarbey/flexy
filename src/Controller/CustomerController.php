@@ -216,6 +216,8 @@ class CustomerController extends FlexyController
             'customer-informations',
             [
                 'email' => $email,
+                'firstname' => $customer->getFirstname(),
+                'lastname' => $customer->getLastname(),
             ]
         );
     }

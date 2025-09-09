@@ -15,9 +15,14 @@ declare(strict_types=1);
 namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfonycasts\DynamicForms\DependentField;
+use Symfonycasts\DynamicForms\DynamicFormBuilder;
+use Thelia\Action\Country;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\AddressCreateForm;
+use Thelia\Model\StateQuery;
 
 class CustomerInformationsForm extends AddressCreateForm
 {
@@ -25,7 +30,24 @@ class CustomerInformationsForm extends AddressCreateForm
     {
         parent::buildForm();
 
+        $this->formBuilder = new DynamicFormBuilder($this->formBuilder);
+
         $this->formBuilder->remove('is_default');
+        $this->formBuilder->remove('state');
+
+        $this->formBuilder->addDependent('state', 'country', function (DependentField $field, int $country) {
+
+            if (null == $country) {
+                return null;
+            }
+            $states = StateQuery::create()->filterByCountryId($country);
+            $field->add(ChoiceType::class, [
+                'placeholder' => 'test',
+                'expanded' => false,
+                'choices' => ['test' => 'test']
+            ]);
+        });
+
         $this->formBuilder->add('is_default', HiddenType::class, [
             'data' => true,
         ]);
@@ -44,7 +66,7 @@ class CustomerInformationsForm extends AddressCreateForm
           );
     }
 
-    public static function getName():string
+    public static function getName(): string
     {
         return 'flexybundle_form_customer_informations_form';
     }
