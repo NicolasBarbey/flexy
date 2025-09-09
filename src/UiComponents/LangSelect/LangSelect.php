@@ -29,7 +29,7 @@ class LangSelect
     public bool $open = true;
 
     #[ExposeInTemplate()]
-    public array $currentLang = [];
+    public ?array $currentLang;
 
     #[ExposeInTemplate()]
     public array $langs = [];
@@ -47,9 +47,15 @@ class LangSelect
         return $this->langs;
     }
 
-    public function getCurrentLang()
+    public function getCurrentLang(): ?array
     {
-        $filters = array_filter($this->getLangs(), fn ($lang) => $lang['id'] === $this->session->getLang()->getId());
+        $langs = $this->getLangs();
+
+        if (\count($langs) <= 1) {
+            return null;
+        }
+
+        $filters = array_filter($this->getLangs(), fn ($lang) => $lang['id'] == $this->session->getLang()->getId());
 
         $this->currentLang = reset($filters);
 
