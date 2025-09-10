@@ -10,12 +10,9 @@
 
         <h1 class="mb-5 text-center h3">{{ 'Enter the code received by e-mail'|trans }}</h1>
 
-        {{ component('Flexy:RegisterValidationCode', {email: email}) }}
+        {{ component('Flexy:RegisterValidationCode', {email}) }}
 
-        <div class="mt-[40px] pt-[40px] border-t border-gray-700 text-center">
-            <strong class="block">{{ "Dont't have receive code ?"|trans }}</strong>
-            <span>{{ 'resend_code'|trans({'%h': path('customer_send_code', {email: email})})|raw }}</span>
-        </div>
+
 
     </div>
 

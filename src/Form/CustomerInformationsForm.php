@@ -17,12 +17,13 @@ namespace FlexyBundle\Form;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
-use Thelia\Action\Country;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\AddressCreateForm;
-use Thelia\Model\StateQuery;
 
 class CustomerInformationsForm extends AddressCreateForm
 {
@@ -33,37 +34,72 @@ class CustomerInformationsForm extends AddressCreateForm
         $this->formBuilder = new DynamicFormBuilder($this->formBuilder);
 
         $this->formBuilder->remove('is_default');
+        $this->formBuilder->remove('cellphone');
         $this->formBuilder->remove('state');
 
-        $this->formBuilder->addDependent('state', 'country', function (DependentField $field, int $country) {
-
-            if (null == $country) {
+        $this->formBuilder->addDependent('state', 'country', function (DependentField $field, int $countryId) {
+            if (null == $countryId) {
                 return null;
             }
-            $states = StateQuery::create()->filterByCountryId($country);
+            $stateChoices = $this->getStatesChoices($countryId);
+
+            if (empty($stateChoices)) {
+                return null;
+            }
+
             $field->add(ChoiceType::class, [
-                'placeholder' => 'test',
-                'expanded' => false,
-                'choices' => ['test' => 'test']
+                'required' => false,
+                'constraints' => [
+                    new Callback(
+                        $this->verifyState(...),
+                    ),
+                ],
+                'choices' => $stateChoices,
+                'label' => Translator::getInstance()->trans('State'),
+                'label_attr' => [
+                    'for' => 'state',
+                ],
+                'placeholder' => Translator::getInstance()->trans('Select your state'),
             ]);
         });
 
+
         $this->formBuilder->add('is_default', HiddenType::class, [
             'data' => true,
-        ]);
+        ])->add('cellphone', TelType::class, [
+            'label' => Translator::getInstance()->trans('Cellphone'),
+            'label_attr' => [
+                'for' => 'cellphone',
+            ],
+            'required' => true,
+        ])->add(
+            'newsletter',
+            CheckboxType::class,
+            [
+                'label' => Translator::getInstance()->trans('I agree to receive promotional offers by newsletter'),
+                'label_attr' => [
+                    'for' => 'newsletter',
+                ],
+            ]
+        )->add(
+            'accept_privacy_policy',
+            CheckboxType::class,
+            [
+                'label' => Translator::getInstance()->trans('I agree to our privacy policy'),
+                'label_attr' => [
+                    'for' => 'accept_privacy_policy',
+                ],
+                'required' => true,
+                'help' => Translator::getInstance()->trans('I agree to our privacy policy'),
+            ]
+        );
 
-        $this->formBuilder
-          ->add(
-              'accept_privacy_policy',
-              CheckboxType::class,
-              [
-                  'label' => Translator::getInstance()->trans('By subscribing to our newsletter, you agree to our privacy policy.*'),
-                  'label_attr' => [
-                      'for' => 'accept_privacy_policy',
-                  ],
-                  'help' => Translator::getInstance()->trans('*Your data is processed by Thelia to manage our customer relations, to carry out statistical analyses, and to send you information about our products, services and events, if you have given your consent. You may object to these communications. You have the right to access, rectify, delete or object to the processing of your data. Contact our data manager at [dpo@domain.com].'),
-              ]
-          );
+        $this->formBuilder->add('submit', SubmitType::class, [
+            'label' => Translator::getInstance()->trans('Confirm my registration'),
+            'row_attr' => [
+                'class' => 'mt-8',
+            ],
+        ]);
     }
 
     public static function getName(): string

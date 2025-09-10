@@ -1,10 +1,12 @@
 import { Controller } from '@hotwired/stimulus';
 import { getComponent } from '@symfony/ux-live-component';
+import { debounce } from 'lodash';
 
 class RegisterCodeController extends Controller {
-  static targets = ['input'];
+  static targets = ['input', 'code','submit'];
   async initialize() {
     this.component = await getComponent(this.element);
+    this.checkValidity = debounce(this.checkValidity, 400).bind(this);
   }
 
   connect() {
@@ -17,7 +19,7 @@ class RegisterCodeController extends Controller {
         input.value = chars[index];
       });
 
-      this.beforeSave();
+      this.checkValidity();
     });
   }
 
@@ -38,13 +40,30 @@ class RegisterCodeController extends Controller {
 
       this.input({ target: nextInput });
     }
-    this.beforeSave();
+    this.checkValidity();
   }
 
-  beforeSave() {
+  checkValidity() {
     if (this.inputTargets.every((input) => input.value.trim() !== '')) {
-      this.component.action('save');
+      this.component.action('updateCode', {code : this.inputTargets.map(input => input.value).join('') });
+      this.toggleSubmit(true);
+      return;
     }
+    this.toggleSubmit(false);
+    this.component.action('updateCode', {code : '' });
+  }
+
+  toggleSubmit(display = false) {
+    this.submitTarget.parentNode.classList.toggle('hidden', !display);
+    this.submitTarget.disabled =  !display;
+  }
+
+  beforeSave(e) {
+    e.preventDefault();
+    console.log(this.codeTarget.value);
+    this.component.action('save');
+    this.toggleSubmit(false);
+    this.inputTargets.forEach((input) => input.value = '');
   }
 }
 

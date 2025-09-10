@@ -205,19 +205,24 @@ class CustomerController extends FlexyController
         $customer = $this->retrieveCustomerFromSession($session);
 
         $email = null;
+        $firstname = null;
+        $lastname = null;
         if ($customer instanceof Customer) {
             $email = $customer->getEmail();
+            $firstname = $customer->getFirstname();
+            $lastname = $customer->getLastname();
         } elseif ($this->getSecurityContext()->hasCustomerUser()) {
             $customer = $this->getSecurityContext()->getCustomerUser();
-            $email = $customer->getEmail();
+            $firstname = $customer->getFirstname();
+            $lastname = $customer->getLastname();
         }
 
         return $this->render(
             'customer-informations',
             [
                 'email' => $email,
-                'firstname' => $customer->getFirstname(),
-                'lastname' => $customer->getLastname(),
+                'firstname' => $firstname,
+                'lastname' => $lastname,
             ]
         );
     }

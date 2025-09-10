@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -30,12 +31,11 @@ class RegisterValidationCode extends AbstractController
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
-    public const CODE_CHARSETS_COUNT = 6;
-
     #[LiveProp]
     public ?string $email = null;
 
-    public ?int $nbChars = 0;
+    #[LiveProp]
+    public ?bool $canLogin = false;
 
     public function __construct(protected CustomerCodeManager $customerCodeProcessor)
     {
@@ -54,17 +54,24 @@ class RegisterValidationCode extends AbstractController
     }
 
     #[LiveAction]
+    public function updateCode(#[LiveArg] string $code): void
+    {
+        $this->formValues['activation_code'] = $code;
+    }
+
+    #[LiveAction]
     public function save(): void
     {
         $this->submitForm();
-
         $form = $this->getForm();
+
         try {
             $this->customerCodeProcessor->activateCustomerByCode(
                 $form->get('customer_email')->getData(),
                 (string) $form->get('activation_code')->getData()
             );
             $this->addFlash('success', 'Customer activated successfully.');
+            $this->canLogin = true;
         } catch (\Exception $e) {
             $this->addFlash('error', 'Activation failed: '.$e->getMessage());
         }

@@ -1,25 +1,12 @@
 {% use 'form_div_layout.html.twig' %}
 
-{%- block form_row -%}
-    {%- set default_attr = {} -%}
-    {% set row_attr = row_attr|merge({class :'flex flex-col gap-1'}) %}
-
-    {%- if help -%}
-        {%- set default_attr = default_attr|merge({'aria-describedby': id ~"_help"}) -%}
-    {%- endif -%}
-
-    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
-        {{- form_label(form) -}}
-        {{- form_widget(form, {attr: default_attr}) -}}
-        {{- form_errors(form) -}}
-    </div>
-{%- endblock form_row -%}
 
 {%- block form_label -%}
     {% if label and not hideLabel %}
         <div class="FieldInput-header">
             {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default('FieldInput-label')) }) -%}
             {{- parent() -}}
+            {% if not required %}<span class="paragraph-5 mr-auto ml-2">({{ 'optional'|trans }})</span>{% endif %}
             {% if tooltip %}
                 {% include '@components/Molecules/Tooltip/Tooltip.html.twig' with {tooltip: tooltip, position: 'bottom'} %}
             {% endif %}
@@ -34,6 +21,9 @@
     {%- endif -%}
 {%- endblock form_help %}
 
+
+{# WIDGET #}
+
 {%- block form_widget_simple -%}
   {%- set type = type|default('text') -%}
 
@@ -42,7 +32,7 @@
   {% else %}
       {% include "@components/Molecules/Fields/FieldInput/FieldInput.html.twig" %}
   {% endif %}
-{%- endblock form_widget_simple -%}a
+{%- endblock form_widget_simple -%}
 
 {%- block password_widget -%}
     {% set attr = attr|merge({
@@ -83,10 +73,6 @@
     </div>
 {%- endblock choice_widget_expanded -%}
 
-{%- block checkbox_row -%}
-    {% include "@components/Atoms/Form/Checkbox.html.twig"  %}
-{%- endblock checkbox_row -%}
-
 {%- block radio_widget -%}
     {% include "@components/Atoms/Form/Radio.html.twig"  %}
 {%- endblock radio_widget -%}
@@ -97,11 +83,44 @@
     {{- block('form_widget_simple') -}}
 {%- endblock range_widget %}
 
-
 {%- block file_widget -%}
     {% set attr = attr|merge({'class' : 'FieldFile'}) %}
     {{- block('form_widget_simple') -}}
 {%- endblock file_widget %}
+
+{% block pill_widget %}
+    {% include '@formTwig/fields/pill.html.twig' %}
+{% endblock %}
+
+{% block submit_widget %}
+    {{ component('Flexy:Button', attr|merge({
+        type: 'submit',
+        text: label,
+        size: 'large',
+        class: attr.class,
+    })) }}
+{% endblock %}
+
+{# ROW #}
+
+{%- block form_row -%}
+    {%- set default_attr = {} -%}
+    {% set row_attr = row_attr|merge({class :'flex flex-col gap-1'}) %}
+
+    {%- if help -%}
+        {%- set default_attr = default_attr|merge({'aria-describedby': id ~"_help"}) -%}
+    {%- endif -%}
+
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form, {attr: default_attr}) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block checkbox_row -%}
+    {% include "@components/Atoms/Form/Checkbox.html.twig"  %}
+{%- endblock checkbox_row -%}
 
 {%- block code_group_row -%}
     {% set attr = attr|merge({class : 'flex justify-center gap-[10px] lg:gap-4'}) %}
@@ -137,10 +156,6 @@
 {% block range_group_row %}
     {% include '@formTwig/fields/delta.html.twig' %}
 {% endblock range_group_row %}
-
-{% block pill_widget %}
-    {% include '@formTwig/fields/pill.html.twig' %}
-{% endblock %}
 
 {% block range_filter_row %}
     {% include '@formTwig/fields/range_filter.html.twig' %}
