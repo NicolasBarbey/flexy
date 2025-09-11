@@ -15,6 +15,7 @@ History: History
 Order N°: Order N°
 of: of
 item: item
+items: items
 Scheduled for delivery on: Scheduled for delivery on
 Order details: Order details
 See order details: See order details
@@ -116,6 +117,7 @@ In stock: In stock
 Size: Size
 Color: Color
 Free delivery: Free delivery
+Free: Free
 from 50€: from 50€
 Shipping: Shipping
 within 24 hours: within 24 hours
@@ -213,8 +215,10 @@ You can now log in to your account.: You can now log in to your account.
 hy_customer: Hy %firstname%
 Logout: Logout
 Home: Home
+
 Apply: Apply
 Erase filters: Erase filters
+Erase: Erase
 No products found: No products found
 Previous Step: Previous Step
 Checkout: Checkout
@@ -225,6 +229,7 @@ Choose a payment method: Choose a payment method
 Your cart is curently empty: Your cart is curently empty
 Back to the store: Back to the store
 Payment processing...: Payment processing...
+Thanks for your order !: Thanks for your order !
 for your order: for your order
 Your payment has been confirmed: Your payment has been confirmed
 We'll do everything we can to send your order as quickly as possible!: We'll do everything we can to send your order as quickly as possible!
@@ -235,3 +240,8 @@ every_cat: Discover %cat
 Product's visuals: Product's visuals
 This product combination is not available: This product combination is not available
 This product combination is currently out of stock.: This product combination is currently out of stock.
+Select your state: Select your state
+State: State
+Register me: Register me
+I agree to receive promotional offers by newsletter: I agree to receive promotional offers by newsletter
+I agree to our privacy policy: I agree to the privacy policy.*

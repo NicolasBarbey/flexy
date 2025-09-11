@@ -1,0 +1,137 @@
+<div class="{{ this.outOfStock ? 'CartItem-this.outOfStock' : '' }} {% if hide %}hidden{% endif %}" {{ attributes }}>
+    {% if this.outOfStock %}
+        <div class="flex paragraph-4">
+            <span class="w-5 h-5">
+                {{ ux_icon('error') }}
+            </span>
+            <span>
+                [
+                {{ this.title }}
+                ]
+                {{ 'is no longer available and cannot be ordered.'|trans }}
+            </span>
+        </div>
+    {% endif %}
+    <div class="CartItem {{ classes }}">
+        <div class="CartItem-mainContent">
+            <a class="CartItem-imgLink" href="{{ this.url }}">
+                {{ getImages({
+                    source_type: 'product',
+                    img_id: this.pseImageId,
+                    filters: 'add_to_cart',
+                    limit: 1,
+                    wrapper: 'figure',
+                    wrapper_attrs: {
+                        class: 'CartItem-img',
+                    },
+                    img_attrs: {
+                        class: 'mx-auto',
+                        loading: 'lazy',
+                        widht: '105',
+                        height: '112',
+                    },
+                    placeholder: asset('dist/images/placeholder.webp'),
+                })|raw }}
+            </a>
+            <div class="CartItem-desc">
+                <a href="{{ this.url }}" class="ProductCard-title">
+                    {{ this.title }}
+                </a>
+
+                {% if this.secondaryTitle %}
+                    <div class="block CartItem-subTitle paragraph-3 md:hidden">
+                        {{ this.secondaryTitle }}
+                    </div>
+                {% endif %}
+                <div class="CartItem-orderInfos paragraph-6">
+
+                    {% if this.secondaryTitle %}
+                        <span class="hidden CartItem-this.secondaryTitle md:inline">
+                            {{ this.secondaryTitle }}
+                        </span>
+                    {% endif %}
+                    {% for attribute, value in attributesAv %}
+                        <span class="CartItem-secondarySize">
+                            {{ attribute }}
+                            :
+                            {{ value }}
+                        </span>
+                    {% endfor %}
+                    {% if cartItem.quantity %}
+                        <span>
+                            {{ 'Quantity:'|trans }}
+                            {{ cartItem.quantity }}
+                        </span>
+                    {% endif %}
+
+                    {% if attributesAvColor %}
+
+                        <span class="flex items-center CartItem-secondarySize">
+                            <span class="mr-1 Colors-item" style="background-color:{{ attributesAvColor.hexa }}"></span>
+                            {{ t('Color') }}
+                            :
+                            {{ attributesAvColor.name }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="CartItem-footer">
+                    {% if cartItem.promo %}
+                        <div class="CartItem-footerRight">
+                            <div class="CartItem-price">
+                                {{ this.prices.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}
+                            </div>
+                            <div class="CartItem-originalPrice">
+                                {{ this.prices.taxedPrice|format_currency('EUR', locale: lang_code) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="CartItem-price">
+                            {{ this.prices.taxedPrice|format_currency('EUR', locale: lang_code) }}
+                        </div>
+                    {% endif %}
+
+                    {% if this.outOfStock %}
+                        <div class="CartItem-unavailable">
+                            {{ 'Unavailable'|trans }}
+                        </div>
+                    {% else %}
+                        <div class="CartItem-quantity">
+                            <div role="button" class="Button Button-quantity">
+                                <button type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity - 1}) }}>
+                                    -
+                                </button>
+                                <input type="number" value="{{ this.quantity }}">
+                                <button type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity + 1}) }}>
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-card-buttons">
+            <a href='{{ this.url }}' class="hover:bg-theme-lighter" {% if disabled %} disabled {% endif %} type="button">
+                <span>
+                    {{ ux_icon('show') }}
+                </span>
+                {{ 'View product'|trans }}
+            </a>
+            <button type="button" class="hover:bg-theme-lighter" {% if disabled %} disabled {% endif %} {{ live_action('deleteCartItem', {id: this.cartItemId}) }}>
+                <span>
+                    {{ ux_icon('delete') }}
+                </span>
+                {{ 'Delete'|trans }}
+            </button>
+        </div>
+
+    </div>
+    {% if this.outOfStock %}
+        <div class="flex md:justify-end">
+            {{ include('@components/Molecules/Button/Button.html.twig', {text: 'View similar products'|trans, href: '#', classes: 'md:Button--unfill Button--fill'}) }}
+        </div>
+    {% endif %}
+</div>

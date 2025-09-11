@@ -8,7 +8,7 @@
   <div class="Review-author">{{ author }}</div>
   <div class="Review-review">{{ review }}</div>
   <div class="Review-footer">
-    {% include '@components/Molecules/Score/Score.html.twig' with {score: note, maxScore: maxNote} %}
+    {{ include('@components/Molecules/Score/Score.html.twig', {score: note, maxScore: maxNote}) }}
     <div class="Review-date">{{ date }}</div>
   </div>
 </div>

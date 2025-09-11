@@ -15,6 +15,7 @@ History: Historique
 Order N°: Commande N°
 of: de
 item: article
+items: articles
 Scheduled for delivery on: Prévu pour livraison le
 Order details: Détails de la commande
 See order details: Voir le détail de la commande
@@ -115,7 +116,8 @@ Verified Reviews: Avis vérifiés
 reviews: avis
 In stock: En stock
 Size: Taille
-Free delivery: Livraison gratuite
+Free delivery: Livraison offerte
+Free: Offert
 from 50€: à partir de 50€
 Shipping: Expédition
 within 24 hours: sous 24 heures
@@ -214,6 +216,7 @@ Logout: Déconnexion
 Home: Accueil
 Apply: Appliquer
 Erase filters: Effacer les filtres
+Erase: Effacer
 No products found: Aucun produit trouvé
 Previous Step: Étape précédente
 Checkout: Tunnel d'achat
@@ -224,7 +227,8 @@ Choose a payment method: Choisissez un mode de paiement
 Your cart is curently empty: Votre panier est vide.
 Back to the store: Retour à la boutique
 Payment processing...: Payment en cours...
-for your order: four votre commande
+Thanks for your order !: Merci pour votre commande !
+for your order: pour votre commande
 Your payment has been confirmed: Votre paiement a été validé.
 We'll do everything we can to send your order as quickly as possible!: Nous mettons tout en oeuvre pour envoyer votre commande au plus vite !
 Enter the code received by e-mail: Entrez le code reçu par mail
@@ -234,3 +238,8 @@ every_cat: Découvrir %cat
 Product's visuals: Visuels produit
 This product combination is not available: Cette combinaison n'est pas disponible
 This product combination is currently out of stock.: Cette combinaison de produit est actuellement en rupture de stock
+Select your state: Selectionner votre état
+State: État
+Register me: Valider mon inscription
+I agree to receive promotional offers by newsletter: J'accepte de recvoir des offres promotionnelles par le biais de la newsletter.
+I agree to our privacy policy: J'accepte les conditions générales d'utilisation.

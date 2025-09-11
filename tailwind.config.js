@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     './components/**/*.{twig,ts,js,json}',
+    './src/UiComponents/**/*.{twig,ts,js,json}',
     './form/**/*.twig',
     './*.twig'
   ],

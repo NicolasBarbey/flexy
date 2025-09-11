@@ -1,0 +1,16 @@
+{% set title = title|default('') %}
+{% set categories = this.categories|default([]) %}
+
+<div class="py-[80px]">
+    <div class="xl:container xl:mx-auto ">
+        <h2 class="pb-6 text-black h2">
+            {{ title }}
+        </h2>
+    </div>
+
+    <div class="flex flex-col gap-10 lg:grid lg:grid-cols-3 xl:container xl:mx-auto">
+        {% for category in categories %}
+            {{ include('@components/Organisms/CategoryCard/CategoryCard.html.twig', category) }}
+        {% endfor %}
+    </div>
+</div>

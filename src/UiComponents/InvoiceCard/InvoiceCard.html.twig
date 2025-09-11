@@ -1,0 +1,18 @@
+<div class="InvoiceCard">
+    <div class="InvoiceCard-address">
+        {{ include('@UiComponents/AddressCard/AddressInfo.html.twig', {
+            title,
+            address: this.address
+        }) }}
+    </div>
+    <div class="InvoiceCard-bottom">
+        {{ component('Flexy:Button', {
+            type: 'button',
+            text: 'Edit the address'|trans,
+            color: 'secondary',
+            'data-action': 'live#emit',
+            'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::EDIT_INVOICE_ADDRESS'),
+            'data-live-address-id-param': address.id,
+        }) }}
+    </div>
+</div>

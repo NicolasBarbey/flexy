@@ -1,32 +1,30 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% set pageData = getPageData() %}
 {% set img = getImages({
-  'source_type': 'page',
-  'source_id': pageData.id,
-  'filters': 'default',
-  'wrapper': 'div',
-  'wrapper_attrs': {
-    'class':'Subheader-image'
+  source_type: 'page',
+  source_id: pageData.id,
+  filters: 'default',
+  wrapper: 'div',
+  wrapper_attrs: {
+    class: 'Subheader-image',
   },
-  'img_attrs': {
-      'width': 1920,
-      'height': 500
+  img_attrs: {
+      width: 1920,
+      height: 500,
   },
 }) %}
 {% set pageHTML = getTheliaBLocksRenderedContent(pageData.getVirtualColumn('block_group_content')|default('')) %}
 
-
 {% block body %}
-	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: pageData.title, description: pageData.chapo|raw, img }  %}
+    {{ include('@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig', {title: pageData.title, description: pageData.chapo|raw, img: img}) }}
 
-	<div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
-		<article class="wysiwyg">
-			{{ pageData.description|raw }}
+    <div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
+        <article class="wysiwyg">
+            {{ pageData.description|raw }}
 
-			{{pageHTML|raw}}
-		</article>
-	</div>
-
+            {{ pageHTML|raw }}
+        </article>
+    </div>
 
 {% endblock %}

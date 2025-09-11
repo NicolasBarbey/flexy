@@ -1,0 +1,14 @@
+<div {{ attributes }}>
+    <ul class="flex flex-col gap-3.5 my-5">
+        {% for module in modules|filter(m => m.valid) %}
+            <li>
+                {{ include('@components/Organisms/Modules/Payment/Payment.html.twig', {title: module.i18ns.title, id: module.id, selected: paymentModuleId == module.id}) }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if paymentModuleId %}
+        {{ component('Flexy:InvoiceAddresses') }}
+    {% endif %}
+
+</div>

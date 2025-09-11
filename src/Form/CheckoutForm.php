@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -13,7 +15,6 @@
 namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
@@ -27,11 +28,11 @@ use Thelia\Module\BaseModule;
 class CheckoutForm extends AbstractType
 {
     public function __construct(
-        private readonly SecurityContext $security
+        private readonly SecurityContext $security,
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('delivery-address-id', HiddenType::class, [
@@ -70,6 +71,7 @@ class CheckoutForm extends AbstractType
 
         if (null === $address) {
             $context->addViolation(Translator::getInstance()->trans('Address ID not found'));
+
             return;
         }
 
@@ -85,6 +87,7 @@ class CheckoutForm extends AbstractType
 
         if (null === $address) {
             $context->addViolation(Translator::getInstance()->trans('Address ID not found'));
+
             return;
         }
 
@@ -104,7 +107,7 @@ class CheckoutForm extends AbstractType
             $context->addViolation(Translator::getInstance()->trans('Delivery module ID not found'));
         } elseif (!$module->isDeliveryModule()) {
             $context->addViolation(
-                sprintf(Translator::getInstance()->trans("delivery module %s is not a Thelia\Module\DeliveryModuleInterface"), $module->getCode())
+                \sprintf(Translator::getInstance()->trans("delivery module %s is not a Thelia\Module\DeliveryModuleInterface"), $module->getCode())
             );
         }
     }
@@ -119,7 +122,7 @@ class CheckoutForm extends AbstractType
             $context->addViolation(Translator::getInstance()->trans('Payment module ID not found'));
         } elseif (!$module->isPayementModule()) {
             $context->addViolation(
-                sprintf(Translator::getInstance()->trans("payment module %s is not a Thelia\Module\PaymentModuleInterface"), $module->getCode())
+                \sprintf(Translator::getInstance()->trans("payment module %s is not a Thelia\Module\PaymentModuleInterface"), $module->getCode())
             );
         }
     }

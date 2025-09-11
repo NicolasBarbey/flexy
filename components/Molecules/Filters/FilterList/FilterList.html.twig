@@ -6,6 +6,6 @@
 {% set onClick = onClick|default(null) %}
 
 <div class="FilterList" tabindex="1">
-	<input class="FilterList-input" type="{{type}}" id="{{ value }}" value="{{ value }}" {% if name %} name="{{name}}" {% endif %} {% if onClick %} onclick="{{onClick}}" {% endif %} {% if selected %} selected {% endif %}>
-	<label class="FilterList-label" for="{{ value }}">{{ label }}</label>
+    <input class="FilterList-input" type="{{ type }}" id="{{ value }}" value="{{ value }}" {% if name %} name="{{ name }}" {% endif %} {% if onClick %} onclick="{{ onClick }}" {% endif %} {% if selected %} selected {% endif %}>
+    <label class="FilterList-label" for="{{ value }}">{{ label }}</label>
 </div>

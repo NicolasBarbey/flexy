@@ -1,0 +1,16 @@
+<div {{ attributes }}>
+
+    <h1 class="text-black h4">
+        {{ 'Choose a payment method'|trans }}
+    </h1>
+    <ul class="flex flex-col gap-3.5 my-5">
+        {% for module in this.modules %}
+            <li>
+                {{ component('Flexy:PaymentCard', {module}) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {{ component('Flexy:Checkout:Invoice') }}
+
+
+</div>

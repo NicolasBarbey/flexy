@@ -16,10 +16,6 @@ namespace FlexyBundle\Controller;
 
 use FlexyBundle\Form\CustomerInformationsForm;
 use FlexyBundle\Form\CustomerRegisterForm;
-use FlexyBundle\Service\Customer\CustomerCodeProcessor;
-use FlexyBundle\Service\Customer\CustomerLoginProcessor;
-use FlexyBundle\Service\Customer\CustomerRegistrationProcessor;
-use FlexyBundle\Service\Newsletter\NewsletterProcessor;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,6 +28,12 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
+use Thelia\Domain\Adressing\Service\AddressService;
+use Thelia\Domain\Customer\DTO\CustomerRegisterDTO;
+use Thelia\Domain\Customer\Service\CustomerAuthenticator;
+use Thelia\Domain\Customer\Service\CustomerCodeManager;
+use Thelia\Domain\Customer\Service\CustomerRegistrationService;
+use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
@@ -53,19 +55,22 @@ class CustomerController extends FlexyController
     }
 
     #[Route('/login', name: 'login', methods: ['GET'])]
-    public function login(): Response
+    public function login(SessionInterface $session): Response
     {
+        if ($this->securityService->isAuthenticatedFront()) {
+            return $this->generateRedirect('/account');
+        }
+
         return $this->render('login');
     }
 
     #[Route('/login', name: 'login_action', methods: ['POST'])]
     public function loginAction(
         EventDispatcherInterface $eventDispatcher,
-        CustomerLoginProcessor $customerLoginProcessor,
-    ): ?Response
-    {
+        CustomerAuthenticator $customerLoginProcessor,
+    ): ?Response {
         if ($this->getSecurityContext()->hasCustomerUser()) {
-            return $this->generateRedirectFromRoute('index');
+            return $this->generateRedirect('/');
         }
 
         $request = $this->getRequest();
@@ -158,7 +163,7 @@ class CustomerController extends FlexyController
 
     #[Route('/register', name: 'register_create', methods: ['POST'])]
     public function registerCreate(
-        CustomerRegistrationProcessor $customerRegistrationProcessor,
+        CustomerRegistrationService $customerRegistrationProcessor,
         SessionInterface $session,
     ): RedirectResponse {
         $form = $this->createForm(CustomerRegisterForm::class);
@@ -166,12 +171,13 @@ class CustomerController extends FlexyController
         try {
             $formValidated = $this->validateForm($form, Request::METHOD_POST);
 
-            $customer = $customerRegistrationProcessor->registerCustomer([
-                'firstName' => 'TMP',
-                'lastName' => 'TMP',
-                'email' => $formValidated->get('email')->getData(),
-                'password' => $formValidated->get('password')->getData(),
-            ]);
+            $customer = $customerRegistrationProcessor->registerCustomer(
+                new CustomerRegisterDTO(
+                    firstname: $formValidated->get('firstname')->getData(),
+                    lastname: $formValidated->get('lastname')->getData(),
+                    email: $formValidated->get('email')->getData(),
+                    password: $formValidated->get('password')->getData()
+                ));
 
             $session->set('registration_customer_id', $customer->getId());
 
@@ -184,8 +190,8 @@ class CustomerController extends FlexyController
         $form->setErrorMessage($message);
 
         $this->parserContext
-          ->addForm($form)
-          ->setGeneralError($message);
+            ->addForm($form)
+            ->setGeneralError($message);
 
         if ($form->hasErrorUrl()) {
             return $this->generateErrorRedirect($form);
@@ -203,26 +209,34 @@ class CustomerController extends FlexyController
         $customer = $this->retrieveCustomerFromSession($session);
 
         $email = null;
+        $firstname = null;
+        $lastname = null;
         if ($customer instanceof Customer) {
             $email = $customer->getEmail();
+            $firstname = $customer->getFirstname();
+            $lastname = $customer->getLastname();
         } elseif ($this->getSecurityContext()->hasCustomerUser()) {
             $customer = $this->getSecurityContext()->getCustomerUser();
-            $email = $customer->getEmail();
+            $firstname = $customer->getFirstname();
+            $lastname = $customer->getLastname();
         }
 
         return $this->render(
             'customer-informations',
             [
                 'email' => $email,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
             ]
         );
     }
 
     #[Route('/informations', name: 'informations_create', methods: ['POST'])]
     public function informationsCreate(
-        CustomerCodeProcessor $customerCodeProcessor,
+        CustomerCodeManager $customerCodeProcessor,
+        AddressService $addressService,
         SessionInterface $session,
-        NewsletterProcessor $newsletterProcessor,
+        NewsletterSubscriber $newsletterProcessor,
     ): RedirectResponse {
         $form = $this->createForm(CustomerInformationsForm::class);
 
@@ -236,13 +250,14 @@ class CustomerController extends FlexyController
             }
 
             if ($formValidated->get('accept_privacy_policy')->getData()) {
-                $newsletterProcessor->subscribeToNewsletter($customer);
+                $newsletterProcessor->subscribe($customer);
             }
 
-            $customer
-                ->setFirstname($formValidated->get('firstname')->getData())
-                ->setLastname($formValidated->get('lastname')->getData())
-                ->save();
+            $addressService->createAddress($formValidated, $customer);
+
+            if ($customer->getEnable()) {
+                return $this->generateSuccessRedirect($form);
+            }
 
             $customerCodeProcessor->createCodeAndSendIt($customer);
 
@@ -257,8 +272,8 @@ class CustomerController extends FlexyController
         $form->setErrorMessage($message);
 
         $this->getParserContext()
-          ->addForm($form)
-          ->setGeneralError($message);
+            ->addForm($form)
+            ->setGeneralError($message);
 
         if ($form->hasErrorUrl()) {
             return $this->generateErrorRedirect($form);
@@ -275,7 +290,7 @@ class CustomerController extends FlexyController
         '/activation/{email}',
         name: 'activation',
         requirements: [
-            'email' => '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}'
+            'email' => '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}',
         ],
         methods: ['GET']
     )]
@@ -300,7 +315,7 @@ class CustomerController extends FlexyController
     #[Route('/send-code/{email}', name: 'send_code', methods: ['GET'])]
     public function sendCode(
         string $email,
-        CustomerCodeProcessor $customerCodeProcessor,
+        CustomerCodeManager $customerCodeProcessor,
     ): Response {
         $customer = CustomerQuery::create()->findOneByEmail($email);
         if (!$customer instanceof Customer) {
@@ -335,7 +350,6 @@ class CustomerController extends FlexyController
         // Redirect to home page
         return $this->generateRedirect($this->generateUrl('index'));
     }
-
 
     protected function getRememberMeCookieName()
     {

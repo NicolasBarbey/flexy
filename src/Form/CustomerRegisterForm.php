@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -14,7 +16,9 @@ namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Thelia\Core\Translation\Translator;
@@ -26,60 +30,55 @@ class CustomerRegisterForm extends BaseForm
 {
     protected function buildForm(): void
     {
-        $this->formBuilder
-          ->add('email', EmailType::class, [
-              'constraints' => [
-                  new Constraints\NotBlank(),
-                  new Constraints\Email(),
-                  new Constraints\Callback(
-                      [$this, 'verifyExistingEmail']
-                  ),
-              ],
-              'label' => Translator::getInstance()->trans('Email Address'),
-              'label_attr' => [
-                  'for' => 'email',
-              ],
-          ]);
+        $this->formBuilder->add('firstname', TextType::class, [
+            'constraints' => [
+                new NotBlank(),
+            ],
+            'label' => Translator::getInstance()->trans('First Name'),
+            'label_attr' => [
+                'for' => 'firstname',
+            ],
+        ]);
 
-        // confirm email
-        if ((int) ConfigQuery::read('customer_confirm_email', 0)) {
-            $this->formBuilder->add('email_confirm', EmailType::class, [
+        $this->formBuilder->add('lastname', TextType::class, [
+            'constraints' => [
+                new NotBlank(),
+            ],
+            'label' => Translator::getInstance()->trans('Last Name'),
+            'label_attr' => [
+                'for' => 'lastname',
+            ],
+        ]);
+
+        $this->formBuilder
+            ->add('email', EmailType::class, [
                 'constraints' => [
                     new Constraints\NotBlank(),
                     new Constraints\Email(),
-                    new Constraints\Callback([$this, 'verifyEmailField']),
+                    new Constraints\Callback(
+                        [$this, 'verifyExistingEmail']
+                    ),
                 ],
-                'label' => Translator::getInstance()->trans('Confirm Email Address'),
+                'label' => Translator::getInstance()->trans('Email Address'),
                 'label_attr' => [
-                    'for' => 'email_confirm',
+                    'for' => 'email',
                 ],
             ]);
-        }
 
-        $this->formBuilder
-          ->add('password', PasswordType::class, [
-              'constraints' => [
-                  new PasswordStrength([
-                      'minScore' => 1,
-                  ]),
-              ],
-              'label' => Translator::getInstance()->trans('Password'),
-              'label_attr' => [
-                  'for' => 'password',
-              ],
-              'attr' => [
-                  'password_control' => true,
-              ],
-          ])
-          ->add('password_confirm', PasswordType::class, [
-              'constraints' => [
-                  new Constraints\Callback([$this, 'verifyPasswordField']),
-              ],
-              'label' => Translator::getInstance()->trans('Password confirmation'),
-              'label_attr' => [
-                  'for' => 'password_confirmation',
-              ],
-          ]);
+        $this->formBuilder->add('password', PasswordType::class, [
+                'constraints' => [
+                    new PasswordStrength([
+                        'minScore' => 1,
+                    ]),
+                ],
+                'label' => Translator::getInstance()->trans('Password'),
+                'label_attr' => [
+                    'for' => 'password',
+                ],
+                'attr' => [
+                    'password_control' => true,
+                ],
+            ]);
     }
 
     protected function getLocale(): ?string
@@ -97,7 +96,7 @@ class CustomerRegisterForm extends BaseForm
         }
     }
 
-    public function verifyEmailField($value,  ExecutionContextInterface $context): void
+    public function verifyEmailField($value, ExecutionContextInterface $context): void
     {
         $data = $context->getRoot()->getData();
 

@@ -1,24 +1,39 @@
-<footer class='flex flex-col px-6 xl:px-[120px] py-6 xl:flex-row xl:justify-between FooterCheckout bg-theme-lightest gap-9 md:gap-3 text-black'>
-	<ul class='flex flex-col gap-2 md:gap-6 md:flex-row'>
-		{% set footerLinkClass = 'underline hover:no-underline focus:no-underline hover:opacity-75 focus:opacity-75' %}
-		<li class='paragraph-5'>
-			<a href='#' class="{{footerLinkClass}}">Plan du site</a>
-		</li>
-		<li class='paragraph-5'>
-			<a href='#' class="{{footerLinkClass}}">Mentions légales</a>
-		</li>
-		<li class='paragraph-5'>
-			<a href='#' class="{{footerLinkClass}}">Données personnelles</a>
-		</li>
-		<li class='paragraph-5'>
-			<a href='#' class="{{footerLinkClass}}">Cookies</a>
-		</li>
-		<li class='paragraph-5'>
-			<a href='#' class="{{footerLinkClass}}">Conditions générales de vente</a>
-		</li>
-	</ul>
-	<span class='text-grey indication indication-small'>©
-		<a href="https://www.openstudio.fr/">OpenStudio</a>
-		-
-		{{ 'now' | date('Y') }}</span>
+<footer class="flex flex-col px-6 xl:px-[120px] py-6 xl:flex-row xl:justify-between FooterCheckout bg-theme-lightest gap-9
+        md:gap-3 text-black">
+    <ul class="flex flex-col gap-2 md:gap-6 md:flex-row">
+        {% set footerLinkClass = 'underline hover:no-underline focus:no-underline hover:opacity-75 focus:opacity-75' %}
+        <li class="paragraph-5">
+            <a href="#" class="{{ footerLinkClass }}">
+                Plan du site
+            </a>
+        </li>
+        <li class="paragraph-5">
+            <a href="#" class="{{ footerLinkClass }}">
+                Mentions légales
+            </a>
+        </li>
+        <li class="paragraph-5">
+            <a href="#" class="{{ footerLinkClass }}">
+                Données personnelles
+            </a>
+        </li>
+        <li class="paragraph-5">
+            <a href="#" class="{{ footerLinkClass }}">
+                Cookies
+            </a>
+        </li>
+        <li class="paragraph-5">
+            <a href="#" class="{{ footerLinkClass }}">
+                Conditions générales de vente
+            </a>
+        </li>
+    </ul>
+    <span class="text-grey indication indication-small">
+        ©
+        <a href="https://www.openstudio.fr/">
+            OpenStudio
+        </a>
+        -
+        {{ 'now'|date('Y') }}
+    </span>
 </footer>

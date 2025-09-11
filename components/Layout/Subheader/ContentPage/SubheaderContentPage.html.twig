@@ -2,20 +2,22 @@
 {% set description = description|default('') %}
 {% set img = img|default(null) %}
 
-<div class='Subheader Subheader--contentPage'>
-	{{img|raw}}
-	<div class='container flex flex-col grow'>
-		{% if breadcrumb|length > 0 %}
-			{% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {items: breadcrumb} %}
-		{% endif %}
-		<div class="my-auto">
-			<h1 class='Subheader-title'>{{ title }}</h1>
-			{% if description %}
-				<div class='Subheader-description'>
-					{{ description|raw }}
-				</div>
-			{% endif %}
-		</div>
-	</div>
+<div class="Subheader Subheader--contentPage">
+    {{ img|raw }}
+    <div class="container flex flex-col grow">
+        {% if breadcrumb|length > 0 %}
+            {{ include('@components/Molecules/Breadcrumb/Breadcrumb.html.twig', {items: breadcrumb}) }}
+        {% endif %}
+        <div class="my-auto">
+            <h1 class="Subheader-title">
+                {{ title }}
+            </h1>
+            {% if description %}
+                <div class="Subheader-description">
+                    {{ description|raw }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
 
 </div>

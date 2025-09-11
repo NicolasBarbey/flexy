@@ -14,108 +14,150 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
+use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
+use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
-use Thelia\Core\Translation\Translator;
-use Thelia\Exception\Checkout\EmptyCartException;
-use Thelia\Exception\Checkout\InvalidDeliveryException;
-use Thelia\Exception\Checkout\MissingAddressException;
+use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Cart\Service\CartGuard;
+use Thelia\Domain\Checkout\CheckoutFacade;
+use Thelia\Domain\Checkout\DTO\CheckoutDTO;
+use Thelia\Domain\Checkout\Exception\EmptyCartException;
+use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
+use Thelia\Domain\Checkout\Exception\InvalidPaymentException;
+use Thelia\Domain\Checkout\Exception\MissingAddressException;
+use Thelia\Domain\Shipping\ShippingFacade;
 use Thelia\Log\Tlog;
-use Thelia\Service\Model\CartService;
-use Thelia\Service\Model\CheckoutService;
-use Thelia\Service\Model\DeliveryService;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController
 {
-    public const STEP_CART = 'cart';
-    public const STEP_DELIVERY = 'delivery';
-    public const STEP_PAYMENT = 'payment';
-    public const STEP_GATEWAY = 'gateway';
-    public const STEP_CONFIRM = 'confirm';
-    public const STEPS = [
-        self::STEP_CART => 1,
-        self::STEP_DELIVERY => 2,
-        self::STEP_PAYMENT => 3,
-        self::STEP_GATEWAY => 3,
-        self::STEP_CONFIRM => 4,
-    ];
-
     #[Route('', name: 'no_route')]
     public function noRouteAction(): Response
     {
-        return $this->pageNotFound();
+        return $this->generateRedirect('/checkout/cart');
+        // return $this->pageNotFound();
     }
 
     #[Route('/cart', name: 'cart')]
-    public function cartAction(CheckoutService $checkoutService): Response
-    {
-        $checkoutService->resetCheckout();
+    public function cartAction(
+        CheckoutFacade $checkoutFacade,
+        CartGuard $cartGuard,
+        CartFacade $cartFacade,
+    ): Response {
+        $cart = $cartFacade->getOrCreateFromSession();
+        $checkoutFacade->resetCheckout($cart);
+        $emptyCart = false;
 
-        return $this->render('checkout', [
-            'page' => self::STEP_CART,
-            'current' => self::STEPS[self::STEP_CART],
+        try {
+            $cartGuard->checkCartNotEmpty($cart);
+        } catch (EmptyCartException) {
+            $emptyCart = true;
+        }
+
+        return $this->render('checkout-cart', [
+            'emptyCart' => $emptyCart,
+            'current' => CheckoutSteps::CART,
         ]);
     }
 
     #[Route('/delivery', name: 'delivery')]
-    public function deliveryAction(CartService $cartService, DeliveryService $deliveryService): Response
-    {
+    public function deliveryModesAction(
+        CartFacade $cartFacade,
+        CartGuard $cartGuard,
+        ShippingFacade $shippingFacade,
+    ): Response {
         $this->checkAuth();
+        $cart = $cartFacade->getOrCreateFromSession();
         try {
-            $cartService->checkCartNotEmpty();
+            $cartGuard->checkCartNotEmpty($cart);
 
-            $cart = $cartService->getCart();
             if ($cart->isVirtual()) {
-                $deliveryService->setupVirtualDelivery();
+                $shippingFacade->setupVirtualDelivery($cart);
             }
 
-            return $this->render('checkout', [
-                'page' => self::STEP_DELIVERY,
-                'current' => self::STEPS[self::STEP_DELIVERY],
+            return $this->render('checkout-delivery', [
+                'current' => CheckoutSteps::DELIVERY,
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Failed to set delivery part : %s', $e->getMessage()));
-
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, Translator::getInstance()->trans('Critical delivery error, check logs for more information !'));
         }
     }
 
     #[Route('/payment', name: 'payment')]
-    public function paymentAction(CartService $cartService): Response
-    {
+    public function paymentAction(
+        CartGuard $cartGuard,
+        CartFacade $cartFacade,
+    ): Response {
         $this->checkAuth();
         try {
-            $cartService->checkCartNotEmpty();
-            $cartService->checkValidDelivery();
+            $cart = $cartFacade->getOrCreateFromSession();
+            $cartGuard->checkCartNotEmpty($cart);
+            $cartGuard->checkValidDelivery($cart);
 
-            return $this->render('checkout', [
-                'page' => self::STEP_PAYMENT,
-                'current' => self::STEPS[self::STEP_PAYMENT],
+            return $this->render('checkout-payment', [
+                'current' => CheckoutSteps::PAYMENT,
             ]);
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         } catch (MissingAddressException|InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Failed to set payment part : %s', $e->getMessage()));
-
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, Translator::getInstance()->trans('Critical payment error, check logs for more information !'));
         }
     }
 
     #[Route('/gateway', name: 'gateway')]
-    public function gatewayAction(): Response
-    {
+    public function gatewayAction(
+        CartGuard $cartGuard,
+        CartFacade $cartFacade,
+    ): Response {
         $this->checkAuth();
 
-        return $this->render('checkout', [
-            'page' => self::STEP_GATEWAY,
-            'current' => self::STEPS[self::STEP_GATEWAY],
+        return $this->render('checkout-gateway', [
+            'current' => CheckoutSteps::GATEWAY,
         ]);
+
+    }
+
+    #[Route('/pay', name: 'pay')]
+    public function payAction(
+        CartFacade $cartFacade,
+        CheckoutFacade $checkoutFacade,
+    ): Response
+    {
+        try {
+            $this->checkAuth();
+
+            $cart = $cartFacade->getCartFromSession();
+
+            $checkoutFacade->validateForOrder($cart);
+
+            $response = $checkoutFacade->pay(
+                new CheckoutDTO(
+                    cart: $cart,
+                    deliveryModuleId: $cart->getDeliveryModuleId(),
+                    deliveryAddressId: $cart->getAddressDeliveryId(),
+                    invoiceAddressId: $cart->getAddressInvoiceId(),
+                    paymentModuleId: $cart->getPaymentModuleId()
+                )
+            );
+
+            if ($response instanceof Response && $response->getStatusCode() === 200) {
+                return $response;
+            }
+
+            return $this->render('checkout-confirm', [
+                'current' => CheckoutSteps::CONFIRM,
+            ]);
+
+        } catch (EmptyCartException $e) {
+            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
+        } catch (MissingAddressException|InvalidDeliveryException $e) {
+            throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
+        } catch (\Exception $e) {
+            Tlog::getInstance()->addError('Checkout error : ' . $e->getMessage());
+            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
+        }
     }
 
     #[Route('/confirm', name: 'confirm')]
@@ -123,9 +165,18 @@ class CheckoutController extends FlexyController
     {
         $this->checkAuth();
 
-        return $this->render('checkout', [
-            'page' => self::STEP_CONFIRM,
-            'current' => self::STEPS[self::STEP_CONFIRM],
+        return $this->render('checkout-confirm', [
+            'current' => CheckoutSteps::CONFIRM,
+        ]);
+    }
+
+    #[Route('/failed', name: 'failed')]
+    public function failedAction(): Response
+    {
+        $this->checkAuth();
+
+        return $this->render('checkout-failed', [
+            'current' => CheckoutSteps::FAILED,
         ]);
     }
 }

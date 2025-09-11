@@ -1,0 +1,56 @@
+.DeliveryMode {
+  background: var(--theme-lightest);
+  border: 1px solid var(--theme-lightest);
+  border-radius: rem-convert(8px);
+
+  &.checked,
+  &.selected {
+    background: var(--theme-lighter);
+    border: 1px solid var(--theme-medium);
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  &-title {
+    @apply paragraph-2;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: rem-convert(2px);
+  }
+
+  &-description {
+    @apply paragraph-6;
+    font-weight: 400;
+    color: var(--grey);
+  }
+
+  &-price {
+    @apply paragraph-4;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  &-content {
+    display: flex;
+    align-items: flex-start;
+    padding: rem-convert(16px);
+    span:not(.Tag) {
+      display: block;
+    }
+    > span:last-child {
+      flex-grow: 1;
+    }
+    .Radio {
+      margin-top: 4px;
+      margin-right: 8px;
+      visibility: hidden;
+      max-width: 0;
+      @screen md {
+        visibility: visible;
+        max-width: initial;
+      }
+    }
+  }
+}

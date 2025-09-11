@@ -1,0 +1,33 @@
+{% extends 'checkout-base.html.twig' %}
+
+{% block title %}
+    {{ 'Payment'|trans }}
+{% endblock %}
+
+{% block checkoutContent %}
+    {{ component('Flexy:Checkout:Payment') }}
+{% endblock %}
+
+{% block checkoutBackButton %}
+    {{ include('@components/Molecules/Link/Link.html.twig', {
+        iconLeft: 'chevron-left',
+        customText: 'Previous Step'|trans,
+        href: path('checkout_delivery'),
+        classes: 'gap-2',
+    }) }}
+{% endblock %}
+
+{%- block checkoutSummary -%}
+    {%- if not emptyCart -%}
+        {{ component('Flexy:Checkout:Summary') }}
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block checkoutNextButton -%}
+    {%- if not emptyCart -%}
+        {{ component('Flexy:Checkout:NextButton', {
+            href: path('checkout_gateway'),
+            step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::PAYMENT'),
+        }) }}
+    {%- endif -%}
+{%- endblock -%}

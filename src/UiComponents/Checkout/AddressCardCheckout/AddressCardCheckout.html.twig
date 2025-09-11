@@ -1,0 +1,45 @@
+{% extends '@UiComponents/AddressCard/AddressCard.html.twig'  %}
+
+{% block form %}
+    {% set event_name = this.type == "delivery" ? 'SET_DELIVERY_ORDER_ADDRESS_ID' : 'SET_INVOICE_ORDER_ADDRESS_ID'%}
+    {{ component('Flexy:RadioButton', {
+        'data-action': 'live#emit',
+        'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::'~event_name),
+        'data-live-address-id-param': this.address.id,
+        checked: this.checked,
+    }) }}
+{% endblock %}
+
+
+{% block bottom %}
+
+    {% if this.type == 'delivery' %}
+        {{ component('Flexy:Button', {
+            type: 'button',
+            text: 'Modify'|trans,
+            icon_left: 'edit',
+            disabled: disabled,
+            color: 'minimal',
+            class: 'hover:text-theme',
+            'data-action': 'live#emit',
+            'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::EDIT_DELIVERY_ADDRESS'),
+            'data-live-address-id-param': address.id,
+        }) }}
+
+        {% if not address.isDefault %}
+
+            {{ component('Flexy:Button', {
+                type: 'button',
+                text: 'Delete'|trans,
+                icon_left: 'delete',
+                disabled: disabled,
+                color: 'minimal',
+                class: 'hover:text-theme',
+                'data-action': 'live#emit',
+                'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::DELETE_DELIVERY_ADDRESS'),
+                'data-live-address-id-param': address.id,
+            }) }}
+    {% endif %}
+
+    {% endif %}
+{% endblock %}

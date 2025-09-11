@@ -1,0 +1,20 @@
+<div class="PaymentCard {% if this.checked %}selected{% endif %}">
+    <label class="PaymentCard-content">
+        {{ component('Flexy:RadioButton', {
+            'data-action': 'live#emit',
+            'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::SET_PAYMENT_MODULE_ID'),
+            'data-live-module-id-param': this.module.id,
+            checked: this.checked,
+        }) }}
+        <div>
+            <span class="PaymentCard-title">
+                {{ this.module.i18ns.title }}
+            </span>
+            {% if this.module.i18ns.chapo %}
+                <small class="PaymentCard-desc">
+                    {{ this.module.i18ns.chapo }}
+                </small>
+            {% endif %}
+        </div>
+    </label>
+</div>

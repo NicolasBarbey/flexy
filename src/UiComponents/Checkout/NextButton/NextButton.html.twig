@@ -1,0 +1,18 @@
+<div {{ attributes }}>
+
+    {% if constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::PAYMENT') == this.step %}
+        {{ component('Flexy:Button', {
+            text: 'Order'|trans,
+            disabled: not this.isValid,
+            'data-action': 'live#emit',
+            'data-live-event-param': 'submitCart',
+        }) }}
+        {% else %}
+        {{ component('Flexy:Button', {
+            text: 'Order'|trans,
+            disabled: not this.isValid,
+            href: this.isValid ? href : null,
+        }) }}
+    {% endif %}
+
+</div>

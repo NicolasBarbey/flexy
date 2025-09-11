@@ -1,52 +1,52 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% set contents = resources('/api/front/contents', {'contentFolders.folder.id':attr('folder', 'id')}) %}
-{% set childFolders = resources('/api/front/folders', {parent:attr('folder', 'id')}) %}
+{% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('folder', 'id')}) %}
+{% set childFolders = resources('/api/front/folders', {parent: attr('folder', 'id')}) %}
 {% set ps = attr('folder', 'postscriptum') %}
 
 {% block body %}
 
-	{% include '@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig' with {title: attr('folder', 'title'), description: attr('folder', 'chapo') }  %}
+    {{ include('@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig', {title: attr('folder', 'title'), description: attr('folder', 'chapo')}) }}
 
-	<div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
-		<article class="wysiwyg">
-			{{ attr('folder', 'description') }}
-			{{ component('Flexy:Components:Blocks', {item_type: 'folder', item_id: attr('folder', 'id')}) }}
+    <div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
+        <article class="wysiwyg">
+            {{ attr('folder', 'description') }}
+            {{ component('Flexy:Blocks', {item_type: 'folder', item_id: attr('folder', 'id')}) }}
 
-			{% if childFolders|length %}
-				<ul class="grid gap-4 my-8 md:grid-cols-3">
-					{% for folder in childFolders %}
-						<li>
-							{% include '@components/Organisms/Card/Article/Article.html.twig' with {
+            {% if childFolders|length %}
+                <ul class="grid gap-4 my-8 md:grid-cols-3">
+                    {% for folder in childFolders %}
+                        <li>
+                            {{ include('@components/Organisms/Card/Article/Article.html.twig', {
                 id: folder.id,
-                source : 'folder',
-                href : folder.publicUrl,
-                title: "Titre",
-                }  %}
-						</li>
-					{% endfor %}
-				</ul>
-			{% endif %}
+                source: 'folder',
+                href: folder.publicUrl,
+                title: 'Titre',
+                }) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
-			{% if contents|length %}
-				<ul class="grid grid-cols-3 gap-4 my-8">
-					{% for content in contents %}
-						<li>
-							{% include '@components/Organisms/Card/Article/Article.html.twig' with {
+            {% if contents|length %}
+                <ul class="grid grid-cols-3 gap-4 my-8">
+                    {% for content in contents %}
+                        <li>
+                            {{ include('@components/Organisms/Card/Article/Article.html.twig', {
                 id: content.id,
-                source : 'content',
-                href : content.publicUrl,
+                source: 'content',
+                href: content.publicUrl,
                 title: content.i18ns.title,
-                }%}
-						</li>
-					{% endfor %}
-				</ul>
-			{% endif %}
+                }) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
-			{% if ps %}
-				<small>{{ps}}</small>
-			{% endif %}
+            {% if ps %}
+                <small>{{ ps }}</small>
+            {% endif %}
 
-		</article>
-	</div>
+        </article>
+    </div>
 {% endblock %}

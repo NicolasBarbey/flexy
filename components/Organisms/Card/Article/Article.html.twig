@@ -1,27 +1,30 @@
-{% set img = img|default({url: '/images/placeholder2.webp', alt:''}) %}
+{% set img = img|default({url: '/images/placeholder2.webp', alt: ''}) %}
 {% set title = title|default('') %}
 {% set source = source|default(null) %}
 {% set id = id|default(null) %}
 {% set date = date|default('') %}
 
-
 {% set img = getImages({
-  'source_type': source,
-  'source_id': id,
-  'filters': 'default',
-  'img_attrs': {
-      'width': 98,
-      'height': 98,
-      'class': 'Article-img',
-      'loading': 'lazy',
+  source_type: source,
+  source_id: id,
+  filters: 'default',
+  img_attrs: {
+      width: 98,
+      height: 98,
+      class: 'Article-img',
+      loading: 'lazy',
   },
-  placeholder: asset('dist/images/placeholder2.webp')
+  placeholder: asset('dist/images/placeholder2.webp'),
 }) %}
 
-<a href='{{href}}' class='Article'>
-	{{img|raw}}
-	<div class='Article-content'>
-		<div class='Article-title'>{{ title }}</div>
-		<div class='Article-date'>{{ date }}</div>
-	</div>
+<a href="{{ href }}" class="Article">
+    {{ img|raw }}
+    <div class="Article-content">
+        <div class="Article-title">
+            {{ title }}
+        </div>
+        <div class="Article-date">
+            {{ date }}
+        </div>
+    </div>
 </a>

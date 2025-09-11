@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	{{ encore_entry_link_tags('product-css') }}
+    {{ parent() }}
+    {{ encore_entry_link_tags('product-css') }}
 {% endblock %}
 
 {% set productId = attr('product', 'id') %}
@@ -12,83 +12,83 @@
 {% set currentPse = resources('/api/front/products/' ~ productId)|first %}
 
 {% if app.request.get('ref') %}
-	{% set currentPse = resources('/api/front/product_sale_elements', {ref : app.request.get('ref')})|first %}
+    {% set currentPse = resources('/api/front/product_sale_elements', {ref: app.request.get('ref')})|first %}
 {% endif %}
 
 {% block body %}
-	<div class="ProductPage">
-		<div class="p-5 lg:justify-between lg:items-center lg:flex">
-			{{ component('Molecules:Breadcrumb:Breadcrumb', { breadcrumb }) }}
-		</div>
-		<div class="container">
-			<div class="ProductPage-grid">
-				{{ component('Flexy:Page:Product', {product}) }}
+    <div class="ProductPage">
+        <div class="p-5 lg:justify-between lg:items-center lg:flex">
+            {{ component('Molecules:Breadcrumb:Breadcrumb', {breadcrumb: breadcrumb}) }}
+        </div>
+        <div class="container">
+            <div class="ProductPage-grid">
+                {{ component('Flexy:Pages:Product', {product: product}) }}
 
-				<section id="description" class="ProductPage-description">
+                <section id="description" class="ProductPage-description">
 
-					{% if product.i18ns.description %}
-						{% set descriptionContent %}
-						<div>{{product.i18ns.description|raw}}</div>
-						{% endset %}
+                    {% if product.i18ns.description %}
+                        {% set descriptionContent %}
+                        <div>{{ product.i18ns.description|raw }}</div>
+                        {% endset %}
 
-						{% include '@components/Molecules/Accordion/Accordion.html.twig' with {
+                        {{ include('@components/Molecules/Accordion/Accordion.html.twig', {
             title: 'Description'|trans,
             content: descriptionContent,
-            iconPlus: "plus",
-            iconMinus: "minus",
+            iconPlus: 'plus',
+            iconMinus: 'minus',
             open: true,
-          } %}
-					{% endif %}
+          }) }}
+                    {% endif %}
 
-					{% set featuresContent %}
-					{% for featuresProduct in product.featureProducts %}
-						<dl class="flex gap-2">
-							<dt>{{featuresProduct.feature.i18ns.title}}
-								:
-							</dt>
-							<dd>{{featuresProduct.featureAv.i18ns.title}}</dd>
-						</dl>
-					{% endfor %}
-					{% endset %}
-					{% include '@components/Molecules/Accordion/Accordion.html.twig' with {
+                    {% set featuresContent %}
+                    {% for featuresProduct in product.featureProducts %}
+                        <dl class="flex gap-2">
+                            <dt>{{ featuresProduct.feature.i18ns.title }}
+                                :
+                            </dt>
+                            <dd>{{ featuresProduct.featureAv.i18ns.title }}</dd>
+                        </dl>
+                    {% endfor %}
+                    {% endset %}
+                    {{ include('@components/Molecules/Accordion/Accordion.html.twig', {
               title: 'Features'|trans,
               content: featuresContent,
-              iconPlus: "plus",
-              iconMinus: "minus",
-            } %}
-				</section>
-			</div>
-		</div>
-		<div class="container mx-auto">
-			{{ component('Flexy:Components:Blocks', {item_type: 'product', item_id: product.id}) }}
-		</div>
-		<div class="bg-theme-lighter mt-[50px]">
-			{{ component('Flexy:Layout:CrossSelling',{categoryId:productCategory.id,title:'Last seen products'|trans}) }}
-		</div>
-		{% include '@components/Layout/Reinsurance/Reinsurance.html.twig' with { data: [
+              iconPlus: 'plus',
+              iconMinus: 'minus',
+            }) }}
+                </section>
+            </div>
+        </div>
+        <div class="container mx-auto">
+            {{ component('Flexy:Blocks', {item_type: 'product', item_id: product.id}) }}
+        </div>
+        <div class="bg-theme-lighter mt-[50px]">
+            {{ component('Flexy:CrossSelling', {categoryId: productCategory.id, title: 'Last seen products'|trans}) }}
+        </div>
+        {{ include('@components/Layout/Reinsurance/Reinsurance.html.twig', {data: [
       {
-        strongText: 'Free delivery' | trans,
-        text: 'For any order over €100' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Free delivery'|trans,
+        text: 'For any order over €100'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-delivery'
+        icon: 'reinsurance-delivery',
       },
       {
-        strongText: 'Secure payment' | trans,
-        text: 'Credit card, Paypal' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Secure payment'|trans,
+        text: 'Credit card, Paypal'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-payment'
+        icon: 'reinsurance-payment',
       },
       {
-        strongText: 'Satisfied or refunded' | trans,
-        text: 'Exchange or refund offered within 30 days' | trans,
-        linkLabel: 'See conditions' | trans,
+        strongText: 'Satisfied or refunded'|trans,
+        text: 'Exchange or refund offered within 30 days'|trans,
+        linkLabel: 'See conditions'|trans,
         link: '#',
-        icon: 'reinsurance-satisfied'
-      }
-    ] } %}
-	</div>
-	{{ component('Flexy:Organisms:AddToCartToast') }}
+        icon: 'reinsurance-satisfied',
+      },
+    ]}) }}
+    </div>
+    {{ component('Flexy:AddToCartToast') }}
 
 {% endblock %}

@@ -1,4 +1,5 @@
-{% set size = size|default(null) %} {# size: 'large'|'small' #}
+{% set size = size|default(null) %}
+{# size: 'large'|'small' #}
 {% set disabled = disabled|default(false) %}
 {% set iconLeft = iconLeft|default(null) %}
 {% set iconRight = iconRight|default(null) %}
@@ -6,15 +7,19 @@
 
 {% set classes = '' %}
 {% if size %}
-   {% set classes = classes ~ 'Tab--' ~ size %}
+    {% set classes = classes ~ 'Tab--' ~ size %}
 {% endif %}
 
-<button class='Tab {{ classes }}' {% if disabled %}disabled{% endif %}>
-  {% if iconLeft %}
-    <span class='Tab-icon'>{{ ux_icon(iconLeft) }}</span>
-  {% endif %}
-  {{ customText }}
-  {% if iconRight %}
-    <span class='Tab-icon'>{{ ux_icon(iconRight) }}</span>
-  {% endif %}
+<button class="Tab {{ classes }}" {% if disabled %} disabled {% endif %}>
+    {% if iconLeft %}
+        <span class="Tab-icon">
+            {{ ux_icon(iconLeft) }}
+        </span>
+    {% endif %}
+    {{ customText }}
+    {% if iconRight %}
+        <span class="Tab-icon">
+            {{ ux_icon(iconRight) }}
+        </span>
+    {% endif %}
 </button>

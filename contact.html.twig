@@ -1,37 +1,41 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-	<div class="p-5 lg:justify-between lg:items-center lg:flex">
-		{{ component('Molecules:Breadcrumb:Breadcrumb',{
+    <div class="p-5 lg:justify-between lg:items-center lg:flex">
+        {{ component('Molecules:Breadcrumb:Breadcrumb', {
       breadcrumb: [
         {
-          title: 'Contact'|trans
-        }
-      ]
+          title: 'Contact'|trans,
+        },
+      ],
     }) }}
-	</div>
+    </div>
 
-	<div class="max-w-[400px] mx-auto w-full px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] ">
-		{% set form = getForm("thelia.front.contact") %}
+    <div class="max-w-[400px] mx-auto w-full px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] ">
+        {% set form = getForm('thelia.front.contact') %}
 
-		{% block contactFormTitle %}
-			<h2 class="mb-4 h2">{{ 'Contact Us' | trans }}</h2>
-		{% endblock %}
+        {% block contactFormTitle %}
+            <h2 class="mb-4 h2">{{ 'Contact Us'|trans }}</h2>
+        {% endblock %}
 
-		{% block contactForm %}
+        {% block contactForm %}
 
-			{{ form_start(form) }}
+            {{ form_start(form, {attr: {
+                class : 'flex flex-col gap-4'
+            }}) }}
 
-			{{form_rest(form)}}
+            {{ form_rest(form) }}
 
-			{{ form_errors(form) }}
+            {{ form_errors(form) }}
 
+            {{ component('Flexy:Button', {
+                text: 'Send'|trans,
+                class: 'w-max mt-6',
+                type: 'submit',
+            }) }}
 
-			{% include "@components/Molecules/Button/Button.html.twig" with { text: 'Send' | trans, classes: "w-max mt-6", type: "submit" } %}
+            {{ form_end(form) }}
+        {% endblock %}
 
-			{{ form_end(form) }}
-		{% endblock %}
-
-	</div>
+    </div>
 {% endblock %}
