@@ -70,7 +70,6 @@ class RegisterValidationCode extends AbstractController
                 $form->get('customer_email')->getData(),
                 (string) $form->get('activation_code')->getData()
             );
-            $this->addFlash('success', 'Customer activated successfully.');
             $this->canLogin = true;
         } catch (\Exception $e) {
             $this->addFlash('error', 'Activation failed: '.$e->getMessage());

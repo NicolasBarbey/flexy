@@ -36,15 +36,15 @@ class FlexyController extends BaseController
     protected string $currentRouter = 'router.front';
 
     public function __construct(
-        public SecurityContext $securityContext,
-        public ParserContext $parserContext,
-        public TemplateHelperInterface $templateHelper,
-        public ParserResolver $parserResolver,
-        public TheliaFormValidator $theliaFormValidator,
-        public RequestStack $requestStack,
-        public TranslatorInterface $translator,
-        public TheliaFormFactory $theliaFormFactory,
-        private readonly SecurityService $securityService,
+        public SecurityContext             $securityContext,
+        public ParserContext               $parserContext,
+        public TemplateHelperInterface     $templateHelper,
+        public ParserResolver              $parserResolver,
+        public TheliaFormValidator         $theliaFormValidator,
+        public RequestStack                $requestStack,
+        public TranslatorInterface         $translator,
+        public TheliaFormFactory           $theliaFormFactory,
+        protected readonly SecurityService $securityService,
     ) {
     }
 

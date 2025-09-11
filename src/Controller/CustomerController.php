@@ -55,8 +55,12 @@ class CustomerController extends FlexyController
     }
 
     #[Route('/login', name: 'login', methods: ['GET'])]
-    public function login(): Response
+    public function login(SessionInterface $session): Response
     {
+        if ($this->securityService->isAuthenticatedFront()) {
+            return $this->generateRedirect('/account');
+        }
+
         return $this->render('login');
     }
 
@@ -250,6 +254,10 @@ class CustomerController extends FlexyController
             }
 
             $addressService->createAddress($formValidated, $customer);
+
+            if ($customer->getEnable()) {
+                return $this->generateSuccessRedirect($form);
+            }
 
             $customerCodeProcessor->createCodeAndSendIt($customer);
 

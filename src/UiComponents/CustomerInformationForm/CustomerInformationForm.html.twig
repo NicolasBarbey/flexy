@@ -3,6 +3,7 @@
         class: "flex flex-col"
     }}) }}
     <div class="flex flex-col gap-6 order-1">
+        {{ form_row(form.success_url, {value: path('customer_login')}) }}
         {{ form_row(form.country)}}
         {% if form.state is defined %}
             {{ form_row(form.state) }}

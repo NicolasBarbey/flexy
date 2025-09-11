@@ -1,45 +1,57 @@
 <div {{ attributes.defaults(stimulus_controller('register-validation-code')) }} data-loading="addClass(opacity-50)">
-
     {% if this.canLogin %}
-        {% for text in app.flashes('success') %}
-            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
-                text,
-                variant: 'validated',
-                withIcon: true,
-                size: "full"
-            } %}
-        {% endfor %}
-       <div class="mt-6 flex justify-center">
+        {{ ux_icon('hight-five', {width: 250, height: 250, class: 'w-[180px] h-[180px] lg:w-[250px] lg:h-[250px] block mb-[30px] mx-auto'}) }}
+        <h3 class="mt-4 mb-6 h3 text-center">Votre compte est activé</h3>
+        <div class="mt-6 flex justify-center">
            {{ component('Flexy:Button', {
                text: 'Login'|trans,
                href: '/account',
            }) }}
-       </div>
-        {% else %}
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
-    {% for text in app.flashes('error') %}
-        {% set flashError = 1 %}
-        {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
-            text,
-            variant: 'error',
-            withIcon: true,
-            size: "full"
-        } %}
+        </div>
+    {% else %}
 
-    {% endfor %}
-    <div class=" justify-center flex gap-4 flex-wrap mt-6"  data-live-ignore>
-        {% for i in 1..constant('Thelia\\Model\\Customer::CODE_LENGTH') %}
-            <label for="charset_{{ i }}" class="FieldCode{{ app.flashes('error') ? ' FieldCode--error' : '' }}">
-                <input id="charset_{{ i }}" type="number"  data-register-validation-code-target="input" data-action="register-validation-code#input"/>
-            </label>
+        {{ ux_icon('letter', {width: 234, height: 192, class: 'w-[128px] h-[105px] lg:w-[235px] lg:h-[192px] block mb-[30px] mx-auto'}) }}
+        {% for type, message in flashes %}
+            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
+                text: message,
+                variant: type,
+                withIcon: true,
+                size: "full"
+            } %}
         {% endfor %}
-    </div>
-    {{ form_rest(form) }}
-    {{ form_end(form) }}
-    <div class="mt-[40px] pt-[40px] border-t border-gray-700 text-center">
-        <strong class="block">{{ "Dont't have receive code ?"|trans }}</strong>
-        <span>{{ 'resend_code'|trans({'%h': path('customer_send_code', {email})})|raw }}</span>
-    </div>
+        <h1 class="mb-5 text-center h3">{{ 'Enter the code received by e-mail'|trans }}</h1>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {% for text in app.flashes('error') %}
+            {% set flashError = 1 %}
+            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
+                text,
+                variant: 'error',
+                withIcon: true,
+                size: "full"
+            } %}
+        {% endfor %}
+        <div class=" justify-center flex gap-4 flex-wrap mt-6"  data-live-ignore>
+            {% for i in 1..constant('Thelia\\Model\\Customer::CODE_LENGTH') %}
+                <label for="charset_{{ i }}" class="FieldCode{{ app.flashes('error') ? ' FieldCode--error' : '' }}">
+                    <input id="charset_{{ i }}" type="number"  data-register-validation-code-target="input" data-action="register-validation-code#input"/>
+                </label>
+            {% endfor %}
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+        <div class="mt-[40px] pt-[40px] border-t border-gray-700 text-center">
+            <strong class="block">{{ "Dont't have receive code ?"|trans }}</strong>
+            <span>{{ 'resend_code'|trans({'%h': path('customer_send_code', {email})})|raw }}</span>
+        </div>
+        {% for text in app.flashes('information') %}
+            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
+                text,
+                variant: 'informative',
+                withIcon: true,
+                size: "full"
+            } %}
+        {% endfor %}
+
     {% endif %}
 </div>
