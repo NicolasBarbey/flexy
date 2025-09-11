@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
-use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
@@ -25,7 +24,6 @@ use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use Thelia\Domain\Checkout\Exception\EmptyCartException;
 use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
-use Thelia\Domain\Checkout\Exception\InvalidPaymentException;
 use Thelia\Domain\Checkout\Exception\MissingAddressException;
 use Thelia\Domain\Shipping\ShippingFacade;
 use Thelia\Log\Tlog;
@@ -116,15 +114,13 @@ class CheckoutController extends FlexyController
         return $this->render('checkout-gateway', [
             'current' => CheckoutSteps::GATEWAY,
         ]);
-
     }
 
     #[Route('/pay', name: 'pay')]
     public function payAction(
         CartFacade $cartFacade,
         CheckoutFacade $checkoutFacade,
-    ): Response
-    {
+    ): Response {
         try {
             $this->checkAuth();
 
@@ -149,13 +145,12 @@ class CheckoutController extends FlexyController
             return $this->render('checkout-confirm', [
                 'current' => CheckoutSteps::CONFIRM,
             ]);
-
         } catch (EmptyCartException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         } catch (MissingAddressException|InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
         } catch (\Exception $e) {
-            Tlog::getInstance()->addError('Checkout error : ' . $e->getMessage());
+            Tlog::getInstance()->addError('Checkout error : '.$e->getMessage());
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         }
     }

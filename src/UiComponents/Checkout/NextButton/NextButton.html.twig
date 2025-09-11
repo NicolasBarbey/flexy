@@ -4,8 +4,7 @@
         {{ component('Flexy:Button', {
             text: 'Order'|trans,
             disabled: not this.isValid,
-            'data-action': 'live#emit',
-            'data-live-event-param': 'submitCart',
+            href:path('checkout_pay')
         }) }}
         {% else %}
         {{ component('Flexy:Button', {
