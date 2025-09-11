@@ -27,12 +27,6 @@ use Thelia\Log\Tlog;
 #[Route('/password', name: 'password_')]
 class PasswordController extends FlexyController
 {
-    // #[Route('', name: 'index', methods: ['GET'])]
-    // public function noRoute(): Response
-    // {
-    //   return;
-    // }
-
     #[Route('/forgotten', name: 'forgotten', methods: ['GET'])]
     public function forgotten(): Response
     {

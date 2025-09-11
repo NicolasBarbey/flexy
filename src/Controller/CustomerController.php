@@ -28,7 +28,7 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
 use Thelia\Core\Security\Exception\CustomerNotConfirmedException;
 use Thelia\Core\Security\Exception\WrongPasswordException;
-use Thelia\Domain\Adressing\Service\AddressService;
+use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Customer\DTO\CustomerRegisterDTO;
 use Thelia\Domain\Customer\Service\CustomerAuthenticator;
 use Thelia\Domain\Customer\Service\CustomerCodeManager;
@@ -47,12 +47,6 @@ use Thelia\Tools\RememberMeTrait;
 class CustomerController extends FlexyController
 {
     use RememberMeTrait;
-
-    #[Route('', name: 'index', methods: ['GET'])]
-    public function noRoute(): Response
-    {
-        return $this->render('customer-register');
-    }
 
     #[Route('/login', name: 'login', methods: ['GET'])]
     public function login(SessionInterface $session): Response
@@ -348,7 +342,7 @@ class CustomerController extends FlexyController
         $this->clearRememberMeCookie($this->getRememberMeCookieName());
 
         // Redirect to home page
-        return $this->generateRedirect($this->generateUrl('index'));
+        return $this->generateRedirect('/');
     }
 
     protected function getRememberMeCookieName()

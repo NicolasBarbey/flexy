@@ -21,7 +21,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Domain\Adressing\Service\AddressService;
+use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use TwigEngine\Service\DataAccess\DataAccessService;
