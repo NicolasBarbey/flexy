@@ -76,6 +76,7 @@ class CustomerInformationsForm extends AddressCreateForm
             'newsletter',
             CheckboxType::class,
             [
+                'required' => false,
                 'label' => Translator::getInstance()->trans('I agree to receive promotional offers by newsletter'),
                 'label_attr' => [
                     'for' => 'newsletter',
