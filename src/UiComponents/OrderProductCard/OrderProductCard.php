@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\OrderProductCard;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 use TheliaLibrary\Service\ImagePluginService;
-use TwigEngine\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:OrderProductCard', template: '@UiComponents/OrderProductCard/OrderProductCard.html.twig')]
 class OrderProductCard

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\OrderCard;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use Symfony\UX\TwigComponent\Attribute\PreMount;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:OrderCard', template: '@UiComponents/OrderCard/OrderCard.html.twig')]
 class OrderCard
