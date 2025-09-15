@@ -22,7 +22,7 @@ use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Type\BooleanOrBothType;
 use TheliaBlocks\Model\BlockGroupQuery;
 use TheliaBlocks\Service\JsonBlockService;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:Blocks', template: '@UiComponents/Blocks/Blocks.html.twig')]
 class Blocks

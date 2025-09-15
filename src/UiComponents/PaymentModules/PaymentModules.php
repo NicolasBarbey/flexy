@@ -24,7 +24,7 @@ use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: 'Flexy:PaymentModules', template: '@UiComponents/PaymentModules/PaymentModules.html.twig')]
 class PaymentModules extends BaseFrontController

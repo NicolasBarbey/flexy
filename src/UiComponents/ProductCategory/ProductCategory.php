@@ -16,7 +16,7 @@ namespace FlexyBundle\UiComponents\ProductCategory;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:ProductCategory', template: '@UiComponents/ProductCategory/ProductCategory.html.twig')]
 class ProductCategory

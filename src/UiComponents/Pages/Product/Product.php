@@ -28,8 +28,8 @@ use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Cart\DTO\CartItemAddDTO;
 use Thelia\Form\Definition\FrontForm;
-use TwigEngine\Service\DataAccess\DataAccessService;
-use TwigEngine\Service\DataAccess\ProductSaleElementsAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\ProductSaleElementsAccessService;
 use TwigEngine\Service\FormService;
 
 #[AsLiveComponent(name: 'Flexy:Pages:Product', template: '@UiComponents/Pages/Product/Product.html.twig')]

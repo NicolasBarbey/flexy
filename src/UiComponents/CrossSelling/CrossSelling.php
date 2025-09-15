@@ -17,7 +17,7 @@ namespace FlexyBundle\UiComponents\CrossSelling;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:CrossSelling', template: '@UiComponents/CrossSelling/CrossSelling.html.twig')]
 class CrossSelling

@@ -27,7 +27,7 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Payment', template: '@UiComponents/Checkout/Payment/Payment.html.twig')]
 class Payment extends AbstractController

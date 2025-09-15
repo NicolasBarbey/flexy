@@ -17,7 +17,7 @@ namespace FlexyBundle\UiComponents\Checkout\Delivery\StoreDelivery;
 use FlexyBundle\UiComponents\Checkout\Delivery\DeliveryMode\DeliveryModeTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Domain\Cart\CartFacade;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsTwigComponent(name: 'Flexy:Checkout:Delivery:StoreDelivery', template: '@UiComponents/Checkout/Delivery/StoreDelivery/StoreDelivery.html.twig')]
 class StoreDelivery

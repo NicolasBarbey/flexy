@@ -18,7 +18,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Thelia\Core\HttpFoundation\Session\Session;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:LangSelect', template: '@UiComponents/LangSelect/LangSelect.html.twig')]
 class LangSelect

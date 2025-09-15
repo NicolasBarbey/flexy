@@ -19,7 +19,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Summary', template: '@UiComponents/Checkout/Summary/Summary.html.twig')]
 class Summary

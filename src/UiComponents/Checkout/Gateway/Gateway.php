@@ -19,7 +19,7 @@ use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use Thelia\Model\Customer;
-use TwigEngine\Service\DataAccess\AttributeAccessService;
+use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Gateway', template: '@UiComponents/Checkout/Gateway/Gateway.html.twig')]
 class Gateway

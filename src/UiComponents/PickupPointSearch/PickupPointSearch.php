@@ -26,7 +26,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: 'Flexy:PickupPointSearch', template: '@UiComponents/PickupPointSearch/PickupPointSearch.html.twig')]
 class PickupPointSearch extends AbstractController

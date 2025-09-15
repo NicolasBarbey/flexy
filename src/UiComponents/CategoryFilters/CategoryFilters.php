@@ -28,7 +28,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: 'Flexy:CategoryFilters', template: '@UiComponents/CategoryFilters/CategoryFilters.html.twig')]
 class CategoryFilters extends AbstractController

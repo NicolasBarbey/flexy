@@ -17,7 +17,7 @@ namespace FlexyBundle\UiComponents\SearchBar;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: 'Flexy:SearchBar', template: '@UiComponents/SearchBar/SearchBar.html.twig')]
 class SearchBar

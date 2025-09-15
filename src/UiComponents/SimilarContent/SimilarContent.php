@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\SimilarContent;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use TwigEngine\Service\DataAccess\DataAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:SimilarContent', template: '@UiComponents/SimilarContent/SimilarContent.html.twig')]
 class SimilarContent
