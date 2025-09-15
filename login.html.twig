@@ -21,7 +21,7 @@
                 {{ form_row(form.success_url, {value: path('account_index')}) }}
                 {{ form_row(form.email, {label: 'Email'|trans, placeholder: 'Your email'|trans}) }}
                 {{ form_row(form.password, {label: 'Password'|trans, placeholder: 'Your password'|trans}) }}
-                {{ form_row(form.remember_me) }}
+                {{ form_row(form.remember_me, {required : false}) }}
             </div>
             <input name="{{ field_name(form.account) }}" value="1" type='hidden'>
         </div>
