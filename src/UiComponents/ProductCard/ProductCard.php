@@ -19,6 +19,9 @@ use FlexyBundle\DTO\ProductSaleElementDTO;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Thelia\Api\Service\DataAccess\DataAccessService;
+use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
+use Thelia\Model\ProductPriceQuery;
+use Thelia\Model\ProductQuery;
 
 #[AsTwigComponent(name: 'Flexy:ProductCard', template: '@UiComponents/ProductCard/ProductCard.html.twig')]
 class ProductCard
@@ -26,11 +29,16 @@ class ProductCard
     public ?int $productId = null;
     private ?ProductDTO $product = null;
     private ?float $price = null;
+    private ?float $taxedPrice = null;
     private ?float $promoPrice = null;
+    private ?float $promoTaxedPrice = null;
     private bool $isPromo = false;
     private bool $isNew = false;
 
-    public function __construct(private readonly DataAccessService $dataAccessService)
+    public function __construct(
+        private readonly DataAccessService $dataAccessService,
+        private TaxEngine $taxEngine,
+    )
     {
     }
 
@@ -63,13 +71,23 @@ class ProductCard
             $this->product = ProductDTO::fromArray($data);
         }
 
-
         $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
 
         if ($defaultPse instanceof ProductSaleElementDTO) {
+            //TODO: temporary fix taxed prices
+
+            $productModel = ProductQuery::create()
+                ->useProductSaleElementsQuery()
+                    ->filterById($defaultPse->id)
+                ->endUse()
+                ->findOne();
+
+            $taxCountry = $this->taxEngine->getDeliveryCountry();
 
             $this->price = $defaultPse->productPrices[0]->price;
+            $this->taxedPrice = $productModel->getTaxedPrice($taxCountry, $this->price);
             $this->promoPrice = $defaultPse->productPrices[0]->promoPrice;
+            $this->promoTaxedPrice = $productModel->getTaxedPromoPrice($taxCountry, $this->promoPrice);
             $this->isPromo = $defaultPse->promo;
             $this->isNew = $defaultPse->newness;
         }
@@ -93,6 +111,16 @@ class ProductCard
     public function getPromoPrice()
     {
         return $this->promoPrice;
+    }
+
+    public function getTaxedPrice()
+    {
+        return $this->taxedPrice;
+    }
+
+    public function getPromoTaxedPrice()
+    {
+        return $this->promoTaxedPrice;
     }
 
     public function getIsPromo()

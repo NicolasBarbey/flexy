@@ -97,11 +97,11 @@
 				{% endif %}
 				{% if this.isPromo %}
 					<div class="ProductCard-footerRight">
-						<div class="ProductCard-price">{{ this.promoPrice|format_currency('EUR', locale: lang_code) }}</div>
-						<div class="ProductCard-originalPrice">{{ this.price|format_currency('EUR', locale: lang_code) }}</div>
+						<div class="ProductCard-price">{{ this.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}</div>
+						<div class="ProductCard-originalPrice">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</div>
 					</div>
 				{% else %}
-					<div class="ProductCard-price">{{ this.price|format_currency('EUR', locale: lang_code) }}</div>
+					<div class="ProductCard-price">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</div>
 				{% endif %}
 			</div>
 		</div>
