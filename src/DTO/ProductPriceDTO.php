@@ -10,11 +10,17 @@ class ProductPriceDTO
 
     public static function fromArray(array $data): self
     {
-        $pp = new self();
-        $pp->currency = isset($data['currency']) ? (string) $data['currency'] : '';
-        $pp->price = isset($data['price']) ? (float) $data['price'] : 0.0;
-        $pp->promoPrice = array_key_exists('promoPrice', $data) ? (float) $data['promoPrice'] : null;
+        $productPriceDTO = new self();
 
-        return $pp;
+        if (is_string($data['currency'])) {
+            $productPriceDTO->currency = $data['currency'];
+        } elseif(is_array($data['currency'])) {
+            $productPriceDTO->currency = $data['currency']['code'] ?? '';
+        }
+
+        $productPriceDTO->price = isset($data['price']) ? (float) $data['price'] : 0.0;
+        $productPriceDTO->promoPrice = array_key_exists('promoPrice', $data) ? (float) $data['promoPrice'] : null;
+
+        return $productPriceDTO;
     }
 }

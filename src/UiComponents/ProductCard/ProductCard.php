@@ -17,14 +17,12 @@ namespace FlexyBundle\UiComponents\ProductCard;
 use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\DTO\ProductSaleElementDTO;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent(name: 'Flexy:ProductCard', template: '@UiComponents/ProductCard/ProductCard.html.twig')]
 class ProductCard
 {
-    private DataAccessService $dataAccessService;
     public ?int $productId = null;
     private ?ProductDTO $product = null;
     private ?float $price = null;
@@ -32,23 +30,19 @@ class ProductCard
     private bool $isPromo = false;
     private bool $isNew = false;
 
-
-
-    public function __construct(DataAccessService $dataAccessService)
+    public function __construct(private readonly DataAccessService $dataAccessService)
     {
-        $this->dataAccessService = $dataAccessService;
     }
 
     #[PreMount]
     public function preMount(?array $data): void
     {
-
         if (isset($data['productId']) && $data['productId']) {
             $this->productId = $data['productId'];
         }
     }
 
-    public function mount(?ProductDTO $product = null): void
+    public function mount(ProductDTO|array|null $product = null): void
     {
         if ($product instanceof ProductDTO) {
             $this->product = $product;
