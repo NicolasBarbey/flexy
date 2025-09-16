@@ -23,10 +23,10 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 class ProductCard
 {
     private DataAccessService $dataAccessService;
-    public ?string $productId = '';
+    public ?int $productId = null;
+    private ?array $product = null;
 
-    #[ExposeInTemplate]
-    public ?array $product = null;
+
 
     public function __construct(DataAccessService $dataAccessService)
     {
@@ -34,23 +34,69 @@ class ProductCard
     }
 
     #[PreMount]
-    public function preMount(array $product): void
+    public function preMount(?array $data): void
     {
-        $this->product = $product;
+
+        if (isset($data['productId']) && $data['productId']) {
+            $this->productId = $data['productId'];
+        }
+    }
+
+    public function mount(?array $product = null): void
+    {
+        if (isset($product) && $product) {
+            $this->product = $product;
+        }
+
+        if ($this->productId === null && $this->product === null) {
+            return;
+        }
+
+        if ($this->productId !== null && $this->product === null) {
+            $this->product = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
+        }
+
+
+        $defaultPse = $this->findDefaultPse($this->product['productSaleElements']);
+
+        $this->product['price'] = $defaultPse['productPrices'][0]['price'];
+        $this->product['promoPrice'] = $defaultPse['productPrices'][0]['promoPrice'];
+        $this->product['isPromo'] = $defaultPse['promo'];
+        $this->product['isNew'] = $defaultPse['newness'];
+
+
+
+        $this->product = array_merge($this->product, [
+            'colors' => [],
+            'rate' => null,
+        ]);
+    }
+
+    private function findDefaultPse(?array $pseList)
+    {
+
+        if ($pseList) {
+            foreach ($pseList as $pse) {
+                if ($pse['isDefault']) {
+                    return $pse;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function getProduct()
     {
-        if (null !== $this->product) {
-            return $this->product;
-        }
-
-        if ('' === $this->productId) {
-            return null;
-        }
-
-        $this->product = $this->dataAccessService->resources('/api/front/products/'.$this->productId);
-
         return $this->product;
+    }
+
+    public function getPromoRate(): float
+    {
+        if ($this->product['isPromo']) {
+            return (($this->product['price'] - $this->product['promoPrice']) / $this->product['price']) * -1;
+        }
+
+        return 0;
     }
 }

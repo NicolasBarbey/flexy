@@ -1,22 +1,20 @@
-{% set title = title|default('') %}
+{% props title = '', button = null %}
 
-{% set button = button|default(null) %}
-{% set products = products|default([]) %}
+{% if this.products is not empty %}
+	<div class="pt-[56px] pb-[68px] pl-[24px] md:pl-[48px] xl:pt-[68px] xl:pb-[104px] lg:px-0 lg:container lg:mx-auto">
+		<div class="pb-6 text-black h2">
+			{{ title }}
+		</div>
+		<div class="CrossSelling" {{ stimulus_controller('simple-slider') }}>
 
-{% if products is not empty %}
-    <div class="pt-[56px] pb-[68px] pl-[24px] md:pl-[48px] xl:pt-[68px] xl:pb-[104px] lg:px-0 lg:container lg:mx-auto">
-        <div class="pb-6 text-black h2">
-            {{ title }}
-        </div>
-        <div class="CrossSelling" {{ stimulus_controller('simple-slider') }}>
-            {% for product in products %}
-                {{ component('Flexy:ProductCard', {product: product}) }}
-            {% endfor %}
-        </div>
-        {% if button %}
-            <div class="mt-5">
-                {{ include('@components/Molecules/Button/Button.html.twig', {text: button.label, href: button.href, icon_right: 'chevron-right', variant: 'secondary'}) }}
-            </div>
-        {% endif %}
-    </div>
+			{% for product in this.products %}
+				{{ component('Flexy:ProductCard', {product}) }}
+			{% endfor %}
+		</div>
+		{% if button %}
+			<div class="mt-5">
+				{{ include('@components/Molecules/Button/Button.html.twig', {text: button.label, href: button.href, icon_right: 'chevron-right', variant: 'secondary'}) }}
+			</div>
+		{% endif %}
+	</div>
 {% endif %}

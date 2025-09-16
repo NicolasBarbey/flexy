@@ -26,8 +26,6 @@ class CrossSelling
     public array $productIdsToIgnore = [];
     private DataAccessService $dataAccessService;
 
-    #[ExposeInTemplate]
-    private array $products;
 
     public function __construct(DataAccessService $dataAccessService, private TranslatorInterface $translator)
     {
