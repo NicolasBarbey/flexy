@@ -3,7 +3,7 @@
     {% if this.cart.totalItems or this.pendingDelete %}
         <div class="Checkout-main-header">
             {{ this.cart.totalItems }}
-            {{ this.cart.totalItems <= 1 ? 'article'|trans : 'articles'|trans }}
+            {{ this.cart.totalItems <= 1 ? 'item'|trans : 'items'|trans }}
         </div>
         {% if this.pendingDelete %}
             {{ include('@UiComponents/CartItemDelete/CartItemDelete.html.twig', this.pendingDelete, false) }}

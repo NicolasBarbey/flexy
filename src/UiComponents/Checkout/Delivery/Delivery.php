@@ -107,6 +107,8 @@ class Delivery
             cart: $this->cartFacade->getOrCreateFromSession(),
             deliveryModuleId: $moduleId,
         ));
+
+        $this->emit('updateNextButton');
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
@@ -117,6 +119,8 @@ class Delivery
             deliveryAddressId: $addressId,
         ));
         $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+
+        $this->emit('updateNextButton');
     }
 
     #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]

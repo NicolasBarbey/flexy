@@ -104,5 +104,6 @@ class Invoice
         $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
 
         $this->emit('toggleShowAddressList');
+        $this->emit('updateNextButton');
     }
 }
