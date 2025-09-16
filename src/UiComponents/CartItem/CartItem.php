@@ -57,7 +57,7 @@ class CartItem extends BaseFrontController
         $this->prices['promoPrice'] = $cartItemModel->getPromoPrice();
         $this->prices['taxedPrice'] = $cartItemModel->getTaxedPrice($taxCountry);
         $this->prices['promoTaxedPrice'] = $cartItemModel->getTaxedPromoPrice($taxCountry);
-        $this->prices['promo'] = $cartItemModel->getPromo() ? true : false;
+        $this->prices['promo'] = (bool) $cartItemModel->getPromo();
 
         $this->outOfStock = $cartItemModel->getQuantity() <= 0;
         $this->quantity = (int) $cartItemModel->getQuantity();

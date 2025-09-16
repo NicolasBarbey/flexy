@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="CartItem-footer">
-                    {% if cartItem.promo %}
+                    {% if this.prices.promo %}
                         <div class="CartItem-footerRight">
                             <div class="CartItem-price">
                                 {{ this.prices.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}

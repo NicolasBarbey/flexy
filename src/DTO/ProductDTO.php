@@ -32,9 +32,22 @@ class ProductDTO
         $productDTO->position = isset($data['position']) ? (int) $data['position'] : 0;
         $productDTO->virtual = (bool)($data['virtual'] ?? false);
 
-        $productDTO->productCategories = array_values(
-            array_map(static fn($v) => (string) $v, (array)($data['productCategories'] ?? []))
-        );
+        $productCategories = $data['productCategories'] ?? [];
+
+        $productDTO->productCategories = [];
+        if (is_array($productCategories)) {
+            foreach ($productCategories as $entry) {
+                if (!is_array($entry)) {
+                    continue;
+                }
+                $categoryPayload = (isset($entry['category']) && is_array($entry['category']))
+                    ? $entry['category']
+                    : $entry;
+
+                $productDTO->productCategories[] = CategoryDTO::fromArray($categoryPayload);
+            }
+        }
+
 
         $productDTO->productSaleElements = array_values(
             array_map(

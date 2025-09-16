@@ -52,21 +52,10 @@
     flex-direction: column;
     min-height: rem-convert(664px);
 
-    .container {
-      padding: rem-convert(24px);
-
-      @screen sm {
-        padding: rem-convert(24px) 0;
-      }
-    }
-
     @screen md {
       flex-direction: row-reverse;
       min-height: rem-convert(350px);
       align-items: stretch;
-      .container {
-        padding: rem-convert(24px 48px);
-      }
     }
   }
 

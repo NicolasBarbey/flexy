@@ -25,13 +25,9 @@ class CrossSelling
 {
     public string $categoryId;
     public array $productIdsToIgnore = [];
-    private DataAccessService $dataAccessService;
 
-
-
-    public function __construct(DataAccessService $dataAccessService, private TranslatorInterface $translator)
+    public function __construct(private DataAccessService $dataAccessService)
     {
-        $this->dataAccessService = $dataAccessService;
     }
 
 
