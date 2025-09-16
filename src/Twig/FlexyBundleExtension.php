@@ -25,7 +25,7 @@ class FlexyBundleExtension extends AbstractExtension
 {
     public function __construct(
         private ProductSaleElementsService $pseService,
-        public SecurityContext $securityContext,
+        private SecurityContext $securityContext,
     ) {
     }
 
@@ -42,7 +42,7 @@ class FlexyBundleExtension extends AbstractExtension
         return $this->securityContext->getCustomerUser();
     }
 
-    public function attributeAv(ProductSaleElements $pse): array
+    public function attributeAv(?ProductSaleElements $pse): array
     {
         if (null === $pse) {
             return [];
