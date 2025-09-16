@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
-{% set orders = resources('/api/front/account/orders', {'customer.id': attr('customer', 'id')}) %}
+{% set orders = resources('/api/front/account/orders', {
+    'customer.id': attr('customer', 'id'),
+    'order[createdAt]' : 'desc'
+}) %}
 
 {% block title %}
     {{ 'My orders'|trans }}

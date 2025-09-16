@@ -2,31 +2,15 @@
         md:gap-3 text-black">
     <ul class="flex flex-col gap-2 md:gap-6 md:flex-row">
         {% set footerLinkClass = 'underline hover:no-underline focus:no-underline hover:opacity-75 focus:opacity-75' %}
-        <li class="paragraph-5">
-            <a href="#" class="{{ footerLinkClass }}">
-                Plan du site
-            </a>
-        </li>
-        <li class="paragraph-5">
-            <a href="#" class="{{ footerLinkClass }}">
-                Mentions légales
-            </a>
-        </li>
-        <li class="paragraph-5">
-            <a href="#" class="{{ footerLinkClass }}">
-                Données personnelles
-            </a>
-        </li>
-        <li class="paragraph-5">
-            <a href="#" class="{{ footerLinkClass }}">
-                Cookies
-            </a>
-        </li>
-        <li class="paragraph-5">
-            <a href="#" class="{{ footerLinkClass }}">
-                Conditions générales de vente
-            </a>
-        </li>
+        {% set contents = resources('/api/front/contents', {'contentFolders.folder.id':attr('config','information_folder_id')}) %}
+
+        {% for content in contents  %}
+            <li class="paragraph-5">
+                <a href="{{ content.publicUrl }}" class="{{ footerLinkClass }}">
+                    {{ content.i18ns.title }}
+                </a>
+            </li>
+        {% endfor %}
     </ul>
     <span class="text-grey indication indication-small">
         ©
