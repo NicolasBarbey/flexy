@@ -69,6 +69,8 @@ class Payment extends AbstractController
         ));
 
         $this->paymentModuleId = $this->cartFacade->getPaymentModuleId();
+
+        $this->emit('updateNextButton');
     }
 
     #[LiveListener('submitCart')]
