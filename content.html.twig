@@ -4,9 +4,13 @@
 
 	{% set ps = attr('content', 'postscriptum') %}
 
-	{{ include('@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig', {title: attr('content', 'title'), description: attr('content', 'chapo')}) }}
+	{{ include('@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig',{
+        title: attr('content', 'title'),
+        description: attr('content', 'chapo'),
+        id: attr('content', 'id'),
+    })}}
 
-	<div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
+	<div class="container flex gap-[173px] pt-[25px] lg:pt-[54px] pb-[80px] lg:pb-[120px]">
 		<article class="wysiwyg">
 			<div>
 				{{ attr('content', 'description') }}

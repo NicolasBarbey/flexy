@@ -5,7 +5,7 @@
 
     &-title {
         color: var(--black);
-        @apply h5;
+        @apply h5 mb-1;
     }
     &-date {
         color: var(--grey);
@@ -17,10 +17,6 @@
         font-size: var(--font-size-xs);
         font-weight: 400;
         line-height: rem-convert(20px);
-        margin-bottom: rem-convert(24px);
-        @screen md {
-            margin-bottom: rem-convert(10px);
-        }
     }
 
     &-images {

@@ -3,9 +3,8 @@
 {% set img = img|default(null) %}
 
 <div class="Subheader Subheader--contentPage">
-    {{ img|raw }}
-    <div class="container flex flex-col grow">
-        {% if breadcrumb|length > 0 %}
+    <div class="container flex flex-col grow py-6">
+        {% if breadcrumb|length %}
             {{ include('@components/Molecules/Breadcrumb/Breadcrumb.html.twig', {items: breadcrumb}) }}
         {% endif %}
         <div class="my-auto">
