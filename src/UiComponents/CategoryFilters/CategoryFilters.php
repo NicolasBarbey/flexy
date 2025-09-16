@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\CategoryFilters;
 
+use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\Form\Type\FieldsetType;
 use FlexyBundle\Service\FormService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,7 +102,7 @@ class CategoryFilters extends AbstractController
         ], 'jsonld');
 
         $this->getPagination($request);
-        $this->products = $request['hydra:member'];
+        $this->products = ProductDTO::fromCollection($request['hydra:member']);
     }
 
     protected function instantiateForm(): FormInterface

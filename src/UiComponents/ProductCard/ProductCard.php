@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\ProductCard;
 
+use FlexyBundle\DTO\ProductDTO;
+use FlexyBundle\DTO\ProductSaleElementDTO;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
@@ -24,7 +26,11 @@ class ProductCard
 {
     private DataAccessService $dataAccessService;
     public ?int $productId = null;
-    private ?array $product = null;
+    private ?ProductDTO $product = null;
+    private ?float $price = null;
+    private ?float $promoPrice = null;
+    private bool $isPromo = false;
+    private bool $isNew = false;
 
 
 
@@ -42,10 +48,12 @@ class ProductCard
         }
     }
 
-    public function mount(?array $product = null): void
+    public function mount(?ProductDTO $product = null): void
     {
-        if (isset($product) && $product) {
+        if ($product instanceof ProductDTO) {
             $this->product = $product;
+        } else if (is_array($product)) {
+            $this->product = ProductDTO::fromArray($product);
         }
 
         if ($this->productId === null && $this->product === null) {
@@ -53,31 +61,67 @@ class ProductCard
         }
 
         if ($this->productId !== null && $this->product === null) {
-            $this->product = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
+            $data = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
+            if (!$data) {
+                return;
+            }
+
+            $this->product = ProductDTO::fromArray($data);
         }
 
 
-        $defaultPse = $this->findDefaultPse($this->product['productSaleElements']);
+        $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
 
-        $this->product['price'] = $defaultPse['productPrices'][0]['price'];
-        $this->product['promoPrice'] = $defaultPse['productPrices'][0]['promoPrice'];
-        $this->product['isPromo'] = $defaultPse['promo'];
-        $this->product['isNew'] = $defaultPse['newness'];
+        if ($defaultPse instanceof ProductSaleElementDTO) {
 
-
-
-        $this->product = array_merge($this->product, [
-            'colors' => [],
-            'rate' => null,
-        ]);
+            $this->price = $defaultPse->productPrices[0]->price;
+            $this->promoPrice = $defaultPse->productPrices[0]->promoPrice;
+            $this->isPromo = $defaultPse->promo;
+            $this->isNew = $defaultPse->newness;
+        }
     }
 
-    private function findDefaultPse(?array $pseList)
+    public function getColors()
+    {
+        return [];
+    }
+
+    public function getRate()
+    {
+        return null;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function getPromoPrice()
+    {
+        return $this->promoPrice;
+    }
+
+    public function getIsPromo()
+    {
+        return $this->isPromo;
+    }
+
+    public function getIsNew()
+    {
+        return $this->isNew;
+    }
+
+
+    /**
+     * @var pseList ProductSaleElementDTO[]
+     * @return ProductSaleElementDTO | null
+     */
+    private function findDefaultPse($pseList)
     {
 
         if ($pseList) {
             foreach ($pseList as $pse) {
-                if ($pse['isDefault']) {
+                if ($pse->isDefault) {
                     return $pse;
                 }
             }
@@ -86,15 +130,15 @@ class ProductCard
         return null;
     }
 
-    public function getProduct()
+    public function getProduct(): ProductDTO
     {
         return $this->product;
     }
 
     public function getPromoRate(): float
     {
-        if ($this->product['isPromo']) {
-            return (($this->product['price'] - $this->product['promoPrice']) / $this->product['price']) * -1;
+        if ($this->isPromo) {
+            return (($this->price - $this->promoPrice) / $this->price) * -1;
         }
 
         return 0;

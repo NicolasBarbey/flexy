@@ -6,6 +6,7 @@
     reviewCount = 0
 %}
 
+
 {% if this.product.id is defined and img is not defined %}
 	{% set images = resources('/api/front/product_images', {'product.id': this.product.id, position: 'ASC', itemsPerPage: 1}) %}
 	{% if images %}
@@ -20,10 +21,10 @@
 <div class="ProductCard {{ attributes.render('class') }}" {{attributes}}>
 	<div class="ProductCard-header">
 		<div class="ProductCard-tagList">
-			{% if this.product.isNew %}
+			{% if this.isNew %}
 				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: 'New'|trans, variant: 'vermillon'}) }}
 			{% endif %}
-			{% if this.product.isPromo %}
+			{% if this.isPromo %}
 				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: this.promoRate|format_number(style: 'percent'), variant: 'error'}) }}
 			{% endif %}
 		</div>
@@ -53,17 +54,17 @@
 			{% endif %}
 
 			<div class="ProductCard-footer">
-				{% if this.product.rate != null or this.product.colors|length > 0 %}
+				{% if this.rate != null or this.colors|length > 0 %}
 					<div class="ProductCard-footerLeft">
-						{% if this.product.rate != null %}
+						{% if this.rate != null %}
 							<div class="Rating">
 								<div class="Rating-mark">
 									{% for i in 1..5 %}
-										{% if this.product.rate >= i %}
+										{% if this.rate >= i %}
 											<div>
 												{{ ux_icon('star-full') }}
 											</div>
-										{% elseif this.product.rate <= i and this.product.rate > i - 1 %}
+										{% elseif this.rate <= i and this.rate > i - 1 %}
 											<div>
 												{{ ux_icon('star-half-empty') }}
 											</div>
@@ -94,13 +95,13 @@
 						{% endif %}
 					</div>
 				{% endif %}
-				{% if this.product.isPromo %}
+				{% if this.isPromo %}
 					<div class="ProductCard-footerRight">
-						<div class="ProductCard-price">{{ this.product.promoPrice|format_currency('EUR', locale: lang_code) }}</div>
-						<div class="ProductCard-originalPrice">{{ this.product.price|format_currency('EUR', locale: lang_code) }}</div>
+						<div class="ProductCard-price">{{ this.promoPrice|format_currency('EUR', locale: lang_code) }}</div>
+						<div class="ProductCard-originalPrice">{{ this.price|format_currency('EUR', locale: lang_code) }}</div>
 					</div>
 				{% else %}
-					<div class="ProductCard-price">{{ this.product.price|format_currency('EUR', locale: lang_code) }}</div>
+					<div class="ProductCard-price">{{ this.price|format_currency('EUR', locale: lang_code) }}</div>
 				{% endif %}
 			</div>
 		</div>

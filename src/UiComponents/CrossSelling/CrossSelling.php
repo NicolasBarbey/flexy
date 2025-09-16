@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\CrossSelling;
 
+use FlexyBundle\DTO\ProductDTO;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
@@ -27,19 +28,22 @@ class CrossSelling
     private DataAccessService $dataAccessService;
 
 
+
     public function __construct(DataAccessService $dataAccessService, private TranslatorInterface $translator)
     {
         $this->dataAccessService = $dataAccessService;
     }
 
-    public function getProducts(): array
+
+    /**
+     * @return ProductDTO[]
+     */
+    public function getProducts()
     {
-        $this->products = $this->dataAccessService->resources('/api/front/products', [
+        return ProductDTO::fromCollection($this->dataAccessService->resources('/api/front/products', [
             'productCategories.category.id' => $this->categoryId,
             'itemsPerPage' => 3,
             'not_in[id]' => $this->productIdsToIgnore,
-        ]);
-
-        return $this->products;
+        ]));
     }
 }

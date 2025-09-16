@@ -76,8 +76,7 @@ class Product
         private FormFactoryInterface $formFactory,
         private CartFacade $cartFacade,
         private RequestStack $requestStack,
-    ) {
-    }
+    ) {}
 
     public function mount(array $product): void
     {
@@ -154,7 +153,7 @@ class Product
 
     public function updateCurrentPseFromCombination(): void
     {
-        $matchingCombinations = array_filter($this->getPses(), fn ($pse) => $pse['combination'] === $this->currentCombination);
+        $matchingCombinations = array_filter($this->getPses(), fn($pse) => $pse['combination'] === $this->currentCombination);
 
         try {
             $this->currentPse = reset($matchingCombinations);
@@ -197,11 +196,11 @@ class Product
         $match = [];
 
         if ($pseRef) {
-            $match = array_values(array_filter($pses, fn ($pse) => $pse['ref'] === $pseRef))[0] ?? null;
+            $match = array_values(array_filter($pses, fn($pse) => $pse['ref'] === $pseRef))[0] ?? null;
         }
 
         if (!$match) {
-            $match = array_values(array_filter($pses, fn ($pse) => $pse['isDefault'] ?? false))[0] ?? null;
+            $match = array_values(array_filter($pses, fn($pse) => $pse['isDefault'] ?? false))[0] ?? null;
         }
 
         if ($match) {

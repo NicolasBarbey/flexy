@@ -8,7 +8,7 @@
 		<div class="CrossSelling" {{ stimulus_controller('simple-slider') }}>
 
 			{% for product in this.products %}
-				{{ component('Flexy:ProductCard', {product}) }}
+				{{ component('Flexy:ProductCard', {product: product}) }}
 			{% endfor %}
 		</div>
 		{% if button %}
