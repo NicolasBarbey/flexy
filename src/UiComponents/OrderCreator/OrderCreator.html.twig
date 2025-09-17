@@ -7,8 +7,10 @@
     {{ form_widget(form['invoice-address-id']) }}
     {{ form_widget(form['payment-module-id']) }}
 
-    {{ include('@components/Molecules/Button/Button.html.twig', {
+    {{ component('Flexy:Button', {
+        size: "large",
         text: 'Order'|trans,
+        color: 'secondary',
         classes: 'md:Button--unfill Button--fill',
         props: {'data-action': 'live#action', 'data-live-action-param': 'save'},
     }) }}

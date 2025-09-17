@@ -51,7 +51,10 @@
         </table>
     </div>
     <div class="mt-4">
-        {{ include('@components/Molecules/Button/Button.html.twig',
-      {classes: 'Button--large', variant: 'primary', text: 'Choose this relay point'|trans, fill: true}) }}
+        {{ component('Flexy:Button',{
+            size: "large",
+            text: 'Choose this relay point'|trans,
+            fill: true
+        }) }}
     </div>
 </div>

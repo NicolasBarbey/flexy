@@ -13,7 +13,12 @@
 		</div>
 		{% if button %}
 			<div class="mt-5">
-				{{ include('@components/Molecules/Button/Button.html.twig', {text: button.label, href: button.href, icon_right: 'chevron-right', variant: 'secondary'}) }}
+                {{ component('Flexy:Button', {
+                    text: button.label,
+                    href: button.href,
+                    icon_right: 'chevron-right',
+                    color: 'secondary'
+                }) }}
 			</div>
 		{% endif %}
 	</div>

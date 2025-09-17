@@ -131,7 +131,12 @@
     </div>
     {% if this.outOfStock %}
         <div class="flex md:justify-end">
-            {{ include('@components/Molecules/Button/Button.html.twig', {text: 'View similar products'|trans, href: '#', classes: 'md:Button--unfill Button--fill'}) }}
+            {{ component('Flexy:Button', {
+                text: 'View similar products'|trans,
+                href: "#O",
+                icon_right: 'chevron-right',
+                classes: 'md:Button--unfill Button--fill'
+            }) }}
         </div>
     {% endif %}
 </div>

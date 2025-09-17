@@ -38,8 +38,17 @@
 
         <div class="flex justify-between mt-4">
             {% block footer %}
-                {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Cancel'|trans, classes: 'Button--large Button--secondary', liveEvent: 'cancelUpdateCreate'}) }}
-                {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Confirm'|trans, classes: 'Button--large', inLiveComp: true}) }}
+                {{ component('Flexy:Button',{
+                    size: "large",
+                    color: "secondary",
+                    text: 'Cancel'|trans,
+                    liveEvent: 'cancelUpdateCreate'
+                }) }}
+                {{ component('Flexy:Button',{
+                    size: "large",
+                    text: 'Confirm'|trans,
+                    type:"submit"
+                }) }}
             {% endblock %}
         </div>
     </div>

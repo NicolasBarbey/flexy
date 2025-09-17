@@ -34,8 +34,10 @@
     </div>
     {% if button %}
         <div class="SnackBar-button">
-            {{ include('@components/Molecules/Button/Button.html.twig',
-      {classes: '', variant: 'secondary', text: button}) }}
+            {{ component('Flexy:Button', {
+                text: button,
+                color: 'secondary',
+            }) }}
         </div>
     {% endif %}
 </div>

@@ -7,14 +7,17 @@
             {{ title }}
         </h1>
         <div>
-            {{ include('@components/Molecules/SearchBar/SearchBar.html.twig', {label: 'Find a delivery address'|trans, classes: 'SearchBar--white ', placeholder: 'e.g. City, Postcode'|trans, iconButtonLeft: true, iconButton: 'search'}) }}
         </div>
         <div class="Subheader-info">
             <div>
                 {{ nbProducts }}
                 {{ 'product(s)'|trans }}
             </div>
-            {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Filter & Sort'|trans, icon_left: 'filter', variant: 'secondary'}) }}
+            {{ component('Flexy:Button',{
+                color: "secondary",
+                text: 'Filter & Sort'|trans,
+                icon_left: 'filter'
+            }) }}
         </div>
     </div>
 </div>
