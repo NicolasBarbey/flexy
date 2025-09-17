@@ -250,6 +250,31 @@ class AccountController extends FlexyController
     {
         $this->checkAuth();
 
+        $this->addFlash(
+            SnackBar::DARK,
+            'dark'
+        );
+        $this->addFlash(
+            SnackBar::LIGHT,
+            'light'
+        );
+        $this->addFlash(
+            SnackBar::ERROR,
+            'error'
+        );
+        $this->addFlash(
+            SnackBar::INFO,
+            'info'
+        );
+        $this->addFlash(
+            SnackBar::VALIDATED,
+            'validated'
+        );
+        $this->addFlash(
+            SnackBar::WARNING,
+            'Warning'
+        );
+
         return $this->render('account-orders');
     }
 

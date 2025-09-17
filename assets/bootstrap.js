@@ -1,5 +1,6 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
 import { registerReactControllerComponents } from '@symfony/ux-react';
+import Notification from '@stimulus-components/notification';
 
 registerReactControllerComponents(
   require.context('./react/controllers', true, /\.(j|t)sx?$/)
@@ -13,3 +14,5 @@ export const app = startStimulusApp(
     /\.[jt]sx?$/
   )
 );
+
+app.register('notification', Notification);

@@ -8,7 +8,7 @@
 %}
 
 {% set snackbar = html_cva(
-    base: 'SnackBar',
+    base: 'SnackBar transition transform duration-1000 hidden',
     variants: {
         variant: {
             light: 'SnackBar--neutral-light',
@@ -37,7 +37,16 @@
     {% set icon = 'check' %}
 {% endif %}
 
-<div class="{{ snackbar.apply({variant, size}, attributes.render('class')) }}" {{attribute}}>
+<div
+    class="{{ snackbar.apply({variant, size}, attributes.render('class')) }}"
+    data-transition-enter-from="opacity-0 translate-x-6"
+    data-transition-enter-to="opacity-100 translate-x-0"
+    data-transition-leave-from="opacity-100 translate-x-0"
+    data-transition-leave-to="opacity-0 translate-x-6"
+    data-notification-delay-value="200000"
+    {{ attributes.defaults(stimulus_controller('notification')) }}
+
+>
     <div class="SnackBar-content">
 		{% if withIcon and icon %}
 			<div class="SnackBar-icon">
@@ -48,13 +57,20 @@
 			{{ text|raw }}
 		</div>
 	</div>
-	{% if button %}
-		<div class="SnackBar-button">
-			{{ component('Flexy:Button', {
-                text: button,
-                color: 'secondary'
-                })
-            }}
-		</div>
-	{% endif %}
+
+
+    {% if button %}
+        {% block button %}
+            <div class="SnackBar-button">
+                {{ component('Flexy:Button', {
+                    text: 'Close'|trans,
+                    size: 'small',
+                    color: 'secondary',
+                    'data-action': 'notification#hide'
+                    })
+                }}
+            </div>
+        {% endblock %}
+    {% endif %}
+
 </div>

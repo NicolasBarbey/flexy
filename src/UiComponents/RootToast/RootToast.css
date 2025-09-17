@@ -1,13 +1,15 @@
 .RootToast {
   position: fixed;
   bottom: calc(var(--header-nav-height) + 1rem);
-  right: 3rem;
-  left: 3rem;
+  right: 50%;
+  max-width: clamp(14rem, 20rem, calc(100vw - 6rem));
+  transform: translateX(50%);
 
   @screen lg {
     bottom: 3rem;
     right: 3rem;
     left: initial;
+    transform: initial;
   }
 
   .SnackBar + .SnackBar {
