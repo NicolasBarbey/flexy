@@ -46,9 +46,8 @@
             <div>
                 {% if this.addressList|length <= 0 %}
                     <div class="flex flex-col items-start">
-                        <span class="HomeDelivery-noAddress">
-                            {{ 'You have no registered address'|trans }}
-                            :
+                        <span class="paragraph-3 block mb-4">
+                            {{ 'You have no registered address'|trans }} :
                         </span>
                         {{ component('Flexy:Button', {
                         type: 'button',

@@ -10,7 +10,6 @@
     {% set totalProducts = resources('/api/front/products', {itemsPerPage: 9, page: page}) %}
 
     {{ include('@components/Layout/Subheader/SearchResult/SubheaderSearch.html.twig', {title: 'Search results'|trans}) }}
-  {{ include('@components/Layout/CategoryProduct/CategoryProduct.html.twig', {products: products, totalProducts: totalProducts}) }}
 
     {{ include('@components/Layout/Reinsurance/Reinsurance.html.twig', {data: [
       {

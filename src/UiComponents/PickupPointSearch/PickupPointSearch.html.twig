@@ -16,8 +16,19 @@
         </button>
     </div>
     <div class="flex gap-1 md:gap-5">
-        {{ include('@components/Molecules/Button/Button.html.twig', {classes: 'PickupPointModule-buttonListView', text: 'List view'|trans, sharp: true, icon_left: 'list'}) }}
-        {{ include('@components/Molecules/Button/Button.html.twig', {classes: 'PickupPointModule-buttonMapView', text: 'Map view'|trans, sharp: true, icon_left: 'pin-circle', variant: 'secondary'}) }}
+        {{ component('Flexy:Button',{
+            text: 'List view'|trans,
+            classes :'PickupPointModule-buttonListView',
+            sharp: true,
+            icon_left: 'list'
+        }) }}
+        {{ component('Flexy:Button',{
+            color: "secondary",
+            text: 'Map view'|trans,
+            classes :'PickupPointModule-buttonListView',
+            sharp: true,
+            icon_left: 'pin-circle'
+        }) }}
     </div>
     <div class="mt-5 paragraph-6">
         {{ pickups|length }}

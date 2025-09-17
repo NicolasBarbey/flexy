@@ -23,12 +23,12 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Thelia\Api\Service\DataAccess\AttributeAccessService;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
 use Thelia\Model\Customer;
-use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Invoice', template: '@UiComponents/Checkout/Invoice/Invoice.html.twig')]
 class Invoice
@@ -86,6 +86,12 @@ class Invoice
         $this->showAddressList = !$this->showAddressList;
     }
 
+    #[LiveListener('hiddeShowAddressList')]
+    public function hiddeShowAddressList(): void
+    {
+        $this->showAddressList = false;
+    }
+
     public function getAddressList(): ?array
     {
         /** @var Customer $user */
@@ -103,7 +109,7 @@ class Invoice
         ));
         $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
 
-        $this->emit('toggleShowAddressList');
+        $this->emit('hiddeShowAddressList');
         $this->emit('updateNextButton');
     }
 }

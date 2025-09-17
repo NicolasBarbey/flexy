@@ -96,6 +96,10 @@
         </table>
     </div>
     <div class="mt-4 md:hidden">
-        {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Choose this relay point'|trans, classes: 'Button--fill', liveEvent: 'forceCustomerDefaultDeliveryAddress'}) }}
+        {{ component('Flexy:Button', {
+            text: 'Choose this relay point'|trans,
+            liveEvent: 'forceCustomerDefaultDeliveryAddress'
+            fill: true,
+        }) }}
     </div>
 </div>

@@ -37,7 +37,10 @@
             {{ 'Shop opening times'|trans }}
         </button>
         <div class="hidden lg:block">
-            {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Choose this shop'|trans, classes: 'Button--fill lg:Button--unfill'}) }}
+            {{ component('Flexy:Button', {
+                text: 'Choose this shop'|trans,
+                classes: 'Button--fill lg:Button--unfill',
+            }) }}
         </div>
     </div>
     <div class="StoreInfo-hoursListing {% if not displayHours|default(false) %}hidden{% endif %}">
@@ -51,6 +54,9 @@
         {% endfor %}
     </div>
     <div class="mt-4 lg:hidden">
-        {{ include('@components/Molecules/Button/Button.html.twig', {text: 'Choose this shop'|trans, classes: 'Button--fill'}) }}
+        {{ component('Flexy:Button', {
+            text: 'Choose this shop'|trans,
+            fill: true,
+        }) }}
     </div>
 </div>
