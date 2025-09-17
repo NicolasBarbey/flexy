@@ -12,24 +12,26 @@
 
         {{ ux_icon('letter', {width: 234, height: 192, class: 'w-[128px] h-[105px] lg:w-[235px] lg:h-[192px] block mb-[30px] mx-auto'}) }}
         {% for type, message in flashes %}
-            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
+            {{ component('Flexy:SnackBar', {
                 text: message,
                 variant: type,
                 withIcon: true,
-                size: "full"
-            } %}
+                size: 'full'
+                })
+            }}
         {% endfor %}
         <h1 class="mb-5 text-center h3">{{ 'Enter the code received by e-mail'|trans }}</h1>
         {{ form_start(form) }}
         {{ form_errors(form) }}
         {% for text in app.flashes('error') %}
             {% set flashError = 1 %}
-            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
+            {{ component('Flexy:SnackBar', {
                 text,
-                variant: 'error',
+                variant: constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::ERROR'),
                 withIcon: true,
-                size: "full"
-            } %}
+                size: 'full'
+                })
+            }}
         {% endfor %}
         <div class=" justify-center flex gap-4 flex-wrap mt-6"  data-live-ignore>
             {% for i in 1..constant('Thelia\\Model\\Customer::CODE_LENGTH') %}

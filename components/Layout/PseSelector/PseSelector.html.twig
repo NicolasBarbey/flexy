@@ -4,7 +4,7 @@
     'data-action': 'live#action:prevent',
     'data-live-action-param': 'save',
   }},
-	    ) }}
+		    ) }}
 	<div class="flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			{{ include('@components/Molecules/Score/Score.html.twig', {score: 3}) }}
@@ -16,7 +16,13 @@
 		{{ include('@components/Molecules/OrderTag/OrderTag.html.twig', {customText: currentPse.quantity > 0 ? 'In stock'|trans : 'Out of stock'|trans, variant: currentPse.quantity > 0 ? 'success' : 'error', type: 'minimal'}) }}
 	</div>
 	{% if currentPse.quantity == 0 %}
-		{{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'This product combination is currently out of stock.'|trans, variant: 'warning', withIcon: true, size: 'full'}) }}
+		{{ component('Flexy:SnackBar', {
+            text: 'This product combination is currently out of stock.'|trans,
+            variant: constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::WARNING'),
+            withIcon: true,
+            size: 'full'
+            })
+        }}
 	{% endif %}
 	<input type="hidden" name="{{ field_name(form.product) }}" value="{{ field_value(form.product) }}">
 	<input type="hidden" name="{{ field_name(form.product_sale_elements_id) }}" value="{{ field_value(form.product_sale_elements_id) }}">
@@ -58,7 +64,13 @@
 	{% endif %}
 
 	{% if noAvailablePse %}
-		{{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'This product combination is not available'|trans, variant: 'warning', withIcon: true, size: 'full'}) }}
+		{{ component('Flexy:SnackBar', {
+            text: 'This product combination is not available'|trans,
+            variant: constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::WARNING'),
+            withIcon: true,
+            size: 'full'
+            })
+        }}
 		<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
 	{% else %}
 		{% if currentPse.quantity %}

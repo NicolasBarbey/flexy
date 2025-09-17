@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'Account'|trans }}
+	{{ 'Account'|trans }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
-    {% set customerId = attr('customer', 'id') %}
-    {% set customer = resources('/api/front/account/customers/' ~ customerId) %}
-    {% set defaultAddress = resources('/api/front/account/addresses', {'customer.id': attr('customer', 'id')})|first %}
-    <div class="relative">
-        {{ component('Flexy:Button', {
+	{% set customerId = attr('customer', 'id') %}
+	{% set customer = resources('/api/front/account/customers/' ~ customerId) %}
+	{% set defaultAddress = resources('/api/front/account/addresses', {'customer.id': attr('customer', 'id')})|first %}
+	<div class="relative">
+		{{ component('Flexy:Button', {
               text: 'My account'|trans,
             href: '/account',
             color: 'minimal',
@@ -21,116 +21,122 @@
             class: 'absolute top-2 lg:top-6 lg:left-5',
         }) }}
 
-        {{ include('@components/Layout/Subheader/TitleOnly/SubheaderTitle.html.twig', {title: 'My profile'|trans, position: 'centered'}) }}
-    </div>
+		{{ include('@components/Layout/Subheader/TitleOnly/SubheaderTitle.html.twig', {title: 'My profile'|trans, position: 'centered'}) }}
+	</div>
 
-    <div class="grid w-full max-w-screen-lg grid-cols-1 gap-8 lg:gap-14 mx-auto md:grid-cols-2 mt-8 lg:mt-14 mb-20 lg:mb-32
-            px-[25px] lg:px-0">
-        <div class="flex flex-col gap-6">
-            <div class="text-black h4">
-                {{ 'My contact information'|trans }}
-            </div>
-            <form class="flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-theme-lighter">
-                {{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'lastName', label: 'Lastname'|trans, value: customer.lastname}) }}
-                {{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'firstName', label: 'Firstname'|trans, value: customer.lastname}) }}
-                {{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'birthday', label: 'Birthday'|trans, type: 'date'}) }}
-                {{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'email', label: 'E-mail'|trans, disabled: true, value: customer.email}) }}
-                {{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'phone', label: 'Phone number'|trans, value: defaultAddress.cellphone}) }}
+	<div class="grid w-full max-w-screen-lg grid-cols-1 gap-8 lg:gap-14 mx-auto md:grid-cols-2 mt-8 lg:mt-14 mb-20 lg:mb-32
+			            px-[25px] lg:px-0">
+		<div class="flex flex-col gap-6">
+			<div class="text-black h4">
+				{{ 'My contact information'|trans }}
+			</div>
+			<form class="flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-theme-lighter">
+				{{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'lastName', label: 'Lastname'|trans, value: customer.lastname}) }}
+				{{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'firstName', label: 'Firstname'|trans, value: customer.lastname}) }}
+				{{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'birthday', label: 'Birthday'|trans, type: 'date'}) }}
+				{{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'email', label: 'E-mail'|trans, disabled: true, value: customer.email}) }}
+				{{ include('@components/Molecules/Fields/FieldInput/FieldInput.html.twig', {name: 'phone', label: 'Phone number'|trans, value: defaultAddress.cellphone}) }}
 
-                {{ component('Flexy:Button', {
+				{{ component('Flexy:Button', {
                     text: 'Edit my information'|trans,
                     href: '#',
                     size: 'large',
                     class: 'mt-1.5',
                 }) }}
-            </form>
-        </div>
-        <div class="flex flex-col gap-6" {{ attributes }}>
-            <div class="text-black h4">
-                {{ 'Change my password'|trans }}
-            </div>
+			</form>
+		</div>
+		<div class="flex flex-col gap-6" {{ attributes }}>
+			<div class="text-black h4">
+				{{ 'Change my password'|trans }}
+			</div>
 
-            {% if app.request.get('password_success') == 1 %}
-                {{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'Your password has been updated'|trans, variant: 'validated', withIcon: true, size: 'full'}) }}
-            {% endif %}
+			{% if app.request.get('password_success') == 1 %}
+				{{ component('Flexy:SnackBar', {
+                    text: 'Your password has been updated'|trans,
+                    variant: constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::VALIDATED'),
+                    withIcon: true,
+                    size: 'full'
+                    })
+                }}
+			{% endif %}
 
-            {% set form = getForm('thelia_customer_password_update') %}
+			{% set form = getForm('thelia_customer_password_update') %}
 
-            {{ form_start(form, {
+			{{ form_start(form, {
                 attr: {
                     class: 'flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-theme-lighter',
                     action: path('account_password'),
                 },
             }) }}
 
-            {{ form_row(form.success_url, {value: path('account_index', {password_success: 1})}) }}
-            {{ form_row(form.error_url, {value: path('account_index')}) }}
-            {{ form_rest(form) }}
-            {{ component('Flexy:Button', {
+			{{ form_row(form.success_url, {value: path('account_index', {password_success: 1})}) }}
+			{{ form_row(form.error_url, {value: path('account_index')}) }}
+			{{ form_rest(form) }}
+			{{ component('Flexy:Button', {
                 text: 'Update my password'|trans,
                 type: 'submit',
                 size: 'large',
                 class: 'mt-1.5 open-modal',
             }) }}
-            {{ form_end(form) }}
-        </div>
-    </div>
+			{{ form_end(form) }}
+		</div>
+	</div>
 
 {% endblock %}
 
 {% block footer %}
-    {{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
+	{{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
 {% endblock %}
 
 {% block modals %}
-    {% set customContentUpdatePassword %}
-    <div class="h4">
-        {{ 'Your password has been changed successfully'|trans }}
-    </div>
-    <div class="flex flex-col gap-4 mt-8 md:flex-row">
-        {{ component('Flexy:Button', {
+	{% set customContentUpdatePassword %}
+	<div class="h4">
+		{{ 'Your password has been changed successfully'|trans }}
+	</div>
+	<div class="flex flex-col gap-4 mt-8 md:flex-row">
+		{{ component('Flexy:Button', {
             text: 'Return to my profile'|trans,
             color: 'secondary',
             fill: true,
             class: 'close-button',
         }) }}
 
-        {{ component('Flexy:Button', {
+		{{ component('Flexy:Button', {
             text: 'Continue my shopping'|trans,
             fill: true,
             href: '/',
         }) }}
 
-    </div>
-    {% endset %}
+	</div>
+	{% endset %}
 
-    {% set customContentUpdateInfos %}
-    <div class="h4">
-        {{ 'Your information has been successfully modified'|trans }}
-    </div>
-    <div class="flex flex-col gap-4 mt-8 md:flex-row">
+	{% set customContentUpdateInfos %}
+	<div class="h4">
+		{{ 'Your information has been successfully modified'|trans }}
+	</div>
+	<div class="flex flex-col gap-4 mt-8 md:flex-row">
 
-        {{ component('Flexy:Button', {
+		{{ component('Flexy:Button', {
             text: 'Return to my profile'|trans,
             color: 'secondary',
             fill: true,
             class: 'close-button',
         }) }}
 
-        {{ component('Flexy:Button', {
+		{{ component('Flexy:Button', {
             text: 'Continue my shopping'|trans,
             fill: true,
             href: '/',
         }) }}
-    </div>
-    {% endset %}
+	</div>
+	{% endset %}
 
-    {{ include('@components/Molecules/Modal/Modal.html.twig', {
+	{{ include('@components/Molecules/Modal/Modal.html.twig', {
     name: 'updatePasswordSuccess',
     content: customContentUpdatePassword,
   }) }}
 
-    {{ include('@components/Molecules/Modal/Modal.html.twig', {
+	{{ include('@components/Molecules/Modal/Modal.html.twig', {
     name: 'updateInfosSuccess',
     content: customContentUpdateInfos,
   }) }}

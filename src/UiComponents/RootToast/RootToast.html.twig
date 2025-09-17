@@ -1,0 +1,13 @@
+<div class="RootToast {{attribute.render('class')}}" {{attribute}}>
+	{% for type, messages in app.flashes %}
+		{% for message in messages %}
+            {{ component('Flexy:SnackBar', {
+                text: message,
+                variant: type,
+                withIcon: true,
+                size: 'full'
+                })
+            }}
+		{% endfor %}
+	{% endfor %}
+</div>

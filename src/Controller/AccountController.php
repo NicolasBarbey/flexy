@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use FlexyBundle\Form\AddressEditForm;
+use FlexyBundle\UiComponents\SnackBar\SnackBar;
 use Front\Front;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -101,8 +102,8 @@ class AccountController extends FlexyController
         $addressUpdate->setErrorMessage($message);
 
         $this->getParserContext()
-          ->addForm($addressUpdate)
-          ->setGeneralError($message)
+            ->addForm($addressUpdate)
+            ->setGeneralError($message)
         ;
 
         if ($addressUpdate->hasErrorUrl()) {
@@ -141,8 +142,8 @@ class AccountController extends FlexyController
         $addressCreate->setErrorMessage($message);
 
         $this->getParserContext()
-          ->addForm($addressCreate)
-          ->setGeneralError($message)
+            ->addForm($addressCreate)
+            ->setGeneralError($message)
         ;
 
         return $this->generateErrorRedirect($addressCreate);
@@ -217,8 +218,8 @@ class AccountController extends FlexyController
     {
         $this->checkAuth();
         $address = AddressQuery::create()
-          ->filterByCustomerId($this->getSecurityContext()->getCustomerUser()?->getId())
-          ->findPk($addressId);
+            ->filterByCustomerId($this->getSecurityContext()->getCustomerUser()?->getId())
+            ->findPk($addressId);
 
         if (null === $address) {
             return new RedirectResponse($this->generateUrl('account_addresses', [
@@ -235,7 +236,7 @@ class AccountController extends FlexyController
             ]));
         } catch (\Exception $e) {
             $this->getParserContext()
-              ->setGeneralError($e->getMessage())
+                ->setGeneralError($e->getMessage())
             ;
         }
 
@@ -305,8 +306,8 @@ class AccountController extends FlexyController
         $customerPasswordUpdateForm->setErrorMessage($message);
 
         $this->parserContext
-          ->addForm($customerPasswordUpdateForm)
-          ->setGeneralError($message)
+            ->addForm($customerPasswordUpdateForm)
+            ->setGeneralError($message)
         ;
 
         // Redirect to error URL if defined

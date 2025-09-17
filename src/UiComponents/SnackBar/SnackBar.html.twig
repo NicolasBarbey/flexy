@@ -1,0 +1,60 @@
+{% props
+    variant = 'light',
+    size = 'small',
+    withIcon = false,
+    text = '',
+    button = null,
+    icon = '',
+%}
+
+{% set snackbar = html_cva(
+    base: 'SnackBar',
+    variants: {
+        variant: {
+            light: 'SnackBar--neutral-light',
+            dark: 'SnackBar--neutral-dark',
+            error: 'SnackBar--error',
+            info: 'SnackBar--informative',
+            warning: 'SnackBar--warning',
+            success: 'SnackBar--success',
+            validated: 'SnackBar--validated',
+        },
+        size: {
+            large: 'SnackBar-large',
+            small: 'SnackBar-small',
+            full: 'SnackBar-full',
+        },
+    },
+) %}
+
+{% if variant == constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::ERROR') %}
+    {% set icon = 'error' %}
+{% elseif variant == constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::WARNING') %}
+    {% set icon = 'warning' %}
+{% elseif variant == constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::INFO') %}
+    {% set icon = 'info' %}
+{% elseif variant == constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::VALIDATED') %}
+    {% set icon = 'check' %}
+{% endif %}
+
+<div class="{{ snackbar.apply({variant, size}, attributes.render('class')) }}" {{attribute}}>
+    <div class="SnackBar-content">
+		{% if withIcon and icon %}
+			<div class="SnackBar-icon">
+				{{ ux_icon(icon) }}
+			</div>
+		{% endif %}
+		<div class="SnackBar-message">
+			{{ text|raw }}
+		</div>
+	</div>
+	{% if button %}
+		<div class="SnackBar-button">
+			{{ component('Flexy:Button', {
+                text: button,
+                color: 'secondary'
+                })
+            }}
+		</div>
+	{% endif %}
+</div>

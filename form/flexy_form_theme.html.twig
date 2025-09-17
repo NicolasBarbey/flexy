@@ -171,13 +171,13 @@
                     {%- endfor -%}
                 </ul>
             {% endset %}
-
-            {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
-                text: content,
-                variant: 'error',
-                withIcon: true,
-                size: "full"
-            } %}
+                {{ component('Flexy:SnackBar', {
+                    text: content,
+                    variant: constant('FlexyBundle\\UiComponents\\SnackBar\\SnackBar::ERROR'),
+                    withIcon: true,
+                    size: 'full'
+                    })
+                }}
         {% else %}
             {% for error in errors %}
                 <span class='FieldInput-error'>{{ error.message }}</span>
