@@ -1,5 +1,5 @@
 <div class="RootToast {{attribute.render('class')}}" {{attribute}}>
-	{% for type, messages in app.flashes %}
+	{% for type, messages in app.session.flashbag.all() %}
 		{% for message in messages %}
             {{ component('Flexy:SnackBar', {
                 text: message,
