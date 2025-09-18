@@ -72,20 +72,4 @@ class Payment extends AbstractController
 
         $this->emit('updateNextButton');
     }
-
-    #[LiveListener('submitCart')]
-    public function submitCart(): ?Response
-    {
-        $response = $this->checkoutFacade->pay(new CheckoutDTO(
-            cart: $this->cartFacade->getOrCreateFromSession(),
-            deliveryModuleId: $this->cartFacade->getDeliveryModuleId(),
-            deliveryAddressId: $this->cartFacade->getDeliveryAddressId(),
-            invoiceAddressId: $this->cartFacade->getInvoiceAddressId(),
-            paymentModuleId: $this->cartFacade->getPaymentModuleId(),
-        ));
-
-        if ($response !== null) {
-            return $response;
-        }
-    }
 }

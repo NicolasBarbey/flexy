@@ -26,7 +26,7 @@
 {%- block checkoutNextButton -%}
     {%- if not emptyCart -%}
         {{ component('Flexy:Checkout:NextButton', {
-            href: path('checkout_gateway'),
+            href: path('checkout_pay'),
             step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::PAYMENT'),
         }) }}
     {%- endif -%}
