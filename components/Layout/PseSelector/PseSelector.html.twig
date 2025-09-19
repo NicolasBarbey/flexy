@@ -83,12 +83,15 @@
                 inLiveComp: true,
                 btnLiveAction: 'getQuantity',
                 name: field_name(form.quantity),
+                plusDisabled: currentPse.quantity < (0 + field_value(form.quantity)),
+                minusDisabled: (0 + field_value(form.quantity)) <= 1
                 },
             ) }}
 		{% else %}
 			<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
 		{% endif %}
 	{% endif %}
+
 	{{ form_rest(form) }}
 	{{ form_errors(form) }}
 	{{ form_end(form) }}

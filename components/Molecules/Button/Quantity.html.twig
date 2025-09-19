@@ -4,12 +4,12 @@
 {% set btnLiveAction = btnLiveAction|default(null) %}
 {% set name = name|default('') %}
 
-<div role="button" class="Button Button-quantity {{ classes }} {% if disabled %}disabled{% endif %}">
-    <button type="button" {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value - 1 }}" {% else %} data-qty="minus" {% endif %} {% if disabled %} disabled {% endif %}>
+<div role="button" class="Button Button-quantity {{ classes }} {% if disabled %}disabled{% endif %}"  >
+    <button type="button" {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value - 1 }}" {% else %} data-qty="minus" {% endif %} {% if minusDisabled %} disabled {% endif %} data-loading="addClass(pointer-events-none)">
         -
     </button>
     <input type="number" name="{{ name }}" {% if disabled %} disabled {% endif %} value='{{ value }}'>
-    <button type="button" {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value + 1 }}" {% else %} data-qty="plus" {% endif %} {% if disabled %} disabled {% endif %}>
+    <button type="button" {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value + 1 }}" {% else %} data-qty="plus" {% endif %} {% if plusDisabled %} disabled {% endif %} data-loading="addClass(pointer-events-none)">
         +
     </button>
 </div>

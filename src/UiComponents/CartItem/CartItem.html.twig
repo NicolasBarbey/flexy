@@ -98,11 +98,19 @@
                     {% else %}
                         <div class="CartItem-quantity">
                             <div role="button" class="Button Button-quantity">
-                                <button type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity - 1}) }}>
+                                <button
+                                    type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity - 1}) }}
+                                    {% if this.quantity <= 1 %}disabled{% endif %}
+                                    data-loading="addClass(pointer-events-none)"
+                                >
                                     -
                                 </button>
                                 <input type="number" value="{{ this.quantity }}">
-                                <button type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity + 1}) }}>
+                                <button
+                                    type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity + 1}) }}
+                                    {% if this.quantity >= this.stock %}disabled{% endif %}
+                                    data-loading="addClass(pointer-events-none)"
+                                >
                                     +
                                 </button>
                             </div>

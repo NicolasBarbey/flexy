@@ -6,9 +6,20 @@
 {% set quantity = quantity|default(1) %}
 {% set btnLiveAction = btnLiveAction|default(null) %}
 {% set name = name|default('') %}
+{% set plusDisabled = plusDisabled|default(false) %}
+{% set minusDisabled = minusDisabled|default(false) %}
 
 <div class="Button-quantityButton">
-    {{ include('@components/Molecules/Button/Quantity.html.twig', {disabled: disabled, value: value, classes: classes, name: name, btnLiveAction: btnLiveAction}) }}
+    {{ include('@components/Molecules/Button/Quantity.html.twig', {
+        disabled: disabled,
+        value: value,
+        classes: classes,
+        name: name,
+        btnLiveAction: btnLiveAction,
+        plusDisabled: plusDisabled,
+        minusDisabled: minusDisabled,
+        })
+    }}
 
     {{ component('Flexy:Button', {
       disabled: disabled,

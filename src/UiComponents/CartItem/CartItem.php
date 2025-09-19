@@ -35,14 +35,14 @@ class CartItem extends BaseFrontController
     public bool $hide = false;
     public ?array $attributesAv = null;
     public int $quantity;
+    public int $stock;
     public ?array $prices = null;
 
     public function __construct(
         private ProductSaleElementsService $pseService,
         private TaxEngine $taxEngine,
         private LangService $langService,
-    ) {
-    }
+    ) {}
 
     public function mount(string $cartItemId): void
     {
@@ -67,6 +67,8 @@ class CartItem extends BaseFrontController
 
         $locale = $this->langService->getLocale();
         $this->url = $product->getUrl($locale);
+
+        $this->stock = (int) $productSaleElement->getQuantity();
 
         /** @var ProductSaleElementsProductImage $pseImage */
         $pseImage = $productSaleElement->getProductSaleElementsProductImages()->getFirst();
