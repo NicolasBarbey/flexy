@@ -1,0 +1,7 @@
+.PromoCodeForm {
+  &-label {
+    @apply paragraph-4;
+    color: var(--black);
+    font-weight: 600;
+  }
+}

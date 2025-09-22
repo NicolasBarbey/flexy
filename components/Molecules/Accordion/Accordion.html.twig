@@ -32,6 +32,8 @@
         {% endif %}
     </summary>
     <div class="Accordion-content">
-        {{ content }}
+        {% block content %}
+           {{ content }}
+        {% endblock %}
     </div>
 </details>

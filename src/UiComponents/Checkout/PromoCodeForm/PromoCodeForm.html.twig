@@ -1,0 +1,28 @@
+<div {{ attributes.defaults({"class": 'PromoCodeForm'}) }}>
+
+    {% embed "@components/Molecules/Accordion/Accordion.html.twig" with {
+        title:  'Add a promo code'|trans,
+        classes: 'bg-white border-0 ',
+        iconPlus: 'plus',
+        iconMinus: 'minus'
+    } %}
+
+        {% block content %}
+            {{ form_start(form, {
+                attr: {
+                    'class': '-mt-2 flex gap-4',
+                    'data-action': 'live#action:prevent',
+                    'data-live-action-param': 'save'
+                }
+            }) }}
+            {{ form_rest(form) }}
+            {{ form_errors(form) }}
+
+
+            {{ form_end(form) }}
+        {% endblock %}
+
+    {% endembed %}
+
+
+</div>

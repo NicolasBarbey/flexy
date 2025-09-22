@@ -6,6 +6,11 @@
         {% set taxed_postage = this.summary.taxed_postage ? this.summary.taxed_postage|format_currency('EUR', locale: 'fr') : null %}
 
         <div class="Summary">
+
+            <div class="Summary-promo mb-4">
+                {{ component('Flexy:Checkout:PromoCodeForm', { class: ''} )}}
+            </div>
+
             <div class="Summary-list">
                 <div class="Summary-line">
                     <div>

@@ -1,5 +1,7 @@
 .Accordion {
-  border-bottom: 1px solid var(--grey-lighter);
+  + .Accordion {
+    border-top: 1px solid var(--grey-lighter);
+  }
 
   &:has(&-summary:focus-visible) {
     outline: var(--theme) solid 1px;
@@ -45,20 +47,6 @@
     .Accordion-icon {
       transform: rotate(-180deg);
       transition: 0.2s ease all;
-    }
-  }
-
-  &--promo {
-    .Accordion-summary {
-      @apply paragraph-4;
-      font-weight: 600;
-      border-bottom: none;
-    }
-
-    .Accordion-content {
-      border-bottom: none;
-      padding: rem-convert(0px) rem-convert(16px) rem-convert(20px)
-        rem-convert(16px);
     }
   }
 
