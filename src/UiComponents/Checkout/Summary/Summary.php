@@ -50,4 +50,10 @@ class Summary
             'taxed_postage' => $this->attributeAccessService->attributeCart('taxed_postage'),
         ];
     }
+
+    public function hasTax(): bool
+    {
+        $taxAmount = $this->attributeAccessService->attributeCart('total_tax_amount');
+        return $taxAmount !== null && $taxAmount > 0;
+    }
 }

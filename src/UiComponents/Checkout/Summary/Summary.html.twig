@@ -80,17 +80,23 @@
             <div class="Summary-footer">
                 <div class="Summary-total">
                     <div>
-                        {{ 'Total (including VAT)'|trans }}
+                        {% if this.hasTax %}
+                            {{ 'Total (including VAT)'|trans }}
+                        {% else %}
+                            {{ 'Total'|trans }}
+                        {% endif %}
                     </div>
                     <div>
                         {{ total }}
                     </div>
                 </div>
-                <div class="italic">
-                    {{ 'Taxes of'|trans }}
-                    {{ tax }}
-                    {{ 'included'|trans }}
-                </div>
+                {% if this.hasTax %}
+                    <div class="italic">
+                        {{ 'Taxes of'|trans }}
+                        {{ tax }}
+                        {{ 'included'|trans }}
+                    </div>
+                {% endif %}
                 {% if cgvLink %}
                     <div class="mt-2">
                         {{ 'By paying for your order, you agree to our'|trans }}
