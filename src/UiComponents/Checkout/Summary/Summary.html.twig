@@ -4,6 +4,8 @@
         {% set total = this.summary.total_taxed_price|format_currency('EUR', locale: 'fr') %}
         {% set tax = this.summary.total_tax_amount|format_currency('EUR', locale: 'fr') %}
         {% set taxed_postage = this.summary.taxed_postage ? this.summary.taxed_postage|format_currency('EUR', locale: 'fr') : null %}
+        {% set taxed_discount = this.summary.taxed_discount ? this.summary.taxed_discount|format_currency('EUR', locale: 'fr') : null %}
+        {% set discount = this.summary.discount ? this.summary.discount|format_currency('EUR', locale: 'fr') : null %}
 
         <div class="Summary">
 
@@ -34,7 +36,7 @@
                         {{ taxed_postage ? taxed_postage : 'Free delivery'|trans }}
                     </div>
                 </div>
-                {% if not noPromo %}
+                {% if this.hasCoupon %}
                     <div class="Summary-line">
                         <div>
                             {{ 'Promo Code'|trans }}
@@ -74,6 +76,16 @@
                                 {{ 'No Gift Card'|trans }}
                             </div>
                         {% endif %}
+                    </div>
+                {% endif %}
+                {% if this.hasDiscount %}
+                    <div class="Summary-line">
+                        <div>
+                            {{ 'Discount'|trans }}
+                        </div>
+                        <div>
+                            {{ taxed_discount }}
+                        </div>
                     </div>
                 {% endif %}
             </div>

@@ -20,6 +20,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Api\Service\DataAccess\AttributeAccessService;
+use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Summary', template: '@UiComponents/Checkout/Summary/Summary.html.twig')]
 class Summary
@@ -27,7 +28,10 @@ class Summary
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
-    public function __construct(private readonly AttributeAccessService $attributeAccessService)
+    public function __construct(
+        private readonly AttributeAccessService $attributeAccessService,
+        private readonly DataAccessService $dataAccessService
+    )
     {
     }
 
@@ -48,6 +52,8 @@ class Summary
             'total_taxed_price' => $this->attributeAccessService->attributeCart('total_taxed_price'),
             'total_tax_amount' => $this->attributeAccessService->attributeCart('total_tax_amount'),
             'taxed_postage' => $this->attributeAccessService->attributeCart('taxed_postage'),
+            'taxed_discount' => $this->attributeAccessService->attributeCart('taxed_discount'),
+            'discount' => $this->attributeAccessService->attributeCart('discount'),
         ];
     }
 
@@ -55,5 +61,17 @@ class Summary
     {
         $taxAmount = $this->attributeAccessService->attributeCart('total_tax_amount');
         return $taxAmount !== null && $taxAmount > 0;
+    }
+
+    public function hasDiscount(): bool
+    {
+        $discount = $this->attributeAccessService->attributeCart('taxed_discount');
+        return $discount !== null && $discount > 0;
+    }
+
+    public function hasCoupon(): bool
+    {
+        $coupons = $this->dataAccessService->resources('/api/front/coupons', []);
+        return $coupons !== null && count($coupons) > 0;
     }
 }
