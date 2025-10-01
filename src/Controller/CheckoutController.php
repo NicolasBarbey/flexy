@@ -17,7 +17,9 @@ namespace FlexyBundle\Controller;
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
+use Thelia\Core\Translation\Translator;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Cart\Service\CartGuard;
 use Thelia\Domain\Checkout\CheckoutFacade;
@@ -166,12 +168,26 @@ class CheckoutController extends FlexyController
     }
 
     #[Route('/failed', name: 'failed')]
-    public function failedAction(): Response
+    public function failedAction(CheckoutFacade $checkoutFacade, Request $request): Response
     {
         $this->checkAuth();
 
+        $orderId = (int) $request->get('order_id');
+        $message = $request->get('message');
+
+        try {
+            $checkoutFacade->cancelOrder($orderId);
+        } catch (\InvalidArgumentException $e) {
+            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
+        } catch (\Exception $e) {
+            Tlog::getInstance()->addError('Checkout failed error : '.$e->getMessage());
+            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND);
+        }
+
         return $this->render('checkout-failed', [
             'current' => CheckoutSteps::FAILED,
+            'failed_order_id' => $orderId,
+            'failed_order_message' => $message,
         ]);
     }
 }

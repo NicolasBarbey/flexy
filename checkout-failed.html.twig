@@ -15,7 +15,12 @@
         <div class=" lg:w-[250px]  mb-6">
             {{ source('assets/images/not-found.svg') }}
         </div>
-        <h3 class="mt-4 mb-6 h4">{{ 'The payment could not be completed.'|trans }}</h3>
+        {% if failed_order_message %}
+            <h3 class="mt-4 mb-6 h4">{{ failed_order_message }}</h3>
+        {% else %}
+            <h3 class="mt-4 mb-6 h4">{{ 'The payment could not be completed.'|trans }}</h3>
+        {% endif %}
+
 
         {{ component('Flexy:Button', {
             text: 'Back to cart'|trans,
