@@ -16,6 +16,7 @@ namespace FlexyBundle\Controller;
 
 use FlexyBundle\Form\CustomerInformationsForm;
 use FlexyBundle\Form\CustomerRegisterForm;
+use FlexyBundle\Form\CustomerUpdateForm;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,6 +34,7 @@ use Thelia\Domain\Customer\DTO\CustomerRegisterDTO;
 use Thelia\Domain\Customer\Service\CustomerAuthenticator;
 use Thelia\Domain\Customer\Service\CustomerCodeManager;
 use Thelia\Domain\Customer\Service\CustomerRegistrationService;
+use Thelia\Domain\Customer\Service\CustomerUpdateService;
 use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
@@ -343,6 +345,46 @@ class CustomerController extends FlexyController
 
         // Redirect to home page
         return $this->generateRedirect('/');
+    }
+
+    #[Route('/update', name: 'update', methods: ['POST'])]
+    public function update(
+        CustomerUpdateService $customerUpdateService,
+    ): RedirectResponse {
+        $form = $this->createForm(CustomerUpdateForm::class);
+
+        try {
+            $formValidated = $this->validateForm($form, Request::METHOD_POST);
+            $customer = $this->getSecurityContext()->getCustomerUser();
+
+            $customerUpdateService->updateCustomer(
+                new CustomerRegisterDTO(
+                    firstname: $formValidated->get('firstname')->getData(),
+                    lastname: $formValidated->get('lastname')->getData(),
+                    email: $formValidated->get('email')->getData()
+                ),
+                $customer
+            );
+
+            return $this->generateSuccessRedirect($form);
+        } catch (FormValidationException $e) {
+            $message = $this->translator->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
+        }
+
+        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $form->setErrorMessage($message);
+
+        $this->parserContext
+            ->addForm($form)
+            ->setGeneralError($message);
+
+        if ($form->hasErrorUrl()) {
+            return $this->generateErrorRedirect($form);
+        }
+
+        return $this->generateRedirect(
+            $this->generateUrl('customer_update')
+        );
     }
 
     protected function getRememberMeCookieName()
