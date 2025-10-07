@@ -1,40 +1,39 @@
 {% set withNewsletter = withNewsletter|default(false) %}
-{% set footerStoreInfosClasses = '' %}
-{% set footerLinksClasses = 'flex flex-col gap-2 md:gap-6 md:flex-row lg:flex-col Footer-links mb-[30px] md:mb-0 md:pb-[70px] md:px-[50px] md:pt-[30px] md:border-t md:border-t-grey-lighter lg:border-none ' %}
+
+{% set footerStoreInfosClasses = 'md:border-r md:border-r-grey-lighter' %}
+{% set footerLinksClasses = 'flex flex-col gap-2 md:gap-6 Footer-links mb-[30px] md:mb-0 md:pb-[70px] md:pt-[50px] md:pl-[40px] text-black' %}
+{% set footerContainerClasses = 'md:grid-cols-2' %}
+
 {% if withNewsletter %}
     {% set footerLinksClasses = footerLinksClasses ~ 'md:col-span-2 lg:col-span-1 text-black' %}
-    {% set footerStoreInfosClasses = footerStoreInfosClasses ~ 'md:border-l md:border-l-grey-lighter lg:border-r lg:border-r-grey-lighter ' %}
+    {% set footerStoreInfosClasses = 'md:border-l md:border-l-grey-lighter lg:border-r lg:border-r-grey-lighter' %}
     {% set footerContainerClasses = 'md:grid-cols-2 lg:grid-cols-3' %}
-{% else %}
-    {% set footerLinksClasses = 'flex flex-col gap-2 md:gap-6 Footer-links mb-[30px] md:mb-0 md:pb-[70px] md:pt-[50px] md:pl-[40px] text-black' %}
-    {% set footerStoreInfosClasses = footerStoreInfosClasses ~ 'md:border-r md:border-r-grey-lighter' %}
-    {% set footerContainerClasses = 'md:grid-cols-2' %}
 {% endif %}
 
-<footer class="Footer bg-theme-lightest px-6 md:px-0 pt-[50px] md:pt-0 pb-[34px] md:pb-[45px] flex flex-col">
+<footer class="Footer">
     <div class="md:grid {{ footerContainerClasses }}">
         {% if withNewsletter %}
-            <div class="Footer-newsletter mb-[50px] md:mb-0 md:pt-[50px] md:pl-[50px] lg:pt-[100px]">
+            <div class="Footer-newsletter">
                 <div class="font-semibold paragraph-1">
                     {{ 'Newsletter'|trans }}
                 </div>
                 <div class="mb-4 paragraph-5">
-                    Suivez nos dernières actualités & promotions
+                    {{ 'Get our last news and promo'|trans }}
                 </div>
 
                 {{ component('Flexy:Button', {
-                  text: 'Register'|trans,
+                  text: 'Register to our newsletter'|trans,
                   fill: true,
                   size: 'large',
                   class: 'w-full md:w-auto',
                 }) }}
             </div>
         {% endif %}
-        <div class="Footer-store-infos mb-[30px] md:py-[50px] md:pl-[40px] md:mb-0 lg:pt-[100px] lg:pb-[90px] {{footerStoreInfosClasses }}">
+        <div class="Footer-storeInfos {{footerStoreInfosClasses }}">
             <div class="mb-1 font-semibold paragraph-1">
                 {{ attr('config', 'store_name') }}
             </div>
-            <div class="Footer-store-infos-address">
+            <div class="Footer-storeAddress">
                 <div class="paragraph-5">
                     {{ attr('config', 'store_address1') }}
                     <br>
@@ -72,25 +71,28 @@
         </ul>
     </div>
 
-    <div class="md:flex md:justify-between md:items-center md:border-t md:border-t-grey-lighter md:px-[50px] md:pt-[30px]">
-        <div class="flex justify-between md:gap-[30px] mb-5 md:mb-0 text-black Footer-socials">
-            <div class="h-7 w-7 md:w-10 md:h-10">
+    <div class="Footer-socialsWrapper">
+        <div class="Footer-socials">
+            <div class="Footer-icon">
                 {{ ux_icon('instagram') }}
             </div>
-            <div class="h-7 w-7 md:w-10 md:h-10">
+            <div class="Footer-icon">
                 {{ ux_icon('pinterest') }}
             </div>
-            <div class="h-7 w-7 md:w-10 md:h-10">
+            <div class="Footer-icon">
                 {{ ux_icon('youtube') }}
             </div>
-            <div class="h-7 w-7 md:w-10 md:h-10">
+            <div class="Footer-icon">
                 {{ ux_icon('twitter') }}
             </div>
-            <div class="h-7 w-7 md:w-10 md:h-10">
+            <div class="Footer-icon">
                 {{ ux_icon('facebook') }}
             </div>
-            <div class="h-7 w-7 md:w-10 md:h-10">
+            <div class="Footer-icon">
                 {{ ux_icon('linkedin') }}
+            </div>
+            <div class="Footer-icon">
+                {{ ux_icon('tiktok') }}
             </div>
         </div>
 
