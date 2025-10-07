@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Controller\BaseController;
 use Thelia\Core\Form\TheliaFormFactory;
@@ -36,15 +38,17 @@ class FlexyController extends BaseController
     protected string $currentRouter = 'router.front';
 
     public function __construct(
-        public SecurityContext             $securityContext,
-        public ParserContext               $parserContext,
-        public TemplateHelperInterface     $templateHelper,
-        public ParserResolver              $parserResolver,
-        public TheliaFormValidator         $theliaFormValidator,
-        public RequestStack                $requestStack,
-        public TranslatorInterface         $translator,
-        public TheliaFormFactory           $theliaFormFactory,
+        public SecurityContext $securityContext,
+        public ParserContext $parserContext,
+        public TemplateHelperInterface $templateHelper,
+        public ParserResolver $parserResolver,
+        public TheliaFormValidator $theliaFormValidator,
+        public RequestStack $requestStack,
+        #[Autowire(service: 'translator')]
+        public TranslatorInterface $translator,
+        public TheliaFormFactory $theliaFormFactory,
         protected readonly SecurityService $securityService,
+        protected readonly RouterInterface $router,
     ) {
     }
 
@@ -86,5 +90,26 @@ class FlexyController extends BaseController
         );
 
         return $parser;
+    }
+
+    public function getAccountItems(): array
+    {
+        return [
+            [
+                'text' => $this->translator->trans('My profile'),
+                'href' => $this->router->generate('account_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'slug' => 'profile',
+            ],
+            [
+                'text' => $this->translator->trans('My orders'),
+                'href' => $this->router->generate('account_orders', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'slug' => 'orders',
+            ],
+            [
+                'text' => $this->translator->trans('My addresses'),
+                'href' => $this->router->generate('account_addresses', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'slug' => 'addresses',
+            ],
+        ];
     }
 }

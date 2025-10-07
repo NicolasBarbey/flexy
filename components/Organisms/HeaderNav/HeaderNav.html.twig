@@ -2,11 +2,34 @@
     {{ component('Flexy:LangSelect') }}
 
     {% if isAuthenticatedFront() %}
-        {{ include('@components/Molecules/HeaderButton/HeaderButtonProfile.html.twig') }}
+        {{ component('Flexy:HeaderProfile') }}
     {% else %}
-        {{ include('@components/Molecules/HeaderButton/HeaderButton.html.twig', {link: path('account_index'), icon: 'account', classes: 'HeaderNav-btn HeaderButton--theme', text: 'Account'|trans, small: true}) }}
+        {{ component('Flexy:HeaderButton', {
+            href: path('account_index'),
+            icon: 'account',
+            color: 'theme',
+            class: "HeaderNav-btn",
+            text: 'Account'|trans,
+            small: true
+        }) }}
     {% endif %}
 
-    {{ include('@components/Molecules/HeaderButton/HeaderButton.html.twig', {icon: 'cart', link: '/checkout/cart', text: 'Cart'|trans, classes: 'HeaderNav-btn HeaderButton--dark ', small: true}) }}
-    {{ include('@components/Molecules/HeaderButton/HeaderButton.html.twig', {icon: 'menu', id: 'toggleMenu', classes: 'HeaderNav-btn HeaderButton--light lg:hidden', text: 'Menu'|trans, small: true, target: 'toggler'}) }}
+    {{ component('Flexy:HeaderButton', {
+        href: path('checkout_cart'),
+        icon: 'cart',
+        color: 'dark',
+        class: "HeaderNav-btn",
+        text: 'Cart'|trans,
+        small: true
+    }) }}
+    {{ component('Flexy:HeaderButton', {
+        href: path('checkout_cart'),
+        icon: 'menu',
+        color: 'light',
+        id: 'toggleMenu',
+        class: "HeaderNav-btn lg:hidden",
+        text: 'Cart'|trans,
+        small: true,
+        'data-header-target': "toggler"
+    }) }}
 </div>

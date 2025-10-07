@@ -1,0 +1,42 @@
+{% props
+    id = null,
+    target = null,
+    inactive = false,
+    icon = null,
+    small = false,
+    color = null
+%}
+
+{% set button = html_cva(
+    base: 'HeaderButton',
+    variants: {
+        color: {
+            dark: 'HeaderButton--dark',
+            light:'HeaderButton--light',
+            theme:'HeaderButton--theme'
+        },
+        small: {
+            true: 'HeaderButton--small',
+            false: null
+        },
+    },
+) %}
+
+<{{ type }} class="{{ button.apply({color, small}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {% if icon %}
+        <span class="HeaderButton-icon">
+            {{ ux_icon(icon) }}
+        </span>
+    {% endif %}
+
+    <span class="flex flex-col items-start HeaderButton-text">
+        <span class="HeaderButton-text">
+            {{ text }}
+        </span>
+        {% if subText %}
+            <span class="HeaderButton-subText">
+                {{ subText }}
+            </span>
+        {% endif %}
+    </span>
+</{{ type }}>

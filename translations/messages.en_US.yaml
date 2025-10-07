@@ -217,7 +217,11 @@ You can now log in to your account.: You can now log in to your account.
 hy_customer: Hy %firstname%
 Logout: Logout
 Home: Home
-
+My order: My order
+View similar products: View similar products
+Get our last news and promo: Get our last news and promo
+Register to our newsletter: Register to our newsletter
+Quantity: Quantity
 Apply: Apply
 Erase filters: Erase filters
 Erase: Erase
@@ -237,7 +241,7 @@ Your payment has been confirmed: Your payment has been confirmed
 We'll do everything we can to send your order as quickly as possible!: We'll do everything we can to send your order as quickly as possible!
 Enter the code received by e-mail: Enter the code received by e-mail
 resend_code: Please check your spam then try to <a href='%h'>resend code</a>
-Dont't have receive code ?: Dont't have receive code ?
+Don't have receive code ?: Don't have receive code ?
 every_cat: Discover %cat
 Product's visuals: Product's visuals
 This product combination is not available: This product combination is not available
@@ -250,6 +254,9 @@ I agree to our privacy policy: I agree to the privacy policy.*
 This name will allow you to easily identify each of your addresses: This name will allow you to easily identify each of your addresses
 Choose a delivery method: Choose a delivery method
 In case we need to contact you about your order: In case we need to contact you about your order
+Out of stock: Out of stock
+Remember to check your spam, then try to: Remember to check your spam, then try to
+resend the e-mail: resend the e-mail
 Payment: Payment
 Your cart: Your cart
 Confirmation: Confirmation
@@ -258,7 +265,21 @@ Summary: Summary
 Order: Order
 See opening hours: See opening hours
 hide opening times: hide opening times
-My order: My order
-View similar products: View similar products
-Get our last news and promo: Get our last news and promo
-Register to our newsletter: Register to our newsletter
+Schedules: Schedules
+Unit price w/t: Unit price w/t
+Total w/t: Total w/t
+From: From
+All products: All products
+Customer account is disabled: Customer account is disabled
+Your cart is empty: Your cart is empty
+Number of articles: Number of articles
+Download invoice: Download invoice
+Please log in to view prices and add products to your cart.: Please log in to view prices and add products to your cart.
+We suggest you to complete your order with...: We suggest you to complete your order with...
+If you want to change your email, please contact us.: If you want to change your email, please contact us.
+Transform your cart into quote: Transform your cart into quote
+See quote details: See quote details
+Quote details: Quote details
+Download quote: Download quote
+Your order: Your order
+Payment failed: Payment failed
