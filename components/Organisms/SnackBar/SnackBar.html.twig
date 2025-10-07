@@ -5,7 +5,7 @@
 {% set withIcon = withIcon|default(false) %}
 {% set text = text|default('') %}
 {% set button = button|default(null) %}
-{% set classes = classes|default(null) %}
+{% set class = class|default(null) %}
 
 {% set icon = '' %}
 {% if variant == 'error' %}
@@ -21,7 +21,7 @@
     {% set icon = 'info' %}
 {% endif %}
 
-<div class="SnackBar SnackBar-{{ size }} SnackBar--{{ variant }} {{ classes }}">
+<div class="SnackBar SnackBar-{{ size }} SnackBar--{{ variant }} {{ class }}">
     <div class="SnackBar-content">
         {% if withIcon and icon %}
             <div class="SnackBar-icon">

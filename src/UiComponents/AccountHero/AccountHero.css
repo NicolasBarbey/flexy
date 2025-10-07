@@ -1,0 +1,33 @@
+.AccountHero {
+    background: var(--theme-lighter);
+    display: flex;
+    flex-direction: column;
+
+    &-breadcrumb {
+        @apply pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)];
+    }
+
+    &-links {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        border: 1px solid var(--black);
+        align-items: stretch;
+        max-width: 500px;
+        @screen sm {
+            flex-direction: row;
+        }
+
+        .Button {
+            border-radius: 0;
+            border: none;
+        }
+
+        :nth-child(2) {
+            .Button {
+                border-left: 1px solid var(--black);
+                border-right: 1px solid var(--black);
+            }
+        }
+    }
+}

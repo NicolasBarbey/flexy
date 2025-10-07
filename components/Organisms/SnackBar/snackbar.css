@@ -17,7 +17,6 @@
     flex-shrink: 0;
   }
   &-small {
-    width: rem-convert(334px);
     padding-right: rem-convert(30px);
     padding-left: rem-convert(24px);
 
@@ -28,13 +27,11 @@
   &-large {
     display: flex;
     gap: 10px;
-    width: rem-convert(661px);
     padding-right: rem-convert(24px);
     padding-left: rem-convert(24px);
   }
 
   &-full {
-    width: 100%;
     padding-right: rem-convert(24px);
     padding-left: rem-convert(24px);
   }

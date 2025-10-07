@@ -142,4 +142,25 @@
   --header-nav-height: 62px;
 
   --screen-mobile-drawer: theme('screens.md');
+
+  --width-container: 100%;
+  --margin-container: 24;
+  --margin-container-px: calc(1px * var(--margin-container));
+
+  @screen xs {
+    --margin-container: 28;
+  }
+
+  @screen sm {
+    --margin-container: 54;
+  }
+
+  @screen md {
+    --margin-container: 80;
+  }
+
+  @screen xl {
+    --width-container: 1208px;
+    --margin-container: 0;
+  }
 }
