@@ -6,18 +6,27 @@
 
 {% block body %}
     {% set order = resources('/api/front/account/orders/' ~ orderId) %}
+    {% set isQuotation = order.orderStatus.code == "quotation" %}
     <main>
-        {{ component('Flexy:Button', {
-          text: 'My orders'|trans,
-          href: '/account/orders',
-          color: 'minimal',
-          icon_left: 'chevron-left',
-          class: 'mt-2 lg:mt-6 lg:ml-5',
-        }) }}
+        {% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {
+            breadcrumb: [
+                {
+                    title: 'My account'|trans,
+                    url: path('account_index')
+                },                {
+                    title: 'My orders'|trans,
+                    url: path('account_orders')
+                },
+                {
+                    title: (isQuotation ? 'Quote N°' : 'Order N°')|trans~' '~order.ref
+                }
+            ],
+            classes: 'pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)] mb-[36px]'
+        } %}
 
-        <div class="lg:w-[540px] mx-6 lg:mx-auto mt-8 lg:mt-4 mb-[56px] md:mb-[94px]">
+        <div class="lg:w-[540px] mx-6 lg:mx-auto mb-[56px] md:mb-[94px]">
             <div class="text-black h3">
-                {{ 'Order N°'|trans }}
+                {{ (isQuotation ? 'Quote N°' : 'Order N°')|trans }}
                 {{ order.ref }}
             </div>
             <p class="p3 mb-[26px] lg:mb-[44px]">
@@ -26,28 +35,33 @@
 
             {{ component('Flexy:DeliveryTracking', {
                 ref: order.ref,
-                status: 1,
-                trackLink: '#0'
+                status: 1
             }) }}
 
-            <div class="h4 mb-6 mt-[62px]">
-                {{ 'Order details'|trans }}
+            <div class="h4 mb-6 mt-[40px]">
+                {{ (isQuotation ? 'Quote details' : 'Order details')|trans }}
             </div>
             <div class="flex flex-col gap-2">
+                {% set nbItems = 0 %}
                 {% for orderProduct in order.orderProducts %}
-                    {{ component('Flexy:OrderProductCard',{orderProduct}) }}
+                    {% set nbItems = nbItems + orderProduct.quantity %}
+                    {{ component('Flexy:OrderProductCard', {
+                        orderProduct,
+                        placeholder: asset('dist/images/placeholder.webp')
+                    }) }}
                 {% endfor %}
                 {% set summary = {
-                    'Delivery' : order.totalShippingWithTaxes,
-
-                    'Discount': order.amountDiscountWithTaxes
+                    'Subtotal without taxes' : order.totalAmountWithoutTaxes|format_currency('EUR', locale: lang_code),
+                    'Delivery' : order.totalShippingWithTaxes ? order.totalShippingWithTaxes|format_currency('EUR', locale: lang_code): null,
+                    'Discount': order.amountDiscountWithTaxes ? order.amountDiscountWithTaxes|format_currency('EUR', locale: lang_code) : 0,
+                    'Number of articles': nbItems
                 } %}
                 <div class="Summary">
                     <ul class="Summary-list">
                         {% for key, value in summary %}
                             {% if value %}
                                 <li class="Summary-line">
-                                    <b>{{ key|trans }}</b><div>{{ value|format_currency('EUR', locale: lang_code) }}</div>
+                                    <b>{{ key|trans }}</b><div>{{ value }}</div>
                                 </li>
                             {% endif %}
                         {% endfor %}
@@ -55,36 +69,52 @@
                     <div class="Summary-footer">
                         <div class="Summary-total">
                             <div>
-                                {{ 'Total (including VAT)'|trans }}
+                                {{ 'Total w/t'|trans }}
+                                {% set taxes = order.totalAmount - order.totalAmountWithoutTaxes %}
+                                {% if taxes != 0 %}
+                                    <div class="italic">
+                                        {{ 'Taxes of'|trans }}
+                                        {{ taxes|format_currency('EUR', locale: lang_code) }}
+                                        {{ 'included'|trans }}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div>
                                 {{ (order.totalAmount)|format_currency('EUR', locale: lang_code) }}
                             </div>
                         </div>
-                        <div class="italic">
-                            {{ 'Taxes of'|trans }}
-                            {{ (order.totalAmount - order.totalAmountWithoutTaxes)|format_currency('EUR', locale: lang_code) }}
-                            {{ 'included'|trans }}
-                        </div>
                     </div>
                 </div>
             </div>
-            <hr class="mt-[55px] lg:mt-[72px] mb-[30px] lg:mb-[54px]"/>
-            <div class="mb-6 h4">
-                {{ 'Delivery & payment'|trans }}
-            </div>
-            <div class="flex flex-col gap-2">
-                {{ component('Flexy:AddressCard', {
-                    addressId: order.deliveryOrderAddress.id,
-                    title: 'Delivery address'|trans,
-                    inOrder: true,
+            {% if not isQuotation %}
+
+                <hr class="my-10"/>
+                <div class="mb-6 h4">
+                    {{ 'Delivery & payment'|trans }}
+                </div>
+                <div class="flex flex-col gap-2">
+                    {{ component('Flexy:AddressCard', {
+                        addressId: order.deliveryOrderAddress.id,
+                        title: 'Delivery address'|trans,
+                        inOrder: true,
+                    }) }}
+                    {{ component('Flexy:AddressCard', {
+                        addressId: order.invoiceOrderAddress.id,
+                        title: 'Billing address'|trans,
+                        inOrder: true,
+                    }) }}
+                    {% set paymentModule = resources('/api/front/modules/' ~ order.paymentModule.id) %}
+                </div>
+            {% endif %}
+            <div>
+                {{ component('Flexy:Button', {
+                    text: (isQuotation ? 'Download quote' : 'Download invoice')|trans,
+                    class: 'mt-8 ',
+                    href: isQuotation
+                    ? path('account_order_pdf_quotation', {'orderId': order.id})
+                    : path('account_order_pdf_invoice', {'orderId': order.id}),
+                    icon_right: 'download'
                 }) }}
-                {{ component('Flexy:AddressCard', {
-                    addressId: order.invoiceOrderAddress.id,
-                    title: 'Billing address'|trans,
-                    inOrder: true,
-                }) }}
-                {% set paymentModule = resources('/api/front/modules/' ~ order.paymentModule.id) %}
             </div>
         </div>
     </main>

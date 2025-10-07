@@ -27,6 +27,7 @@ use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Template\Parser\ParserResolver;
 use Thelia\Core\Template\ParserContext;
+use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Core\Template\TemplateHelperInterface;
 use TwigEngine\Service\SecurityService;
 
@@ -74,7 +75,7 @@ class FlexyController extends BaseController
         return new Response($this->renderRaw($templateName, $args), $status);
     }
 
-    protected function renderRaw(string $templateName, array $args = [], ?string $templateDir = null): string
+    protected function renderRaw(string $templateName, array $args = [], string|TemplateDefinition|null $templateDir = null): string
     {
         return $this->getParser()->render($templateName, $args);
     }

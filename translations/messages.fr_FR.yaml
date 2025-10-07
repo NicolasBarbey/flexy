@@ -187,8 +187,8 @@ Your address has been created: Votre nouvelle adresse a été créée
 Are you sure you want to delete this address?: Êtes-vous sûr de vouloir supprimer cette adresse ?
 Are you sure you want to choose this address by default ?: Êtes-vous sûr de vouloir choisir cette adresse par défaut ?
 An error has occurred, please try again later : Une erreur est survenue, veuillez rééessayer plus tard
-Your address has been updaded: Votre addresse a été mise à jour
-Your default address has been updaded : Votre addresse par défault a été mise à jour
+Your address has been updaded: Votre adresse a été mise à jour
+Your default address has been updaded : Votre adresse par défaut a été mise à jour
 Create account: Créer mon compte
 With your account, you can track your orders, manage your profile, receive the newsletter, manage your wish lists... : Grâce à votre compte, vous pourrez suivre vos commandes, gérer votre profil, recevoir la newsletter, gérer vos listes d’envie...
 You already have an account ?: Vous avez déjà un compte ?
@@ -224,7 +224,7 @@ Previous Step: Étape précédente
 Checkout: Tunnel d'achat
 Choose a carrier: Choisir un transporteur
 delivery_estimation: Livraison prévue entre le %min% et le %max%
-No available carrier for your current address.: Aucun de nos transporteurs ne pourra effectuer la livraison à cette addresse. Veuilliez en selectionner une autre.
+No available carrier for your current address.: Aucun de nos transporteurs ne pourra effectuer la livraison à cette adresse. Veuilliez en selectionner une autre.
 Choose a payment method: Choisissez un mode de paiement
 Your cart is curently empty: Votre panier est vide.
 Back to the store: Retour à la boutique
