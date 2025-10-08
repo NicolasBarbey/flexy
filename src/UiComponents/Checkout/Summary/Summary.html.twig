@@ -6,7 +6,7 @@
         {% set taxed_postage = this.summary.taxed_postage ? this.summary.taxed_postage|format_currency('EUR', locale: 'fr') : null %}
         {% set taxed_discount = this.summary.taxed_discount ? this.summary.taxed_discount|format_currency('EUR', locale: 'fr') : null %}
         {% set discount = this.summary.discount ? this.summary.discount|format_currency('EUR', locale: 'fr') : null %}
-
+        {% set coupons = this.summary.coupons %}
         <div class="Summary">
 
             <div class="Summary-promo mb-4">
@@ -36,8 +36,8 @@
                         {{ taxed_postage ? taxed_postage : 'Free delivery'|trans }}
                     </div>
                 </div>
-                {% if this.hasCoupon %}
-                    <div class="Summary-line">
+                {% if coupons|length %}
+                    <div class="Summary-line flex-wrap">
                         <div>
                             {{ 'Promo Code'|trans }}
                             {% if promo %}
@@ -46,16 +46,16 @@
                                 </div>
                             {% endif %}
                         </div>
-                        {% if promo %}
-                            <div>
-                                {{ include('@components/Molecules/Filters/FilterPill/FilterPill.html.twig',
-                {selected: true, customText: promo.reduction, icon: 'price-tag'}) }}
-                            </div>
-                        {% else %}
-                            <div>
-                                {{ 'No Promo Code'|trans }}
-                            </div>
-                        {% endif %}
+                        <ul class="flex gap-1 flex-wrap">
+                            {% for coupon in coupons %}
+                                <li>
+                                    <button type="button" class="FilterPill" data-action="live#emit" data-live-event-param="removeCoupon" data-live-code-param="{{ coupon }}">
+                                        <span>{{ coupon }}</span>
+                                        <span class='FilterPill-iconClose'>{{ ux_icon("close") }}</span>
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 {% endif %}
                 {% if not noGiftCard %}

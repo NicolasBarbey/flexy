@@ -1,0 +1,23 @@
+
+<div class="CatHero">
+    {% if breadcrumb|length %}
+        <div class="CatHero-breadcrumb">
+            {% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {items: breadcrumb} %}
+        </div>
+    {% endif %}
+    <div class="{{ displayProducts ? 'Category-container' :  'container' }}">
+        <div>
+            <h1 class="h1">{{ title|raw }}</h1>
+            {% if chapo %}
+                <div class="paragraph-2 max-w-[80%] mt-4">
+                    {{ chapo|raw }}
+                </div>
+            {% endif %}
+            {% if next %}
+                <div class="underline Subheader-link mt-4">
+                    <a href="#description" class="link-large">{{ 'Read more'|trans }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Checkout\NextButton;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
-use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
+use FlexyBundle\UiComponents\Checkout\CheckoutSteps\CheckoutSteps;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;

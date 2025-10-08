@@ -4,14 +4,6 @@
     {{ 'Checkout'|trans }}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
 {% block header %}
     {{ include('@components/Layout/Header/HeaderCheckout.html.twig') }}
 {% endblock %}
@@ -20,7 +12,27 @@
 {% block body %}
 
     {% block checkoutSteps %}
-        {{ include('@components/Layout/CheckoutSteps/CheckoutSteps.html.twig', {steps: ['Your cart', 'Delivery', 'Payment', 'Confirmation'], current: current}) }}
+        {{ component('Flexy:Checkout:CheckoutSteps',{
+            steps: [
+                {
+                    text: 'Your cart',
+                    link: path('checkout_cart')
+                },
+                {
+                    text: 'Delivery',
+                    link: path('checkout_delivery')
+
+                },
+                {
+                    text:'Payment',
+                    link: path('checkout_payment')
+                },
+                {
+                    text:'Confirmation'
+                }
+            ],
+            current
+        } ) }}
     {% endblock %}
 
     <div class="grid grid-cols-12 {% if useSidebar %}my-auto{% endif %}">

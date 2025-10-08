@@ -15,19 +15,21 @@
                         </span>
                     </span>
                     <span class="Step-label">
-                        {{ step|trans }}
+                       {% if current != loop.length and (loop.index == current or loop.index < current) %}
+                            {% if step.link %}
+                                    <a href="{{step.link}}" class="no-underline">
+                            {% endif %}
+                        {% endif %}
+                        {{ step.text|trans }}
+                        {% if current != loop.length and (loop.index == current or loop.index < current) %}
+                            {% if step.link %}
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     </span>
                 </div>
             {% endfor %}
         </div>
     </div>
-
-    <div class="CheckoutSteps-mobile text-right">
-        <div class="paragraph-4 font-semibold">
-            2 050,00€
-        </div>
-        <div class="paragraph-6">
-            2 articles
-        </div>
-    </div>
+    {{ component('Flexy:Checkout:MiniSummary', {step : step ?? constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps::CART')}) }}
 </div>

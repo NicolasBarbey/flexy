@@ -14,14 +14,13 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
-use FlexyBundle\UiComponents\Checkout\CheckoutSteps;
+use FlexyBundle\UiComponents\Checkout\CheckoutSteps\CheckoutSteps;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
-use Thelia\Core\Translation\Translator;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Cart\Service\CartGuard;
 use Thelia\Domain\Checkout\CheckoutFacade;

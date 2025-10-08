@@ -1,18 +1,17 @@
-<div class="{{ this.outOfStock ? 'CartItem-this.outOfStock' : '' }} {% if hide %}hidden{% endif %}" {{ attributes }}>
+{% props index = null, disabled = false %}
+<div class="{{ this.outOfStock ? 'bg-theme-lightest p-4 border-error border' : '' }}" {{ attributes.defaults(stimulus_controller('quantity', { min: 0, max: this.cartItem.stock })) }} data-loading="addClass(opacity-50 pointer-events-none)">
     {% if this.outOfStock %}
-        <div class="flex paragraph-4">
-            <span class="w-5 h-5">
+        <div class="flex paragraph-4 mb-[10px]">
+            <span class="w-5 h-5 mr-1">
                 {{ ux_icon('error') }}
             </span>
             <span>
-                [
-                {{ this.title }}
-                ]
+                [{{ this.title }}]
                 {{ 'is no longer available and cannot be ordered.'|trans }}
             </span>
         </div>
     {% endif %}
-    <div class="CartItem {{ classes }}">
+    <div class="CartItem {{ classes }} {{ this.outOfStock ? 'CartItem--outOfStock' : '' }}">
         <div class="CartItem-mainContent">
             <a class="CartItem-imgLink" href="{{ this.url }}">
                 {{ getImages({
@@ -37,52 +36,36 @@
                 <a href="{{ this.url }}" class="ProductCard-title">
                     {{ this.title }}
                 </a>
-
-                {% if this.secondaryTitle %}
-                    <div class="block CartItem-subTitle paragraph-3 md:hidden">
-                        {{ this.secondaryTitle }}
-                    </div>
-                {% endif %}
                 <div class="CartItem-orderInfos paragraph-6">
 
-                    {% if this.secondaryTitle %}
-                        <span class="hidden CartItem-this.secondaryTitle md:inline">
-                            {{ this.secondaryTitle }}
+                    {% if this.desc %}
+                        <span>
+                            {{ this.desc}}
                         </span>
                     {% endif %}
+                    {% set attrs = [] %}
                     {% for attribute, value in attributesAv %}
-                        <span class="CartItem-secondarySize">
-                            {{ attribute }}
-                            :
-                            {{ value }}
-                        </span>
+                        {% set attrs = attrs|merge([attribute~' : '~value]) %}
                     {% endfor %}
+                    <span class="CartItem-secondarySize">
+                            {{ attrs|join(', ') }}
+                        </span>
                     {% if cartItem.quantity %}
                         <span>
                             {{ 'Quantity:'|trans }}
                             {{ cartItem.quantity }}
                         </span>
                     {% endif %}
-
-                    {% if attributesAvColor %}
-
-                        <span class="flex items-center CartItem-secondarySize">
-                            <span class="mr-1 Colors-item" style="background-color:{{ attributesAvColor.hexa }}"></span>
-                            {{ t('Color') }}
-                            :
-                            {{ attributesAvColor.name }}
-                        </span>
-                    {% endif %}
                 </div>
 
                 <div class="CartItem-footer">
-                    {% if this.prices.promo %}
+                    {% if this.pse.promo %}
                         <div class="CartItem-footerRight">
                             <div class="CartItem-price">
-                                {{ this.prices.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}
+                                {{ this.prices.totalPromoTaxedPrice|format_currency('EUR', locale: lang_code) }}
                             </div>
                             <div class="CartItem-originalPrice">
-                                {{ this.prices.taxedPrice|format_currency('EUR', locale: lang_code) }}
+                                {{ this.prices.totalTaxedPrice|format_currency('EUR', locale: lang_code) }}
                             </div>
                         </div>
                     {% else %}
@@ -97,23 +80,11 @@
                         </div>
                     {% else %}
                         <div class="CartItem-quantity">
-                            <div role="button" class="Button Button-quantity">
-                                <button
-                                    type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity - 1}) }}
-                                    {% if this.quantity <= 1 %}disabled{% endif %}
-                                    data-loading="addClass(pointer-events-none)"
-                                >
-                                    -
-                                </button>
-                                <input type="number" value="{{ this.quantity }}">
-                                <button
-                                    type="button" {{ live_action('setQuantity', {id: this.cartItemId, quantity: this.quantity + 1}) }}
-                                    {% if this.quantity >= this.stock %}disabled{% endif %}
-                                    data-loading="addClass(pointer-events-none)"
-                                >
-                                    +
-                                </button>
-                            </div>
+                            <label for="{{ id }}" class="Button Button--secondary Button-quantity Button--small {% if disabled %}disabled{% endif %}">
+                                <button type="button" data-action="live#action" data-live-action-param="minus" data-live-index-param="{{index}}" {% if this.cartItem.quantity <= 0 %}class="invisible"{% endif %}>-</button>
+                                <input data-model="on(change)|min_value(0)|max_value({{this.cartItem.stock}})|items[{{index}}].quantity" data-base-quantity="{{this.cartItem.quantity}}" min="0" max="{{this.cartItem.stock}}" type="text" data-live-index-param="{{index}}">
+                                <button type="button" data-action="live#action" data-live-action-param="plus" data-live-index-param="{{index}}" {% if this.cartItem.quantity >= this.cartItem.stock %}class="invisible"{% endif %}>+</button>
+                            </label>
                         </div>
                     {% endif %}
 
@@ -128,7 +99,7 @@
                 </span>
                 {{ 'View product'|trans }}
             </a>
-            <button type="button" class="hover:bg-theme-lighter" {% if disabled %} disabled {% endif %} {{ live_action('deleteCartItem', {id: this.cartItemId}) }}>
+            <button type="button" class="hover:bg-theme-lighter" {% if disabled %} disabled {% endif %} {{ live_action('remove', {index}) }}>
                 <span>
                     {{ ux_icon('delete') }}
                 </span>
@@ -142,8 +113,8 @@
             {{ component('Flexy:Button', {
                 text: 'View similar products'|trans,
                 href: "#O",
-                icon_right: 'chevron-right',
-                classes: 'md:Button--unfill Button--fill'
+                size: "medium",
+                class: 'mt-4'
             }) }}
         </div>
     {% endif %}

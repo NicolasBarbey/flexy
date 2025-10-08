@@ -30,20 +30,14 @@ class Summary
 
     public function __construct(
         private readonly AttributeAccessService $attributeAccessService,
-        private readonly DataAccessService $dataAccessService
-    )
-    {
+        private readonly DataAccessService $dataAccessService,
+    ) {
     }
 
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT)]
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
-    #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
-    #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
-    public function syncCart(): void
-    {
-    }
-
+    #[LiveListener('syncSummary')]
     public function getSummary(): array
     {
         return [
@@ -54,24 +48,21 @@ class Summary
             'taxed_postage' => $this->attributeAccessService->attributeCart('taxed_postage'),
             'taxed_discount' => $this->attributeAccessService->attributeCart('taxed_discount'),
             'discount' => $this->attributeAccessService->attributeCart('discount'),
+            'coupons' => $this->attributeAccessService->attributeCoupon('coupon_list'),
         ];
     }
 
     public function hasTax(): bool
     {
         $taxAmount = $this->attributeAccessService->attributeCart('total_tax_amount');
+
         return $taxAmount !== null && $taxAmount > 0;
     }
 
     public function hasDiscount(): bool
     {
         $discount = $this->attributeAccessService->attributeCart('taxed_discount');
-        return $discount !== null && $discount > 0;
-    }
 
-    public function hasCoupon(): bool
-    {
-        $coupons = $this->dataAccessService->resources('/api/front/coupons', []);
-        return $coupons !== null && count($coupons) > 0;
+        return $discount !== null && $discount > 0;
     }
 }

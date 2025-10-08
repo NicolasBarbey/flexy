@@ -105,7 +105,7 @@
 
 {%- block form_row -%}
     {%- set default_attr = {} -%}
-    {% set row_attr = row_attr|merge({class :'flex flex-col gap-1'}) %}
+    {% set row_attr = row_attr|merge({class :'FieldWrapper flex flex-col gap-1'}) %}
 
     {%- if help -%}
         {%- set default_attr = default_attr|merge({'aria-describedby': id ~"_help"}) -%}
