@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 {% set page = app.request.get('page')|default(1) %}
 {% set categoryId = attr('category', 'id') %}
+{% set category = resources('/api/front/categories/'~categoryId) %}
+
+{% set childCategories = resources('/api/front/categories', {
+  'parent': categoryId,
+  'order[position]': 'asc',
+  'visible' : true
+}) %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -12,40 +19,51 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('@components/Layout/Subheader/Category/SubheaderCategory.html.twig', {title: attr('category', 'title'), description: attr('category', 'chapo'), nbProducts: 9, breadcrumb: breadcrumb}) }}
+  {{ component('Flexy:CatHero', {
+    title: category.i18ns.title|default(null),
+    chapo: category.i18ns.chapo|default(null),
+    breadcrumb,
+    next: category.i18ns.postscriptum|default(null) or category.i18ns.description|default(null),
+    displayProducts : not childCategories|length
+  }) }}
 
-  {{ component('Flexy:CategoryFilters', {
-    initialCategoryId: categoryId,
-    initialPage: page,
-    sourceData: {
-      title: category.i18ns.title|default(null),
-      chapo: category.i18ns.chapo|default(null),
-      description: category.i18ns.description|default(null),
-    },
-    })
-  }}
-
-    {{ include('@components/Layout/Reinsurance/Reinsurance.html.twig', {data: [
-      {
-        strongText: 'Free delivery'|trans,
-        text: 'For any order over €100'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-delivery',
-      },
-      {
-        strongText: 'Secure payment'|trans,
-        text: 'Credit card, Paypal'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-payment',
-      },
-      {
-        strongText: 'Satisfied or refunded'|trans,
-        text: 'Exchange or refund offered within 30 days'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-satisfied',
-      },
-    ]}) }}
+  {% if childCategories|length %}
+    <div class="container mt-[50px] lg:mt-[100px]">
+      <ul class="grid xs:grid-cols-2 gap-4  md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+        {% for category in childCategories %}
+          <li>
+            {% include '@components/Organisms/CategoryCard/CategoryCard.html.twig' with category|merge({classes: "h-full"}) %}
+          </li>
+        {% endfor %}
+      </ul>
+      <div id="description" class="lg:pt-[56px] lg:pb-[96px]  pt-[102px] pb-[52px]">
+        {% if category.i18ns.postscriptum or category.i18ns.description %}
+          <div class="wysiwyg">
+            {% if category.i18ns.description %}
+              <div>
+                {{ category.i18ns.description|raw }}
+              </div>
+            {% endif %}
+            {{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
+            {% if category.i18ns.postscriptum %}
+              <div class="mt-8">
+                {{ category.i18ns.postscriptum|raw }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+      {{ component('Flexy:CategoryFilters', {
+        initialCategoryId: categoryId,
+        initialPage: page,
+        initSearchQuery: null,
+        sourceData : {
+          title: category.i18ns.title|default(null),
+          chapo: category.i18ns.chapo|default(null),
+          description: category.i18ns.description|default(null),
+          breadcrumb
+        }}) }}
+  {% endif %}
 {% endblock %}

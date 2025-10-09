@@ -187,8 +187,8 @@ Your address has been created: Votre nouvelle adresse a été créée
 Are you sure you want to delete this address?: Êtes-vous sûr de vouloir supprimer cette adresse ?
 Are you sure you want to choose this address by default ?: Êtes-vous sûr de vouloir choisir cette adresse par défaut ?
 An error has occurred, please try again later : Une erreur est survenue, veuillez rééessayer plus tard
-Your address has been updaded: Votre addresse a été mise à jour
-Your default address has been updaded : Votre addresse par défault a été mise à jour
+Your address has been updaded: Votre adresse a été mise à jour
+Your default address has been updaded : Votre adresse par défaut a été mise à jour
 Create account: Créer mon compte
 With your account, you can track your orders, manage your profile, receive the newsletter, manage your wish lists... : Grâce à votre compte, vous pourrez suivre vos commandes, gérer votre profil, recevoir la newsletter, gérer vos listes d’envie...
 You already have an account ?: Vous avez déjà un compte ?
@@ -224,7 +224,7 @@ Previous Step: Étape précédente
 Checkout: Tunnel d'achat
 Choose a carrier: Choisir un transporteur
 delivery_estimation: Livraison prévue entre le %min% et le %max%
-No available carrier for your current address.: Aucun de nos transporteurs ne pourra effectuer la livraison à cette addresse. Veuilliez en selectionner une autre.
+No available carrier for your current address.: Aucun de nos transporteurs ne pourra effectuer la livraison à cette adresse. Veuilliez en selectionner une autre.
 Choose a payment method: Choisissez un mode de paiement
 Your cart is curently empty: Votre panier est vide.
 Back to the store: Retour à la boutique
@@ -259,3 +259,41 @@ hide opening times: Cacher les horaires d'ouverture
 My order: Ma commande
 View similar products: Voir des produits similaires
 Add a promo code: Ajouter un code promo
+Get our last news and promo: Suivez nos dernières actualités & promotions
+Register to our newsletter: Incrivez vous à notre newsletter
+
+Quote N°: Devis N°
+Subtotal without taxes : Sous-total HT
+Your login: Vos identifiants
+Your informations: Vos informations
+Schedules: Horaires
+Unit price w/t: Prix unitaire HT
+Total w/t: Total HT
+From: À partir de
+All products: Tous les produits
+Customer account is disabled: l'espace client est désactivé
+Your cart is empty: Votre panier est vide
+Number of articles: Nombre d'articles
+Download invoice: Télécharger la facture
+Search results for <i><u>%query</u></i>: Résultats pour <i><u>%query</u></i>
+Please log in to view prices and add products to your cart.: Veuillez vous connecter pour afficher les prix et ajouter des produits à votre panier.
+We suggest you to complete your order with...: Nous vous suggérons pour compléter votre commande...
+Sector: Secteur
+If you want to change your email, please contact us.: Si vous souhaitez changer votre e-mail, contactez-nous.
+Thanks for your quote request !: Merci pour votre demande de devis
+We'll reach out to you as quickly as possible!: Nous reviendrons vers vous le plus rapidement possible
+Your quote: Votre devis
+Transform your cart into quote: Transformer votre panier en devis
+See quote details: Voir le détail du devis
+Quote details: Détails du devis
+Download quote: Télécharger le devis
+This email is already used: Cet e-mail est déjà utilisé
+No delivery method is available for this order.: Aucun mode de livraison disponible.
+Choose a delivery address : Choisir une adresse
+Your order: Votre commande
+Payment failed: Paiement échoué
+The payment could not be completed.: Le paiement n'a pas pu être effectué
+Back to cart: Retour au panier
+Your message has been saved: Nous avons bien pris en compte votre message. Vous pouvez passez à l'étape suivante
+Your cart contains unvailable products: Votre panier comporte des produits indisponibles
+Discount: Remise

@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\ConfigQuery;
 use Symfony\Component\Validator\Constraints;
@@ -35,6 +32,7 @@ class CustomerUpdateForm extends CustomerRegisterForm
             ],
             'label' => Translator::getInstance()->trans('Email Address'),
             'disabled' => !$canUpdateEmail,
+
             'help' => !$canUpdateEmail ? $this->translator->trans('Si vous voulez changer d\'adresse mail, contactez nous.') : null,
 
         ]);

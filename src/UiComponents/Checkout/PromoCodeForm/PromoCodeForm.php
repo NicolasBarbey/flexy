@@ -14,17 +14,21 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\Checkout\PromoCodeForm;
 
+use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
+use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\Event\Coupon\CouponConsumeEvent;
+use Thelia\Core\Event\Coupon\CouponDeleteEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Translation\Translator;
 use Thelia\Domain\Cart\CartFacade;
@@ -67,6 +71,17 @@ class PromoCodeForm extends BaseFrontController
 
         $this->cartFacade->recalculatePostage($this->cartFacade->getOrCreateFromSession());
 
-        $this->emit('resetCart');
+        $this->emit('syncSummary');
+    }
+
+
+    #[LiveListener('removeCoupon')]
+    public function removeCoupon(#[LiveArg] ?string $code): void
+    {
+        $this->eventDispatcher->dispatch(new CouponDeleteEvent($code), TheliaEvents::COUPON_DELETE);
+
+        $this->cartFacade->recalculatePostage($this->cartFacade->getOrCreateFromSession());
+
+        $this->emit('syncSummary');
     }
 }

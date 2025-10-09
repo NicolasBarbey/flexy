@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\Checkout\Cart;
 
+use FlexyBundle\DTO\CartItemDto;
 use FlexyBundle\Service\ProductSaleElementsService;
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use Propel\Runtime\Map\TableMap;
@@ -30,6 +31,8 @@ use Thelia\Domain\Cart\DTO\CartItemDeleteDTO;
 use Thelia\Domain\Cart\DTO\CartItemUpdateQuantityDTO;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Model\ProductImage;
+use Thelia\Model\ProductQuery;
+use Thelia\Model\ProductSaleElementsQuery;
 use TwigEngine\Service\FormService;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
@@ -38,32 +41,176 @@ class Cart
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
-    #[LiveProp()]
     public ?array $pendingDelete = null;
 
+    /**
+     * @var CartItemDto[]
+     */
+    #[LiveProp(writable: true)]
+    public array $items = [];
+
+    public bool $itemHasNoStockMessage = false;
+
     public function __construct(
+        private readonly CartFacade $cartFacade,
         private readonly ProductSaleElementsService $pseService,
         private readonly FormService $formService,
-        private readonly CartFacade $cartFacade,
     ) {
     }
 
-    public function getCart(): array
+    #[LiveListener('cross_selling_add_to_cart')]
+    public function sync(): void
     {
-        $cart = $this->cartFacade->getCartFromSession();
-        $items = $cart
-            ? $cart->getCartItems()
-            : [];
+        $this->fetchCart();
+    }
 
-        return [
-            ...$cart ? $cart->toArray(TableMap::TYPE_CAMELNAME) : [],
-            'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
-            'totalItems' => \count($items),
-        ];
+    public function fetchCart(): void
+    {
+        $this->items = [];
+        $cart = $this->cartFacade->getCartFromSession();
+        foreach ($cart->getCartItems()?->toArray(null, false, TableMap::TYPE_CAMELNAME) as $item) {
+            $pse = ProductSaleElementsQuery::create()
+                ->findOneById($item['productSaleElementsId']);
+
+            $this->items[] = CartItemDto::fromArray(
+                [
+                    ...$item,
+                    'stock' => (int) $pse->getQuantity(),
+                    'title' => $pse->getProduct()->getTitle(),
+                ]
+            );
+            if ($pse->getQuantity() <= 0) {
+                $this->itemHasNoStockMessage = true;
+            }
+        }
+    }
+
+    public function mount(): void
+    {
+        $this->fetchCart();
+    }
+
+    public function getTotalItems()
+    {
+        $countAllItem = 0;
+        foreach ($this->items as $item) {
+            $countAllItem += $item->quantity;
+        }
+
+        return $countAllItem;
+    }
+
+    private function findCartItemByIndex(int $index): ?CartItemDto
+    {
+        return $this->items[$index];
+    }
+
+    #[LiveListener('changeQuantity')]
+    public function onQuantityUpdated(#[LiveArg] int $index, #[LiveArg] int $quantity, #[LiveArg] int $baseQuantity): void
+    {
+        $cartItem = $this->findCartItemByIndex($index);
+
+        if ($cartItem->id && $quantity <= 0) {
+            $this->remove($cartItem->id);
+
+            return;
+        }
+
+        if ($quantity > $baseQuantity) {
+            $this->plus($index, $quantity);
+
+            return;
+        }
+
+        if ($quantity < $baseQuantity) {
+            $this->minus($index, $quantity);
+
+            return;
+        }
+    }
+
+    public function setQuantity(): void
+    {
     }
 
     #[LiveAction]
-    public function addCartItem(#[LiveArg] int $pseId, #[LiveArg] int $productId, #[LiveArg] ?int $quantity): void
+    public function minus(#[LiveArg] int $index, ?int $quantity): void
+    {
+        $cartItem = $this->findCartItemByIndex($index);
+        $newQuantity = max(0, $quantity ?? $cartItem->quantity - 1);
+
+        if ($newQuantity === 0) {
+            $this->remove($index);
+
+            return;
+        }
+
+        $this->cartFacade->updateItemQuantity(
+            new CartItemUpdateQuantityDTO(
+                cart: $this->cartFacade->getOrCreateFromSession(),
+                cartItemId: $cartItem->id,
+                quantity: $newQuantity,
+            )
+        );
+        $cartItem->quantity = $newQuantity;
+        $this->fetchCart();
+        $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT);
+    }
+
+    #[LiveAction]
+    public function plus(#[LiveArg] int $index, ?int $quantity): void
+    {
+        $cartItem = $this->findCartItemByIndex($index);
+
+        $newQuantity = min($cartItem->stock, $quantity ?? $cartItem->quantity + 1);
+
+        $this->cartFacade->updateItemQuantity(
+            new CartItemUpdateQuantityDTO(
+                cart: $this->cartFacade->getOrCreateFromSession(),
+                cartItemId: $cartItem->id,
+                quantity: $newQuantity,
+            )
+        );
+
+        $this->fetchCart();
+        $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT);
+    }
+
+    #[LiveAction]
+    public function remove(#[LiveArg] int $index): void
+    {
+        $match = $this->findCartItemByIndex($index);
+        $this->pendingDelete = [
+            'title' => $match->title,
+            'productId' => $match->productId,
+            'pseId' => $match->productSaleElementsId,
+            'quantity' => $match->quantity,
+            'imageId' => null,
+        ];
+
+        /** @var ProductImage $productImage */
+        $productImage = ProductQuery::create()->findOneById($match->productId);
+
+        if ($productImage) {
+            $this->pendingDelete['imageId'] = $productImage->getId();
+        }
+
+        $pseImage = ProductSaleElementsQuery::create()->findOneById($match->productSaleElementsId)->getProductSaleElementsProductImages()->getFirst();
+
+        if ($pseImage) {
+            $this->pendingDelete['imageId'] = $pseImage->getProductImageId();
+        }
+
+        $this->cartFacade->removeItem(new CartItemDeleteDTO(
+            cart: $this->cartFacade->getOrCreateFromSession(),
+            cartItemId: $match->id,
+        ));
+        $this->fetchCart();
+        $this->emit(CheckoutEvents::DELETE_ITEM_EVENT);
+    }
+
+    #[LiveAction]
+    public function restoreCartItem(#[LiveArg] int $pseId, #[LiveArg] int $productId, #[LiveArg] ?int $quantity): void
     {
         if (!$pseId || !$productId) {
             return;
@@ -93,84 +240,10 @@ class Cart
         if ($this->pendingDelete && $this->pendingDelete['pseId'] === $pseId) {
             $this->pendingDelete = null;
         }
+        $this->fetchCart();
 
         $this->emit(CheckoutEvents::ADD_ITEM_EVENT, [
             'pseId' => $pseId,
-        ]);
-    }
-
-    #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
-    public function appendDeleted(#[LiveArg()] int $id): void
-    {
-        $sessionCart = $this->cartFacade->getCartFromSession();
-        $items = $sessionCart?->getCartItems();
-
-        if (null === $items) {
-            return;
-        }
-
-        foreach ($items as $item) {
-            if ($item->getId() === $id) {
-                $this->pendingDelete = [
-                    'title' => $item->getProduct()->getTitle(),
-                    'productId' => $item->getProduct()->getId(),
-                    'pseId' => $item->getProductSaleElementsId(),
-                    'attributesAv' => $this->pseService->getAttributesAvFromPse($item->getProductSaleElements()),
-                    'quantity' => $item->getQuantity(),
-                    'image' => null,
-                ];
-
-                $pseImage = $item->getProductSaleElements()->getProductSaleElementsProductImages()->getFirst();
-
-                if ($pseImage) {
-                    $this->pendingDelete['image'] = $pseImage->getProductImageId();
-                    break;
-                }
-                /** @var ProductImage $productImage */
-                $productImage = $item->getProduct()->getProductImages()->getFirst();
-
-                if ($productImage) {
-                    $this->pendingDelete['image'] = $productImage->getId();
-                }
-
-                break;
-            }
-        }
-
-        $this->cartFacade->removeItem(new CartItemDeleteDTO(
-            cart: $sessionCart,
-            cartItemId: $id
-        ));
-    }
-
-    #[LiveAction]
-    public function setQuantity(
-        #[LiveArg] int $id,
-        #[LiveArg] ?int $quantity = 1,
-    ): void {
-        if ($quantity < 2) {
-            $quantity = 1;
-        }
-        $this->cartFacade->updateItemQuantity(new CartItemUpdateQuantityDTO(
-            cart: $this->cartFacade->getCartFromSession(),
-            cartItemId: $id,
-            quantity: $quantity
-        ));
-
-        $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT, [
-            'id' => $id,
-            'quantity' => $quantity,
-        ]);
-    }
-
-    #[LiveAction]
-    public function deleteCartItem(#[LiveArg] int $id): void
-    {
-        if (!$id) {
-            return;
-        }
-        $this->emit(CheckoutEvents::DELETE_ITEM_EVENT, [
-            'id' => $id,
         ]);
     }
 }

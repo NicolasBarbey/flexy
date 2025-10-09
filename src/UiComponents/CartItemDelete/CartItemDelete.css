@@ -1,28 +1,18 @@
 .CartItemDelete {
-  border-radius: 8px;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-  z-index: 99;
+  border-radius: 4px;
   background-color: var(--grey-lightest);
   overflow: hidden;
-  padding: 8px 20px 8px 8px;
-  max-width: 334px;
-  height: fit-content;
-  top: 30px;
-  right: 30px;
-  left: auto;
-  margin-bottom: 5px;
-  @screen sm {
-    max-width: 540px;
-  }
+  padding: 0.5rem;
+  position: relative;
+  margin-bottom: 1rem;
+
   &-mainContent {
     display: flex;
-    margin-bottom: 5px;
     column-gap: 18px;
     align-items: center;
     flex-direction: row;
   }
+
   &-img {
     display: flex;
     height: 88px;
@@ -30,6 +20,7 @@
       object-fit: cover;
     }
   }
+
   &-iconClose {
     position: absolute;
     top: 3px;
@@ -37,6 +28,7 @@
     width: 23px;
     cursor: pointer;
   }
+
   &-desc {
     flex-grow: 1;
     padding: 0;
@@ -47,12 +39,5 @@
       padding: 0;
       padding-right: 8px;
     }
-  }
-
-  &-message {
-    font-family: 'Roboto';
-    font-size: rem-convert(14px);
-    line-height: rem-convert(20px);
-    padding-bottom: rem-convert(6px);
   }
 }

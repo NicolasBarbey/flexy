@@ -3,7 +3,7 @@
   color: var(--black);
   text-decoration: none;
   outline: none;
-  padding: rem-convert(20px) 0;
+  padding: 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,29 +11,17 @@
   cursor: pointer;
 
   @screen md {
-    padding: rem-convert(20px) rem-convert(24px);
-  }
-  &--vermillon {
-    background-color: var(--theme-lighter);
-
-    &:focus,
-    &:hover {
-      background-color: var(--theme-light);
-    }
+    padding: 20px 24px;
   }
 
-  &--white {
-    background-color: var(--white);
-
-    &:focus,
-    &:hover {
-      background-color: var(--theme-lightest);
-    }
+  &:hover, &:focus-visible {
+    opacity: 0.5;
   }
 
   &--withIcon {
-    padding: rem-convert(20px) rem-convert(8px) rem-convert(20px)
-      rem-convert(24px);
+    justify-content: flex-start;
+    text-decoration: underline;
+    font-weight: 600;
   }
 
   &-icon {

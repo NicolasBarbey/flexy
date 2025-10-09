@@ -19,7 +19,6 @@
   &-iconClose {
     width: rem-convert(20px);
     height: rem-convert(20px);
-    display: none;
     margin-left: rem-convert(4px);
   }
 

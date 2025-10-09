@@ -9,22 +9,21 @@
 {% endblock %}
 
 {% block body %}
-    <div class="relative">
-
-        {{ component('Flexy:Button', {
-              text: 'My account'|trans,
-            href: '/account',
-            color: 'minimal',
-            icon_left: 'chevron-left',
-            class: 'absolute top-2 lg:top-6 lg:left-5',
-        }) }}
-
-        {{ include('@components/Layout/Subheader/Orders/SubheaderOrders.html.twig', {title: 'My orders'|trans}) }}
-    </div>
-
+    {{ component('Flexy:AccountHero', {
+        title: 'My orders'|trans,
+        selected: "orders",
+        breadcrumb: [
+            {
+                title: 'My account'|trans,
+                url: path('account_index')
+            },
+            {
+                title: 'My orders'|trans
+            }]
+    }) }}
     {% if orders|length %}
-        <div class="container">
-            <div class="grid gap-6 mx-auto md:grid-cols-2 mt-2 md:mt-11 mb-[80px] md:mb-[120px]">
+        <div class="container flex justify-center">
+            <div class="grid max-w-[616px] w-full gap-6 mx-auto mt-2 md:mt-11 mb-[80px] md:mb-[120px]">
                 {% for order in orders %}
                     {{ component('Flexy:OrderCard', {orderId: order.id}) }}
                 {% endfor %}

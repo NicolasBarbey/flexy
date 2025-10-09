@@ -1,6 +1,5 @@
-{% set variant = variant|default('vermillon') %}
 {% set href = href|default('') %}
-{% set customText = customText|default('') %}
+{% set text = text|default('') %}
 {% set icon = icon|default(null) %}
 {% set classes = classes|default('') %}
 
@@ -10,7 +9,7 @@
 {% endif %}
 
 <a href="{{ href }}" class="UserMenu {{ classes }}">
-    {{ customText }}
+    {{ text }}
     {% if icon %}
         <span class="UserMenu-icon">
             {{ ux_icon('chevron-right') }}

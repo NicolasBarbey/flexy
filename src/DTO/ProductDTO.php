@@ -1,5 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\DTO;
 
 class ProductDTO
@@ -25,22 +37,21 @@ class ProductDTO
     public static function fromArray(array $data): self
     {
         $productDTO = new self();
-
         $productDTO->id = isset($data['id']) ? (int) $data['id'] : 0;
         $productDTO->ref = isset($data['ref']) ? (string) $data['ref'] : '';
-        $productDTO->visible = (bool)($data['visible'] ?? false);
+        $productDTO->visible = (bool) ($data['visible'] ?? false);
         $productDTO->position = isset($data['position']) ? (int) $data['position'] : 0;
-        $productDTO->virtual = (bool)($data['virtual'] ?? false);
+        $productDTO->virtual = (bool) ($data['virtual'] ?? false);
 
         $productCategories = $data['productCategories'] ?? [];
 
         $productDTO->productCategories = [];
-        if (is_array($productCategories)) {
+        if (\is_array($productCategories)) {
             foreach ($productCategories as $entry) {
-                if (!is_array($entry)) {
+                if (!\is_array($entry)) {
                     continue;
                 }
-                $categoryPayload = (isset($entry['category']) && is_array($entry['category']))
+                $categoryPayload = (isset($entry['category']) && \is_array($entry['category']))
                     ? $entry['category']
                     : $entry;
 
@@ -48,11 +59,10 @@ class ProductDTO
             }
         }
 
-
         $productDTO->productSaleElements = array_values(
             array_map(
-                static fn(array $row) => ProductSaleElementDTO::fromArray($row),
-                (array)($data['productSaleElements'] ?? [])
+                static fn (array $row) => ProductSaleElementDTO::fromArray($row),
+                (array) ($data['productSaleElements'] ?? [])
             )
         );
 
@@ -62,6 +72,7 @@ class ProductDTO
         $productDTO->postscriptum = isset($data['i18ns']['postscriptum']) ? (string) $data['i18ns']['postscriptum'] : '';
 
         $productDTO->publicUrl = isset($data['publicUrl']) ? (string) $data['publicUrl'] : null;
+
         return $productDTO;
     }
 
@@ -69,7 +80,7 @@ class ProductDTO
     {
         return array_values(
             array_map(
-                static fn(array $item) => self::fromArray($item),
+                static fn (array $item) => self::fromArray($item),
                 $items
             )
         );
