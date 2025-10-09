@@ -65,11 +65,11 @@ class ProductDTO
                 (array) ($data['productSaleElements'] ?? [])
             )
         );
-        $i18ns = $data['productI18ns'][0];
-        $productDTO->title = isset($i18ns['title']) ? (string) $i18ns['title'] : '';
-        $productDTO->chapo = isset($i18ns['chapo']) ? (string) $i18ns['chapo'] : '';
-        $productDTO->description = isset($i18ns['description']) ? (string) $i18ns['description'] : '';
-        $productDTO->postscriptum = isset($i18ns['postscriptum']) ? (string) $i18ns['postscriptum'] : '';
+
+        $productDTO->title = isset($data['i18ns']['title']) ? (string) $data['i18ns']['title'] : '';
+        $productDTO->chapo = isset($data['i18ns']['chapo']) ? (string) $data['i18ns']['chapo'] : '';
+        $productDTO->description = isset($data['i18ns']['description']) ? (string) $data['i18ns']['description'] : '';
+        $productDTO->postscriptum = isset($data['i18ns']['postscriptum']) ? (string) $data['i18ns']['postscriptum'] : '';
 
         $productDTO->publicUrl = isset($data['publicUrl']) ? (string) $data['publicUrl'] : null;
 

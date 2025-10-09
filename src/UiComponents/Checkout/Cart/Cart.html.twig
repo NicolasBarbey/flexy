@@ -1,11 +1,13 @@
 <div {{  attributes.defaults(stimulus_controller('cart')) }}>
+    
 
     {% if this.totalItems %}
-        {% if errorMessage %}
+        {% if this.itemHasNoStockMessage %}
             {% include "@components/Organisms/SnackBar/SnackBar.html.twig" with {
-                text: errorMessage,
+                text: 'Your cart contains unvailable products'|trans,
                 variant: 'error',
-                withIcon:true,
+                withIcon: true,
+                class:'mb-6'
             } %}
         {% endif %}
         {% if this.totalItems %}
@@ -17,7 +19,7 @@
         {% if this.pendingDelete %}
             {{ include('@UiComponents/CartItemDelete/CartItemDelete.html.twig', this.pendingDelete, false) }}
         {% endif %}
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-5">
             {% for index, item in this.items %}
                 {{ component('Flexy:CartItem', {
                     cartItem: item,

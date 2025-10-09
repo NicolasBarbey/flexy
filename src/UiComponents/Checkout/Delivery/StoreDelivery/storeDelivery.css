@@ -12,6 +12,7 @@
 
   &-bottom {
     padding: 1rem 1rem 1rem 2rem;
+    background-color: var(--theme-lightest);
   }
   &-hoursListing {
     margin-top: rem-convert(16px);

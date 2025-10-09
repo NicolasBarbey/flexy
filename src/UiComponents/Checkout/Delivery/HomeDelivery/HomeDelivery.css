@@ -1,0 +1,5 @@
+.HomeDelivery, .Invoice {
+    .AddressCard:not(.selected) {
+        background-color: var(--theme-lighter);
+    }
+}

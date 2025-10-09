@@ -49,6 +49,8 @@ class Cart
     #[LiveProp(writable: true)]
     public array $items = [];
 
+    public bool $itemHasNoStockMessage = false;
+
     public function __construct(
         private readonly CartFacade $cartFacade,
         private readonly ProductSaleElementsService $pseService,
@@ -77,6 +79,9 @@ class Cart
                     'title' => $pse->getProduct()->getTitle(),
                 ]
             );
+            if ($pse->getQuantity() <= 0) {
+                $this->itemHasNoStockMessage = true;
+            }
         }
     }
 
