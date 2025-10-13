@@ -15,15 +15,19 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Checkout\Delivery;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
+use LocalPickup\LocalPickup;
 use Propel\Runtime\Map\TableMap;
+use Psr\Log\LoggerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Thelia\Api\Resource\DeliveryModuleOption;
+use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
@@ -40,23 +44,85 @@ class Delivery
     public ?int $deliveryModuleId = null;
 
     #[LiveProp]
+    public ?string $deliveryModuleOptionCode = null;
+
+    #[LiveProp]
     public ?int $deliveryAddressId = null;
 
     #[LiveProp]
     public ?int $invoiceAddressId = null;
 
+    #[LiveProp]
+    public bool $showNewAddressForm = false;
+
+    #[LiveProp]
+    public bool $showEditAddressForm = false;
+
+    #[LiveProp]
+    public ?int $editingAddressId = null;
+
     public function __construct(
+        private readonly Session $session,
         private readonly ShippingFacade $shippingFacade,
         private readonly CartFacade $cartFacade,
         private readonly CheckoutFacade $checkoutFacade,
         private readonly DeliveryPostageQuerier $postageQuerier,
+        private readonly AddressService $addressService,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     public function mount(): void
     {
         $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+
+        if (null === $this->deliveryAddressId) {
+            $addresses = array_filter($this->getAddressList(), fn ($address) => $address['isDefault']);
+
+            $defaultAddress = reset($addresses);
+            $this->selectDeliveryAddress($defaultAddress['id']);
+        }
+
         $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
+        $this->deliveryModuleId = $this->cartFacade->getDeliveryModuleId();
+    }
+
+    #[LiveListener(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS)]
+    #[LiveListener('cancelAddressForm')]
+    public function resetAddressForm(): void
+    {
+        $this->showNewAddressForm = false;
+        $this->editingAddressId = null;
+    }
+
+    #[LiveListener(CheckoutEvents::EDIT_DELIVERY_ADDRESS)]
+    public function setEditingAddress(#[LiveArg] int $addressId): void
+    {
+        $this->editingAddressId = $addressId;
+    }
+
+    #[LiveListener(CheckoutEvents::DELETE_DELIVERY_ADDRESS)]
+    public function deleteAddress(#[LiveArg] int $addressId): void
+    {
+        try {
+            $this->addressService->deleteAddress($addressId);
+        } catch (\Exception $e) {
+            $this->logger->error(\sprintf('Error during address deletion : %s', $e->getMessage()));
+        }
+    }
+
+    #[LiveAction]
+    public function toggleNewAddressForm(): void
+    {
+        $this->showNewAddressForm = !$this->showNewAddressForm;
+    }
+
+    public function getAddressList(): ?array
+    {
+        /** @var Customer $user */
+        $user = $this->session->getCustomerUser();
+
+        return $user->getAddresses()?->toArray(null, false, TableMap::TYPE_CAMELNAME);
     }
 
     public function getDeliveryModulesOptions(): array
@@ -71,9 +137,10 @@ class Delivery
             /** @var DeliveryModuleOption $option */
             foreach ($options as $option) {
                 $code = $option->getCode();
+                // TODO: change thelia core
                 $deliveryOptions[$code] = [
                     'code' => $code,
-                    'title' => $option->getTitle(),
+                    'title' => $module->getI18ns()->i18ns['fr_FR']->getTitle() ?? $module->getI18ns()->i18ns['en_US']->getTitle(),
                     'moduleId' => $module->getId(),
                     'deliveryMode' => $module->getDeliveryMode(),
                     'postage' => $option->getPostage(),
@@ -84,23 +151,11 @@ class Delivery
         return $deliveryOptions;
     }
 
-    public function getCart(): array
-    {
-        $cart = $this->cartFacade->getOrCreateFromSession();
-        $items = $cart->getCartItems();
-
-        return [
-            ...$cart->toArray(TableMap::TYPE_CAMELNAME),
-            'items' => $items->toArray(null, false, TableMap::TYPE_CAMELNAME),
-            'totalItems' => $cart->countCartItems(),
-        ];
-    }
-
     #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
     public function selectDeliveryModuleOption(#[LiveArg] string $optionCode, #[LiveArg] int $moduleId): void
     {
         $this->cartFacade->setDeliveryAddress(new CheckoutDTO($this->cartFacade->getOrCreateFromSession()));
-        $this->deliveryAddressId = null;
+
         $this->invoiceAddressId = null;
 
         $this->cartFacade->setDeliveryModule(new CheckoutDTO(
@@ -108,7 +163,15 @@ class Delivery
             deliveryModuleId: $moduleId,
         ));
 
-        $this->emit('updateNextButton');
+        $this->session->set('deliveryModuleOption', $optionCode);
+
+        $this->deliveryModuleId = $moduleId;
+        $this->deliveryModuleOptionCode = $optionCode;
+
+        if (strtolower($optionCode) === LocalPickup::DOMAIN_NAME) {
+            $this->shippingFacade->setCustomerDefaultDeliveryAddress($this->cartFacade->getOrCreateFromSession());
+        }
+        $this->emit('syncSummary');
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
@@ -119,8 +182,10 @@ class Delivery
             deliveryAddressId: $addressId,
         ));
         $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
+        $this->cartFacade->getCartFromSession()->setDeliveryModuleId(null)->save();
+        $this->deliveryModuleId = null;
 
-        $this->emit('updateNextButton');
+        $this->emit('syncSummary');
     }
 
     #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]
@@ -132,5 +197,6 @@ class Delivery
         ));
         $this->invoiceAddressId = $this->cartFacade->getInvoiceAddressId();
 
+        $this->emit('syncSummary');
     }
 }
