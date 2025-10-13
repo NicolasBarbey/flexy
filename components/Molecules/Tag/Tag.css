@@ -26,8 +26,8 @@
 
   &--validated {
     background-color: var(--validated-lightest);
-    color: var(--black);
-    border: 0.5px solid var(--validated);
+    color: var(--grey-dark);
+    border: 1px solid var(--validated);
 
     &:focus-visible{
       border: 1px solid var(--validated);

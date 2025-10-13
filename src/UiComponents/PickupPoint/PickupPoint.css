@@ -7,6 +7,7 @@
   &.selected {
     background: var(--white);
     border: 1px solid var(--theme-medium);
+    border-radius: 0;
   }
   label {
     cursor: pointer;
@@ -23,10 +24,6 @@
     .Radio {
       margin-top: 4px;
       margin-right: 8px;
-      max-width: 0;
-      @screen md {
-        max-width: initial;
-      }
     }
   }
 
@@ -87,6 +84,14 @@
     }
     &.closed:before {
       background: var(--error-dark);
+    }
+  }
+
+  &-btn {
+    padding: 0;
+
+    &:hover{
+      background: transparent;
     }
   }
 }

@@ -288,7 +288,7 @@ See quote details: Voir le détail du devis
 Quote details: Détails du devis
 Download quote: Télécharger le devis
 This email is already used: Cet e-mail est déjà utilisé
-No delivery method is available for this order.: Aucun mode de livraison disponible.
+No delivery method is available for this address.: Aucun mode de livraison disponible pour cette adresse.
 Choose a delivery address : Choisir une adresse
 Your order: Votre commande
 Payment failed: Paiement échoué
@@ -297,3 +297,11 @@ Back to cart: Retour au panier
 Your message has been saved: Nous avons bien pris en compte votre message. Vous pouvez passez à l'étape suivante
 Your cart contains unvailable products: Votre panier comporte des produits indisponibles
 Discount: Remise
+Product visuals: Visuels du produit
+Monday : Monday
+Tuesday : Tuesday
+Wednesday : Wednesday
+Thursday : Thursday
+Friday : Friday
+Saturday : Saturday
+Sunday : Sunday

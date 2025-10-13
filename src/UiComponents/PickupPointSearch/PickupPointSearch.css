@@ -1,19 +1,16 @@
-.PickupPointModule {
+.PickupPointSearch {
   background: var(--theme-lightest);
   border: 1px solid var(--theme-lightest);
   border-radius: rem-convert(8px);
 
-  &-searchZone {
-    display: none;
-  }
   &.selected {
     border: 1px solid var(--theme-medium);
-    .PickupPointModule-content {
+    .PickupPointSearch-content {
       background: var(--theme-lighter);
       border-top-left-radius: rem-convert(8px);
       border-top-right-radius: rem-convert(8px);
     }
-    .PickupPointModule-searchZone {
+    .PickupPointSearch-searchZone {
       display: block;
       padding: rem-convert(16px);
       padding-top: rem-convert(30px);
@@ -35,10 +32,10 @@
       margin-top: 4px;
       margin-right: 8px;
     }
-    span:not(.PickupPointModule-top):not(.Tag) {
+    span:not(.PickupPointSearch-top):not(.Tag) {
       display: block;
     }
-    .PickupPointModule-top {
+    .PickupPointSearch-top {
       display: flex;
       justify-content: space-between;
     }

@@ -29,7 +29,9 @@ class PickupAddressType extends AbstractType
               'label_attr' => [
                   'for' => 'address',
               ],
-              'help' => Translator::getInstance()->trans('e.g. City, Postcode'),
+              'attr' => [
+                'placeholder' => Translator::getInstance()->trans('e.g. City, Postcode')
+              ]
           ]);
     }
 }

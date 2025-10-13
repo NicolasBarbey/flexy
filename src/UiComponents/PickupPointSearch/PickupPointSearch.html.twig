@@ -1,37 +1,35 @@
-<div class="PickupPointModule-searchZone" {{ attributes.defaults(stimulus_controller('pickup')) }}>
-    <div>
-        {{ form_start(form, {
-      attr: {
-        'data-action': 'live#action:prevent',
-        'data-live-action-param': 'save',
-      },
-    }) }}
-        {{ form_row(form.address) }}
-        {{ form_end(form) }}
-    </div>
-    <div>
-        <button class="text-black underline-with-icon" type="button">
-            {{ ux_icon('pin-circle') }}
-            {{ 'Select on map'|trans }}
-        </button>
+<div class="PickupPointSearch-searchZone" {{ attributes }}>
+    <div class="FieldWrapper flex flex-col gap-1 mb-4">
+        <div class="FieldInput-header">
+            <label for="pickup_address_address" class="FieldInput-label required">{{ 'Find a delivery address'|trans }}</label>
+        </div>
+        <div class="FieldInput-blockInput">
+            <input type="search" placeholder="{{ 'e.g. City, Postcode'|trans }}" class="FieldInput-input" data-model="debounce(500)|query">
+        </div>
     </div>
     <div class="flex gap-1 md:gap-5">
         {{ component('Flexy:Button',{
             text: 'List view'|trans,
-            classes :'PickupPointModule-buttonListView',
+            classes :'PickupPointSearch-buttonListView',
             sharp: true,
-            icon_left: 'list'
+            icon_left: 'list',
+            'data-action': 'live#action',
+            'data-live-action-param': 'setView',
+            'data-live-view-param': 'list',
         }) }}
         {{ component('Flexy:Button',{
             color: "secondary",
             text: 'Map view'|trans,
-            classes :'PickupPointModule-buttonListView',
+            classes :'PickupPointSearch-buttonListView',
             sharp: true,
-            icon_left: 'pin-circle'
+            icon_left: 'pin-circle',
+            'data-action': 'live#action',
+            'data-live-action-param': 'setView',
+            'data-live-view-param': 'map',
         }) }}
     </div>
     <div class="mt-5 paragraph-6">
-        {{ pickups|length }}
+        {{ this.pickupPoints|length }}
         {{ 'relay point(s) found'|trans }}
     </div>
     <div class="gap-10 mt-3 text-black xl:flex">
@@ -54,23 +52,25 @@
             </label>
         {% endfor %}
     </div>
-    <div class="PickupPointModule-listView">
-        <div class="flex flex-col gap-2 mt-6">
-            {% for pickup in pickups %}
-                {% set selected = selectedPickup.id == pickup.id %}
-                {{ include('@components/Organisms/Card/PickupPoint/PickupPoint.html.twig', pickup|merge({selected: selected})) }}
-            {% endfor %}
+    {% if this.view == 'list' %}
+        <div class="PickupPointSearch-listView">
+            <div class="flex flex-col gap-2 mt-6">
+                {% for pickup in this.pickupPoints %}
+                    {{ component('Flexy:PickupPoint', pickup|merge({
+                        checked: this.selectedPickup == pickup.id
+                    })) }}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div class="PickupPointModule-mapView hidden">
-        <div id="map" style="height: 285px; width: 100%;"></div>
-
-        <div class="mt-[10px]">
-            {% if selectedPickup %}
-                {{ include('@components/Organisms/Card/PickupPoint/PickupPoint.html.twig', selectedPickup|merge({selected: 1})) }}
-            {% endif %}
+    {% endif %}
+    {% if this.view == 'map' %}
+        <div class="PickupPointSearch-mapView">
+            {{ component('Flexy:PickupMap') }}
+            <div class="mt-[10px]">
+                {% if this.selectedPickup %}
+                    {{ component('Flexy:PickupPoint', this.pickupPoints|find(p => p.id == this.selectedPickup)|merge({checked: true})) }}
+                {% endif %}
+            </div>
         </div>
-
-    </div>
-
+    {% endif %}
 </div>

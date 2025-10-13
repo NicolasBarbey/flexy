@@ -29,7 +29,9 @@
     "twig/intl-extra": "^3.17",
     "twig/html-extra": "^3.12",
     "symfony/http-client": "*",
-    "thelia/installer": "~1.1"
+    "thelia/installer": "~1.1",
+    "symfony/ux-map": "^2.30",
+    "symfony/ux-leaflet-map": "^2.30"
   },
   "autoload": {
     "psr-4": {

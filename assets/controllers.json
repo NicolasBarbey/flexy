@@ -14,6 +14,16 @@
         "enabled": true,
         "fetch": "eager"
       }
+    },
+    "@symfony/ux-map": {
+      "map": {
+        "enabled": true,
+        "fetch": "eager",
+        "autoimport": {
+          "@symfony/ux-map/dist/style.min.css": true,
+          "leaflet/dist/leaflet.css": true
+        }
+      }
     }
   },
   "entrypoints": []

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Twig;
 
 use FlexyBundle\Service\ProductSaleElementsService;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Model\Customer;
 use Thelia\Model\ProductSaleElements;
@@ -25,7 +26,7 @@ class FlexyBundleExtension extends AbstractExtension
 {
     public function __construct(
         private ProductSaleElementsService $pseService,
-        private SecurityContext $securityContext,
+        private SecurityContext $securityContext, private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -34,6 +35,7 @@ class FlexyBundleExtension extends AbstractExtension
         return [
             new TwigFunction('attributeAv', [$this, 'attributeAv']),
             new TwigFunction('getCurrentCustomer', [$this, 'getCurrentCustomer']),
+            new TwigFunction('getWeekDays', [$this, 'getWeekDays']),
         ];
     }
 
@@ -49,5 +51,18 @@ class FlexyBundleExtension extends AbstractExtension
         }
 
         return $this->pseService->getAttributesAvFromPse($pse);
+    }
+
+    public function getWeekDays(): array
+    {
+        return [
+            $this->translator->trans('Monday'),
+            $this->translator->trans('Tuesday'),
+            $this->translator->trans('Wednesday'),
+            $this->translator->trans('Thursday'),
+            $this->translator->trans('Friday'),
+            $this->translator->trans('Saturday'),
+            $this->translator->trans('Sunday'),
+        ];
     }
 }

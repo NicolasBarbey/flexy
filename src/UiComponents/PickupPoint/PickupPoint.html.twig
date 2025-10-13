@@ -1,0 +1,46 @@
+<div class="PickupPoint {% if checked %}selected{% endif %}">
+    <label class="PickupPoint-content">
+        {{ component('Flexy:RadioButton', {
+            'data-action': 'live#emit',
+            'data-live-event-param': 'setPickupAddressId',
+            'data-live-id-param': id,
+            checked,
+        }) }}
+        <div>
+            <span class="PickupPoint-title">{{ address.title }}</span>
+            <span class="PickupPoint-address">
+                <span>
+                    {{ [address.address1,address.address2,address.address3]|filter(f => f != '')|join(', ') }}
+                </span>
+                <span class="block">
+                    {{ [address.zipcode,address.city ?? '']|filter(f => f != '')|join(', ') }}
+                </span>
+            </span>
+            <div class="mt-4" {{ stimulus_controller('store-delivery') }}>
+                <div class="flex items-center gap-2">
+                    {{ ux_icon('clock',{class: 'w-4 h-4'}) }}
+                    {{ component('Flexy:Button', {
+                        'data-show-hours': 'See opening hours'|trans,
+                        'data-hide-hours': 'hide opening times'|trans,
+                        'data-action': 'store-delivery#toggle',
+                        text: 'See opening hours'|trans,
+                        class: 'PickupPoint-btn',
+                        color: 'minimal',
+                    }) }}
+                </div>
+                    <table class="md:hidden mt-4 text-2xs" data-store-delivery-target="list">
+                        {% for index,day in getWeekDays() %}
+                            <tr>
+                                <td>
+                                    {{ day }}
+                                </td>
+                                <td class="pl-2">
+                                    {{ openingHours[index] ?? 'Close'|trans }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+            </div>
+        </div>
+    </label>
+</div>

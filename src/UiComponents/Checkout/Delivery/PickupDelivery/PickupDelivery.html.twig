@@ -1,0 +1,10 @@
+{% extends '@UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.html.twig' %}
+
+{% block footer %}
+    {% if this.checked %}
+        <div class="p-4 pl-8 bg-theme-lightest">
+            {{ component('Flexy:PickupPointSearch') }}
+        </div>
+    {% endif %}
+{% endblock %}
+
