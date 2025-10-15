@@ -16,6 +16,7 @@ namespace FlexyBundle\UiComponents\Checkout\NextButton;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
 use FlexyBundle\UiComponents\Checkout\CheckoutSteps\CheckoutSteps;
+use Propel\Runtime\Exception\PropelException;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -50,6 +51,8 @@ class NextButton
 
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
+    #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
+    #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
     #[LiveListener('updateNextButton')]
     public function getIsValid(): bool
     {
@@ -61,9 +64,11 @@ class NextButton
         };
     }
 
+    /**
+     * @throws PropelException
+     */
     private function isCartValid(): bool
     {
-
         return $this->cartFacade->getOrCreateFromSession()->countCartItems() > 0;
     }
 
@@ -79,7 +84,6 @@ class NextButton
         ) {
             return true;
         }
-
         // @TODO test local pickup & pickup
         return false;
     }

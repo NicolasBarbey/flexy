@@ -128,6 +128,9 @@ class CheckoutController extends FlexyController
             $this->checkAuth();
 
             $cart = $cartFacade->getCartFromSession();
+            if (null === $cart) {
+                throw new EmptyCartException();
+            }
 
             $checkoutFacade->validateForOrder($cart);
 
@@ -152,9 +155,6 @@ class CheckoutController extends FlexyController
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         } catch (MissingAddressException|InvalidDeliveryException $e) {
             throw new RedirectException($this->generateUrl('checkout_delivery'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->addError('Checkout error : '.$e->getMessage());
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
         }
     }
 

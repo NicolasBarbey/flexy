@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Checkout\Delivery;
 
 use FlexyBundle\UiComponents\Checkout\CheckoutEvents;
-use LocalPickup\LocalPickup;
+use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Psr\Log\LoggerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -27,14 +27,20 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Api\Resource\DeliveryModuleOption;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Domain\Addressing\Exception\AddressNotFoundException;
 use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\CheckoutFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
+use Thelia\Domain\Customer\Exception\CustomerException;
 use Thelia\Domain\Shipping\Service\DeliveryPostageQuerier;
 use Thelia\Domain\Shipping\ShippingFacade;
+use Thelia\Model\Customer;
 
-#[AsLiveComponent(name: 'Flexy:Checkout:Delivery', template: '@UiComponents/Checkout/Delivery/Delivery.html.twig')]
+#[AsLiveComponent(
+    name: 'Flexy:Checkout:Delivery',
+    template: '@UiComponents/Checkout/Delivery/Delivery.html.twig'
+)]
 class Delivery
 {
     use ComponentToolsTrait;
@@ -106,7 +112,7 @@ class Delivery
     {
         try {
             $this->addressService->deleteAddress($addressId);
-        } catch (\Exception $e) {
+        } catch (PropelException|AddressNotFoundException|CustomerException $e) {
             $this->logger->error(\sprintf('Error during address deletion : %s', $e->getMessage()));
         }
     }
@@ -168,21 +174,23 @@ class Delivery
         $this->deliveryModuleId = $moduleId;
         $this->deliveryModuleOptionCode = $optionCode;
 
-        if (strtolower($optionCode) === LocalPickup::DOMAIN_NAME) {
+        if (strtolower($optionCode) === 'localpickup') {
             $this->shippingFacade->setCustomerDefaultDeliveryAddress($this->cartFacade->getOrCreateFromSession());
         }
+
         $this->emit('syncSummary');
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
     public function selectDeliveryAddress(#[LiveArg] int $addressId): void
     {
+        $cart = $this->cartFacade->getOrCreateFromSession();
         $this->cartFacade->setDeliveryAddress(new CheckoutDTO(
-            cart: $this->cartFacade->getOrCreateFromSession(),
+            cart: $cart,
             deliveryAddressId: $addressId,
         ));
         $this->deliveryAddressId = $this->cartFacade->getDeliveryAddressId();
-        $this->cartFacade->getCartFromSession()->setDeliveryModuleId(null)->save();
+        $cart->setDeliveryModuleId(null)->save();
         $this->deliveryModuleId = null;
 
         $this->emit('syncSummary');
