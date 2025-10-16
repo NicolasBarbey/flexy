@@ -182,9 +182,6 @@ class CheckoutController extends FlexyController
             $checkoutFacade->cancelOrder($orderId);
         } catch (\InvalidArgumentException $e) {
             throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND, $e->getMessage());
-        } catch (\Exception $e) {
-            Tlog::getInstance()->addError('Checkout failed error : '.$e->getMessage());
-            throw new RedirectException($this->generateUrl('checkout_cart'), Response::HTTP_FOUND);
         }
 
         return $this->render('checkout-failed', [

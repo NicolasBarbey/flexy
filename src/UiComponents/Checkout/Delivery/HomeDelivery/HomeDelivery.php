@@ -104,11 +104,7 @@ class HomeDelivery
     #[LiveListener(CheckoutEvents::DELETE_DELIVERY_ADDRESS)]
     public function deleteAddress(#[LiveArg] int $addressId): void
     {
-        try {
-            $this->addressService->deleteAddress($addressId);
-        } catch (\Exception $e) {
-            $this->logger->error(\sprintf('Error during address deletion : %s', $e->getMessage()));
-        }
+        $this->addressService->deleteAddress($addressId);
     }
 
     #[LiveAction]

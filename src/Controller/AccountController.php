@@ -91,8 +91,6 @@ class AccountController extends FlexyController
             return $this->generateSuccessRedirect($addressUpdate);
         } catch (FormValidationException $e) {
             $message = $this->getTranslator()->trans('Please check your input: %s', ['%s' => $e->getMessage()], Front::MESSAGE_DOMAIN);
-        } catch (\Exception $e) {
-            $message = $this->getTranslator()->trans('Sorry, an error occured: %s', ['%s' => $e->getMessage()], Front::MESSAGE_DOMAIN);
         }
         $this->getParserContext()->set('address_id', $addressId);
 
@@ -132,8 +130,6 @@ class AccountController extends FlexyController
             return $this->generateSuccessRedirect($addressCreate);
         } catch (FormValidationException $e) {
             $message = $this->getTranslator()->trans('Please check your input: %s', ['%s' => $e->getMessage()], Front::MESSAGE_DOMAIN);
-        } catch (\Exception $e) {
-            $message = $this->getTranslator()->trans('Sorry, an error occured: %s', ['%s' => $e->getMessage()], Front::MESSAGE_DOMAIN);
         }
 
         Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
@@ -181,11 +177,8 @@ class AccountController extends FlexyController
             return new RedirectResponse($url);
         }
 
-        try {
-            $eventDispatcher->dispatch(new AddressEvent($address), TheliaEvents::ADDRESS_DELETE);
-        } catch (\Exception $e) {
-            $error_message = $e->getMessage();
-        }
+        $eventDispatcher->dispatch(new AddressEvent($address), TheliaEvents::ADDRESS_DELETE);
+
 
         Tlog::getInstance()->error(\sprintf('Error during address deletion : %s', $error_message));
 
@@ -226,18 +219,12 @@ class AccountController extends FlexyController
             ]));
         }
 
-        try {
-            $event = new AddressEvent($address);
-            $eventDispatcher->dispatch($event, TheliaEvents::ADDRESS_DEFAULT);
+        $event = new AddressEvent($address);
+        $eventDispatcher->dispatch($event, TheliaEvents::ADDRESS_DEFAULT);
 
-            return new RedirectResponse($this->generateUrl('account_addresses', [
-                'default_success' => true,
-            ]));
-        } catch (\Exception $e) {
-            $this->getParserContext()
-              ->setGeneralError($e->getMessage())
-            ;
-        }
+        return new RedirectResponse($this->generateUrl('account_addresses', [
+            'default_success' => true,
+        ]));
 
         return new RedirectResponse($this->generateUrl('account_addresses', [
             'error' => true,
@@ -282,13 +269,6 @@ class AccountController extends FlexyController
         } catch (FormValidationException $e) {
             $message = $this->translator->trans(
                 'Please check your input: %s',
-                [
-                    '%s' => $e->getMessage(),
-                ],
-            );
-        } catch (\Exception $e) {
-            $message = $this->translator->trans(
-                'Sorry, an error occured: %s',
                 [
                     '%s' => $e->getMessage(),
                 ],

@@ -122,11 +122,6 @@ class CustomerController extends FlexyController
                 'Please check your input: %s',
                 ['%s' => $e->getMessage()],
             );
-        } catch (\Exception $e) {
-            $message = $this->getTranslator()->trans(
-                'Sorry, an error occured: %s',
-                ['%s' => $e->getMessage()],
-            );
         }
 
         Tlog::getInstance()->error(

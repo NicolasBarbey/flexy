@@ -55,13 +55,6 @@ class PasswordController extends FlexyController
                         '%s' => $e->getMessage(),
                     ],
                 );
-            } catch (\Exception $e) {
-                $message = $this->getTranslator()->trans(
-                    'Sorry, an error occurred: %s',
-                    [
-                        '%s' => $e->getMessage(),
-                    ],
-                );
             }
 
             if ($message !== false) {

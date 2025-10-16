@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\InvoiceAddresses;
 
+use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -24,6 +25,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Domain\Addressing\Exception\AddressNotFoundException;
 use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Domain\Checkout\DTO\CheckoutDTO;
@@ -119,8 +121,8 @@ class InvoiceAddresses extends BaseFrontController
         try {
             $this->addressService->deleteAddress($id);
             $this->refresh();
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Error during address deletion : %s', $e->getMessage()));
+        } catch (AddressNotFoundException $e) {
+            $this->addFlash('error', \sprintf('Error during address deletion : %s', $e->getMessage()));
         }
     }
 }

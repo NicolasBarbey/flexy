@@ -79,11 +79,7 @@ class AddressesForm extends BaseFrontController
         if (!$this->getForm()->isValid()) {
             return;
         }
-        try {
-            $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
-            $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
-        } catch (\Exception $e) {
-            Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $e->getMessage()));
-        }
+        $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
+        $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
     }
 }
