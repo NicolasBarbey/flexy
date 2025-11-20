@@ -63,10 +63,11 @@ class CartItem
         $this->prices['totalPrice'] = $cartItemModel->getTotalPrice();
         $this->prices['totalPromoPrice'] = $cartItemModel->getTotalPromoPrice();
         $this->prices['totalTaxedPrice'] = $cartItemModel->getTotalTaxedPrice($taxCountry);
-        $this->prices['totalPromoTaxedPrice'] = $cartItemModel->getTaxedPromoPrice($taxCountry);
+        $this->prices['totalPromoTaxedPrice'] = $cartItemModel->getTotalTaxedPromoPrice($taxCountry);
 
         $this->title = $cartItemModel->getProduct()->getTitle();
         $this->desc = $cartItemModel->getProduct()->getChapo();
+        $this->url = $cartItemModel->getProduct()->getUrl($this->langService->getLocale());
 
         $this->outOfStock = $this->cartItem->stock <= 0;
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($cartItemModel->getProductSaleElements());
