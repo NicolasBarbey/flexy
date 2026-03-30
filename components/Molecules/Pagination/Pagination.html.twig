@@ -1,5 +1,4 @@
-{% set totalPages = (totalItems / itemsPerPage)|round  %}
-
+{% set totalPages = (totalItems / itemsPerPage)|round(0, 'ceil')  %}
 {% if totalPages > 1 %}
     <nav class="Pagination">
         <ul class="Pagination-list">
@@ -11,10 +10,10 @@
                     </a>
                 </li>
             {% endif %}
-            {{ app.request.requesturi }}
+
             {% for page in 1..totalPages %}
-                <li>
-                    <a href="{{ baseUrl }}&page={{ page }}" class="Pagination-item  {{ page == currentPage ? 'Pagination-item--active' }}">
+                <li class="Pagination-item">
+                    <a href="{{ baseUrl ? baseUrl ~ '&': '?'}}page={{ page }}" class="Pagination-item  {{ page == currentPage ? 'Pagination-item--active' }}">
                         {{ page }}
                     </a>
                 </li>
@@ -22,7 +21,7 @@
 
             {% if currentPage != totalPages %}
                 <li class="Pagination-listItemNext">
-                    <a href="?page={{ currentPage + 1 }}" class="Pagination-item Pagination-item--isNext">
+                    <a href="{{ baseUrl ? baseUrl ~ '&': '?'}}page={{ currentPage + 1 }}" class="Pagination-item Pagination-item--isNext">
                         <span class='Pagination-text'>{{ 'Next'|trans }}</span>
                         <span class='Pagination-icon'>{{ ux_icon("chevron-right") }}</span>
                     </a>

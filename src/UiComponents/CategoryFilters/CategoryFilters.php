@@ -205,21 +205,17 @@ class CategoryFilters extends AbstractController
 
     public function getPagination(array $request): void
     {
+        $totalItems = $request['hydra:totalItems'] ?? 0;
 
-        $this->pagination = [];
-        //        preg_match('/\d+/', $request['hydra:view']['@id'], $matches);
-        //
-        //        $baseUrl = $this->getProductUrl($this->requestStack->getCurrentRequest()->headers->get('referer') ?? '', $this->tfilters);
-        //
-        //        $this->pagination = [
-        //            'totalItems' => $request['hydra:totalItems'],
-        //            'itemsPerPage' => self::ITEMS_PER_PAGE,
-        //            'currentPage' => $matches[0] ?? 1,
-        //            'baseUrl' => $baseUrl,
-        //        ];
+        $this->pagination = [
+            'totalItems' => $totalItems,
+            'itemsPerPage' => self::ITEMS_PER_PAGE,
+            'currentPage' => $this->page,
+            'baseUrl' => $this->getProductUrl(),
+        ];
     }
 
-    public function getProductUrl(string $base, $params = []): string
+    public function getProductUrl(string $base = "", $params = []): string
     {
         return $base . (\count($params) ? '?' : '') . http_build_query($params);
     }
