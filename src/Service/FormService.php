@@ -14,16 +14,21 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Service;
 
+use FlexyBundle\Event\FlexyEvents;
+use FlexyBundle\Event\FilterField\FilterFieldRenderedEvent;
 use FlexyBundle\Form\Type\FieldsetType;
 use FlexyBundle\Form\Type\PillType;
 use FlexyBundle\Form\Type\RangeFilterType;
 use FlexyBundle\Form\Type\RangeGroupType;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FormService
 {
     public const RANGE_SUB_INPUTS = ['min', 'max'];
+
+    public function __construct(protected readonly EventDispatcherInterface $dispatcher) {}
 
     public function renderFieldFromFieldType(array $filter, $fieldset, array $tfilters): void
     {
@@ -53,7 +58,8 @@ class FormService
             $values[$value['title'] ?? ''] = $value['id'];
         }
 
-        $fieldset->add(
+
+        $formEvent = new FilterFieldRenderedEvent(
             \sprintf('%d', $filter['id']),
             PillType::class,
             [
@@ -62,15 +68,29 @@ class FormService
                 'data' => $tfilters[$filter['type']][$filter['id']] ?? [],
                 'multiple' => true,
                 'required' => false,
-            ]
+            ],
+            $filter);
+        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+
+        $fieldset->add(
+            $formEvent->getName(),
+            $formEvent->getType(),
+            $formEvent->getOptions()
         );
     }
 
     private function renderInput(array $filter, $fieldset): void
     {
-        $fieldset->add('sf', TextType::class, [
-            'label' => $filter['title'],
+        $formEvent = new FilterFieldRenderedEvent('sf', TextType::class, [
+            'label' => $filter['title'], $filter
         ]);
+        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+
+        $fieldset->add(
+            $formEvent->getName(),
+            $formEvent->getType(),
+            $formEvent->getOptions()
+        );
     }
 
     private function renderDelta(array $filter, $fieldset, $tfilters): void
@@ -114,9 +134,7 @@ class FormService
     {
         $min = min(array_column($filter['values'], 'title'));
         $max = max(array_column($filter['values'], 'title'));
-
-        $fieldset->add(
-            \sprintf('%d', $filter['id']),
+        $formEvent = new FilterFieldRenderedEvent( \sprintf('%d', $filter['id']),
             RangeFilterType::class,
             [
                 'label' => $filter['title'],
@@ -126,7 +144,14 @@ class FormService
                     'step' => 10,
                 ],
                 'data' => $tfilters[$filter['type']][$filter['id']] ?? null,
-            ]
+            ],
+            $filter);
+        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+
+        $fieldset->add(
+            $formEvent->getName(),
+            $formEvent->getType(),
+            $formEvent->getOptions()
         );
     }
 }
