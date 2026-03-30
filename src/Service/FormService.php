@@ -84,7 +84,7 @@ class FormService
         $formEvent = new FilterFieldRenderedEvent('sf', TextType::class, [
             'label' => $filter['title'], $filter
         ]);
-        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_TEXT_RENDERED);
 
         $fieldset->add(
             $formEvent->getName(),
@@ -146,7 +146,7 @@ class FormService
                 'data' => $tfilters[$filter['type']][$filter['id']] ?? null,
             ],
             $filter);
-        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_RANGE_RENDERED);
 
         $fieldset->add(
             $formEvent->getName(),
