@@ -44,7 +44,10 @@
 										{% set available = true %}
 										<li>
 											<button type="button" class="FilterPill FilterPill--drawer {{ currentCombination[attr.id] == value.id ? 'active' : '' }}" data-action="filter-choice#updateLabel drawer#close live#action" data-live-action-param="updateCurrentCombination" data-live-attr-param="{{ attr.id }}" data-live-value-param="{{ value.id }}" data-filter-choice-label-param="{{ value.label }}" {% if not available %} disabled {% endif %}>
-												{{ value.label }}
+                                                {% if value.color is defined %}
+                                                    <span class="FilterPill-icon"  style="color:{{ value.color }}">{{ ux_icon('circle') }}</span>
+                                                {% endif %}
+                                                {{ value.label }}
 											</button>
 										</li>
 									{% endfor %}
