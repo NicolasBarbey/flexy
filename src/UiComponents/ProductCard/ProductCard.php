@@ -93,11 +93,6 @@ class ProductCard
         }
     }
 
-    public function getColors()
-    {
-        return [];
-    }
-
     public function getRate()
     {
         return null;

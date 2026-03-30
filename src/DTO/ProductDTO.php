@@ -25,6 +25,7 @@ class ProductDTO
     public string $chapo = '';
     public string $description = '';
     public string $postscriptum = '';
+    public array $colors = [];
 
     /** @var string[] */
     public array $productCategories = [];
@@ -42,6 +43,7 @@ class ProductDTO
         $productDTO->visible = (bool) ($data['visible'] ?? false);
         $productDTO->position = isset($data['position']) ? (int) $data['position'] : 0;
         $productDTO->virtual = (bool) ($data['virtual'] ?? false);
+        $productDTO->colors = isset($data['ProductColor']['colors']) ? (array) $data['ProductColor']['colors'] : [];
 
         $productCategories = $data['productCategories'] ?? [];
 

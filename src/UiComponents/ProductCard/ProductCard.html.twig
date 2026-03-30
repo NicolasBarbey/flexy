@@ -10,7 +10,7 @@
 {% if this.product.id is defined and img is not defined %}
 	{% set images = resources('/api/front/product_images', {'product.id': this.product.id, position: 'ASC', itemsPerPage: 1}) %}
 	{% if images %}
-		{% set img = {url: '/legacy-image-library/product_image_' ~ images|first.id ~ '/full/%5E*!386,280/0/default.webp', alt: this.product.i18ns.title} %}
+		{% set img = {url: '/legacy-image-library/product_image_' ~ images|first.id ~ '/full/%5E*!386,280/0/default.webp', alt: this.product.title} %}
 	{% endif %}
 {% endif %}
 
@@ -47,14 +47,14 @@
 			</figure>
 		</a>
 		<div class="ProductCard-desc">
-			<a href="{{ this.product.publicUrl }}" class="ProductCard-title">{{ this.product.i18ns.title }}</a>
+			<a href="{{ this.product.publicUrl }}" class="ProductCard-title">{{ this.product.title }}</a>
 
-			{% if this.product.i18ns.chapo %}
-				<div class="ProductCard-subTitle paragraph-3">{{ this.product.i18ns.chapo }}</div>
+			{% if this.product.chapo %}
+				<div class="ProductCard-subTitle paragraph-3">{{ this.product.chapo }}</div>
 			{% endif %}
 
 			<div class="ProductCard-footer">
-				{% if this.rate != null or this.colors|length > 0 %}
+				{% if this.rate != null or this.product.colors|length > 0 %}
 					<div class="ProductCard-footerLeft">
 						{% if this.rate != null %}
 							<div class="Rating">
@@ -81,10 +81,10 @@
 								</span>
 							</div>
 						{% endif %}
-						{% if colors|length > 0 %}
+						{% if this.product.colors|length > 0 %}
 							<div class="Colors">
 								{% set limit = 6 %}
-								{% for color in colors %}
+								{% for color in this.product.colors %}
 									{% if loop.index0 < limit %}
 										<a href="#" class="Colors-item" style="background-color:{{ color }}"></a>
 									{% else %}

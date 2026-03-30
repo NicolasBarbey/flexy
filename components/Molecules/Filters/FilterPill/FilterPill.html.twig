@@ -13,6 +13,10 @@
 {% if inDrawer %}
     {% set classes = classes ~ ' FilterPill--drawer' %}
 {% endif %}
+{% if color %}
+    {% set icon = 'circle' %}
+    {% set iconColor = color %}
+{% endif %}
 
 {% set attr = choice.attr|merge({class : choice.attr.class~ 'hidden'}) %}
 

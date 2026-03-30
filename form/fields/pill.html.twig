@@ -6,8 +6,12 @@
                 {% if choice.value in value %}
                     {% set open = true %}
                 {% endif %}
+                {% set color = null %}
+                {% if attr.colors is defined %}
+                    {% set color = attr.colors[choice.value] %}
+                {% endif %}
                 <li>
-                    {% include '@components/Molecules/Filters/FilterPill/FilterPill.html.twig' with [choice]|merge({closeButton: true}) %}
+                    {% include '@components/Molecules/Filters/FilterPill/FilterPill.html.twig' with [choice]|merge({closeButton: true, color: color}) %}
                 </li>
             {% endfor %}
         </ul>
