@@ -31,5 +31,7 @@
             {% endfor %}
         </div>
     </div>
-    {{ component('Flexy:Checkout:MiniSummary', {step : step ?? constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps\\CheckoutSteps::CART')}) }}
+    {% if not noCart|default(false) %}
+        {{ component('Flexy:Checkout:MiniSummary', {step : step ?? constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps\\CheckoutSteps::CART')}) }}
+    {% endif %}
 </div>

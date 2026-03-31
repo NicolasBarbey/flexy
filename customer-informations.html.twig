@@ -10,8 +10,19 @@
 
 {% block body %}
     {{ component('Flexy:Checkout:CheckoutSteps', {
-        steps: ['Your login'|trans, 'Your informations'|trans],
+        steps:  [
+            {
+                text: 'Your login',
+                link: path('customer_register')
+            },
+            {
+                text: 'Your informations',
+                link: path('customer_informations')
+
+            },
+        ],
         current: 2,
+        noCart: true
     }) }}
 
     <div class="w-full max-w-[400px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
