@@ -21,12 +21,12 @@
         .Button {
             border-radius: 0;
             border: none;
+            border-right: 1px solid var(--black);
         }
 
-        :nth-child(2) {
+        :last-child {
             .Button {
-                border-left: 1px solid var(--black);
-                border-right: 1px solid var(--black);
+                border-right: none;
             }
         }
     }
