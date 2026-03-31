@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Form;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Model\Base\CustomerQuery;
@@ -28,6 +30,11 @@ use Thelia\Model\ConfigQuery;
 
 class CustomerRegisterForm extends BaseForm
 {
+    public function __construct(
+        #[Autowire(service: 'translator')]
+        public TranslatorInterface $translation,
+    ) { }
+
     protected function buildForm(): void
     {
         $this->formBuilder->add('firstname', TextType::class, [
@@ -92,7 +99,7 @@ class CustomerRegisterForm extends BaseForm
     {
         $customer = CustomerQuery::create()->findOneByEmail($value);
         if ($customer) {
-            $context->addViolation(Translator::getInstance()->trans('This email is already used'));
+            $context->addViolation($this->translation->trans('This email is already used'));
         }
     }
 
