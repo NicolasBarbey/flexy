@@ -6,28 +6,22 @@
 {% set img = img|default(null) %}
 {% set openingHours = openingHours|default([]) %}
 {% set address = address|default({
-  title: '',
-  name: '',
-  address1: '',
-  zipCode: '',
-  city: '',
+    title: '',
+    name: '',
+    address1: '',
+    zipCode: '',
+    city: '',
 }) %}
 {% set days = ['monday'|trans, 'tuesday'|trans, 'wednesday'|trans, 'thursday'|trans, 'friday'|trans, 'saturday'|trans, 'sunday'|trans] %}
 
 <div class="PickupPoint {% if selected %}selected{% endif %}">
     <label class="PickupPoint-content">
-        {{ include('@components/Atoms/Form/Radio.html.twig', {
-                type: 'span',
-                name: 'PickupPoint',
-                value: id,
-                checked: selected,
-                props: {
-                    'data-action': 'live#action',
-                    'data-live-action-param': 'updateOption',
-                    'data-live-id-param': id,
-                },
-            })
-        }}
+        {{ component('Flexy:RadioButton', {
+            'data-action': 'live#action',
+            'data-live-action-param': 'updateOption',
+            'data-live-id-param': id,
+            checked : selected
+        }) }}
 
         <span>
             <span class="PickupPoint-title">
@@ -67,39 +61,43 @@
 
         </span>
     </label>
-    <div class="PickupPoint-bottom">
-        <button class="PickupPoint-hours underline-with-icon" type="button">
-            {{ ux_icon('clock') }}
-            {{ 'Opening hours'|trans }}
-        </button>
-        {% if img and img.src %}
-            <img src="{{ img.src }}" alt="{{ img.alt }}" loading="lazy">
-        {% endif %}
-    </div>
-    <div class="PickupPoint-hoursListing md:hidden">
-        <table>
-            {% for i in 0..6 %}
-                <tr>
-                    <td>
-                        {{ days[i] }}
-                    </td>
-                    <td>
-                        {% if openingHours[i] is not null %}
-                            {{ openingHours[i]|replace({':00': 'h', ':': 'h'})|trim }}
-                        {% else %}
-                            fermé
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
+    <div class="PickupPoint-bottom" {{ stimulus_controller('store-delivery') }}>
+        <div class="flex items-center gap-2">
+            {{ ux_icon('clock',{class: 'w-4 h-4'}) }}
+            {{ component('Flexy:Button', {
+                class: 'DealerDelivery-hours',
+                'data-show-hours': 'See opening hours'|trans,
+                'data-hide-hours': 'hide opening times'|trans,
+                'data-action': 'store-delivery#toggle',
+                text: 'See opening hours'|trans,
+                color: 'minimal',
+            }) }}
+        </div>
+        <div class="PickupPoint-hoursListing md:hidden" data-store-delivery-target="list">
+            <table>
+                {% for i in 0..6 %}
+                    <tr>
+                        <td>
+                            {{ days[i] }}
+                        </td>
+                        <td>
+                            {% if openingHours[i] is not null %}
+                                {{ openingHours[i]|replace({':00': 'h', ':': 'h'})|trim }}
+                            {% else %}
+                                fermé
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
 
-        </table>
+            </table>
+        </div>
     </div>
     <div class="mt-4 md:hidden">
         {{ component('Flexy:Button', {
             text: 'Choose this relay point'|trans,
-            liveEvent: 'forceCustomerDefaultDeliveryAddress'
-            fill: true,
+            liveEvent: 'forceCustomerDefaultDeliveryAddress',
+            fill: true
         }) }}
     </div>
 </div>

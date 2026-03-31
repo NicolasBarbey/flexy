@@ -1,0 +1,70 @@
+<div class="PickupPointModule-searchZone" {{ attributes.defaults(stimulus_controller('pickup')) }}>
+    <div>
+        {{ form_start(form, {
+      attr: {
+        'data-action': 'live#action:prevent',
+        'data-live-action-param': 'save',
+      },
+    }) }}
+        {{ form_row(form.address) }}
+        {{ form_end(form) }}
+    </div>
+    <div class="mt-4 flex gap-1 md:gap-5">
+        {{ component('Flexy:Button',{
+            text: 'List view'|trans,
+            class :'PickupPointModule-buttonListView',
+            sharp: true,
+            icon_left: 'list'
+        }) }}
+        {{ component('Flexy:Button',{
+            color: "secondary",
+            text: 'Map view'|trans,
+            class :'PickupPointModule-buttonMapView',
+            sharp: true,
+            icon_left: 'pin-circle'
+        }) }}
+    </div>
+    <div class="mt-5 paragraph-6">
+        {{ pickups|length }}
+        {{ 'relay point(s) found'|trans }}
+    </div>
+    <div class="gap-10 mt-3 text-black xl:flex">
+        {% for pickupService in pickupServices %}
+            <label class="Checkbox items-center">
+                <input type="checkbox" name="pickup" value='{{ pickupService.value }}'>
+                <div class="checkmark">
+                    <span>
+                        {{ ux_icon('checkbox') }}
+                    </span>
+                </div>
+                <span>
+                    {{ pickupService.name }}
+                </span>
+                {% if pickupService.img %}
+                    <span>
+                        <img src='{{ pickupService.img }}' alt="Logo {{ pickupService.name }}" loading="lazy">
+                    </span>
+                {% endif %}
+            </label>
+        {% endfor %}
+    </div>
+    <div class="PickupPointModule-listView">
+        <div class="flex flex-col gap-2 mt-6">
+            {% for pickup in pickups %}
+                {% set selected = selectedPickup.id == pickup.id %}
+                {{ include('@components/Organisms/Card/PickupPoint/PickupPoint.html.twig', pickup|merge({selected: selected})) }}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="PickupPointModule-mapView hidden">
+        <div id="map" style="height: 285px; width: 100%;"></div>
+
+        <div class="mt-[10px]">
+            {% if selectedPickup %}
+                {{ include('@components/Organisms/Card/PickupPoint/PickupPoint.html.twig', selectedPickup|merge({selected: 1})) }}
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>

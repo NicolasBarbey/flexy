@@ -35,7 +35,6 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry('app', './assets/app.js')
-  .addEntry('checkout', './assets/js/routes/checkout.js')
   .addEntry('category-css', './assets/css/pages/category.css')
   .addEntry('product-css', './assets/css/pages/product.css')
 
