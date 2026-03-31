@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Service;
 
-use FlexyBundle\Event\FlexyEvents;
-use FlexyBundle\Event\FilterField\FilterFieldRenderedEvent;
+use FlexyBundle\Event\FilterField\FilterCheckboxRendered;
+use FlexyBundle\Event\FilterField\FilterRangeRendered;
+use FlexyBundle\Event\FilterField\FilterTextRendered;
 use FlexyBundle\Form\Type\FieldsetType;
 use FlexyBundle\Form\Type\PillType;
 use FlexyBundle\Form\Type\RangeFilterType;
@@ -59,7 +60,7 @@ class FormService
         }
 
 
-        $formEvent = new FilterFieldRenderedEvent(
+        $formEvent = new FilterCheckboxRendered(
             \sprintf('%d', $filter['id']),
             PillType::class,
             [
@@ -70,7 +71,7 @@ class FormService
                 'required' => false,
             ],
             $filter);
-        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_CHECKBOX_RENDERED);
+        $this->dispatcher->dispatch($formEvent);
 
         $fieldset->add(
             $formEvent->getName(),
@@ -81,10 +82,10 @@ class FormService
 
     private function renderInput(array $filter, $fieldset): void
     {
-        $formEvent = new FilterFieldRenderedEvent('sf', TextType::class, [
+        $formEvent = new FilterTextRendered('sf', TextType::class, [
             'label' => $filter['title'], $filter
         ]);
-        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_TEXT_RENDERED);
+        $this->dispatcher->dispatch($formEvent);
 
         $fieldset->add(
             $formEvent->getName(),
@@ -134,7 +135,7 @@ class FormService
     {
         $min = min(array_column($filter['values'], 'title'));
         $max = max(array_column($filter['values'], 'title'));
-        $formEvent = new FilterFieldRenderedEvent( \sprintf('%d', $filter['id']),
+        $formEvent = new FilterRangeRendered( \sprintf('%d', $filter['id']),
             RangeFilterType::class,
             [
                 'label' => $filter['title'],
@@ -146,7 +147,7 @@ class FormService
                 'data' => $tfilters[$filter['type']][$filter['id']] ?? null,
             ],
             $filter);
-        $this->dispatcher->dispatch($formEvent, FlexyEvents::FILTER_FIELD_RANGE_RENDERED);
+        $this->dispatcher->dispatch($formEvent);
 
         $fieldset->add(
             $formEvent->getName(),
