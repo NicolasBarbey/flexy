@@ -23,6 +23,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Model\Base\ProductSaleElementsProductImageQuery;
+use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 
 #[AsLiveComponent(name: 'Flexy:AddToCartToast', template: '@UiComponents/AddToCartToast/AddToCartToast.html.twig')]
@@ -36,6 +37,8 @@ class AddToCartToast extends BaseFrontController
     public ?int $pseId = null;
     #[LiveProp]
     public ?string $title = null;
+    #[LiveProp]
+    public ?int $productId = null;
     #[LiveProp]
     public ?string $secondaryTitle = null;
     #[LiveProp]
@@ -53,12 +56,17 @@ class AddToCartToast extends BaseFrontController
     {
         $this->quantity = (int) $values['quantity'];
         $this->pseId = (int) $values['product_sale_elements_id'];
-
+        $locale = $this->requestStack->getCurrentRequest()->getSession()->getLang()->getLocale();
         $pse = ProductSaleElementsQuery::create()->findPk($this->pseId);
-        $this->title = $pse->getProduct()->getTitle();
-        $this->secondaryTitle = $pse->getProduct()->getChapo();
+        $product = $pse->getProduct()->setLocale($locale);
+        $this->title = $product->getTitle();
+        $this->secondaryTitle = $product->getChapo();
+        $this->productId = $product->getId();
 
         $this->imageId = ProductSaleElementsProductImageQuery::create()->filterByProductSaleElementsId($this->pseId)->findOne()?->getProductImageId();
+        if ($this->imageId === null) {
+            $this->imageId = ProductImageQuery::create()->filterByProductId($this->productId)->orderByPosition()->findOne()?->getId();
+        }
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
     }
 
@@ -72,6 +80,7 @@ class AddToCartToast extends BaseFrontController
     {
         $this->quantity = null;
         $this->pseId = null;
+        $this->productId = null;
         $this->title = null;
         $this->secondaryTitle = null;
         $this->attributesAv = null;
