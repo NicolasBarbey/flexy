@@ -14,19 +14,33 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Form;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
 use Thelia\Core\Translation\Translator;
+use Thelia\Domain\Customer\Service\CustomerTitleService;
+use Thelia\Domain\Localization\Service\CountryService;
 use Thelia\Form\AddressCreateForm;
 
 class CustomerInformationsForm extends AddressCreateForm
 {
+    public function __construct(
+        protected CountryService       $countryService,
+        protected CustomerTitleService $customerTitleService,
+        #[Autowire(service: 'translator')]
+        public TranslatorInterface    $translation,
+    )
+    {
+        parent::__construct($countryService, $customerTitleService);
+    }
+
     protected function buildForm(): void
     {
         parent::buildForm();
@@ -77,7 +91,7 @@ class CustomerInformationsForm extends AddressCreateForm
             CheckboxType::class,
             [
                 'required' => false,
-                'label' => Translator::getInstance()->trans('I agree to receive promotional offers by newsletter'),
+                'label' => $this->translation->trans('I agree to receive promotional offers by newsletter'),
                 'label_attr' => [
                     'for' => 'newsletter',
                 ],
@@ -86,17 +100,17 @@ class CustomerInformationsForm extends AddressCreateForm
             'accept_privacy_policy',
             CheckboxType::class,
             [
-                'label' => Translator::getInstance()->trans('I agree to our privacy policy'),
+                'label' => $this->translation->trans('I agree to our privacy policy'),
                 'label_attr' => [
                     'for' => 'accept_privacy_policy',
                 ],
                 'required' => true,
-                'help' => Translator::getInstance()->trans('I agree to our privacy policy'),
+                'help' => $this->translation->trans('I agree to our privacy policy'),
             ]
         );
 
         $this->formBuilder->add('submit', SubmitType::class, [
-            'label' => Translator::getInstance()->trans('Confirm my registration'),
+            'label' => $this->translation->trans('Confirm my registration'),
             'row_attr' => [
                 'class' => 'mt-8',
             ],
