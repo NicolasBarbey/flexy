@@ -168,12 +168,10 @@ class CategoryFilters extends AbstractController
         $this->submitForm();
 
         if ($reset) {
-            $this->resetForm();
             $this->tfilters = [];
-        }
-
-        if ($this->tfilters = $this->getForm()->getData()) {
-            $this->tfilters = $this->getForm()->getData();
+            $this->resetForm();
+        } else {
+            $this->tfilters = $this->getForm()->getData() ?? [];
         }
 
         $request = $this->dataAccessService->resources('/api/front/products', [
