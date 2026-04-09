@@ -11,9 +11,8 @@ export default class extends Controller<HTMLFormElement> {
 
     async initialize(): Promise<void> {
         this.component = await getComponent(this.element);
-        //this.component.action
         PickupMap(this.pickupPointClick.bind(this));
-        PickupPointView(pic);
+        PickupPointView();
     }
 
     pickupPointClick(pickup: PickupLocationType): void {
