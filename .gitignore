@@ -3,6 +3,9 @@ dist
 dist/**/*
 !dist/.gitkeep
 
+# UX Translator TypeScript declarations (cause Symfony QtFileLoader crash)
+translations/compiled/*.d.ts
+
 # npm
 node_modules
 
