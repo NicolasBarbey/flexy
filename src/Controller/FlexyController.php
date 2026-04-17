@@ -48,8 +48,7 @@ class FlexyController extends BaseController
         #[Autowire(service: 'translator')]
         public TranslatorInterface $translator,
         public TheliaFormFactory $theliaFormFactory,
-        #[Autowire(service: SecurityService::class, nullable: true)]
-        protected readonly ?SecurityService $securityService,
+        protected readonly SecurityService $securityService,
         protected readonly RouterInterface $router,
     ) {
     }
@@ -61,7 +60,7 @@ class FlexyController extends BaseController
 
     public function checkAuth(): void
     {
-        if (!$this->securityService?->isAuthenticatedFront()) {
+        if (!$this->securityService->isAuthenticatedFront()) {
             throw new RedirectException($this->generateUrl('customer_login'));
         }
     }

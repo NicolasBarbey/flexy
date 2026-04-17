@@ -53,7 +53,7 @@ class CustomerController extends FlexyController
     #[Route('/login', name: 'login', methods: ['GET'])]
     public function login(SessionInterface $session): Response
     {
-        if ($this->securityService?->isAuthenticatedFront()) {
+        if ($this->securityService->isAuthenticatedFront()) {
             return $this->generateRedirect('/account');
         }
 

@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\UiComponents\Blocks;
 
 use Propel\Runtime\ActiveQuery\Criteria;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
@@ -48,18 +47,13 @@ class Blocks
 
     public function __construct(
         private readonly DataAccessService $dataAccessService,
-        private readonly RequestStack $requestStack,
-        #[Autowire(service: JsonBlockService::class, nullable: true)]
-        private readonly ?JsonBlockService $jsonBlockService = null,
+        private JsonBlockService $jsonBlockService,
+        private RequestStack $requestStack,
     ) {
     }
 
     public function getBlocks()
     {
-        if ($this->jsonBlockService === null || !class_exists(BlockGroupQuery::class)) {
-            return $this->blocks ?? [];
-        }
-
         $request = $this->requestStack->getCurrentRequest();
 
         /** @var Session $session */
