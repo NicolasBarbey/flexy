@@ -24,12 +24,12 @@ use Thelia\Controller\BaseController;
 use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Form\TheliaFormValidator;
 use Thelia\Core\HttpKernel\Exception\RedirectException;
+use Thelia\Core\Security\Front\FrontSecurityServiceInterface;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Template\Parser\ParserResolver;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Core\Template\TemplateHelperInterface;
-use TwigEngine\Service\SecurityService;
 
 class FlexyController extends BaseController
 {
@@ -48,7 +48,7 @@ class FlexyController extends BaseController
         #[Autowire(service: 'translator')]
         public TranslatorInterface $translator,
         public TheliaFormFactory $theliaFormFactory,
-        protected readonly SecurityService $securityService,
+        protected readonly FrontSecurityServiceInterface $securityService,
         protected readonly RouterInterface $router,
     ) {
     }

@@ -14,15 +14,12 @@ declare(strict_types=1);
 
 namespace FlexyBundle\UiComponents\Blocks;
 
-use Propel\Runtime\ActiveQuery\Criteria;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
-use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Type\BooleanOrBothType;
-use TheliaBlocks\Model\BlockGroupQuery;
-use TheliaBlocks\Service\JsonBlockService;
 use Thelia\Api\Service\DataAccess\DataAccessService;
+use Thelia\Core\Content\BlockRendererInterface;
+use Thelia\Core\HttpFoundation\Session\Session;
 
 #[AsTwigComponent(name: 'Flexy:Blocks', template: '@UiComponents/Blocks/Blocks.html.twig')]
 class Blocks
@@ -47,44 +44,24 @@ class Blocks
 
     public function __construct(
         private readonly DataAccessService $dataAccessService,
-        private JsonBlockService $jsonBlockService,
-        private RequestStack $requestStack,
+        private readonly BlockRendererInterface $blockRenderer,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
-    public function getBlocks()
+    public function getBlocks(): array
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $session = $this->requestStack->getCurrentRequest()?->getSession();
+        $locale = $session instanceof Session ? $session->getLang()?->getLocale() : null;
 
-        /** @var Session $session */
-        $session = $request->getSession();
-
-        $locale = $session->getLang()->getLocale();
-
-        $search = BlockGroupQuery::create();
-
-        if (null !== $this->id) {
-            $search->filterById($this->id, Criteria::IN);
-        }
-
-        if (null !== $this->slug) {
-            $search->filterBySlug($this->slug, Criteria::IN);
-        }
-        if (null !== $this->item_id && null !== $this->item_type) {
-            $search->useItemBlockGroupQuery()
-              ->filterByItemType($this->item_type)
-              ->filterByItemId($this->item_id)
-              ->endUse();
-        }
-
-        if ($this->visible !== BooleanOrBothType::ANY) {
-            $search->filterByVisible($this->visible ? 1 : 0);
-        }
-        $blocks = $search->find();
-
-        foreach ($blocks as $block) {
-            $this->blocks[] = $this->jsonBlockService->renderJsonBlocks($block->setLocale($locale)->getJsonContent());
-        }
+        $this->blocks = $this->blockRenderer->findAndRenderBlocks([
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'item_type' => $this->item_type,
+            'item_id' => $this->item_id,
+            'visible' => $this->visible,
+            'locale' => $locale,
+        ]);
 
         return $this->blocks;
     }
