@@ -33,7 +33,7 @@ use Thelia\Form\Definition\FrontForm;
 use Thelia\Model\ProductImage;
 use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
 class Cart
@@ -54,7 +54,7 @@ class Cart
     public function __construct(
         private readonly CartFacade $cartFacade,
         private readonly ProductSaleElementsService $pseService,
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
     ) {
     }
 

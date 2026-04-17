@@ -27,7 +27,7 @@ use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Customer\CustomerFacade;
 use Thelia\Model\AddressQuery;
 use Thelia\Model\Customer;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:AccountAddressForm', template: '@UiComponents/AccountAddressForm/AccountAddressForm.html.twig')]
 class AccountAddressForm extends BaseFrontController
@@ -42,7 +42,7 @@ class AccountAddressForm extends BaseFrontController
     public ?Customer $customer;
 
     public function __construct(
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
         private readonly AddressService $addressService,
         private readonly FormFactoryInterface $formFactory,
         private readonly DataAccessService $dataAccessService,

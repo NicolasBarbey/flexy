@@ -24,7 +24,7 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Domain\Customer\CustomerFacade;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:AccountCustomerUpdate', template: '@UiComponents/AccountCustomerUpdate/AccountCustomerUpdate.html.twig')]
 class AccountCustomerUpdate extends BaseFrontController
@@ -37,7 +37,7 @@ class AccountCustomerUpdate extends BaseFrontController
 
     public function __construct(
         private readonly AddressService $addressService,
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
         private readonly DataAccessService $dataAccessService,
         private readonly CustomerFacade $customerFacade,
     ) {

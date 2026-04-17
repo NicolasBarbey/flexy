@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:CustomerInformationForm', template: '@UiComponents/CustomerInformationForm/CustomerInformationForm.html.twig')]
 class CustomerInformationForm extends AbstractController
@@ -32,7 +32,7 @@ class CustomerInformationForm extends AbstractController
     public array $formData = [];
 
     public function __construct(
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
         private readonly FormFactoryInterface $formFactory,
         private readonly RequestStack $requestStack,
     ) {

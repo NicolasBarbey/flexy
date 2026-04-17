@@ -30,7 +30,7 @@ use Thelia\Domain\Cart\DTO\CartItemAddDTO;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Api\Service\DataAccess\ProductSaleElementsAccessService;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:Pages:Product', template: '@UiComponents/Pages/Product/Product.html.twig')]
 class Product
@@ -72,7 +72,7 @@ class Product
     public function __construct(
         private DataAccessService $dataAccessService,
         private ProductSaleElementsAccessService $pseAccessService,
-        private FormService $formService,
+        private FormServiceInterface $formService,
         private FormFactoryInterface $formFactory,
         private CartFacade $cartFacade,
         private RequestStack $requestStack,

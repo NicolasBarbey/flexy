@@ -33,7 +33,7 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Translation\Translator;
 use Thelia\Domain\Cart\CartFacade;
 use Thelia\Form\CouponCode;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:PromoCodeForm', template: '@UiComponents/Checkout/PromoCodeForm/PromoCodeForm.html.twig')]
 class PromoCodeForm extends BaseFrontController
@@ -43,7 +43,7 @@ class PromoCodeForm extends BaseFrontController
     use DefaultActionTrait;
 
     public function __construct(
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
         private readonly FormFactoryInterface $formFactory,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly CartFacade $cartFacade,

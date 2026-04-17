@@ -29,7 +29,7 @@ use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Log\Tlog;
 use Thelia\Model\AddressQuery;
 use Thelia\Tools\URL;
-use TwigEngine\Service\FormService;
+use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:AddressesForm', template: '@UiComponents/AddressesForm/AddressesForm.html.twig')]
 class AddressesForm extends BaseFrontController
@@ -44,7 +44,7 @@ class AddressesForm extends BaseFrontController
     public ?string $action = '';
 
     public function __construct(
-        private readonly FormService $formService,
+        private readonly FormServiceInterface $formService,
         private readonly AddressService $addressService,
     ) {
     }
