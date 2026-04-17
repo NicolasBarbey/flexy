@@ -12,6 +12,10 @@ liip_imagine:
     default:
       filesystem:
         data_root: '%kernel.project_dir%/local/media/images'
+        # Allow the loader to boot before TheliaLibrary (which creates the folder)
+        # has run its preActivation. Missing paths fall through to a regular 404
+        # when the image is requested.
+        allow_unresolvable_data_roots: true
 
   filter_sets:
     default:
