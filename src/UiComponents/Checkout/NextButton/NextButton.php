@@ -53,6 +53,8 @@ class NextButton
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::SET_DELIVERY_MODULE_OPTION)]
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
+    #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]
+    #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]
     #[LiveListener('updateNextButton')]
     public function getIsValid(): bool
     {

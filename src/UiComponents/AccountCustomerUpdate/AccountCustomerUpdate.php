@@ -45,6 +45,6 @@ class AccountCustomerUpdate extends BaseFrontController
 
     protected function instantiateForm(): FormInterface
     {
-        return  $this->formService->getFormByName(CustomerUpdateForm::FORM_NAME, $this->customer);
+        return $this->formService->getFormByName(CustomerUpdateForm::FORM_NAME, $this->customer ?? []);
     }
 }
