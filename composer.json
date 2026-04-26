@@ -24,7 +24,6 @@
     "thelia/header-highlights-module": "dev-twig",
     "thelia/recently-viewed-module": "dev-twig",
     "thelia/seone-module": "dev-main",
-    "thelia/open-api-module": "*",
     "twig/extra-bundle": "^3.17",
     "twig/intl-extra": "^3.17",
     "twig/html-extra": "^3.12",
