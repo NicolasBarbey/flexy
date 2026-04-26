@@ -10,6 +10,7 @@ use Thelia\Model\LangQuery;
 class SitemapController extends FlexyController
 {
     #[Route('/sitemap', name: 'front_sitemap')]
+    #[Route('/sitemap.xml', name: 'front_sitemap_xml')]
     public function generate(
         SitemapGenerator $sitemapGenerator
     ): Response
