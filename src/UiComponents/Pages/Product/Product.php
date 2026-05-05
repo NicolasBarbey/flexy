@@ -211,20 +211,34 @@ class Product
 
     private function setImages(): void
     {
+        $imagesPdt = $this->dataAccessService->resources(
+            '/api/front/product_images',
+            [
+                'product.id' => $this->product['id'],
+                'visible' => true,
+            ]
+        );
+
         $images = $this->dataAccessService->resources(
             '/api/front/product_sale_elements_product_image',
-            ['productSaleElements.product.id' => $this->product['id']]
+            [
+                'productImageId' => array_map(static fn($img) => $img['id'], $imagesPdt),
+                'productSaleElements.product.id' => $this->product['id'],
+                'visible' => true,
+            ]
         );
 
         $this->psesImgs = $this->getUniquePseImg($images);
 
-        $this->productImgs = $this->dataAccessService->resources(
-            '/api/front/product_images',
-            [
-                'not_in[id]' => array_column($this->psesImgs, 'id'),
-                'product.id' => $this->product['id'],
-            ]
-        );
+        $this->productImgs = array_filter($imagesPdt, static function ($img) use ($images) {
+            foreach ($images as $pseImg) {
+                if ($pseImg['productImageId'] === $img['id']) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
     }
 
     private function getUniquePseImg(array $images): array
