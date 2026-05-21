@@ -78,7 +78,10 @@
 						{{ attr('category', 'description') }}
 					</div>
 				{% endif %}
-				{{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
+
+				{% if categoryId %}
+				    {{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
+                {% endif %}
 			</div>
 		</div>
 	</section>

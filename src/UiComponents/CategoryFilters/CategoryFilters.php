@@ -82,7 +82,7 @@ class CategoryFilters extends AbstractController
         private readonly FormService $formService,
     ) {}
 
-    public function mount(?int $initialCategoryId, ?int $initialPage, ?array $sourceData): void
+    public function mount(?int $initialCategoryId, ?int $initialPage, ?array $sourceData, ?bool $promo = false, ?bool $newness = false): void
     {
         $this->categoryId = $initialCategoryId;
         $this->page = $initialPage;
@@ -94,12 +94,23 @@ class CategoryFilters extends AbstractController
             $this->tfilters = $tfilters;
         }
 
-        $request = $this->dataAccessService->resources('/api/front/products', [
+        $params = [
             'productCategories.category.id' => $initialCategoryId,
             'tfilters' => $this->tfilters,
             'itemsPerPage' => self::ITEMS_PER_PAGE,
             'page' => $initialPage,
-        ], 'jsonld');
+            'visible' => true,
+        ];
+
+        if ($promo) {
+            $params['productSaleElements.promo'] = true;
+        }
+
+        if ($newness) {
+            $params['productSaleElements.newness'] = true;
+        }
+
+        $request = $this->dataAccessService->resources('/api/front/products', $params, 'jsonld');
 
         $this->getPagination($request);
         $this->products = ProductDTO::fromCollection($request['hydra:member']);
