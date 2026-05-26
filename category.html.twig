@@ -20,7 +20,7 @@
 
 {% block body %}
   {{ component('Flexy:CatHero', {
-    title: category.i18ns.title|default(null),
+    title: SEOnePageH1(),
     chapo: category.i18ns.chapo|default(null),
     breadcrumb,
     next: category.i18ns.postscriptum|default(null) or category.i18ns.description|default(null),
