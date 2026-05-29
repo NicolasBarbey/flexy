@@ -105,25 +105,26 @@ class Cart
         return $this->items[$index];
     }
 
-    #[LiveListener('changeQuantity')]
-    public function onQuantityUpdated(#[LiveArg] int $index, #[LiveArg] int $quantity, #[LiveArg] int $baseQuantity): void
+    #[LiveAction]
+    public function onQuantityChanged(#[LiveArg] int $index, #[LiveArg] int $baseQuantity): void
     {
         $cartItem = $this->findCartItemByIndex($index);
+        $newQuantity = $cartItem->quantity;  // Valeur lue du composant (déjà modifiée par data-model)
 
-        if ($cartItem->id && $quantity <= 0) {
+        if ($cartItem->id && $newQuantity <= 0) {
             $this->remove($cartItem->id);
 
             return;
         }
 
-        if ($quantity > $baseQuantity) {
-            $this->plus($index, $quantity);
+        if ($newQuantity > $baseQuantity) {
+            $this->plus($index, $newQuantity);
 
             return;
         }
 
-        if ($quantity < $baseQuantity) {
-            $this->minus($index, $quantity);
+        if ($newQuantity < $baseQuantity) {
+            $this->minus($index, $newQuantity);
 
             return;
         }

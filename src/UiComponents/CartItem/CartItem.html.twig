@@ -82,7 +82,18 @@
                         <div class="CartItem-quantity">
                             <label for="{{ id }}" class="Button Button--secondary Button-quantity Button--small {% if disabled %}disabled{% endif %}">
                                 <button type="button" data-action="live#action" data-live-action-param="minus" data-live-index-param="{{index}}" {% if this.cartItem.quantity <= 0 %}class="invisible"{% endif %}>-</button>
-                                <input data-model="on(change)|min_value(0)|max_value({{this.cartItem.stock}})|items[{{index}}].quantity" data-base-quantity="{{this.cartItem.quantity}}" min="0" max="{{this.cartItem.stock}}" type="text" data-live-index-param="{{index}}">
+
+                                <input
+                                    type="number"
+                                    data-model="on(change)|items[{{index}}].quantity"
+                                    data-action="change->live#action"
+                                    data-live-action-param="onQuantityChanged"
+                                    data-live-index-param="{{index}}"
+                                    data-live-base-quantity-param="{{this.cartItem.quantity}}"
+                                    min="0"
+                                    max="{{this.cartItem.stock}}"
+                                >
+
                                 <button type="button" data-action="live#action" data-live-action-param="plus" data-live-index-param="{{index}}" {% if this.cartItem.quantity >= this.cartItem.stock %}class="invisible"{% endif %}>+</button>
                             </label>
                         </div>
