@@ -25,7 +25,7 @@
     </div>
     <div class="SimilarContentCard-desc">
 
-        <a href="{{ url }}" class="SimilarContentCard-title">{{ title }}</a>
+        <a href="{{ url|default(publicUrl)|default('#') }}" class="SimilarContentCard-title">{{ title }}</a>
 
         <div class="SimilarContentCard-footer">
             {{ date|date('d/m/Y') }}
