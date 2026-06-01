@@ -1,0 +1,19 @@
+/* prettier-ignore  */
+@plugin "@tailwindcss/typography" {
+  className: wysiwyg;
+}
+
+@theme {
+  --font-sans: "Poppins", "Roboto", sans-serif;
+}
+
+@utility wysiwyg-theme {
+  --tw-prose-body: var(--color-black);
+  --tw-prose-headings: var(--color-black);
+  --tw-prose-hr: var(--color-grey-lighter);
+  --tw-prose-lead: var(--color-grey-dark);
+  --tw-prose-links: var(--color-grey-dark);
+  --tw-prose-bold: var(--color-black);
+  --tw-prose-counters: var(--color-black);
+  --tw-prose-bullets: var(--color-black);
+}

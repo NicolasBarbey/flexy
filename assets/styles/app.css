@@ -1,0 +1,30 @@
+@import "./variables.css";
+@import "tailwindcss";
+
+@source "../../components";
+
+@import "../../components/Atoms/Typography/Typography.css";
+
+@import "../../components/Molecules/Button/Base.css";
+@import "../../components/Molecules/Link/Base.css";
+@import "../../components/Molecules/Tabulation/Base.css";
+@import "../../components/Molecules/Tag/Base.css";
+@import "../../components/Molecules/Tag/StockTag.css";
+@import "../../components/Molecules/Tag/OrderTag.css";
+@import "../../components/Molecules/Pagination/Base.css";
+@import "../../components/Molecules/Breadcrumb/Base.css";
+@import "../../components/Molecules/Score/Base.css";
+
+@source "../../partials";
+
+body {
+  color: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  &.locked {
+    overflow: hidden;
+  }
+}

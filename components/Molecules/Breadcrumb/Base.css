@@ -1,0 +1,53 @@
+@theme inline {
+  --breadcrumb-gap: --spacing(3);
+  --breadcrumb-spacer-color: var(--color-grey);
+  --breadcrumb-last-item-color: var(--color-grey);
+  --breadcrumb-item-color: var(--color-black);
+  --breadcrumb-item-hover-color: var(--color-grey);
+}
+
+@layer theme {
+  .Breadcrumb {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .Breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--breadcrumb-gap);
+    align-items: center;
+  }
+
+  .Breadcrumb-item {
+    color: var(--breadcrumb-item-color);
+    display: flex;
+    align-items: center;
+    gap: var(--breadcrumb-gap);
+
+    @variant last {
+      color: var(--breadcrumb-last-item-color);
+    }
+  }
+  .Breadcrumb-item:not(:first-child) {
+    &:before {
+      font-size: var(--text-sm);
+      display: inline-block;
+      content: "/";
+      color: var(--breadcrumb-spacer-color);
+    }
+  }
+
+  .Breadcrumb-link {
+    outline: none;
+    text-decoration: underline;
+
+    @variant hover {
+      color: var(--breadcrumb-item-hover-color);
+    }
+
+    @variant focus-visible {
+      background-color: var(--color-light);
+    }
+  }
+}

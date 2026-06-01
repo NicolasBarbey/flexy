@@ -1,0 +1,27 @@
+@layer components {
+  .StockTag {
+    font-size: var(--text-sm);
+    color: var(--color-grey-dark);
+    font-weight: var(--font-weight-normal);
+
+    &:before {
+      content: "";
+      display: inline-block;
+      width: --spacing(2.25);
+      height: --spacing(2.25);
+      border-radius: 100%;
+      margin-right: --spacing(1);
+      background-color: var(--color-grey-dark);
+    }
+  }
+
+  .StockTag--in::before {
+    background-color: var(--color-success);
+  }
+  .StockTag--low::before {
+    background-color: var(--color-warning);
+  }
+  .StockTag--out::before {
+    background-color: var(--color-error);
+  }
+}

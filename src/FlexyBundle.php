@@ -1,0 +1,129 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace FlexyBundle;
+
+use Symfony\Component\AssetMapper\AssetMapperInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+class FlexyBundle extends AbstractBundle
+{
+    #[\Override]
+    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        $this->importServices($container);
+    }
+
+
+    #[\Override]
+    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        $this->prependConfigTwig($builder);
+        $this->prependConfigTwigComponent($builder);
+        $this->prependConfigAssetMapper($builder);
+        $this->prependConfigUxIcons($builder);
+        $this->prependConfigTailwind($builder);
+    }
+
+
+    private function importServices(ContainerConfigurator $containerConfigurator): void
+    {
+        $containerConfigurator->import('../config/services.yaml');
+
+        $containerConfigurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure();
+    }
+
+    private function prependConfigTwig(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->prependExtensionConfig('twig', [
+            'paths' => [
+                \dirname(__DIR__) . '/components' => 'Flexy',
+            ],
+
+        ]);
+    }
+    private function prependConfigTwigComponent(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->prependExtensionConfig('twig_component', [
+            'defaults' => [
+                'FlexyBundle\\Components\\' => [
+                    'template_directory' => '@Flexy',
+                    'name_prefix' => 'Flexy',
+                ],
+            ],
+        ]);
+    }
+
+    private function isAssetMapperAvailable(ContainerBuilder $container): bool
+    {
+        if (!interface_exists(AssetMapperInterface::class)) {
+            return false;
+        }
+
+        // check that FrameworkBundle 6.3 or higher is installed
+        $bundlesMetadata = $container->getParameter('kernel.bundles_metadata');
+        if (!\is_array($bundlesMetadata) || !isset($bundlesMetadata['FrameworkBundle'])) {
+            return false;
+        }
+
+        return is_file($bundlesMetadata['FrameworkBundle']['path'] . '/Resources/config/asset_mapper.php');
+    }
+
+    private function prependConfigAssetMapper(ContainerBuilder $containerBuilder): void
+    {
+        if (!$this->isAssetMapperAvailable($containerBuilder)) {
+            return;
+        }
+
+        $containerBuilder->prependExtensionConfig('framework', [
+            'asset_mapper' => [
+                'paths' => [
+                    // Declare the `assets/` entry and, moreover, place it first
+                    // so that AssetMapper searches for the resource within the bundle directories
+                    // before those of the project in which it is embedded.
+                    \dirname(__DIR__) . '/assets',
+                    \dirname(__DIR__) . '/assets/styles',
+                    \dirname(__DIR__) . '/components',
+                ],
+                'vendor_dir' => '%kernel.project_dir%/templates/frontOffice/%thelia_front_template%/assets/vendor',
+                'importmap_path' =>       '%kernel.project_dir%/templates/frontOffice/%thelia_front_template%/importmap.php',
+                'public_prefix' =>        '/assets/frontOffice/%thelia_front_template%/',
+                'excluded_patterns' => [
+                    '*/*.html.twig',
+                ],
+            ],
+        ]);
+    }
+
+    private function prependConfigUxIcons(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->prependExtensionConfig('ux_icons', [
+            'icon_dir' => '%kernel.project_dir%/templates/frontOffice/%thelia_front_template%/assets/icons'
+        ]);
+    }
+
+    private function prependConfigTailwind(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->prependExtensionConfig('symfonycasts_tailwind', [
+            'input_css' => '%kernel.project_dir%/templates/frontOffice/%thelia_front_template%/assets/styles/app.css',
+            'binary_version' => 'v4.3.0',
+
+        ]);
+    }
+}

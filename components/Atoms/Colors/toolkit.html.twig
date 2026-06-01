@@ -1,0 +1,25 @@
+{% set colors = [
+    ['bg-black', 'bg-white'],
+    ['bg-grey-darker', 'bg-grey-dark', 'bg-grey', 'bg-grey-light', 'bg-grey-lighter', 'bg-grey-lightest'],
+    ['bg-dark', 'bg-base', 'bg-medium', 'bg-light', 'bg-lighter', 'bg-lightest'],
+    ['bg-error-dark', 'bg-error', 'bg-error-light', 'bg-error-lightest'],
+    ['bg-success-dark', 'bg-success', 'bg-success-lightest'],
+    ['bg-warning', 'bg-warning-lightest'],
+    ['bg-validated', 'bg-validated-lightest'],
+    ['bg-informative', 'bg-informative-lightest'],
+    ['bg-processing', 'bg-processing-lightest'],
+] %}
+{% for line in colors %}
+    <div class="flex gap-4">
+        {% for color in line %}
+            <div>
+                <div class="rounded-4xl shadow-lg p-4">
+                    <div class="{{ color }} w-[150px] h-[120px]"></div>
+                    <div class="text-center mt-2 h-10">
+                        {{ color }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

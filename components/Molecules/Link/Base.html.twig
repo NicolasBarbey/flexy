@@ -1,0 +1,27 @@
+{% props href, customText, iconLeft = null, iconRight = null, size = null %}
+
+{% set link = html_cva(
+    base: 'Link',
+    variants: {
+        size: {
+            medium: 'Link--medium',
+            small: 'Link--small',
+        },
+    },
+) %}
+
+<a href="{{ href }}" class="{{ link.apply({size}, attributes.render('class')) }} " {{ attributes.without('class') }}>
+    {% if iconLeft %}
+        <span class="Link-icon">
+            {{ ux_icon(iconLeft) }}
+        </span>
+    {% endif %}
+
+    {{ customText }}
+
+    {% if iconRight %}
+        <span class="Link-icon">
+            {{ ux_icon(iconRight) }}
+        </span>
+    {% endif %}
+</a>

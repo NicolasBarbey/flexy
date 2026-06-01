@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Design System — Toolkit</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}" blocking="render">
+    {{ importmap('app') }}
+</head>
+<body class="flex min-h-screen bg-gray-50 text-gray-900">
+
+    {# Sidebar #}
+    <aside class="w-64 shrink-0  top-0 h-screen overflow-y-auto bg-white border-r border-gray-200 p-6 fixed">
+        <div class="mb-8">
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Flexy</p>
+            <h1 class="text-xl font-bold">Design System</h1>
+        </div>
+
+        <nav class="space-y-6">
+            {% for category, components in grouped %}
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">{{ category }}</p>
+                    <ul class="space-y-1">
+                        {% for component in components %}
+                            <li>
+                                <a href="#{{ component.slug }}"
+                                   class="block px-3 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                                    {{ component.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </nav>
+    </aside>
+
+    {# Main content #}
+    <main class="flex-1 p-10 space-y-16 overflow-y-auto ml-64">
+
+        {% for category, components in grouped %}
+
+            <section>
+                <h2 class="text-2xl font-bold mb-8 pb-3 border-b border-gray-200">{{ category }}</h2>
+
+                <div class="space-y-12">
+                    {% for component in components %}
+                        <div id="{{ component.slug }}">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ component.name }}</h3>
+
+                            <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                                {% include component.twigPath ignore missing %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        {% else %}
+            <p class="text-gray-400">No toolkit files found.</p>
+        {% endfor %}
+
+    </main>
+
+</body>
+</html>
