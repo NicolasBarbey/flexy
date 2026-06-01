@@ -1,0 +1,63 @@
+.Tab {
+  text-align: center;
+  outline: var(--color-black) solid 1px;
+  color: var(--color-black);
+  padding: --spacing(3) --spacing(5.5);
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(1.5);
+  transition: 0.2s ease all;
+
+  &:hover:not(:focus):not([disabled]) {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  &:hover:focus-visible {
+    color: var(--color-grey-dark);
+  }
+
+  &:active:not([disabled]) {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  &:active:hover {
+    background: var(--color-grey-dark);
+  }
+
+  &:active:hover:not(:focus) {
+    background: var(--color-grey-dark);
+    outline-color: var(--color-grey-dark);
+  }
+
+  &:focus-visible {
+    outline: var(--color-medium) solid 2px;
+  }
+
+  &[disabled] {
+    outline-color: var(--color-grey-lighter);
+    color: var(--color-grey-lighter);
+    cursor: not-allowed;
+  }
+
+  &[disabled]:active {
+    background-color: var(--color-grey-lighter);
+    color: var(--color-white);
+  }
+}
+
+.Tab .Tab-icon {
+  width: --spacing(5.5);
+  height: --spacing(5.5);
+  display: flex;
+}
+
+.Tab--small {
+  padding: --spacing(2.5) --spacing(3);
+
+  .Tab-icon {
+    width: --spacing(4.5);
+    height: --spacing(4.5);
+  }
+}

@@ -1,0 +1,23 @@
+{% set oneLevel = [
+    {url: '/men', title: 'Men'}
+] %}
+
+{% set twoLevels = [
+    {url: '/men', title: 'Men'},
+    {url: '/men/shirts', title: 'Shirts'}
+] %}
+
+{% set threeLevels = [
+    {url: '/men', title: 'Men'},
+    {url: '/men/shirts', title: 'Shirts'},
+    {url: '/men/shirts/blue-oxford', title: 'Blue Oxford Shirt'}
+] %}
+
+<div class="grid gap-8">
+    <div class="grid gap-2">
+        <twig:Flexy:Molecules:Breadcrumb:Base :items="[]" />
+        <twig:Flexy:Molecules:Breadcrumb:Base :items="oneLevel" />
+        <twig:Flexy:Molecules:Breadcrumb:Base :items="twoLevels" />
+        <twig:Flexy:Molecules:Breadcrumb:Base :items="threeLevels" />
+    </div>
+</div>

@@ -1,0 +1,63 @@
+@layer components {
+  .OrderTag {
+    --order-tag-background-color: var(--color-grey-lightest);
+    --order-tag-color: var(--color-black);
+    --order-tag-border-color: var(--color-grey);
+    --order-tag-dot-color: var(--color-grey-dark);
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+
+    color: var(--order-tag-color);
+    background-color: var(--order-tag-background-color);
+    border: 1px solid var(--order-tag-border-color);
+    border-radius: --spacing(12);
+
+    padding: --spacing(1.5) --spacing(4);
+
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--text-sm--line-height);
+
+    &:before {
+      content: "";
+      display: inline-block;
+      width: --spacing(1.75);
+      height: --spacing(1.75);
+      border-radius: 100%;
+      margin-right: --spacing(1.25);
+      background-color: var(--order-tag-dot-color);
+    }
+  }
+
+  .OrderTag--canceled {
+    --order-tag-background-color: var(--color-grey-lightest);
+    --order-tag-border-color: var(--color-grey);
+    --order-tag-dot-color: var(--color-grey);
+  }
+  .OrderTag--not-paid {
+    --order-tag-background-color: var(--color-error-lightest);
+    --order-tag-border-color: var(--color-error);
+    --order-tag-dot-color: var(--color-error-light);
+  }
+  .OrderTag--paid {
+    --order-tag-background-color: var(--color-informative-lightest);
+    --order-tag-border-color: var(--color-informative);
+    --order-tag-dot-color: var(--color-informative);
+  }
+  .OrderTag--processing {
+    --order-tag-background-color: var(--color-processing-lightest);
+    --order-tag-border-color: var(--color-processing);
+    --order-tag-dot-color: var(--color-processing);
+  }
+  .OrderTag--sent {
+    --order-tag-background-color: var(--color-success-lightest);
+    --order-tag-border-color: var(--color-success);
+    --order-tag-dot-color: var(--color-success-dark);
+  }
+  .OrderTag--refunded {
+    --order-tag-background-color: var(--color-warning-lightest);
+    --order-tag-border-color: var(--color-warning);
+    --order-tag-dot-color: var(--color-warning);
+  }
+}
