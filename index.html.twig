@@ -3,54 +3,5 @@
 {% block breadcrumb_json %}{% endblock %}
 
 {% block body %}
-<div>
-    {{component('Flexy:Button:Base', {
-        text: 'small',
-        size: 'small',
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button',
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button lg',
-        size: 'large',
-    })}}
-</div>
-    <div>
-    {{component('Flexy:Button:Base', {
-        text: 'small',
-        size: 'small',
-        color: 'secondary',
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button',
-        color: 'secondary',
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button lg',
-        size: 'large',
-        color: 'secondary',
-    })}}
-    </div>
-    <div>
-    {{component('Flexy:Button:Base', {
-        text: 'small',
-        size: 'small',
-        disabled: true,
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button',
-        color: 'secondary',
-        disabled: true,
-    })}}
-    {{component('Flexy:Button:Base', {
-        text: 'Button lg',
-        size: 'large',
-        color: 'secondary',
-        disabled: true,
-    })}}
-    </div>
-
-
-    {{ux_icon('account')}}
+    <twig:Atoms:Colors />
 {% endblock %}

@@ -64,7 +64,7 @@ class FlexyBundle extends AbstractBundle
             'defaults' => [
                 'FlexyBundle\\Components\\' => [
                     'template_directory' => '@Flexy',
-                    'name_prefix' => 'Flexy',
+                    'name_prefix' => '',
                 ],
             ],
         ]);

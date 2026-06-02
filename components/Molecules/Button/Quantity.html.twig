@@ -18,7 +18,7 @@
 ) %}
 
 <div role="button" class="{{ buttonQuantity.apply({color}, attributes.render('class')) }} "  {{ attributes.defaults(stimulus_controller('Molecules--Button--quantity')).without('class', 'button:color') }} >
-    <twig:Flexy:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'decrement')}}>-</twig:Flexy:Molecules:Button:Base>
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'decrement')}}>-</twig:Molecules:Button:Base>
     <input
         type="number"
         class="{{ buttonInputQuantity.apply({color}, attributes.nested('input').render('class')) }} "
@@ -26,5 +26,5 @@
         {{attributes.nested('input')}}
         {{stimulus_target('Molecules--Button--quantity', 'input')}}
     >
-    <twig:Flexy:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'increment')}}>+</twig:Flexy:Molecules:Button:Base>
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'increment')}}>+</twig:Molecules:Button:Base>
 </div>
