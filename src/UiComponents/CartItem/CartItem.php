@@ -69,7 +69,7 @@ class CartItem
         $this->desc = $cartItemModel->getProduct()->getChapo();
         $this->url = $cartItemModel->getProduct()->getUrl($this->langService->getLocale());
 
-        $this->outOfStock = $this->cartItem->stock <= 0;
+        $this->outOfStock = $this->cartItem->stockManaged && $this->cartItem->stock <= 0;
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($cartItemModel->getProductSaleElements());
 
         /** @var ProductSaleElementsProductImage $pseImage */

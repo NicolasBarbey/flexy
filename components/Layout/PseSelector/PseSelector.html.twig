@@ -5,6 +5,7 @@
     'data-live-action-param': 'save',
   }},
 	    ) }}
+	{% set outOfStock = this.isStockManaged() and currentPse.quantity == 0 %}
 	<div class="flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			{{ include('@components/Molecules/Score/Score.html.twig', {score: 3}) }}
@@ -13,9 +14,9 @@
 				{{ 'reviews'|trans }}
 			</span>
 		</div>
-		{{ include('@components/Molecules/OrderTag/OrderTag.html.twig', {customText: currentPse.quantity > 0 ? 'In stock'|trans : 'Out of stock'|trans, variant: currentPse.quantity > 0 ? 'success' : 'error', type: 'minimal'}) }}
+		{{ include('@components/Molecules/OrderTag/OrderTag.html.twig', {customText: not outOfStock ? 'In stock'|trans : 'Out of stock'|trans, variant: not outOfStock ? 'success' : 'error', type: 'minimal'}) }}
 	</div>
-	{% if currentPse.quantity == 0 %}
+	{% if outOfStock %}
 		{{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'This product combination is currently out of stock.'|trans, variant: 'warning', withIcon: true, size: 'full'}) }}
 	{% endif %}
 	<input type="hidden" name="{{ field_name(form.product) }}" value="{{ field_value(form.product) }}">
@@ -64,7 +65,7 @@
 		{{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'This product combination is not available'|trans, variant: 'warning', withIcon: true, size: 'full'}) }}
 		<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
 	{% else %}
-		{% if currentPse.quantity %}
+		{% if not outOfStock %}
 			<div class="flex items-center gap-4">
 				{% set mainPrice = currentPse.isPromo ? currentPse.promoPrice : currentPse.price %}
 				<strong class="text-black h4">
@@ -77,19 +78,33 @@
 				{% endif %}
 			</div>
 
-			{{ include('@components/Molecules/Button/QuantityButton.html.twig', {
-                value: field_value(form.quantity),
-                classes: 'Button--large',
-                text: 'Add to cart'|trans,
-                icon: 'cart',
-                fill: true,
-                inLiveComp: true,
-                btnLiveAction: 'getQuantity',
-                name: field_name(form.quantity),
-                plusDisabled: currentPse.quantity < (0 + field_value(form.quantity)),
-                minusDisabled: (0 + field_value(form.quantity)) <= 1
-                },
-            ) }}
+			{% if this.isMaxQuantityReached() %}
+				{{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {
+						text: 'You already have the maximum available quantity of this product in your cart'|trans,
+						variant: 'warning',
+						withIcon: true,
+						size: 'full'
+				}) }}
+				<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
+			{% else %}
+				<div data-controller="quantity">
+					{{ include('@components/Molecules/Button/QuantityButton.html.twig', {
+                        value: field_value(form.quantity),
+                        classes: 'Button--large',
+                        text: 'Add to cart'|trans,
+                        icon: 'cart',
+                        fill: true,
+                        inLiveComp: true,
+                        btnLiveAction: 'getQuantity',
+                        name: field_name(form.quantity),
+                        plusHidden: this.getRemainingStock() <= (0 + field_value(form.quantity)),
+                        minusDisabled: (0 + field_value(form.quantity)) <= 1,
+                        min: 1,
+                        max: this.isStockManaged() ? this.getRemainingStock() : null
+                        },
+                    ) }}
+				</div>
+			{% endif %}
 		{% else %}
 			<input type="hidden" name="{{ field_name(form.quantity) }}" value="{{ field_value(form.quantity) }}">
 		{% endif %}
