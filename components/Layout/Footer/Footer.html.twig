@@ -34,6 +34,9 @@
                 {{ attr('config', 'store_name') }}
             </div>
             <div class="Footer-storeAddress">
+                {% set idCountry = attr('config', 'store_country') %}
+                {% set country = country_name(idCountry) %}
+
                 <div class="paragraph-5">
                     {{ attr('config', 'store_address1') }}
                     <br>
@@ -42,7 +45,7 @@
                     {{ attr('config', 'store_zipcode') }}
                     {{ attr('config', 'store_city') }}
                     <br>
-                    {{ attr('config', 'store_country') }}
+                    {{ country }}
                 </div>
                 <div class="my-4 paragraph-5">
                     Tel.
