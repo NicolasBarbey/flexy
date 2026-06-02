@@ -8,6 +8,9 @@ class QuantityController extends Controller {
       element.addEventListener('keyup', () => {
         this.enforceMinMax(element);
       });
+      element.addEventListener('change', () => {
+        this.enforceMinMax(element);
+      });
     }
   }
 

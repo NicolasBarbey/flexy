@@ -27,6 +27,7 @@ class CartItemDto
     public int $promo = 0;
     public ?ProductDTO $product = null;
     public int $stock = 0;
+    public bool $stockManaged = true;
     public string $title = '';
     public string $desc = '';
 
@@ -43,6 +44,7 @@ class CartItemDto
         $cartItem->priceEndOfLife = isset($data['priceEndOfLife']) ? (int) $data['priceEndOfLife'] : 0;
         $cartItem->promo = isset($data['promo']) ? (int) $data['promo'] : 0;
         $cartItem->stock = isset($data['stock']) ? (int) $data['stock'] : 0;
+        $cartItem->stockManaged = isset($data['stockManaged']) ? (bool) $data['stockManaged'] : true;
         $cartItem->title = $data['title'] ?? '';
         $cartItem->desc = $data['desc'] ?? '';
 

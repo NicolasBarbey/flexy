@@ -31,6 +31,7 @@ use Thelia\Form\Definition\FrontForm;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Api\Service\DataAccess\ProductSaleElementsAccessService;
 use Thelia\Core\Form\FormServiceInterface;
+use Thelia\Model\ConfigQuery;
 
 #[AsLiveComponent(name: 'Flexy:Pages:Product', template: '@UiComponents/Pages/Product/Product.html.twig')]
 class Product
@@ -117,7 +118,69 @@ class Product
             $this->formValues['quantity'] = 1;
         }
 
+        $remainingStock = $this->getRemainingStock();
+        if ($remainingStock > 0 && $this->formValues['quantity'] > $remainingStock) {
+            $this->formValues['quantity'] = $remainingStock;
+        }
+
         return $this->formValues['quantity'];
+    }
+
+    public function getCartQuantityForCurrentPse(): int
+    {
+        if (null === $this->currentPse) {
+            return 0;
+        }
+
+        $cart = $this->cartFacade->getCartFromSession();
+        if (null === $cart) {
+            return 0;
+        }
+
+        $pseId = (int) $this->currentPse['id'];
+        $quantity = 0;
+        foreach ($cart->getCartItems() as $cartItem) {
+            if ($cartItem->getProductSaleElementsId() === $pseId) {
+                $quantity += (int) $cartItem->getQuantity();
+            }
+        }
+
+        return $quantity;
+    }
+
+    public function getRemainingStock(): int
+    {
+        if (!$this->isStockManaged()) {
+            return \PHP_INT_MAX;
+        }
+
+        $stock = (int) ($this->currentPse['quantity'] ?? 0);
+
+        return max(0, $stock - $this->getCartQuantityForCurrentPse());
+    }
+
+    public function isMaxQuantityReached(): bool
+    {
+        if (!$this->isStockManaged()) {
+            return false;
+        }
+
+        $stock = (int) ($this->currentPse['quantity'] ?? 0);
+
+        return $stock > 0 && $this->getRemainingStock() <= 0;
+    }
+
+    /**
+     * Stock is only enforced front-side when the `check-available-stock` config is enabled
+     * and the product is not virtual (mirrors Thelia core CartAdd / OrderFacade logic).
+     */
+    public function isStockManaged(): bool
+    {
+        if ($this->product['virtual'] ?? false) {
+            return false;
+        }
+
+        return ConfigQuery::checkAvailableStock();
     }
 
     #[LiveAction]
@@ -171,6 +234,14 @@ class Product
     #[LiveAction]
     public function save(): void
     {
+        // Clamp the requested quantity to the remaining stock before validation,
+        // so a manually typed value above the stock cannot trigger a 422.
+        // getRemainingStock() returns PHP_INT_MAX when stock is not managed.
+        $remainingStock = $this->getRemainingStock();
+        if ($remainingStock > 0 && (int) ($this->formValues['quantity'] ?? 1) > $remainingStock) {
+            $this->formValues['quantity'] = $remainingStock;
+        }
+
         $this->submitForm();
         $formDatas = $this->getForm()->getData();
         $this->cartFacade->addItem(

@@ -91,10 +91,10 @@
                                     data-live-index-param="{{index}}"
                                     data-live-base-quantity-param="{{this.cartItem.quantity}}"
                                     min="0"
-                                    max="{{this.cartItem.stock}}"
+                                    {% if this.cartItem.stockManaged %}max="{{this.cartItem.stock}}"{% endif %}
                                 >
 
-                                <button type="button" data-action="live#action" data-live-action-param="plus" data-live-index-param="{{index}}" {% if this.cartItem.quantity >= this.cartItem.stock %}class="invisible"{% endif %}>+</button>
+                                <button type="button" data-action="live#action" data-live-action-param="plus" data-live-index-param="{{index}}" {% if this.cartItem.stockManaged and this.cartItem.quantity >= this.cartItem.stock %}class="invisible"{% endif %}>+</button>
                             </label>
                         </div>
                     {% endif %}

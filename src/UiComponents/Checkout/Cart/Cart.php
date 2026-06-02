@@ -33,6 +33,7 @@ use Thelia\Form\Definition\FrontForm;
 use Thelia\Model\ProductImage;
 use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
+use Thelia\Model\ConfigQuery;
 use Thelia\Core\Form\FormServiceInterface;
 
 #[AsLiveComponent(name: 'Flexy:Checkout:Cart', template: '@UiComponents/Checkout/Cart/Cart.html.twig')]
@@ -72,14 +73,17 @@ class Cart
             $pse = ProductSaleElementsQuery::create()
                 ->findOneById($item['productSaleElementsId']);
 
+            $stockManaged = ConfigQuery::checkAvailableStock() && 0 === $pse->getProduct()->getVirtual();
+
             $this->items[] = CartItemDto::fromArray(
                 [
                     ...$item,
                     'stock' => (int) $pse->getQuantity(),
+                    'stockManaged' => $stockManaged,
                     'title' => $pse->getProduct()->getTitle(),
                 ]
             );
-            if ($pse->getQuantity() <= 0) {
+            if ($stockManaged && $pse->getQuantity() <= 0) {
                 $this->itemHasNoStockMessage = true;
             }
         }
@@ -163,7 +167,8 @@ class Cart
     {
         $cartItem = $this->findCartItemByIndex($index);
 
-        $newQuantity = min($cartItem->stock, $quantity ?? $cartItem->quantity + 1);
+        $maxQuantity = $cartItem->stockManaged ? $cartItem->stock : \PHP_INT_MAX;
+        $newQuantity = min($maxQuantity, $quantity ?? $cartItem->quantity + 1);
 
         $this->cartFacade->updateItemQuantity(
             new CartItemUpdateQuantityDTO(
