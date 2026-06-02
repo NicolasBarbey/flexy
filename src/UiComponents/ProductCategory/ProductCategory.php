@@ -31,6 +31,8 @@ class ProductCategory
     {
         $categories = $this->dataAccessService->resources('/api/front/categories', [
             'itemsPerPage' => 3,
+            'parent' => 0,
+            'visible' => true
         ]);
 
         return array_map(fn ($item) => [
