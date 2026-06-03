@@ -31,14 +31,13 @@ class CrossSelling
 
     public array $products = [];
 
-    public function __construct(private DataAccessService $dataAccessService)
-    {
-    }
+    public function __construct(private DataAccessService $dataAccessService) {}
 
-    public function mount(bool $promo = false, bool $new = false, array $products = []): void
+    public function mount(bool $promo = false, bool $new = false, array $products = [], string $categoryId = null): void
     {
         $this->promo = $promo;
         $this->new = $new;
+        $this->categoryId = $categoryId;
 
         if (0 === \count($products)) {
             $this->products = $this->setProducts();
