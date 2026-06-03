@@ -1,7 +1,9 @@
 :root {
   --header-height: 48px;
+}
 
-  @screen sm {
+@screen sm {
+  :root {
     --header-height: 80px;
   }
 }
@@ -11,93 +13,100 @@
   border-bottom: 1px solid var(--grey-lighter);
 }
 
-.Header {
-  .HeaderButton {
-    &--search,
-    &--menu {
-      .HeaderButton--text {
-        @apply sr-only;
-      }
-    }
+.Header .HeaderButton--search .HeaderButton--text,
+.Header .HeaderButton--menu .HeaderButton--text {
+  @apply sr-only;
+}
 
-    &--account {
-      --header-button-bg: var(--white);
-      --header-button-color: var(--black);
+.Header .HeaderButton--account {
+  --header-button-bg: var(--white);
+  --header-button-color: var(--black);
+}
 
-      @screen lg {
-        --header-button-bg: var(--theme-light);
-        --header-button-color: var(--black);
-      }
-
-      &:hover {
-        --header-button-bg: var(--grey-lightest);
-
-        @screen lg {
-          --header-button-bg: var(--theme-medium);
-        }
-      }
-    }
-
-    &--cart {
-      --header-button-bg: var(--white);
-      --header-button-color: var(--black);
-
-      @screen lg {
-        --header-button-bg: var(--black);
-        --header-button-color: var(--white);
-      }
-
-      &:hover {
-        --header-button-bg: var(--grey-lightest);
-
-        @screen lg {
-          --header-button-bg: var(--grey-darker);
-        }
-      }
-    }
-
-    &--search,
-    &--menu,
-    &--wishlist {
-      --header-button-bg: var(--white);
-      --header-button-color: var(--black);
-
-      &:hover {
-        --header-button-bg: var(--grey-lightest);
-      }
-    }
+@screen lg {
+  .Header .HeaderButton--account {
+    --header-button-bg: var(--theme-light);
+    --header-button-color: var(--black);
   }
+}
 
-  &-top {
-    @apply h-[var(--header-height)] flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-[1] bg-white;
-  }
-  &-logo {
-    @apply w-[60px] h-[18px] sm:w-[98px] sm:h-[30px];
-  }
+.Header .HeaderButton--account:hover {
+  --header-button-bg: var(--grey-lightest);
+}
 
-  &-navWrap {
-    @apply relative flex justify-center bg-grey-lightest h-[78px] z-[1];
+@screen lg {
+  .Header .HeaderButton--account:hover {
+    --header-button-bg: var(--theme-medium);
   }
-  &-navigation {
-    @apply flex items-stretch justify-center gap-[30px] xl:gap-[50px] list-none h-full;
-  }
+}
 
-  &--withSearchBar {
-    & @screen sm {
-      --header-height: 100px;
-    }
+.Header .HeaderButton--cart {
+  --header-button-bg: var(--white);
+  --header-button-color: var(--black);
+}
 
-    .HeaderButton--search {
-      @apply lg:hidden;
-    }
+@screen lg {
+  .Header .HeaderButton--cart {
+    --header-button-bg: var(--black);
+    --header-button-color: var(--white);
   }
-  &.is-sticky {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+}
 
-    .Header-logo {
-      @apply sm:w-[80px] sm:h-[24px];
-    }
+.Header .HeaderButton--cart:hover {
+  --header-button-bg: var(--grey-lightest);
+}
+
+@screen lg {
+  .Header .HeaderButton--cart:hover {
+    --header-button-bg: var(--grey-darker);
   }
+}
+
+.Header .HeaderButton--search,
+.Header .HeaderButton--menu,
+.Header .HeaderButton--wishlist {
+  --header-button-bg: var(--white);
+  --header-button-color: var(--black);
+}
+
+.Header .HeaderButton--search:hover,
+.Header .HeaderButton--menu:hover,
+.Header .HeaderButton--wishlist:hover {
+  --header-button-bg: var(--grey-lightest);
+}
+
+.Header-top {
+  @apply h-[var(--header-height)] flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-[1] bg-white;
+}
+
+.Header-logo {
+  @apply w-[60px] h-[18px] sm:w-[98px] sm:h-[30px];
+}
+
+.Header-navWrap {
+  @apply relative flex justify-center bg-grey-lightest h-[78px] z-[1];
+}
+
+.Header-navigation {
+  @apply flex items-stretch justify-center gap-[30px] xl:gap-[50px] list-none h-full;
+}
+
+@screen sm {
+  .Header--withSearchBar {
+    --header-height: 100px;
+  }
+}
+
+.Header--withSearchBar .HeaderButton--search {
+  @apply lg:hidden;
+}
+
+.Header.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.Header.is-sticky .Header-logo {
+  @apply sm:w-[80px] sm:h-[24px];
 }

@@ -1,76 +1,76 @@
 .Tooltip {
   display: inline-flex; /* Prevents the div from taking more height than the content */
   position: relative;
+}
 
-  &-icon {
-    display: inline-block;
-    cursor: pointer;
-    width: rem-convert(20px);
-    height: rem-convert(20px);
-    color: var(--black);
-  }
+.Tooltip-icon {
+  display: inline-block;
+  cursor: pointer;
+  width: rem-convert(20px);
+  height: rem-convert(20px);
+  color: var(--black);
+}
 
-  &-text {
-    @apply paragraph-4;
-    visibility: hidden;
-    max-width: 292px;
-    width: max-content;
-    background-color: var(--black);
-    color: var(--white);
-    padding: rem-convert(22px) rem-convert(34px) rem-convert(22px)
-      rem-convert(20px);
-    border-radius: 8px;
-    position: absolute;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s;
+.Tooltip-text {
+  @apply paragraph-4;
+  visibility: hidden;
+  max-width: 292px;
+  width: max-content;
+  background-color: var(--black);
+  color: var(--white);
+  padding: rem-convert(22px) rem-convert(34px) rem-convert(22px)
+    rem-convert(20px);
+  border-radius: 8px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-    &--show {
-      visibility: visible;
-      opacity: 1;
-    }
+.Tooltip-text--show {
+  visibility: visible;
+  opacity: 1;
+}
 
-    &:after {
-      content: '';
-      position: absolute;
-      border-width: 5px;
-      border-style: solid;
-    }
+.Tooltip-text:after {
+  content: '';
+  position: absolute;
+  border-width: 5px;
+  border-style: solid;
+}
 
-    &--top {
-      bottom: 34px;
-      right: 0px;
-      transform: translate(10px);
+.Tooltip-text--top {
+  bottom: 34px;
+  right: 0px;
+  transform: translate(10px);
+}
 
-      &:after {
-        top: 100%;
-        right: 0;
-        transform: translate(-16px);
-        border-color: var(--black) transparent transparent transparent;
-      }
-    }
+.Tooltip-text--top:after {
+  top: 100%;
+  right: 0;
+  transform: translate(-16px);
+  border-color: var(--black) transparent transparent transparent;
+}
 
-    &--bottom {
-      top: 34px;
-      right: 0;
-      transform: translate(10px);
+.Tooltip-text--bottom {
+  top: 34px;
+  right: 0;
+  transform: translate(10px);
+}
 
-      &:after {
-        bottom: 100%;
-        right: 0;
-        transform: translate(-16px);
-        border-color: transparent transparent var(--black) transparent;
-      }
-    }
-  }
+.Tooltip-text--bottom:after {
+  bottom: 100%;
+  right: 0;
+  transform: translate(-16px);
+  border-color: transparent transparent var(--black) transparent;
+}
 
-  &-close {
-    display: block;
-    cursor: pointer;
-    width: rem-convert(28px);
-    height: rem-convert(28px);
-    position: absolute;
-    top: 6px;
-    right: 6px;
-  }
+.Tooltip-close {
+  display: block;
+  cursor: pointer;
+  width: rem-convert(28px);
+  height: rem-convert(28px);
+  position: absolute;
+  top: 6px;
+  right: 6px;
 }

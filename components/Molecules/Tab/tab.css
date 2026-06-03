@@ -8,58 +8,58 @@
   align-items: center;
   gap: rem-convert(6px);
   transition: 0.2s ease all;
+}
 
-  &:hover:not(:focus):not([disabled]) {
-    background: var(--black);
-    color: var(--white);
-  }
+.Tab:hover:not(:focus):not([disabled]) {
+  background: var(--black);
+  color: var(--white);
+}
 
-  &:hover:focus-visible{
-    color: var(--grey-dark);
-  }
+.Tab:hover:focus-visible {
+  color: var(--grey-dark);
+}
 
-  &:active:not([disabled]) {
-    background: var(--black);
-    color: var(--white);
-  }
+.Tab:active:not([disabled]) {
+  background: var(--black);
+  color: var(--white);
+}
 
-  &:active:hover {
-    background: var(--grey-dark);
-  }
+.Tab:active:hover {
+  background: var(--grey-dark);
+}
 
-  &:active:hover:not(:focus) {
-    background: var(--grey-dark);
-    outline-color: var(--grey-dark);
-  }
+.Tab:active:hover:not(:focus) {
+  background: var(--grey-dark);
+  outline-color: var(--grey-dark);
+}
 
-  &:focus-visible{
-    outline: var(--theme-medium) solid 2px;
-  }
+.Tab:focus-visible {
+  outline: var(--theme-medium) solid 2px;
+}
 
-  &[disabled] {
-    outline-color: var(--grey-lighter);
-    color: var(--grey-lighter);
-    cursor: not-allowed;
-  }
+.Tab[disabled] {
+  outline-color: var(--grey-lighter);
+  color: var(--grey-lighter);
+  cursor: not-allowed;
+}
 
-  &[disabled]:active {
-    background-color: var(--grey-lighter);
-    color: var(--white);
-  }
+.Tab[disabled]:active {
+  background-color: var(--grey-lighter);
+  color: var(--white);
+}
 
-  &--small {
-    @apply typo-button-small;
-    padding: rem-convert(10px) rem-convert(12px);
+.Tab--small {
+  @apply typo-button-small;
+  padding: rem-convert(10px) rem-convert(12px);
+}
 
-    .Tab-icon {
-      width: rem-convert(18px);
-      height: rem-convert(18px);
-    }
-  }
+.Tab--small .Tab-icon {
+  width: rem-convert(18px);
+  height: rem-convert(18px);
+}
 
-  &-icon {
-    width: rem-convert(24px);
-    height: rem-convert(24px);
-    display: flex;
-  }
+.Tab-icon {
+  width: rem-convert(24px);
+  height: rem-convert(24px);
+  display: flex;
 }

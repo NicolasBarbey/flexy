@@ -1,97 +1,76 @@
-.Accordion {
-  + .Accordion {
-    border-top: 1px solid var(--grey-lighter);
+.Accordion + .Accordion {
+  border-top: 1px solid var(--grey-lighter);
+}
+.Accordion:has(.Accordion-summary:focus-visible) {
+  outline: var(--theme) solid 1px;
+  border-bottom: 0px solid transparent;
+}
+.Accordion-summary {
+  @apply paragraph-2;
+  padding: rem-convert(14px) rem-convert(16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: var(--black);
+  outline: 0;
+  cursor: pointer;
+}
+.Accordion-summary::marker {
+  font-size: 0;
+}
+.Accordion-icon {
+  height: rem-convert(28px);
+  width: rem-convert(28px);
+  color: var(--black);
+  transform: rotate(0);
+  transition: 0.2s ease all;
+}
+.Accordion-content {
+  @apply paragraph-5;
+  padding: rem-convert(18px) rem-convert(28px) rem-convert(30px)
+    rem-convert(16px);
+  color: var(--black);
+}
+.Accordion[open] .Accordion-summary {
+  border-bottom: none;
+}
+.Accordion[open] .Accordion-icon {
+  transform: rotate(-180deg);
+  transition: 0.2s ease all;
+}
+.Accordion--filter {
+  background-color: var(--theme-lightest);
+  border-bottom: none;
+}
+.Accordion--filter .Accordion-summary {
+  @apply paragraph-4;
+  border-bottom: none;
+}
+.Accordion--filter .Accordion-content {
+  border-bottom: none;
+  padding: rem-convert(0px) rem-convert(16px) rem-convert(20px)
+    rem-convert(16px);
+}
+.Accordion--faq .Accordion-summary {
+  @apply h4;
+  padding: rem-convert(14px) rem-convert(10px) rem-convert(14px) 0;
+}
+@media screen and (min-width: 768px) {
+  .Accordion--faq .Accordion-summary {
+    padding: rem-convert(18px) rem-convert(10px) rem-convert(18px) 0;
   }
-
-  &:has(&-summary:focus-visible) {
-    outline: var(--theme) solid 1px;
-    border-bottom: 0px solid transparent;
-  }
-
-  &-summary {
-    @apply paragraph-2;
-    padding: rem-convert(14px) rem-convert(16px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    color: var(--black);
-    outline: 0;
-    cursor: pointer;
-
-    &::marker {
-      font-size: 0;
-    }
-  }
-
-  &-icon {
-    height: rem-convert(28px);
-    width: rem-convert(28px);
-    color: var(--black);
-    transform: rotate(0);
-    transition: 0.2s ease all;
-  }
-
-  &-content {
-    @apply paragraph-5;
-    padding: rem-convert(18px) rem-convert(28px) rem-convert(30px)
-      rem-convert(16px);
-    color: var(--black);
-  }
-
-  &[open] {
-    .Accordion-summary {
-      border-bottom: none;
-    }
-
-    .Accordion-icon {
-      transform: rotate(-180deg);
-      transition: 0.2s ease all;
-    }
-  }
-
-  &--filter {
-    background-color: var(--theme-lightest);
-    border-bottom: none;
-
-    .Accordion-summary {
-      @apply paragraph-4;
-      border-bottom: none;
-    }
-
-    .Accordion-content {
-      border-bottom: none;
-      padding: rem-convert(0px) rem-convert(16px) rem-convert(20px)
-        rem-convert(16px);
-    }
-  }
-
-  &--faq {
-    .Accordion-summary {
-      @apply h4;
-      padding: rem-convert(14px) rem-convert(10px) rem-convert(14px) 0;
-
-      @media screen and (min-width: 768px) {
-        padding: rem-convert(18px) rem-convert(10px) rem-convert(18px) 0;
-      }
-    }
-
-    .Accordion-content {
-      @apply paragraph-2;
-      padding: 0 0 rem-convert(20px) 0;
-    }
-  }
-
-  .Accordion-icon--minus {
-    display: none;
-  }
-  &[open] {
-    .Accordion-icon--minus {
-      display: block;
-    }
-
-    .Accordion-icon--plus {
-      display: none;
-    }
-  }
+}
+.Accordion--faq .Accordion-content {
+  @apply paragraph-2;
+  padding: 0 0 rem-convert(20px) 0;
+}
+.Accordion .Accordion-icon--minus {
+  display: none;
+}
+.Accordion[open] .Accordion-icon--minus {
+  display: block;
+}
+.Accordion[open] .Accordion-icon--plus {
+  display: none;
 }

@@ -6,29 +6,30 @@
   padding: 0 20px;
   height: rem-convert(60px);
   justify-content: space-between;
+}
 
-  &-steps {
-    display: flex;
-    align-items: center;
-  }
+.CheckoutSteps-steps {
+  display: flex;
+  align-items: center;
+}
 
-  &-mobile {
-    display: block;
-  }
-  @screen xs {
+.CheckoutSteps-mobile {
+  display: block;
+}
+
+@screen xs {
+  .CheckoutSteps {
     justify-content: center;
     padding: 0;
     height: rem-convert(98px);
+  }
 
-    &-mobile {
-      display: none;
-    }
+  .CheckoutSteps-mobile {
+    display: none;
+  }
 
-    &-steps {
-      gap: rem-convert(60px);
-    }
-
-
+  .CheckoutSteps-steps {
+    gap: rem-convert(60px);
   }
 }
 
@@ -39,88 +40,94 @@
   position: relative;
   color: var(--grey);
   display: none;
+}
 
-  &-label {
-    display: none;
+.Step-label {
+  display: none;
+}
+
+.Step-number {
+  height: rem-convert(24px);
+  width: rem-convert(24px);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--theme-medium);
+}
+
+.Step-number:after {
+  content: '';
+  position: absolute;
+  height: rem-convert(27px);
+  width: rem-convert(27px);
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--theme-medium) 0% var(--p),
+    /* Bordure couvrant 25% */ transparent var(--p) 100% /* Reste transparent */
+  );
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent calc(50% - 1px),
+    black calc(50% - 1x)
+  ); /* Bordure de 2px env */
+  mask: radial-gradient(
+    circle,
+    transparent calc(50% - 1px),
+    black calc(50% - 1px)
+  );
+  z-index: 5;
+}
+
+@screen xs {
+  .Step-number:after {
+    content: none;
   }
+}
 
-  &-number {
-    height: rem-convert(24px);
-    width: rem-convert(24px);
-    border-radius: 50%;
+.Step.current {
+  display: flex;
+  color: var(--grey-dark);
+}
+
+.Step.current .Step-label {
+  display: inline-block;
+  @apply paragraph-4;
+  font-weight: 600;
+  padding-left: rem-convert(6px);
+}
+
+.Step.previous .Step-number {
+  background-color: var(--theme-light);
+}
+
+@screen md {
+  .Step-label {
+    display: inline-block;
+  }
+}
+
+@screen xs {
+  .Step {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid var(--theme-medium);
-
-    &:after {
-      content: "";
-      position: absolute;
-      height: rem-convert(27px);
-      width: rem-convert(27px);
-      border-radius: 50%;
-      background: conic-gradient(
-        var(--theme-medium) 0% var(--p), /* Bordure couvrant 25% */
-        transparent var(--p) 100% /* Reste transparent */
-      );
-      -webkit-mask: radial-gradient(circle, transparent calc(50% - 1px), black calc(50% - 1x)); /* Bordure de 2px env */
-      mask: radial-gradient(circle, transparent calc(50% - 1px), black calc(50% - 1px));
-      z-index: 5;
-
-      @screen xs {
-        content: none;
-      }
-
-    }
-
+  }
+  .Step.current {
+    color: var(--black);
+  }
+  .Step.current .Step-number {
+    background-color: var(--theme-medium);
+  }
+  .Step.current .Step-label {
+    font-weight: 400;
+    padding-left: rem-convert(2px);
   }
 
-  &.current {
-    display: flex;
-    color: var(--grey-dark);
-
-
-
-    .Step-label {
-      display: inline-block;
-      @apply paragraph-4;
-      font-weight: 600;
-      padding-left: rem-convert(6px);
-    }
-  }
-  &.previous {
-    .Step-number {
-      background-color: var(--theme-light);
-    }
-  }
-
-
-  @screen md {
-    &-label {
-      display: inline-block;
-    }
-  }
-
-  @screen xs {
-    display: flex;
-    &.current {
-      color: var(--black);
-      .Step-number {
-        background-color: var(--theme-medium);
-      }
-      .Step-label {
-        font-weight: 400;
-        padding-left: rem-convert(2px);
-      }
-    }
-
-    &:not(:first-child):before {
-      content: "";
-      width: 50px;
-      height: 1px;
-      position: absolute;
-      left: -50px;
-      background-color: var(--theme-medium);
-    }
+  .Step:not(:first-child):before {
+    content: '';
+    width: 50px;
+    height: 1px;
+    position: absolute;
+    left: -50px;
+    background-color: var(--theme-medium);
   }
 }

@@ -6,31 +6,31 @@
   padding: rem-convert(3px);
   transition: 0.2s ease all;
   outline: 0;
+}
 
-  &:hover {
-    color: var(--grey);
-  }
+.Link:hover {
+  color: var(--grey);
+}
 
-  &:focus-visible{
-    background-color: var(--grey-lightest);
-  }
+.Link:focus-visible {
+  background-color: var(--grey-lightest);
+}
 
-  &:active {
-    color: var(--theme);
-  }
+.Link:active {
+  color: var(--theme);
+}
 
-  &[disabled] {
-    color: var(--grey-lighter);
-    cursor: not-allowed;
-  }
+.Link[disabled] {
+  color: var(--grey-lighter);
+  cursor: not-allowed;
+}
 
-  &--medium {
-    @apply link;
-  }
+.Link--medium {
+  @apply link;
+}
 
-  &-icon {
-    width: rem-convert(18px);
-    height: rem-convert(18px);
-    display: flex;
-  }
+.Link-icon {
+  width: rem-convert(18px);
+  height: rem-convert(18px);
+  display: flex;
 }

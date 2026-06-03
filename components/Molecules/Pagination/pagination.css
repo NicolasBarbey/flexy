@@ -1,72 +1,62 @@
-.Pagination {
-  &-list {
-    display: flex;
-    align-items: center;
-    gap: rem-convert(12px);
+.Pagination-list {
+  display: flex;
+  align-items: center;
+  gap: rem-convert(12px);
+}
+.Pagination-item {
+  @apply typo-button-medium;
+  color: var(--black);
+  text-decoration: none;
+  min-width: rem-convert(45px);
+  height: rem-convert(45px);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+a.Pagination-item:hover {
+  background-color: var(--grey-lightest);
+  color: var(--grey);
+}
+.Pagination-item:focus-visible {
+  outline: var(--theme-medium) solid 2px;
+}
+.Pagination-item--active {
+  color: var(--theme-dark);
+}
+@media screen and (min-width: 768px) {
+  .Pagination-item--isPrev {
+    padding: 0 rem-convert(12px) 0 rem-convert(4px);
   }
 
-  &-item {
-    @apply typo-button-medium;
-    color: var(--black);
-    text-decoration: none;
-    min-width: rem-convert(45px);
-    height: rem-convert(45px);
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    a&:hover {
-      background-color: var(--grey-lightest);
-      color: var(--grey);
-    }
-
-    &:focus-visible{
-      outline: var(--theme-medium) solid 2px;
-    }
-
-    &--active {
-      color: var(--theme-dark);
-    }
-
-    @media screen and (min-width: 768px) {
-      &--isPrev {
-        padding: 0 rem-convert(12px) 0 rem-convert(4px);
-
-        .Pagination-text {
-          margin-left: rem-convert(6px);
-        }
-      }
-
-      &--isNext {
-        padding: 0 rem-convert(4px) 0 rem-convert(12px);
-
-        .Pagination-text {
-          margin-right: rem-convert(6px);
-        }
-      }
-    }
+  .Pagination-item--isPrev .Pagination-text {
+    margin-left: rem-convert(6px);
   }
 
-  &-listItemPrev {
-    margin-right: rem-convert(12px);
+  .Pagination-item--isNext {
+    padding: 0 rem-convert(4px) 0 rem-convert(12px);
   }
 
-  &-listItemNext {
-    margin-left: rem-convert(12px);
+  .Pagination-item--isNext .Pagination-text {
+    margin-right: rem-convert(6px);
   }
-
-  &-icon {
-    width: rem-convert(21px);
-    height: rem-convert(21px);
-    display: inline-block;
-    color: var(--black);
-  }
-
-  &-text {
-    display: none;
-
-    @media screen and (min-width: 768px) {
-      display: inline;
-    }
+}
+.Pagination-listItemPrev {
+  margin-right: rem-convert(12px);
+}
+.Pagination-listItemNext {
+  margin-left: rem-convert(12px);
+}
+.Pagination-icon {
+  width: rem-convert(21px);
+  height: rem-convert(21px);
+  display: inline-block;
+  color: var(--black);
+}
+.Pagination-text {
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  .Pagination-text {
+    display: inline;
   }
 }

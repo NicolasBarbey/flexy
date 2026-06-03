@@ -4,47 +4,45 @@
   background: var(--theme-medium);
   display: flex;
   justify-content: center;
-  &.hidden {
-    display: none;
+}
+.PromotionalBanner.hidden {
+  display: none;
+}
+.PromotionalBanner-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: rem-convert(4px);
+}
+.PromotionalBanner-close {
+  width: rem-convert(32px);
+  height: rem-convert(32px);
+}
+.PromotionalBanner-content {
+  color: var(--black);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: rem-convert(16px);
+  align-items: flex-start;
+}
+@screen md {
+  .PromotionalBanner-content {
+    max-width: rem-convert(1110px);
   }
-  &-header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: rem-convert(4px);
+}
+@screen md {
+  .PromotionalBanner-content--button {
+    flex-direction: row;
+    gap: rem-convert(48px);
+    align-items: center;
   }
-  &-close {
-    width: rem-convert(32px);
-    height: rem-convert(32px);
-  }
-
-  &-content {
-    color: var(--black);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: rem-convert(16px);
-    align-items: flex-start;
-
-    @screen md {
-      max-width: rem-convert(1110px);
-    }
-
-    &--button {
-      @screen md {
-        flex-direction: row;
-        gap: rem-convert(48px);
-        align-items: center;
-      }
-    }
-  }
-  &-button {
-    flex-grow: 1;
-    flex-shrink: 0;
-    max-width: rem-convert(200px);
-  }
-
-  &-message {
-    @apply h6;
-  }
+}
+.PromotionalBanner-button {
+  flex-grow: 1;
+  flex-shrink: 0;
+  max-width: rem-convert(200px);
+}
+.PromotionalBanner-message {
+  @apply h6;
 }

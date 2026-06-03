@@ -3,49 +3,53 @@
   width: 100%;
   outline: 0;
   border-radius: 4px;
+}
 
-  &:focus-visible {
-    outline: 1px solid var(--theme);
+.FilterList:focus-visible {
+  outline: 1px solid var(--theme);
+}
+
+.FilterList-input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.FilterList-label {
+  @apply paragraph-4;
+  color: var(--black);
+  border-radius: 4px;
+  width: 100%;
+  padding: rem-convert(12px) rem-convert(56px) rem-convert(12px)
+    rem-convert(16px);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .FilterList-label {
+    @apply paragraph-3;
   }
+}
 
-  &-input {
-    position: absolute;
-    opacity: 0;
-    height: 0;
-    width: 0;
+.FilterList-label:hover {
+  background-color: var(--theme-light);
+}
+
+.FilterList:has(.FilterList-input:checked) label {
+  background-color: var(--theme-light);
+  background-image: url('/assets/icons/checkmark.svg');
+  background-repeat: no-repeat;
+  background-position: right 8px top 50%;
+  background-size: rem-convert(32px) auto;
+}
+
+@media screen and (min-width: 768px) {
+  .FilterList:has(.FilterList-input:checked) label {
+    background-size: rem-convert(36px) auto;
   }
+}
 
-  &-label {
-    @apply paragraph-4;
-    color: var(--black);
-    border-radius: 4px;
-    width: 100%;
-    padding: rem-convert(12px) rem-convert(56px) rem-convert(12px)
-      rem-convert(16px);
-    cursor: pointer;
-
-    @media screen and (min-width: 768px) {
-      @apply paragraph-3;
-    }
-
-    &:hover {
-      background-color: var(--theme-light);
-    }
-  }
-
-  &:has(.FilterList-input:checked) label {
-    background-color: var(--theme-light);
-    background-image: url('/assets/icons/checkmark.svg');
-    background-repeat: no-repeat;
-    background-position: right 8px top 50%;
-    background-size: rem-convert(32px) auto;
-
-    @media screen and (min-width: 768px) {
-      background-size: rem-convert(36px) auto;
-    }
-  }
-
-  &:hover:has(.FilterList-input:checked) label {
-    background-color: var(--theme-medium);
-  }
+.FilterList:hover:has(.FilterList-input:checked) label {
+  background-color: var(--theme-medium);
 }

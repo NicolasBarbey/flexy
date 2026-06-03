@@ -1,5 +1,4 @@
-.HomeDelivery, .Invoice {
-    .AddressCard:not(.selected) {
-        background-color: var(--theme-lighter);
-    }
+.HomeDelivery .AddressCard:not(.selected),
+.Invoice .AddressCard:not(.selected) {
+  background-color: var(--theme-lighter);
 }

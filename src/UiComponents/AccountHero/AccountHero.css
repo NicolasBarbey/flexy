@@ -1,33 +1,34 @@
 .AccountHero {
-    background: var(--theme-lighter);
-    display: flex;
-    flex-direction: column;
+  background: var(--theme-lighter);
+  display: flex;
+  flex-direction: column;
+}
 
-    &-breadcrumb {
-        @apply pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)];
-    }
+.AccountHero-breadcrumb {
+  @apply pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)];
+}
 
-    &-links {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        border: 1px solid var(--black);
-        align-items: stretch;
-        max-width: 500px;
-        @screen sm {
-            flex-direction: row;
-        }
+.AccountHero-links {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border: 1px solid var(--black);
+  align-items: stretch;
+  max-width: 500px;
+}
 
-        .Button {
-            border-radius: 0;
-            border: none;
-            border-right: 1px solid var(--black);
-        }
+@screen sm {
+  .AccountHero-links {
+    flex-direction: row;
+  }
+}
 
-        :last-child {
-            .Button {
-                border-right: none;
-            }
-        }
-    }
+.AccountHero-links .Button {
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--black);
+}
+
+.AccountHero-links :last-child .Button {
+  border-right: none;
 }

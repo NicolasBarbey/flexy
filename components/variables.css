@@ -146,20 +146,28 @@
   --width-container: 100%;
   --margin-container: 24;
   --margin-container-px: calc(1px * var(--margin-container));
+}
 
-  @screen xs {
+@screen xs {
+  :root {
     --margin-container: 28;
   }
+}
 
-  @screen sm {
+@screen sm {
+  :root {
     --margin-container: 54;
   }
+}
 
-  @screen md {
+@screen md {
+  :root {
     --margin-container: 80;
   }
+}
 
-  @screen xl {
+@screen xl {
+  :root {
     --width-container: 1208px;
     --margin-container: 0;
   }

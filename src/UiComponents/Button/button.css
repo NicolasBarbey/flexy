@@ -13,232 +13,263 @@
   font-weight: var(--font-weight-button-medium);
 
   text-decoration: none;
+}
 
-  & > span.icon {
-    @apply w-5 h-5;
-    &-left {
-      margin-right: rem-convert(6px);
-    }
-    &-right {
-      margin-left: rem-convert(6px);
-    }
+.Button > span.icon {
+  @apply w-5 h-5;
+}
+
+.Button > span.icon-left {
+  margin-right: rem-convert(6px);
+}
+
+.Button > span.icon-right {
+  margin-left: rem-convert(6px);
+}
+
+.Button--large {
+  padding: rem-convert(16px) rem-convert(24px);
+  font-size: var(--font-size-button-large);
+  font-family: var(--font-family-button-large);
+  font-weight: var(--font-weight-button-large);
+}
+
+.Button--large > span {
+  @apply w-6 h-6;
+}
+
+.Button--small {
+  padding: rem-convert(8px) rem-convert(12px);
+  font-size: var(--font-size-button-small);
+  font-family: var(--font-family-button-small);
+  font-weight: var(--font-weight-button-small);
+}
+
+.Button--small > span {
+  @apply w-3 h-3;
+}
+
+.Button:after {
+  transform: scaleX(-1);
+}
+
+.Button:not(.Button--minimal):not(.Button--secondary):not(.Button--error):not(
+    .Button-quantity
+  ):hover:not(:focus):not(:disabled) {
+  background: var(--grey-dark);
+}
+
+.Button:focus-visible,
+.Button:has(:focus-visible) {
+  outline: var(--theme-medium) solid 2px;
+}
+
+.Button:disabled,
+.Button[disabled] {
+  background: var(--grey-lighter);
+}
+
+.Button--secondary {
+  background: var(--white);
+  color: var(--black);
+  border: var(--black) solid 1px;
+}
+
+.Button--secondary span {
+  color: var(--black);
+}
+
+.Button--secondary:hover:not(:focus):not(:disabled) {
+  background: var(--black);
+  color: var(--white);
+}
+
+.Button--secondary:hover:not(:focus):not(:disabled) span {
+  color: var(--white);
+}
+
+.Button--secondary:focus-visible,
+.Button--secondary:has(:focus-visible) {
+  background: var(--white);
+  border: transparent solid 1px;
+}
+
+.Button--secondary:focus-visible:hover,
+.Button--secondary:has(:focus-visible):hover {
+  color: var(--grey);
+}
+
+.Button--secondary:focus-visible:hover span,
+.Button--secondary:has(:focus-visible):hover span {
+  color: var(--grey);
+}
+
+.Button--secondary:disabled {
+  background: var(--white);
+  color: var(--grey-lighter);
+  border: var(--grey-lighter) solid 1px;
+}
+
+.Button--secondary:disabled span {
+  color: var(--grey-lighter);
+}
+
+.Button--minimal {
+  background: none;
+  color: var(--black);
+}
+
+.Button--minimal span {
+  color: var(--black);
+}
+
+.Button--minimal:hover:not(:disabled) {
+  color: var(--grey);
+}
+
+.Button--minimal:hover:not(:disabled) span {
+  color: var(--grey);
+}
+
+.Button--minimal:focus,
+.Button--minimal:focus:hover {
+  background: var(--theme-lightest);
+  outline: none;
+}
+
+.Button--minimal:disabled {
+  background: var(--white);
+  color: var(--grey-lighter);
+}
+
+.Button--minimal:disabled span {
+  color: var(--grey-lighter);
+}
+
+.Button--error {
+  background: var(--error);
+}
+
+.Button--error:hover:not(:focus):not(:disabled) {
+  background: var(--error-light);
+}
+
+.Button--error:focus-visible,
+.Button--error:has(:focus-visible) {
+  outline: var(--error-dark) solid 2px;
+}
+
+.Button--error:disabled {
+  background: var(--error-lightest);
+}
+
+@layer utilities {
+  .Button--fill {
+    width: 100%;
   }
 
-  &--large {
-    padding: rem-convert(16px) rem-convert(24px);
-    font-size: var(--font-size-button-large);
-    font-family: var(--font-family-button-large);
-    font-weight: var(--font-weight-button-large);
-    & > span {
-      @apply w-6 h-6;
-    }
+  .Button--fill:before {
+    display: none;
   }
-  &--small {
-    padding: rem-convert(8px) rem-convert(12px);
-    font-size: var(--font-size-button-small);
-    font-family: var(--font-family-button-small);
-    font-weight: var(--font-weight-button-small);
-    & > span {
-      @apply w-3 h-3;
-    }
-  }
-
-  &:after {
-    transform: scaleX(-1);
-  }
-
-  &:not(.Button--minimal):not(.Button--secondary):not(.Button--error):not(
-      .Button-quantity
-    ) {
-    &:hover:not(:focus):not(:disabled) {
-      background: var(--grey-dark);
-    }
-  }
-  &:focus-visible,
-  &:has(:focus-visible) {
-    outline: var(--theme-medium) solid 2px;
-  }
-
-  &:disabled,
-  &[disabled] {
-    background: var(--grey-lighter);
-  }
-
-  &--secondary {
-    background: var(--white);
-    color: var(--black);
-    border: var(--black) solid 1px;
-    span {
-      color: var(--black);
-    }
-    &:hover:not(:focus):not(:disabled) {
-      background: var(--black);
-      color: var(--white);
-      span {
-        color: var(--white);
-      }
-    }
-    &:focus-visible,
-    &:has(:focus-visible) {
-      background: var(--white);
-      border: transparent solid 1px;
-      &:hover {
-        color: var(--grey);
-        span {
-          color: var(--grey);
-        }
-      }
-    }
-    &:disabled {
-      background: var(--white);
-      color: var(--grey-lighter);
-      border: var(--grey-lighter) solid 1px;
-      span {
-        color: var(--grey-lighter);
-      }
-    }
-  }
-
-  &--minimal {
-    background: none;
-    color: var(--black);
-    span {
-      color: var(--black);
-    }
-    &:hover:not(:disabled) {
-      color: var(--grey);
-      span {
-        color: var(--grey);
-      }
-    }
-    &:focus,
-    &:focus:hover {
-      background: var(--theme-lightest);
-      outline: none;
-    }
-    &:disabled {
-      background: var(--white);
-      color: var(--grey-lighter);
-      span {
-        color: var(--grey-lighter);
-      }
-    }
-  }
-
-  &--error {
-    background: var(--error);
-    &:hover:not(:focus):not(:disabled) {
-      background: var(--error-light);
-    }
-    &:focus-visible,
-    &:has(:focus-visible) {
-      outline: var(--error-dark) solid 2px;
-    }
-    &:disabled {
-      background: var(--error-lightest);
-    }
-  }
-
-  @layer utilities {
-    &--fill {
-      width: 100%;
-
-      &:before {
-        display: none;
-      }
-    }
-    &--unfill {
-      width: initial;
-    }
-  }
-
-  &--rectangle {
-    border-radius: rem-convert(7px);
-  }
-  &--sharp {
-    border-radius: 0;
+  .Button--unfill {
+    width: initial;
   }
 }
 
-.Button-quantity {
-  input {
-    -moz-appearance: textfield;
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    &:focus,
-    &:focus-visible {
-      --tw-ring-color: transparent;
-      outline: 0;
-    }
-    background: var(--black);
-    padding: 0;
-    border: none;
-    text-align: center;
-    width: rem-convert(60px);
-  }
-  &:hover:not(:focus):not(.disabled) {
-    background: var(--grey-dark);
-  }
-  &:hover input {
-    background: var(--grey-dark);
-  }
-  button {
-    padding-left: 3px;
-    padding-right: 3px;
-  }
-  &.disabled,
-  &.disabled:hover {
-    cursor: default;
-    background: var(--grey-lighter);
-    input {
-      background: var(--grey-lighter);
-    }
-  }
+.Button--rectangle {
+  border-radius: rem-convert(7px);
+}
 
-  &.Button--large {
-    input {
-      width: rem-convert(80px);
-    }
-  }
-  &.Button--small {
-    input {
-      width: rem-convert(50px);
-    }
-    &.Button--xsmall {
-      input {
-        width: rem-convert(40px);
-      }
-    }
-  }
+.Button--sharp {
+  border-radius: 0;
+}
 
-  &.Button--secondary {
-    input {
-      background: var(--white);
-      color: var(--black);
-    }
-    &:hover:not(:focus):not(.disabled) {
-      background: var(--black);
-      color: var(--white);
-      input {
-        background: var(--black);
-        color: var(--white);
-      }
-    }
+.Button-quantity input {
+  -moz-appearance: textfield;
+}
 
-    &.disabled,
-    &.disabled:hover {
-      background: var(--white);
-      color: var(--grey-lighter);
-      border: var(--grey-lighter) solid 1px;
-      input {
-        background: var(--white);
-        color: var(--grey-lighter);
-      }
-    }
-  }
+.Button-quantity input::-webkit-outer-spin-button,
+.Button-quantity input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Button-quantity input:focus,
+.Button-quantity input:focus-visible {
+  --tw-ring-color: transparent;
+  outline: 0;
+}
+
+.Button-quantity input {
+  background: var(--black);
+  padding: 0;
+  border: none;
+  text-align: center;
+  width: rem-convert(60px);
+}
+
+.Button-quantity:hover:not(:focus):not(.disabled) {
+  background: var(--grey-dark);
+}
+
+.Button-quantity:hover input {
+  background: var(--grey-dark);
+}
+
+.Button-quantity button {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.Button-quantity.disabled,
+.Button-quantity.disabled:hover {
+  cursor: default;
+  background: var(--grey-lighter);
+}
+
+.Button-quantity.disabled input,
+.Button-quantity.disabled:hover input {
+  background: var(--grey-lighter);
+}
+
+.Button-quantity.Button--large input {
+  width: rem-convert(80px);
+}
+
+.Button-quantity.Button--small input {
+  width: rem-convert(50px);
+}
+
+.Button-quantity.Button--small.Button--xsmall input {
+  width: rem-convert(40px);
+}
+
+.Button-quantity.Button--secondary input {
+  background: var(--white);
+  color: var(--black);
+}
+
+.Button-quantity.Button--secondary:hover:not(:focus):not(.disabled) {
+  background: var(--black);
+  color: var(--white);
+}
+
+.Button-quantity.Button--secondary:hover:not(:focus):not(.disabled) input {
+  background: var(--black);
+  color: var(--white);
+}
+
+.Button-quantity.Button--secondary.disabled,
+.Button-quantity.Button--secondary.disabled:hover {
+  background: var(--white);
+  color: var(--grey-lighter);
+  border: var(--grey-lighter) solid 1px;
+}
+
+.Button-quantity.Button--secondary.disabled input,
+.Button-quantity.Button--secondary.disabled:hover input {
+  background: var(--white);
+  color: var(--grey-lighter);
 }
 
 .Button--round {
@@ -247,51 +278,54 @@
   border-radius: 9999px;
   padding: 0;
   gap: 0;
+}
 
-  &.Button--small {
-    width: rem-convert(40px);
-    height: rem-convert(40px);
+.Button--round.Button--small {
+  width: rem-convert(40px);
+  height: rem-convert(40px);
+}
 
-    & > span {
-      @apply w-4 h-4;
-    }
-  }
+.Button--round.Button--small > span {
+  @apply w-4 h-4;
+}
 
-  & > span.icon {
-    @apply w-5 h-5;
-    &-left {
-      padding-right: 0;
-    }
-    &-right {
-      padding-left: 0;
-    }
-  }
+.Button--round > span.icon {
+  @apply w-5 h-5;
+}
+
+.Button--round > span.icon-left {
+  padding-right: 0;
+}
+
+.Button--round > span.icon-right {
+  padding-left: 0;
 }
 
 .Button-quantityButton {
   display: flex;
+}
 
-  button.Button {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    position: relative;
-    border-left: 1px solid var(--white);
-    &:after {
-      content: '';
-      position: absolute;
-    }
-  }
-  .Button-quantity {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-  }
+.Button-quantityButton button.Button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  position: relative;
+  border-left: 1px solid var(--white);
+}
 
-  &:hover {
-    .Button {
-      background: var(--grey-dark);
-      input {
-        background: var(--grey-dark);
-      }
-    }
-  }
+.Button-quantityButton button.Button:after {
+  content: '';
+  position: absolute;
+}
+
+.Button-quantityButton .Button-quantity {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.Button-quantityButton:hover .Button {
+  background: var(--grey-dark);
+}
+
+.Button-quantityButton:hover .Button input {
+  background: var(--grey-dark);
 }

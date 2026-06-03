@@ -9,105 +9,93 @@
   align-items: center;
   border: 1px solid var(--theme-medium);
   padding: 8px;
-  @screen sm {
+}
+@screen sm {
+  .OrderProductCard {
     max-width: 540px;
   }
-
-  &-header {
-    display: none;
+}
+.OrderProductCard-header {
+  display: none;
+}
+.OrderProductCard-mainContent {
+  display: flex;
+  align-items: center;
+}
+.OrderProductCard-img {
+  height: 130px;
+  width: 112px;
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+}
+.OrderProductCard-img img {
+  object-fit: cover;
+}
+@screen sm {
+  .OrderProductCard-img {
+    height: 112px;
   }
-
-  &-mainContent {
-    display: flex;
-    align-items: center;
-  }
-
-  &-img {
-    height: 130px;
-    width: 112px;
-    background-color: var(--white);
-    display: flex;
-    justify-content: center;
-    img {
-      object-fit: cover;
-    }
-    @screen sm {
-      height: 112px;
-    }
-  }
-
-  &-secondaryTitle {
-    display: block;
-  }
-  &-desc {
-    margin-right: auto;
-    padding: 0;
-    margin-left: 19px;
-  }
-
-  &-title {
-    @apply paragraph-2;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: var(--black);
-    text-decoration: none;
-    transition: inherit;
-    display: inline-block;
-  }
-
-  &-orderInfos {
-    color: var(--grey);
-    display: flex;
-    flex-direction: column;
-    padding-bottom: rem-convert(6px);
-    @screen sm {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    & span {
-      &:not(:last-child) {
-        &:after {
-          content: '';
-        }
-        @screen sm {
-          &:after {
-            content: ',\00a0';
-          }
-        }
-      }
-    }
-  }
-
-  &-originalPrice {
-    color: var(--black);
-    font-size: var(--font-size-paragraph-7);
-    text-decoration-line: line-through;
-    font-family: var(--font-family-paragraph-6);
-  }
-
-  &-price {
-    @apply paragraph-4;
-    font-weight: 600;
-    color: var(--black);
-    position: relative;
-    line-height: normal;
-    margin-top: 0;
-  }
-  &-footer {
-    display: flex;
-    gap: 8px;
+}
+.OrderProductCard-secondaryTitle {
+  display: block;
+}
+.OrderProductCard-desc {
+  margin-right: auto;
+  padding: 0;
+  margin-left: 19px;
+}
+.OrderProductCard-title {
+  @apply paragraph-2;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--black);
+  text-decoration: none;
+  transition: inherit;
+  display: inline-block;
+}
+.OrderProductCard-orderInfos {
+  color: var(--grey);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: rem-convert(6px);
+}
+@screen sm {
+  .OrderProductCard-orderInfos {
+    flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-      margin-top: 10px;
   }
-
-  &:hover,
-  &:focus-visible {
-    .ProductCard-img {
-      img {
-        transform: scale(1.075);
-      }
-    }
+}
+.OrderProductCard-orderInfos span:not(:last-child):after {
+  content: '';
+}
+@screen sm {
+  .OrderProductCard-orderInfos span:not(:last-child):after {
+    content: ',\00a0';
   }
+}
+.OrderProductCard-originalPrice {
+  color: var(--black);
+  font-size: var(--font-size-paragraph-7);
+  text-decoration-line: line-through;
+  font-family: var(--font-family-paragraph-6);
+}
+.OrderProductCard-price {
+  @apply paragraph-4;
+  font-weight: 600;
+  color: var(--black);
+  position: relative;
+  line-height: normal;
+  margin-top: 0;
+}
+.OrderProductCard-footer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 10px;
+}
+.OrderProductCard:hover .ProductCard-img img,
+.OrderProductCard:focus-visible .ProductCard-img img {
+  transform: scale(1.075);
 }

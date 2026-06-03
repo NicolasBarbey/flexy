@@ -1,83 +1,84 @@
 .Dropdown {
   position: relative;
   background-color: var(--white);
+}
 
-  &-current {
-    position: relative;
-    cursor: pointer;
-    outline: none;
+.Dropdown-current {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
 
-    &:hover {
-      background-color: var(--theme-light);
-    }
+.Dropdown-current:hover {
+  background-color: var(--theme-light);
+}
 
-    &:focus+ .Dropdown-list {
-      opacity: 1;
-      animation-name: none;
-    }
+.Dropdown-current:focus + .Dropdown-list {
+  opacity: 1;
+  animation-name: none;
+}
 
-    &:focus+ .Dropdown-list .Dropdown-option {
-      cursor: pointer;
-    }
-  }
+.Dropdown-current:focus + .Dropdown-list .Dropdown-option {
+  cursor: pointer;
+}
 
-  &-value {
-    display: inline-flex;
-  }
+.Dropdown-value {
+  display: inline-flex;
+}
 
-  &-input {
-    display: none;
+.Dropdown-input {
+  display: none;
+}
 
-    &:checked + .Dropdown-text {
-      display: flex;
-    }
-  }
+.Dropdown-input:checked + .Dropdown-text {
+  display: flex;
+}
 
-  &-text {
-    @apply paragraph-4;
-    display: none;
-    width: 100%;
-    padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
-      rem-convert(16px);
-    align-items: center;
-    color: var(--black);
-  }
+.Dropdown-text {
+  @apply paragraph-4;
+  display: none;
+  width: 100%;
+  padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
+    rem-convert(16px);
+  align-items: center;
+  color: var(--black);
+}
 
-  &-list {
-    position: absolute;
-    width: 100%;
-    list-style: none;
-    opacity: 0;
-    transition: 0.2s ease all;
-    box-shadow: 0px 4px 8px 0px rgba(40, 40, 40, 0.15);
-    animation-name: HideList;
-    animation-duration: 0.2s;
-    animation-delay: 0.2s;
-    animation-fill-mode: forwards;
-    animation-timing-function: step-start;
+.Dropdown-list {
+  position: absolute;
+  width: 100%;
+  list-style: none;
+  opacity: 0;
+  transition: 0.2s ease all;
+  box-shadow: 0px 4px 8px 0px rgba(40, 40, 40, 0.15);
+  animation-name: HideList;
+  animation-duration: 0.2s;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: step-start;
+}
 
-    /* Navigation au clavier */
-    &:has(.Dropdown-option:focus) {
-      opacity: 1;
-      animation-name: none;
-    }
-  }
+/* Navigation au clavier */
 
-  &-option {
-    @apply paragraph-4;
-    background-color: var(--white);
-    padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
-      rem-convert(16px);
-    display: flex;
-    align-items: center;
-    color: var(--black);
-    outline: none;
+.Dropdown-list:has(.Dropdown-option:focus) {
+  opacity: 1;
+  animation-name: none;
+}
 
-    &:hover,
-    &:focus-visible{
-      background-color: var(--theme-light);
-    }
-  }
+.Dropdown-option {
+  @apply paragraph-4;
+  background-color: var(--white);
+  padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
+    rem-convert(16px);
+  display: flex;
+  align-items: center;
+  color: var(--black);
+  outline: none;
+}
+
+.Dropdown-option:hover,
+.Dropdown-option:focus-visible {
+  background-color: var(--theme-light);
 }
 
 @keyframes HideList {

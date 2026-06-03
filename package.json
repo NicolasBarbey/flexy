@@ -58,8 +58,6 @@
     "postcss": "^8.5.4",
     "postcss-easy-import": "^4.0.0",
     "postcss-loader": "^7.3.3",
-    "postcss-nested": "^6.0.1",
-    "postcss-nested-ancestors": "^3.0.0",
     "postcss-rem": "^3.0.0",
     "prettier": "^3.3.3",
     "prettier-plugin-style-order": "^0.2.2",

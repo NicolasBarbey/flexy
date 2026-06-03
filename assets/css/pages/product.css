@@ -1,110 +1,128 @@
-.Product {
-  &-imageContainer {
-    width: 594px;
-    img {
-      width: 100%;
-    }
-  }
-
-  &Gallery-item {
-    border: 1px solid transparent;
-    &.is-active {
-      border: 1px solid var(--theme-dark);
-    }
-  }
+.Product-imageContainer {
+  width: 594px;
+}
+.Product-imageContainer img {
+  width: 100%;
+}
+.ProductGallery-item {
+  border: 1px solid transparent;
+}
+.ProductGallery-item.is-active {
+  border: 1px solid var(--theme-dark);
 }
 
 .ProductPage {
   color: var(--black);
-  &-grid {
-    display: grid;
+}
 
-    @screen lg {
-      grid-template-rows: auto auto;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 46px 54px;
-    }
-    @screen xl {
-      gap: 16px 20px;
-    }
-  }
+.ProductPage-grid {
+  display: grid;
+}
 
-  &-gallery {
-    order: 1;
-    position: relative;
-    right: 50%;
-    left: 50%;
-    order: 1;
-    width: 100vw;
-    margin-right: -50vw;
-    margin-left: -50vw;
-
-    @screen sm {
-      position: static;
-      width: auto;
-      margin: 0;
-    }
-    @screen lg {
-      grid-column: 1 / 7;
-    }
-    @screen xl {
-      grid-column: 1 / 8;
-    }
-  }
-
-  &-infos {
-    order: 2;
-    margin-top: 30px;
-
-    @screen lg {
-      grid-row: 1 / 3;
-      grid-column: 7 / 13;
-      margin: 0;
-    }
-
-    @screen xl {
-      grid-column: 9 / 13;
-    }
-  }
-
-  &-description {
-    order: 3;
-    @screen lg {
-      grid-column: 1 / 7;
-    }
-    @screen xl {
-      grid-column: 2 / 8;
-    }
+@screen lg {
+  .ProductPage-grid {
+    grid-template-rows: auto auto;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 46px 54px;
   }
 }
 
-.PseSelector {
-  @media screen and (max-width: 640px) {
-    .FilterPill {
-      display: block;
-      border: none;
-      width: 100%;
-      text-align: left;
-      &:hover {
-        background-color: white;
-      }
-      &:has(:checked),
-      &.active {
-        background-color: white;
-        background-image: url('/assets/icons/checkmark.svg');
-        background-repeat: no-repeat;
-        background-position: right 0 top 50%;
-        background-size: rem-convert(14px) auto;
-      }
-    }
+@screen xl {
+  .ProductPage-grid {
+    gap: 16px 20px;
   }
-  .Fieldset {
-    &-group {
-      @apply grid sm:gap-4;
+}
 
-      li:last-child {
-        margin-top: -1px;
-      }
-    }
+.ProductPage-gallery {
+  order: 1;
+  position: relative;
+  right: 50%;
+  left: 50%;
+  order: 1;
+  width: 100vw;
+  margin-right: -50vw;
+  margin-left: -50vw;
+}
+
+@screen sm {
+  .ProductPage-gallery {
+    position: static;
+    width: auto;
+    margin: 0;
   }
+}
+
+@screen lg {
+  .ProductPage-gallery {
+    grid-column: 1 / 7;
+  }
+}
+
+@screen xl {
+  .ProductPage-gallery {
+    grid-column: 1 / 8;
+  }
+}
+
+.ProductPage-infos {
+  order: 2;
+  margin-top: 30px;
+}
+
+@screen lg {
+  .ProductPage-infos {
+    grid-row: 1 / 3;
+    grid-column: 7 / 13;
+    margin: 0;
+  }
+}
+
+@screen xl {
+  .ProductPage-infos {
+    grid-column: 9 / 13;
+  }
+}
+
+.ProductPage-description {
+  order: 3;
+}
+
+@screen lg {
+  .ProductPage-description {
+    grid-column: 1 / 7;
+  }
+}
+
+@screen xl {
+  .ProductPage-description {
+    grid-column: 2 / 8;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .PseSelector .FilterPill {
+    display: block;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .PseSelector .FilterPill:hover {
+    background-color: white;
+  }
+  .PseSelector .FilterPill:has(:checked),
+  .PseSelector .FilterPill.active {
+    background-color: white;
+    background-image: url('/assets/icons/checkmark.svg');
+    background-repeat: no-repeat;
+    background-position: right 0 top 50%;
+    background-size: rem-convert(14px) auto;
+  }
+}
+
+.PseSelector .Fieldset-group {
+  @apply grid sm:gap-4;
+}
+
+.PseSelector .Fieldset-group li:last-child {
+  margin-top: -1px;
 }

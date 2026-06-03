@@ -1,80 +1,96 @@
 .ReinsuranceModule {
   background: var(--white);
   --spacer: 24px;
+}
 
-  @screen md {
+@screen md {
+  .ReinsuranceModule {
     --spacer: 10px;
   }
+}
 
-  @screen lg {
+@screen lg {
+  .ReinsuranceModule {
     --spacer: 54px;
   }
+}
 
-  &-wrapper {
-    max-width: rem-convert(1082px);
-    margin: 0 auto;
-    padding: rem-convert(40px) rem-convert(24px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--grey);
+.ReinsuranceModule-wrapper {
+  max-width: rem-convert(1082px);
+  margin: 0 auto;
+  padding: rem-convert(40px) rem-convert(24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--grey);
+}
 
-    @screen md {
-      flex-direction: row;
-    }
-    strong {
-      @apply paragraph-4;
-      font-weight: 700;
-      display: block;
-      color: var(--black);
-    }
-
-    > div {
-      display: flex;
-      gap: rem-convert(12px);
-
-      @screen md {
-        max-width: calc(100% / 3);
-      }
-    }
-
-    > div:first-child {
-      padding: 0 0 var(--spacer);
-
-      @screen md {
-        padding: 0 var(--spacer) 0 0;
-      }
-    }
-
-    > div:nth-child(2) {
-      border: solid var(--grey-lighter);
-      border-width: 1px 0;
-
-      padding: var(--spacer) 0;
-
-      @screen md {
-        border-width: 0 1px;
-        padding: 0 var(--spacer);
-      }
-    }
-
-    > div:last-child {
-      padding: var(--spacer) 0 0;
-
-      @screen md {
-        padding: 0 0 0 var(--spacer);
-      }
-    }
+@screen md {
+  .ReinsuranceModule-wrapper {
+    flex-direction: row;
   }
-  &-text {
-    @apply paragraph-6;
-  }
+}
 
-  &-icon {
-    display: inline-block;
-    width: rem-convert(36px);
-    height: rem-convert(36px);
-    color: var(--grey);
-    flex-shrink: 0;
+.ReinsuranceModule-wrapper strong {
+  @apply paragraph-4;
+  font-weight: 700;
+  display: block;
+  color: var(--black);
+}
+
+.ReinsuranceModule-wrapper > div {
+  display: flex;
+  gap: rem-convert(12px);
+}
+
+@screen md {
+  .ReinsuranceModule-wrapper > div {
+    max-width: calc(100% / 3);
   }
+}
+
+.ReinsuranceModule-wrapper > div:first-child {
+  padding: 0 0 var(--spacer);
+}
+
+@screen md {
+  .ReinsuranceModule-wrapper > div:first-child {
+    padding: 0 var(--spacer) 0 0;
+  }
+}
+
+.ReinsuranceModule-wrapper > div:nth-child(2) {
+  border: solid var(--grey-lighter);
+  border-width: 1px 0;
+
+  padding: var(--spacer) 0;
+}
+
+@screen md {
+  .ReinsuranceModule-wrapper > div:nth-child(2) {
+    border-width: 0 1px;
+    padding: 0 var(--spacer);
+  }
+}
+
+.ReinsuranceModule-wrapper > div:last-child {
+  padding: var(--spacer) 0 0;
+}
+
+@screen md {
+  .ReinsuranceModule-wrapper > div:last-child {
+    padding: 0 0 0 var(--spacer);
+  }
+}
+
+.ReinsuranceModule-text {
+  @apply paragraph-6;
+}
+
+.ReinsuranceModule-icon {
+  display: inline-block;
+  width: rem-convert(36px);
+  height: rem-convert(36px);
+  color: var(--grey);
+  flex-shrink: 0;
 }

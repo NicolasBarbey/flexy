@@ -1,18 +1,21 @@
 .Fonts {
   display: grid;
-  > div {
-    display: flex;
-    align-items: flex-end;
-    border-bottom: 1px solid var(--grey-lighter);
-    padding: 1rem 0;
-  }
+}
+.Fonts > div {
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--grey-lighter);
+  padding: 1rem 0;
 }
 
 .h1 {
   font-size: var(--font-size-h1-m);
   font-weight: var(--font-weight-h1);
   line-height: var(--line-height-h1-m);
-  @screen md {
+}
+
+@screen md {
+  .h1 {
     font-size: var(--font-size-h1-d);
     font-weight: var(--font-weight-h1);
     line-height: var(--line-height-h1-d);
@@ -22,7 +25,9 @@
   font-size: var(--font-size-h2-m);
   font-weight: var(--font-weight-h2);
   line-height: var(--line-height-h2-m);
-  @screen md {
+}
+@screen md {
+  .h2 {
     font-size: var(--font-size-h2-d);
     font-weight: var(--font-weight-h2);
     line-height: var(--line-height-h2-d);
@@ -33,7 +38,10 @@
   font-size: var(--font-size-h3-m);
   font-weight: var(--font-weight-h3);
   line-height: var(--line-height-h3-m);
-  @screen md {
+}
+
+@screen md {
+  .h3 {
     font-size: var(--font-size-h3-d);
     font-weight: var(--font-weight-h3);
     line-height: var(--line-height-h3-d);
@@ -44,7 +52,10 @@
   font-size: var(--font-size-h4-m);
   font-weight: var(--font-weight-h4);
   line-height: var(--line-height-h4-m);
-  @screen md {
+}
+
+@screen md {
+  .h4 {
     font-size: var(--font-size-h4-d);
     font-weight: var(--font-weight-h4);
     line-height: var(--line-height-h4-d);
@@ -55,7 +66,10 @@
   font-size: var(--font-size-h5-m);
   font-weight: var(--font-weight-h5);
   line-height: var(--line-height-h5-m);
-  @screen md {
+}
+
+@screen md {
+  .h5 {
     font-size: var(--font-size-h5-d);
     font-weight: var(--font-weight-h5);
     line-height: var(--line-height-h5-d);
@@ -66,7 +80,10 @@
   font-size: var(--font-size-h6-m);
   font-weight: var(--font-weight-h6);
   line-height: var(--line-height-h6-m);
-  @screen md {
+}
+
+@screen md {
+  .h6 {
     font-size: var(--font-size-h6-d);
     font-weight: var(--font-weight-h6);
     line-height: var(--line-height-h6-d);
@@ -110,32 +127,30 @@
   line-height: var(--line-height-paragraph-7);
 }
 
-.paragraph {
-  &--semibold {
-    font-weight: 600;
-  }
-
-  &--bold {
-    font-weight: 700;
-  }
+.paragraph--semibold {
+  font-weight: 600;
 }
 
-.typo-button {
-  &-large {
-    font-size: var(--font-size-button-large);
-    font-family: var(--font-family-button-large);
-    font-weight: var(--font-weight-button-large);
-  }
-  &-medium {
-    font-size: var(--font-size-button-medium);
-    font-family: var(--font-family-button-medium);
-    font-weight: var(--font-weight-button-medium);
-  }
-  &-small {
-    font-size: var(--font-size-button-small);
-    font-family: var(--font-family-button-small);
-    font-weight: var(--font-weight-button-small);
-  }
+.paragraph--bold {
+  font-weight: 700;
+}
+
+.typo-button-large {
+  font-size: var(--font-size-button-large);
+  font-family: var(--font-family-button-large);
+  font-weight: var(--font-weight-button-large);
+}
+
+.typo-button-medium {
+  font-size: var(--font-size-button-medium);
+  font-family: var(--font-family-button-medium);
+  font-weight: var(--font-weight-button-medium);
+}
+
+.typo-button-small {
+  font-size: var(--font-size-button-small);
+  font-family: var(--font-family-button-small);
+  font-weight: var(--font-weight-button-small);
 }
 
 body a {
@@ -147,17 +162,18 @@ body a {
   font-family: var(--font-family-link-medium);
   font-weight: var(--font-weight-link-medium);
   text-decoration: underline;
+}
 
-  &-large {
-    font-size: var(--font-size-link-large);
-    font-family: var(--font-family-link-large);
-    font-weight: var(--font-weight-link-large);
-  }
-  &-small {
-    font-size: var(--font-size-link-small);
-    font-family: var(--font-family-link-small);
-    font-weight: var(--font-weight-link-small);
-  }
+.link-large {
+  font-size: var(--font-size-link-large);
+  font-family: var(--font-family-link-large);
+  font-weight: var(--font-weight-link-large);
+}
+
+.link-small {
+  font-size: var(--font-size-link-small);
+  font-family: var(--font-family-link-small);
+  font-weight: var(--font-weight-link-small);
 }
 
 .indication {
@@ -166,12 +182,13 @@ body a {
   font-weight: var(--font-weight-indication);
   font-size: var(--font-size-indication);
   letter-spacing: var(--letter-spacing-indication);
-  &-small {
-    font-size: var(--font-size-indication-small);
-    letter-spacing: var(--letter-spacing-indication-small);
-  }
+}
 
-  &-lower {
-    text-transform: lowercase;
-  }
+.indication-small {
+  font-size: var(--font-size-indication-small);
+  letter-spacing: var(--letter-spacing-indication-small);
+}
+
+.indication-lower {
+  text-transform: lowercase;
 }

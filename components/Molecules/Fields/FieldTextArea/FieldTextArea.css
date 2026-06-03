@@ -1,5 +1,3 @@
-.FieldInput--textArea {
-  .FieldInput-input {
-    min-height: 200px;
-  }
+.FieldInput--textArea .FieldInput-input {
+  min-height: 200px;
 }

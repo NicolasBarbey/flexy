@@ -5,66 +5,69 @@
   position: relative;
   display: flex;
   flex-direction: column;
+}
 
-  &--client-information {
-    border: none;
-    color: var(--black);
-  }
-  &.selected {
-    background: var(--white);
-  }
+.AddressCard--client-information {
+  border: none;
+  color: var(--black);
+}
 
-  &-top {
-    position: absolute;
-    padding: rem-convert(10px);
-    right: 0;
-    top: 0;
-  }
+.AddressCard.selected {
+  background: var(--white);
+}
 
-  &-content {
-    display: flex;
-    padding: 1.5rem 1.5rem 1rem;
-    align-items: flex-start;
-    span {
-      display: block;
-    }
-    .Radio {
-      margin-top: 4px;
-      margin-right: 8px;
-    }
-  }
-  &-title {
-    @apply paragraph-2;
-    font-weight: 600;
-    color: var(--black);
-    padding-bottom: rem-convert(8px);
-  }
-  &-name {
-    @apply paragraph-4;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 10px;
-  }
-  &-address {
-    @apply paragraph-4;
-    font-weight: 400;
-  }
-  &-bottom {
-    padding-bottom: rem-convert(31px);
-    padding-right: rem-convert(24px);
-    padding-left: rem-convert(24px);
-    text-align: right;
-  }
+.AddressCard-top {
+  position: absolute;
+  padding: rem-convert(10px);
+  right: 0;
+  top: 0;
+}
 
-  &--checkout {
-    .Favorite {
-      cursor: default;
-    }
-  }
+.AddressCard-content {
+  display: flex;
+  padding: 1.5rem 1.5rem 1rem;
+  align-items: flex-start;
+}
 
-  &--module {
-    &.selected {
-      background: var(--theme-lighter);
-    }
-  }
+.AddressCard-content span {
+  display: block;
+}
+
+.AddressCard-content .Radio {
+  margin-top: 4px;
+  margin-right: 8px;
+}
+
+.AddressCard-title {
+  @apply paragraph-2;
+  font-weight: 600;
+  color: var(--black);
+  padding-bottom: rem-convert(8px);
+}
+
+.AddressCard-name {
+  @apply paragraph-4;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.AddressCard-address {
+  @apply paragraph-4;
+  font-weight: 400;
+}
+
+.AddressCard-bottom {
+  padding-bottom: rem-convert(31px);
+  padding-right: rem-convert(24px);
+  padding-left: rem-convert(24px);
+  text-align: right;
+}
+
+.AddressCard--checkout .Favorite {
+  cursor: default;
+}
+
+.AddressCard--module.selected {
+  background: var(--theme-lighter);
 }

@@ -10,24 +10,25 @@
   background-color: var(--white);
   border-bottom: 1px solid var(--grey-lighter);
   transition: 0.2s;
+}
 
-  & > span {
-    color: var(--black);
-  }
+.Shortcut > span {
+  color: var(--black);
+}
 
-  &:hover {
-    background-color: var(--grey-lightest);
-  }
+.Shortcut:hover {
+  background-color: var(--grey-lightest);
+}
 
-  &:focus-visible{
-    outline: var(--theme-medium) solid 1px;
-    border-bottom: 0;
-  }
+.Shortcut:focus-visible {
+  outline: var(--theme-medium) solid 1px;
+  border-bottom: 0;
+}
 
-  &.active {
-    background: var(--grey-lightest);
-    &:hover {
-      background-color: var(--grey-lighter);
-    }
-  }
+.Shortcut.active {
+  background: var(--grey-lightest);
+}
+
+.Shortcut.active:hover {
+  background-color: var(--grey-lighter);
 }

@@ -3,91 +3,99 @@
   display: none;
   align-items: stretch;
   position: relative;
+}
 
-  @screen md {
+@screen md {
+  .LangSelect {
     display: flex;
   }
+}
 
-  &-current {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    text-transform: uppercase;
-    font-weight: 500;
-    padding: 16px 0 16px 16px;
+.LangSelect-current {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 16px 0 16px 16px;
+}
 
-    @screen md {
-      font-size: 0;
-    }
-
-    @screen lg {
-      font-size: inherit;
-    }
-    &:hover,
-    &:focus,
-    &:focus-visible {
-      background-color: var(--grey-lightest);
-    }
-
-    &:focus-visible {
-      outline: 1px solid var(--black);
-      outline-offset: -1px;
-    }
+@screen md {
+  .LangSelect-current {
+    font-size: 0;
   }
+}
 
-  &-flag {
-    width: 18px;
-    aspect-ratio: 1/1;
-    display: inline-block;
-    flex-shrink: 0;
+@screen lg {
+  .LangSelect-current {
+    font-size: inherit;
   }
-  &-list {
-    display: none;
-    transition-property: opacity, display;
-    transition-behavior: allow-discrete;
-    transition-duration: 0.15s;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    transform: translate(-10px, 2px);
-    background-color: white;
-    padding: 8px;
-    flex-direction: column;
-    align-items: stretch;
-    box-shadow: 0px 0px 8px 0px rgba(84, 84, 84, 0.15);
-    width: 200px;
-  }
+}
 
-  &-lang {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 24px;
-    width: 100%;
-    text-decoration: none;
-    &:hover,
-    &:focus,
-    &.active,
-    &:focus-visible {
-      background-color: var(--grey-lightest);
-    }
-  }
+.LangSelect-current:hover,
+.LangSelect-current:focus,
+.LangSelect-current:focus-visible {
+  background-color: var(--grey-lightest);
+}
 
-  &-check {
-    color: var(--black);
-    width: 16px;
-    aspect-ratio: 1/1;
-    margin-left: auto;
-  }
+.LangSelect-current:focus-visible {
+  outline: 1px solid var(--black);
+  outline-offset: -1px;
+}
 
-  &.is-open {
-    .LangSelect-current {
-      background-color: var(--grey-lightest);
-    }
-    .LangSelect-list {
-      display: flex;
-      opacity: 1;
-    }
-  }
+.LangSelect-flag {
+  width: 18px;
+  aspect-ratio: 1/1;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.LangSelect-list {
+  display: none;
+  transition-property: opacity, display;
+  transition-behavior: allow-discrete;
+  transition-duration: 0.15s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translate(-10px, 2px);
+  background-color: white;
+  padding: 8px;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 0px 0px 8px 0px rgba(84, 84, 84, 0.15);
+  width: 200px;
+}
+
+.LangSelect-lang {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  width: 100%;
+  text-decoration: none;
+}
+
+.LangSelect-lang:hover,
+.LangSelect-lang:focus,
+.LangSelect-lang.active,
+.LangSelect-lang:focus-visible {
+  background-color: var(--grey-lightest);
+}
+
+.LangSelect-check {
+  color: var(--black);
+  width: 16px;
+  aspect-ratio: 1/1;
+  margin-left: auto;
+}
+
+.LangSelect.is-open .LangSelect-current {
+  background-color: var(--grey-lightest);
+}
+
+.LangSelect.is-open .LangSelect-list {
+  display: flex;
+  opacity: 1;
 }

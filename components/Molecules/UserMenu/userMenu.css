@@ -9,24 +9,27 @@
   justify-content: space-between;
   height: rem-convert(64px);
   cursor: pointer;
+}
 
-  @screen md {
+@screen md {
+  .UserMenu {
     padding: 20px 24px;
   }
+}
 
-  &:hover, &:focus-visible {
-    opacity: 0.5;
-  }
+.UserMenu:hover,
+.UserMenu:focus-visible {
+  opacity: 0.5;
+}
 
-  &--withIcon {
-    justify-content: flex-start;
-    text-decoration: underline;
-    font-weight: 600;
-  }
+.UserMenu--withIcon {
+  justify-content: flex-start;
+  text-decoration: underline;
+  font-weight: 600;
+}
 
-  &-icon {
-    width: rem-convert(28px);
-    height: rem-convert(28px);
-    display: inline-block;
-  }
+.UserMenu-icon {
+  width: rem-convert(28px);
+  height: rem-convert(28px);
+  display: inline-block;
 }

@@ -2,64 +2,74 @@
   background: var(--theme-lightest);
   border: 1px solid var(--theme-lightest);
   border-radius: rem-convert(8px);
+}
 
-  &.selected {
-    border: 1px solid var(--theme-medium);
-    .PickupPointModule-content {
-      background: var(--theme-lighter);
-      border-top-left-radius: rem-convert(8px);
-      border-top-right-radius: rem-convert(8px);
-    }
-    .PickupPointModule-searchZone {
-      display: block;
-      padding: rem-convert(16px);
-      padding-top: rem-convert(30px);
-      @screen md {
-        padding: rem-convert(40px);
-      }
-    }
-  }
+.PickupPointModule.selected {
+  border: 1px solid var(--theme-medium);
+}
 
-  &-content {
-    display: flex;
-    align-items: flex-start;
-    padding: rem-convert(16px);
-    & > span:last-child {
-      flex-grow: 1;
-    }
-    .Radio {
-      margin-top: 4px;
-      margin-right: 8px;
-    }
-    span:not(.PickupPointModule-top):not(.Tag) {
-      display: block;
-    }
-    .PickupPointModule-top {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
+.PickupPointModule.selected .PickupPointModule-content {
+  background: var(--theme-lighter);
+  border-top-left-radius: rem-convert(8px);
+  border-top-right-radius: rem-convert(8px);
+}
 
-  &-title {
-    @apply paragraph-1;
-    font-weight: 600;
-    color: var(--black);
-  }
+.PickupPointModule.selected .PickupPointModule-searchZone {
+  display: block;
+  padding: rem-convert(16px);
+  padding-top: rem-convert(30px);
+}
 
-  &-description {
-    @apply paragraph-6;
-    color: var(--grey);
-    margin-top: rem-convert(4px);
+@screen md {
+  .PickupPointModule.selected .PickupPointModule-searchZone {
+    padding: rem-convert(40px);
   }
+}
 
-  &-price {
-    @apply paragraph-4;
-    font-weight: 600;
-    color: var(--black);
-  }
-  &-buttonView {
-    @screen maxMd {
-      @apply Button--small Button--fill;
-    }
+.PickupPointModule-content {
+  display: flex;
+  align-items: flex-start;
+  padding: rem-convert(16px);
+}
+
+.PickupPointModule-content > span:last-child {
+  flex-grow: 1;
+}
+
+.PickupPointModule-content .Radio {
+  margin-top: 4px;
+  margin-right: 8px;
+}
+
+.PickupPointModule-content span:not(.PickupPointModule-top):not(.Tag) {
+  display: block;
+}
+
+.PickupPointModule-content .PickupPointModule-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.PickupPointModule-title {
+  @apply paragraph-1;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.PickupPointModule-description {
+  @apply paragraph-6;
+  color: var(--grey);
+  margin-top: rem-convert(4px);
+}
+
+.PickupPointModule-price {
+  @apply paragraph-4;
+  font-weight: 600;
+  color: var(--black);
+}
+
+@screen maxMd {
+  .PickupPointModule-buttonView {
+    @apply Button--small Button--fill;
   }
 }

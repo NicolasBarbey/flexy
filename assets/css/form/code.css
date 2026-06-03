@@ -1,76 +1,75 @@
 .FieldCode {
-    border: 1px solid var(--theme);
-    border-radius: 8px;
-    position: relative;
-    display: inline-flex;
-    overflow: hidden;
+  border: 1px solid var(--theme);
+  border-radius: 8px;
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+}
 
-    &:before {
-        display: block;
-        width: 10px;
-        height: 1px;
-        background-color: currentColor;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, 10px);
-    }
+.FieldCode:before {
+  display: block;
+  width: 10px;
+  height: 1px;
+  background-color: currentColor;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 10px);
+}
 
-    input {
-        appearance: none;
-        text-align: center;
-        width: 20px;
-        height: 26px;
-        padding: 16px 14px;
-        box-sizing: content-box;
-        -moz-appearance:textfield;
+.FieldCode input {
+  appearance: none;
+  text-align: center;
+  width: 20px;
+  height: 26px;
+  padding: 16px 14px;
+  box-sizing: content-box;
+  -moz-appearance: textfield;
+}
 
-        @screen lg {
-            width: 26px;
-        }
-        &:focus,
-        &:focus-visible {
-            outline: none;
-        }
+@screen lg {
+  .FieldCode input {
+    width: 26px;
+  }
+}
 
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    }
+.FieldCode input:focus,
+.FieldCode input:focus-visible {
+  outline: none;
+}
 
-    &:has(:placeholder-shown) {
-        &:before {
-            content: '';
-        }
-    }
+.FieldCode input::-webkit-outer-spin-button,
+.FieldCode input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
-    &:focus-within {
-        outline-offset: 0;
-        outline: 1px solid var(--theme);
+.FieldCode:has(:placeholder-shown):before {
+  content: '';
+}
 
-        &:before {
-            content: none;
-        }
-    }
-    &--error {
+.FieldCode:focus-within {
+  outline-offset: 0;
+  outline: 1px solid var(--theme);
+}
 
-        input {
-            border: 1px solid var(--error-light);
-            color: var(--error);
+.FieldCode:focus-within:before {
+  content: none;
+}
 
-            &:hover {
-                background-color: var(--error-lightest);
-            }
+.FieldCode--error input {
+  border: 1px solid var(--error-light);
+  color: var(--error);
+}
 
-            &:focus-visible {
-                outline: 1px solid var(--error-dark);
-            }
-        }
+.FieldCode--error input:hover {
+  background-color: var(--error-lightest);
+}
 
-        ::placeholder {
-            color: var(--error);
-        }
-    }
+.FieldCode--error input:focus-visible {
+  outline: 1px solid var(--error-dark);
+}
+
+.FieldCode--error ::placeholder {
+  color: var(--error);
 }

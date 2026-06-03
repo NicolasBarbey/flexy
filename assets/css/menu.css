@@ -8,53 +8,53 @@
 @media screen and (max-width: theme('screens.lg')) {
   #Menu {
     @apply fixed inset-0 hidden text-black bg-white;
+  }
 
-    .Header-navigation {
-      @apply relative h-full;
-    }
+  #Menu .Header-navigation {
+    @apply relative h-full;
+  }
 
-    ul {
-      @apply flex flex-col items-stretch gap-0 pb-[var(--header-nav-height)] pt-[var(--padding-top-menu)] justify-start;
+  #Menu ul {
+    @apply flex flex-col items-stretch gap-0 pb-[var(--header-nav-height)] pt-[var(--padding-top-menu)] justify-start;
 
-      padding-right: calc(var(--padding-x-menu) - var(--padding-button-sub));
-      padding-left: var(--padding-x-menu);
+    padding-right: calc(var(--padding-x-menu) - var(--padding-button-sub));
+    padding-left: var(--padding-x-menu);
+  }
 
-      li {
-        @apply flex items-center justify-between text-lg font-semibold;
+  #Menu ul li {
+    @apply flex items-center justify-between text-lg font-semibold;
 
-        line-height: var(--line-height-paragraph-1);
-        gap: calc(30px - var(--padding-button-sub));
-      }
+    line-height: var(--line-height-paragraph-1);
+    gap: calc(30px - var(--padding-button-sub));
+  }
 
-      .Submenu-link,
-      .ItemHeader-link {
-        @apply py-[var(--padding-button-sub)];
-      }
+  #Menu ul .Submenu-link,
+  #Menu ul .ItemHeader-link {
+    @apply py-[var(--padding-button-sub)];
+  }
 
-      svg {
-        @apply w-[28px];
-      }
-      ul {
-        @apply hidden fixed bg-white left-0 right-0 top-[var(--padding-top-menu)] bottom-[var(--header-nav-height)] pt-0;
+  #Menu ul svg {
+    @apply w-[28px];
+  }
+  #Menu ul ul {
+    @apply hidden fixed bg-white left-0 right-0 top-[var(--padding-top-menu)] bottom-[var(--header-nav-height)] pt-0;
+  }
 
-        &.is-active {
-          @apply flex;
-        }
-      }
-    }
+  #Menu ul ul.is-active {
+    @apply flex;
+  }
 
-    &.is-open {
-      @apply block h-full;
-    }
+  #Menu.is-open {
+    @apply block h-full;
   }
 }
 
 [data-menu-close] {
   @apply block lg:hidden p-[var(--padding-button-close)] absolute right-0 top-0 z-10;
+}
 
-  svg {
-    @apply w-[32px] text-grey-dark;
-  }
+[data-menu-close] svg {
+  @apply w-[32px] text-grey-dark;
 }
 
 [data-menu-back] {
@@ -62,10 +62,10 @@
 
   left: calc(var(--padding-x-menu) - var(--padding-button-close));
   top: calc(var(--padding-top-menu) / 2);
+}
 
-  svg {
-    @apply w-[28px];
-  }
+[data-menu-back] svg {
+  @apply w-[28px];
 }
 
 [data-menu-back='-1'] {

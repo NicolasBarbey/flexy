@@ -1,12 +1,8 @@
-.PromoCodeForm {
-  &-label {
-    @apply paragraph-4;
-    color: var(--black);
-    font-weight: 600;
-
-  }
-
- .FieldWrapper {
-   flex: 1;
- }
+.PromoCodeForm-label {
+  @apply paragraph-4;
+  color: var(--black);
+  font-weight: 600;
+}
+.PromoCodeForm .FieldWrapper {
+  flex: 1;
 }

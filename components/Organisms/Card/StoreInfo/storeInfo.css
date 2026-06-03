@@ -3,60 +3,73 @@
   background: var(--theme-lightest);
   padding: rem-convert(24px);
   border-radius: rem-convert(8px);
+}
 
-  &-title {
-    color: var(--black);
-    @apply paragraph-2;
+.StoreInfo-title {
+  color: var(--black);
+  @apply paragraph-2;
+  font-weight: 700;
+  margin-bottom: rem-convert(8px);
+}
+
+.StoreInfo-address {
+  @apply paragraph-2;
+}
+
+.StoreInfo-address span {
+  display: block;
+}
+
+@screen lg {
+  .StoreInfo-address span {
+    display: inline;
+  }
+}
+
+.StoreInfo-hours {
+  display: flex;
+  gap: rem-convert(6px);
+  align-items: center;
+  text-decoration: underline;
+  margin-top: rem-convert(10px);
+  margin-bottom: rem-convert(10px);
+  color: var(--black);
+}
+
+.StoreInfo-hours svg {
+  width: rem-convert(18px);
+  height: rem-convert(18px);
+}
+
+.StoreInfo-hoursListing {
+  @apply paragraph-5;
+  display: inline-grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+.StoreInfo-hoursListing div:nth-child(2n + 1) {
+  font-weight: 700;
+  padding-right: rem-convert(30px);
+}
+
+@screen lg {
+  .StoreInfo-hoursListing {
+    margin-top: rem-convert(24px);
+    grid-template-columns: repeat(4, auto);
+  }
+  .StoreInfo-hoursListing div:nth-child(2n + 1) {
     font-weight: 700;
-    margin-bottom: rem-convert(8px);
+    padding-right: rem-convert(30px);
   }
-  &-address {
-    @apply paragraph-2;
-    span {
-      display: block;
-      @screen lg {
-        display: inline;
-      }
-    }
+  .StoreInfo-hoursListing div:nth-child(4n + 2) {
+    padding-right: rem-convert(30px);
+    border-right: 1px solid var(--grey-lighter);
   }
-  &-hours {
-    display: flex;
-    gap: rem-convert(6px);
-    align-items: center;
-    text-decoration: underline;
-    margin-top: rem-convert(10px);
-    margin-bottom: rem-convert(10px);
-    color: var(--black);
-    svg {
-      width: rem-convert(18px);
-      height: rem-convert(18px);
-    }
+  .StoreInfo-hoursListing div:nth-child(4n + 3) {
+    padding-left: rem-convert(30px);
   }
-  &-hoursListing {
-    @apply paragraph-5;
-    display: inline-grid;
-    grid-template-columns: repeat(2, auto);
-    div:nth-child(2n + 1) {
-      font-weight: 700;
-      padding-right: rem-convert(30px);
-    }
-    @screen lg {
-      margin-top: rem-convert(24px);
-      grid-template-columns: repeat(4, auto);
-      div:nth-child(2n + 1) {
-        font-weight: 700;
-        padding-right: rem-convert(30px);
-      }
-      div:nth-child(4n + 2) {
-        padding-right: rem-convert(30px);
-        border-right: 1px solid var(--grey-lighter);
-      }
-      div:nth-child(4n + 3) {
-        padding-left: rem-convert(30px);
-      }
-    }
-    &.hidden {
-      display: none;
-    }
-  }
+}
+
+.StoreInfo-hoursListing.hidden {
+  display: none;
 }

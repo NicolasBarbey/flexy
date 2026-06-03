@@ -5,70 +5,71 @@
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
+}
 
-  @media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
+  .Tag {
     @apply paragraph-3;
   }
+}
 
-  &--withIcon {
-    padding: rem-convert(4px) rem-convert(12px) rem-convert(4px)
-      rem-convert(4px);
-  }
+.Tag--withIcon {
+  padding: rem-convert(4px) rem-convert(12px) rem-convert(4px) rem-convert(4px);
+}
 
-  &--action {
-    border: 0.5px solid;
-    outline: none;
+.Tag--action {
+  border: 0.5px solid;
+  outline: none;
+}
 
-    &:hover {
-      background-color: transparent;
-    }
-  }
+.Tag--action:hover {
+  background-color: transparent;
+}
 
-  &--validated {
-    background-color: var(--validated-lightest);
-    color: var(--black);
-    border: 0.5px solid var(--validated);
+.Tag--validated {
+  background-color: var(--validated-lightest);
+  color: var(--black);
+  border: 0.5px solid var(--validated);
+}
 
-    &:focus-visible{
-      border: 1px solid var(--validated);
-    }
+.Tag--validated:focus-visible {
+  border: 1px solid var(--validated);
+}
 
-    .Tag-icon {
-      color: var(--validated);
-    }
-  }
+.Tag--validated .Tag-icon {
+  color: var(--validated);
+}
 
-  &--error {
-    background-color: var(--error-lightest);
-    color: var(--error-light);
-    border-color: var(--error);
+.Tag--error {
+  background-color: var(--error-lightest);
+  color: var(--error-light);
+  border-color: var(--error);
+}
 
-    &:focus-visible{
-      border: 1px solid var(--error-dark);
-    }
-  }
+.Tag--error:focus-visible {
+  border: 1px solid var(--error-dark);
+}
 
-  &--vermillon {
-    background-color: var(--theme-light);
-    color: var(--theme-dark);
-    border-color: var(--theme);
+.Tag--vermillon {
+  background-color: var(--theme-light);
+  color: var(--theme-dark);
+  border-color: var(--theme);
+}
 
-    &:focus-visible{
-      border: 1px solid var(--theme-dark);
-    }
-  }
+.Tag--vermillon:focus-visible {
+  border: 1px solid var(--theme-dark);
+}
 
-  &-icon {
-    width: rem-convert(20px);
-    height: rem-convert(20px);
-    display: inline-block;
-    margin-right: rem-convert(2px);
-  }
+.Tag-icon {
+  width: rem-convert(20px);
+  height: rem-convert(20px);
+  display: inline-block;
+  margin-right: rem-convert(2px);
+}
 
-  &-iconClose {
-    width: rem-convert(22px);
-    height: rem-convert(22px);
-    display: inline-block;
-    margin-left: rem-convert(6px);
-  }
+.Tag-iconClose {
+  width: rem-convert(22px);
+  height: rem-convert(22px);
+  display: inline-block;
+  margin-left: rem-convert(6px);
 }

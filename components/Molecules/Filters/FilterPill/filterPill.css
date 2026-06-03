@@ -7,45 +7,47 @@
   color: var(--grey-dark);
   border: 1.5px solid var(--theme-light);
   cursor: pointer;
+}
 
-  &:hover {
-    background-color: var(--theme-lightest);
-  }
-  &--withIcon {
-    padding: rem-convert(8px) rem-convert(10px) rem-convert(8px)
-      rem-convert(4px);
-  }
+.FilterPill:hover {
+  background-color: var(--theme-lightest);
+}
 
-  &-iconClose {
-    width: rem-convert(20px);
-    height: rem-convert(20px);
-    margin-left: rem-convert(4px);
-  }
+.FilterPill--withIcon {
+  padding: rem-convert(8px) rem-convert(10px) rem-convert(8px) rem-convert(4px);
+}
 
-  &:has(:checked),
-  &.active {
-    background-color: var(--theme-light);
-    border: 1.5px solid var(--theme-medium);
-    .FilterPill-iconClose {
-      display: inline-block;
-    }
-  }
+.FilterPill-iconClose {
+  width: rem-convert(20px);
+  height: rem-convert(20px);
+  margin-left: rem-convert(4px);
+}
 
-  &-icon {
-    width: rem-convert(21px);
-    height: rem-convert(21px);
-    display: inline-block;
-    margin-right: rem-convert(4px);
-  }
+.FilterPill:has(:checked),
+.FilterPill.active {
+  background-color: var(--theme-light);
+  border: 1.5px solid var(--theme-medium);
+}
 
-  &:disabled {
-    border-color: var(--grey-lighter);
-    color: var(--grey-lighter);
-    cursor: not-allowed;
-    background-color: var(--grey-lightest);
+.FilterPill:has(:checked) .FilterPill-iconClose,
+.FilterPill.active .FilterPill-iconClose {
+  display: inline-block;
+}
 
-    .FilterPill-icon {
-      opacity: 0.2;
-    }
-  }
+.FilterPill-icon {
+  width: rem-convert(21px);
+  height: rem-convert(21px);
+  display: inline-block;
+  margin-right: rem-convert(4px);
+}
+
+.FilterPill:disabled {
+  border-color: var(--grey-lighter);
+  color: var(--grey-lighter);
+  cursor: not-allowed;
+  background-color: var(--grey-lightest);
+}
+
+.FilterPill:disabled .FilterPill-icon {
+  opacity: 0.2;
 }

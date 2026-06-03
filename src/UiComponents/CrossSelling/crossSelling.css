@@ -2,30 +2,37 @@
   display: flex;
   gap: rem-convert(16px);
   overflow: hidden;
+}
 
-  .ProductCard {
-    flex: 0 0 auto;
-    width: rem-convert(187px);
-    @screen md {
-      flex-grow: 1;
-      width: rem-convert(288px);
-    }
+.CrossSelling .ProductCard {
+  flex: 0 0 auto;
+  width: rem-convert(187px);
+}
+
+@screen md {
+  .CrossSelling .ProductCard {
+    flex-grow: 1;
+    width: rem-convert(288px);
   }
+}
 
-  @screen lg {
+@screen lg {
+  .CrossSelling {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: rem-convert(24px);
     cursor: initial;
-    .ProductCard {
-      width: initial;
-      &:active {
-        cursor: initial;
-      }
-    }
   }
+  .CrossSelling .ProductCard {
+    width: initial;
+  }
+  .CrossSelling .ProductCard:active {
+    cursor: initial;
+  }
+}
 
-  @screen xl {
+@screen xl {
+  .CrossSelling {
     @apply container mx-auto;
   }
 }

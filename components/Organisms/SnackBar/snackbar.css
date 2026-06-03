@@ -3,62 +3,57 @@
   border: 1px solid var(--black);
   padding-bottom: rem-convert(20px);
   padding-top: rem-convert(20px);
-  &-content {
-    display: flex;
-  }
-
-  &-message {
-    word-break: break-word;
-  }
-  &-icon {
-    width: rem-convert(20px);
-    height: rem-convert(20px);
-    margin-right: rem-convert(8px);
-    flex-shrink: 0;
-  }
-  &-small {
-    padding-right: rem-convert(30px);
-    padding-left: rem-convert(24px);
-
-    .SnackBar-button {
-      margin-top: rem-convert(10px);
-    }
-  }
-  &-large {
-    display: flex;
-    gap: 10px;
-    padding-right: rem-convert(24px);
-    padding-left: rem-convert(24px);
-  }
-
-  &-full {
-    padding-right: rem-convert(24px);
-    padding-left: rem-convert(24px);
-  }
-
-  &--neutral-light {
-    background: var(--theme-lightest);
-    border-color: var(--theme-medium);
-  }
-  &--neutral-dark {
-    background: var(--theme-light);
-    border-color: var(--theme-medium);
-  }
-
-  &--error {
-    background: var(--error-lightest);
-    border-color: var(--error);
-  }
-  &--warning {
-    background: var(--warning-lightest);
-    border-color: var(--warning);
-  }
-  &--validated {
-    background: var(--validated-lightest);
-    border-color: var(--validated);
-  }
-  &--informative {
-    background: var(--informative-lightest);
-    border-color: var(--informative);
-  }
+}
+.SnackBar-content {
+  display: flex;
+}
+.SnackBar-message {
+  word-break: break-word;
+}
+.SnackBar-icon {
+  width: rem-convert(20px);
+  height: rem-convert(20px);
+  margin-right: rem-convert(8px);
+  flex-shrink: 0;
+}
+.SnackBar-small {
+  padding-right: rem-convert(30px);
+  padding-left: rem-convert(24px);
+}
+.SnackBar-small .SnackBar-button {
+  margin-top: rem-convert(10px);
+}
+.SnackBar-large {
+  display: flex;
+  gap: 10px;
+  padding-right: rem-convert(24px);
+  padding-left: rem-convert(24px);
+}
+.SnackBar-full {
+  padding-right: rem-convert(24px);
+  padding-left: rem-convert(24px);
+}
+.SnackBar--neutral-light {
+  background: var(--theme-lightest);
+  border-color: var(--theme-medium);
+}
+.SnackBar--neutral-dark {
+  background: var(--theme-light);
+  border-color: var(--theme-medium);
+}
+.SnackBar--error {
+  background: var(--error-lightest);
+  border-color: var(--error);
+}
+.SnackBar--warning {
+  background: var(--warning-lightest);
+  border-color: var(--warning);
+}
+.SnackBar--validated {
+  background: var(--validated-lightest);
+  border-color: var(--validated);
+}
+.SnackBar--informative {
+  background: var(--informative-lightest);
+  border-color: var(--informative);
 }

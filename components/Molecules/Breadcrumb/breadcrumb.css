@@ -1,66 +1,54 @@
 .Breadcrumb {
   --gap: 12px;
-  &-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--gap);
-    align-items: center;
-  }
-
-  &-item {
-    @apply paragraph-4;
-    color: var(--black);
-    display: flex;
-    align-items: center;
-    gap: var(--gap);
-
-    &-link {
-      outline: none;
-      text-decoration: underline;
-
-      &:hover {
-        color: var(--grey);
-      }
-
-      &:focus-visible {
-        background-color: var(--theme-light);
-      }
-    }
-
-    &:last-child {
-      color: var(--grey);
-    }
-
-    &:not(:first-child) {
-      &:before {
-        font-size: var(--font-size-2xs);
-        display: inline-block;
-        content: '/';
-      }
-    }
-  }
-
-  &-compressed {
-    background-color: var(--grey-lightest);
-    width: rem-convert(16px);
-    height: rem-convert(16px);
-    display: inline-flex;
-    justify-content: center;
-    line-height: rem-convert(8px);
-    text-decoration: none;
-    margin-top: rem-convert(2px);
-
-    &:focus-visible {
-      background-color: var(--grey-lightest);
-      border: solid 1px var(--theme-medium);
-    }
-
-    &:hover {
-      background-color: var(--theme-lightest);
-    }
-  }
-
-  .hide {
-    display: none;
-  }
+}
+.Breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: center;
+}
+.Breadcrumb-item {
+  @apply paragraph-4;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+.Breadcrumb-item-link {
+  outline: none;
+  text-decoration: underline;
+}
+.Breadcrumb-item-link:hover {
+  color: var(--grey);
+}
+.Breadcrumb-item-link:focus-visible {
+  background-color: var(--theme-light);
+}
+.Breadcrumb-item:last-child {
+  color: var(--grey);
+}
+.Breadcrumb-item:not(:first-child):before {
+  font-size: var(--font-size-2xs);
+  display: inline-block;
+  content: '/';
+}
+.Breadcrumb-compressed {
+  background-color: var(--grey-lightest);
+  width: rem-convert(16px);
+  height: rem-convert(16px);
+  display: inline-flex;
+  justify-content: center;
+  line-height: rem-convert(8px);
+  text-decoration: none;
+  margin-top: rem-convert(2px);
+}
+.Breadcrumb-compressed:focus-visible {
+  background-color: var(--grey-lightest);
+  border: solid 1px var(--theme-medium);
+}
+.Breadcrumb-compressed:hover {
+  background-color: var(--theme-lightest);
+}
+.Breadcrumb .hide {
+  display: none;
 }

@@ -5,39 +5,42 @@
   padding: 0.5rem;
   position: relative;
   margin-bottom: 1rem;
+}
 
-  &-mainContent {
-    display: flex;
-    column-gap: 18px;
-    align-items: center;
-    flex-direction: row;
-  }
+.CartItemDelete-mainContent {
+  display: flex;
+  column-gap: 18px;
+  align-items: center;
+  flex-direction: row;
+}
 
-  &-img {
-    display: flex;
-    height: 88px;
-    img {
-      object-fit: cover;
-    }
-  }
+.CartItemDelete-img {
+  display: flex;
+  height: 88px;
+}
 
-  &-iconClose {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 23px;
-    cursor: pointer;
-  }
+.CartItemDelete-img img {
+  object-fit: cover;
+}
 
-  &-desc {
-    flex-grow: 1;
+.CartItemDelete-iconClose {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 23px;
+  cursor: pointer;
+}
+
+.CartItemDelete-desc {
+  flex-grow: 1;
+  padding: 0;
+  padding-top: 10px;
+  align-items: center;
+}
+
+@screen sm {
+  .CartItemDelete-desc {
     padding: 0;
-    padding-top: 10px;
-    align-items: center;
-
-    @screen sm {
-      padding: 0;
-      padding-right: 8px;
-    }
+    padding-right: 8px;
   }
 }

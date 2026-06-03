@@ -1,138 +1,119 @@
 .FilterSelect {
   position: relative;
   background-color: var(--white);
-  &-current {
-    position: relative;
-    cursor: pointer;
-    outline: none;
-    border: 1px solid var(--grey-lighter);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    @screen md {
-      &:focus + .FilterSelect-list {
-        opacity: 1;
-        animation-name: none;
-      }
-    }
-
-    &:focus + .FilterSelect-list .FilterSelect-option {
-      cursor: pointer;
-    }
-
-    &:focus.FilterSelect-icon {
-      transform: translateY(-50%) rotate(180deg);
-    }
+}
+.FilterSelect-current {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid var(--grey-lighter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@screen md {
+  .FilterSelect-current:focus + .FilterSelect-list {
+    opacity: 1;
+    animation-name: none;
   }
-
-  &-icon {
-    display: block;
-    padding-right: rem-convert(8px);
-    height: rem-convert(28px);
-    width: rem-convert(28px);
-    color: var(--black);
+}
+.FilterSelect-current:focus + .FilterSelect-list .FilterSelect-option {
+  cursor: pointer;
+}
+.FilterSelect-current:focus.FilterSelect-icon {
+  transform: translateY(-50%) rotate(180deg);
+}
+.FilterSelect-icon {
+  display: block;
+  padding-right: rem-convert(8px);
+  height: rem-convert(28px);
+  width: rem-convert(28px);
+  color: var(--black);
+}
+.FilterSelect-value {
+  display: none;
+}
+.FilterSelect-value:has(:checked) {
+  display: inline-flex;
+}
+.FilterSelect-input {
+  display: none;
+}
+.FilterSelect-input:checked + .FilterSelect-text {
+  display: flex;
+}
+.FilterSelect-text {
+  @apply paragraph-4;
+  display: none;
+  width: 100%;
+  padding: rem-convert(16px);
+  align-items: center;
+  color: var(--black);
+}
+.FilterSelect-list {
+  position: absolute;
+  width: 100%;
+  list-style: none;
+  opacity: 0;
+  transition: 0.2s ease all;
+  box-shadow: 0px 4px 8px 0px rgba(40, 40, 40, 0.15);
+  animation-name: HideList;
+  animation-duration: 0.2s;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: step-start;
+}
+@screen md {
+  .FilterSelect-list {
+    /* Navigation au clavier */
   }
-
-  &-value {
-    display: none;
-    &:has(:checked) {
-      display: inline-flex;
-    }
+  .FilterSelect-list:has(.FilterSelect-option:focus) {
+    opacity: 1;
+    animation-name: none;
   }
+}
+.FilterSelect-option {
+  @apply paragraph-4;
+  background-color: var(--white);
+  padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
+    rem-convert(16px);
+  display: flex;
+  align-items: center;
+  color: var(--black);
+  outline: none;
+  cursor: pointer;
+}
+.FilterSelect-option:hover,
+.FilterSelect-option:focus {
+  background-color: var(--grey-lightest);
+}
+.FilterSelect-mobileDrawer .FilterSelect-ListItem {
+  border-bottom: 1px solid var(--grey-lighter);
+}
+.FilterSelect-mobileDrawer .FilterSelect-ListItem:last-child {
+  border-bottom: 0;
+}
+.FilterSelect .colorRounded,
+.FilterSelect-mobileDrawer .colorRounded {
+  --default-bg-color: #ffffff;
 
-  &-input {
-    display: none;
-
-    &:checked + .FilterSelect-text {
-      display: flex;
-    }
-  }
-
-  &-text {
-    @apply paragraph-4;
-    display: none;
-    width: 100%;
-    padding: rem-convert(16px);
-    align-items: center;
-    color: var(--black);
-  }
-
-  &-list {
-    position: absolute;
-    width: 100%;
-    list-style: none;
-    opacity: 0;
-    transition: 0.2s ease all;
-    box-shadow: 0px 4px 8px 0px rgba(40, 40, 40, 0.15);
-    animation-name: HideList;
-    animation-duration: 0.2s;
-    animation-delay: 0.2s;
-    animation-fill-mode: forwards;
-    animation-timing-function: step-start;
-
-    @screen md {
-      /* Navigation au clavier */
-      &:has(.FilterSelect-option:focus) {
-        opacity: 1;
-        animation-name: none;
-      }
-    }
-  }
-
-  &-option {
-    @apply paragraph-4;
-    background-color: var(--white);
-    padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
-      rem-convert(16px);
-    display: flex;
-    align-items: center;
-    color: var(--black);
-    outline: none;
-    cursor: pointer;
-    &:hover,
-    &:focus {
-      background-color: var(--grey-lightest);
-    }
-  }
-
-  &-mobileDrawer {
-    .FilterSelect-ListItem {
-      border-bottom: 1px solid var(--grey-lighter);
-      &:last-child {
-        border-bottom: 0;
-      }
-    }
-  }
-
-  &,
-  &-mobileDrawer {
-    .colorRounded {
-      --default-bg-color: #ffffff;
-
-      width: rem-convert(21px);
-      height: rem-convert(21px);
-      display: block;
-      border-radius: 50%;
-      background-color: var(--default-bg-color);
-      margin-right: rem-convert(8px);
-    }
-  }
-
-  .Dropdown-text {
-    padding: rem-convert(16px);
-  }
-
-  &--isRounded {
-    .Dropdown-text {
-      justify-content: center;
-    }
-    .FilterSelect-current {
-      border-color: #000;
-      border-radius: 50px;
-      justify-content: center;
-    }
-  }
+  width: rem-convert(21px);
+  height: rem-convert(21px);
+  display: block;
+  border-radius: 50%;
+  background-color: var(--default-bg-color);
+  margin-right: rem-convert(8px);
+}
+.FilterSelect .Dropdown-text {
+  padding: rem-convert(16px);
+}
+.FilterSelect--isRounded .Dropdown-text {
+  justify-content: center;
+}
+.FilterSelect--isRounded .FilterSelect-current {
+  border-color: #000;
+  border-radius: 50px;
+  justify-content: center;
 }
 
 @keyframes HideList {

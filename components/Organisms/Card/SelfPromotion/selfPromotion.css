@@ -1,27 +1,27 @@
 .SelfPromotion {
   max-width: rem-convert(370px);
+}
 
-  &-img {
-    width: 100%;
-    height: rem-convert(214px);
-    object-fit: cover;
-  }
+.SelfPromotion-img {
+  width: 100%;
+  height: rem-convert(214px);
+  object-fit: cover;
+}
 
-  &-content {
-    padding: rem-convert(13px) rem-convert(20px) rem-convert(13px)
-      rem-convert(24px);
-    background-color: var(--theme-lightest);
-  }
+.SelfPromotion-content {
+  padding: rem-convert(13px) rem-convert(20px) rem-convert(13px)
+    rem-convert(24px);
+  background-color: var(--theme-lightest);
+}
 
-  &-title {
-    @apply paragraph-2;
-    font-weight: 600;
-    color: var(--black);
-    margin-bottom:  rem-convert(2px);
-  }
+.SelfPromotion-title {
+  @apply paragraph-2;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: rem-convert(2px);
+}
 
-  &-desc {
-    @apply paragraph-6;
-    color: var(--grey);
-  }
+.SelfPromotion-desc {
+  @apply paragraph-6;
+  color: var(--grey);
 }

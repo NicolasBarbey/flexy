@@ -1,41 +1,44 @@
 .PaymentCard {
-    position: relative;
-    border-radius: rem-convert(8px);
-    border: 1px solid var(--theme-medium);
-    background: var(--theme-lightest);
-    padding: rem-convert(18px);
+  position: relative;
+  border-radius: rem-convert(8px);
+  border: 1px solid var(--theme-medium);
+  background: var(--theme-lightest);
+  padding: rem-convert(18px);
+}
 
-    &.selected {
-        background: var(--theme-lighter);
-    }
+.PaymentCard.selected {
+  background: var(--theme-lighter);
+}
 
-    &-icon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: rem-convert(20px);
-        span {
-            display: block;
-            width: rem-convert(38px);
-            height: rem-convert(38px);
-            color: var(--theme-light);
-        }
-    }
-    &-title {
-        @apply paragraph-2;
-        font-weight: 600;
-        color: var(--black);
-        display: block;
-    }
-    &-content {
-        @apply paragraph-4;
-        display: flex;
-        cursor: pointer;
-        align-items:baseline;
-        gap: 0.5rem;
-    }
+.PaymentCard-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: rem-convert(20px);
+}
 
-    .RadioButton {
-        align-self: baseline;
-    }
+.PaymentCard-icon span {
+  display: block;
+  width: rem-convert(38px);
+  height: rem-convert(38px);
+  color: var(--theme-light);
+}
+
+.PaymentCard-title {
+  @apply paragraph-2;
+  font-weight: 600;
+  color: var(--black);
+  display: block;
+}
+
+.PaymentCard-content {
+  @apply paragraph-4;
+  display: flex;
+  cursor: pointer;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.PaymentCard .RadioButton {
+  align-self: baseline;
 }
