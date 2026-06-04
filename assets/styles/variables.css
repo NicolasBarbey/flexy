@@ -1,4 +1,8 @@
 @theme {
+  --breakpoint-xs: 24.375rem;
+  --breakpoint-xl: 85.375rem;
+  --breakpoint-2xl: 105rem;
+
   --color-*: initial;
   --color-dark: #ff4822;
   --color-base: #ff7036;

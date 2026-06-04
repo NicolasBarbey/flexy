@@ -54,6 +54,8 @@ class FlexyBundle extends AbstractBundle
         $containerBuilder->prependExtensionConfig('twig', [
             'paths' => [
                 \dirname(__DIR__) . '/components' => 'Flexy',
+                \dirname(__DIR__) . '/form' => 'FlexyForm',
+                \dirname(__DIR__) . '/partials' => 'FlexyPartials',
             ],
 
         ]);
@@ -61,6 +63,7 @@ class FlexyBundle extends AbstractBundle
     private function prependConfigTwigComponent(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->prependExtensionConfig('twig_component', [
+            'anonymous_template_directory' =>  \dirname(__DIR__) . '/components',
             'defaults' => [
                 'FlexyBundle\\Components\\' => [
                     'template_directory' => '@Flexy',

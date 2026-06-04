@@ -1,0 +1,76 @@
+.Select {
+  --select-color: inherit;
+  --select-hover-bg-color: var(--color-lightest);
+  --select-border-color: var(--color-medium);
+  --select-help-color: var(--color-black);
+
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(1);
+  font-size: var(--text-sm);
+  color: var(--select-color);
+
+  &.Select--small .Select__input {
+    padding: --spacing(2.5);
+  }
+
+  &.Select--error {
+    --select-color: var(--color-error);
+    --select-border-color: var(--color-error);
+    --select-hover-bg-color: var(--color-error-lightest);
+  }
+
+  &.Select--disabled {
+    --select-color: var(--color-grey);
+    --select-border-color: var(--color-grey);
+
+    .Select__input {
+      background-color: var(--color-grey-lightest);
+      cursor: not-allowed;
+    }
+    .Select__help svg {
+      color: var(--color-grey);
+    }
+  }
+}
+
+.Select__header {
+  display: flex;
+  align-items: center;
+  gap: --spacing(1);
+  justify-content: space-between;
+}
+
+.Select__label {
+}
+
+.Select__help svg {
+  width: --spacing(4.5);
+  height: --spacing(4.5);
+  color: var(--select-help-color);
+}
+
+.Select__input {
+  border: 1px solid var(--select-border-color);
+  border-radius: --spacing(2);
+  font-style: normal;
+  width: 100%;
+  padding: --spacing(4) --spacing(3.5);
+
+  @variant hover {
+    background-color: var(--select-hover-bg-color);
+  }
+
+  @variant focus-visible {
+    outline-offset: 2px;
+    outline: 1px solid var(--color-base);
+  }
+}
+
+.Select__input option {
+  color: var(--color-black);
+}
+
+.Select__error {
+  font-style: italic;
+}
