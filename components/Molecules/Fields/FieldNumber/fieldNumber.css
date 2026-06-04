@@ -6,9 +6,9 @@
 
 .FieldNumber-input {
   @apply paragraph-4;
-  border: 1px solid var(--theme-medium);
+  border: 1px solid var(--color-theme-medium);
   border-radius: 8px;
-  color: var(--black);
+  color: var(--color-black);
   padding: rem-convert(16px) rem-convert(10px);
   transition: 0.2s ease all;
   width: rem-convert(48px);
@@ -16,16 +16,16 @@
 }
 
 .FieldNumber-input:hover {
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 
 .FieldNumber-input:focus-visible {
   outline-offset: 2px;
-  outline: 1px solid var(--theme);
+  outline: 1px solid var(--color-theme);
 }
 
 .FieldNumber-input--filled {
-  border-color: var(--theme);
+  border-color: var(--color-theme);
 }
 
 .FieldNumber input[type='number']::-webkit-inner-spin-button,
@@ -34,37 +34,37 @@
 }
 
 .FieldNumber--error .FieldNumber-input {
-  border: 1px solid var(--error-light);
-  color: var(--error);
+  border: 1px solid var(--color-error-light);
+  color: var(--color-error);
 }
 
 .FieldNumber--error .FieldNumber-input:hover {
-  background-color: var(--error-lightest);
+  background-color: var(--color-error-lightest);
 }
 
 .FieldNumber--error .FieldNumber-input:focus-visible {
-  outline: 1px solid var(--error-dark);
+  outline: 1px solid var(--color-error-dark);
 }
 
 .FieldNumber--error ::placeholder {
-  color: var(--error);
+  color: var(--color-error);
 }
 
 .FieldNumber-error {
   @apply paragraph-5;
-  color: var(--error-dark);
+  color: var(--color-error-dark);
   font-style: italic;
 }
 
 .FieldNumber[disabled] .FieldNumber-input {
-  border: 1px solid var(--grey);
-  color: var(--grey);
+  border: 1px solid var(--color-grey);
+  color: var(--color-grey);
   cursor: not-allowed;
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
 }
 
 .FieldNumber[disabled] ::placeholder {
-  color: var(--grey);
+  color: var(--color-grey);
 }
 
 .FieldNumber ::placeholder {

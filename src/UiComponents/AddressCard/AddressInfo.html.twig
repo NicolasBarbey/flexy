@@ -5,13 +5,13 @@
     {% set name = address.firstname ~ ' ' ~ address.lastname %}
 {% endif %}
 <span>
-    <span class="AddressCard-title">
+    <span class="addressCard-title">
         {{ title }}
     </span>
-    <span class="AddressCard-name">
+    <span class="addressCard-name">
         {{ name }}
     </span>
-    <span class="AddressCard-address">
+    <span class="addressCard-address">
         <span class="block">
             {{ [address.address1,address.address2 ?? '',address.address3 ?? '']|join(', ') }}
         </span>
@@ -19,7 +19,7 @@
             {% set country = resources('/api/front/countries/' ~ address.countryId) %}
             {{ [address.zipcode,address.city ?? '',country.isoalpha3 ?? '']|join(', ') }}
         </span>
-        <span class="AddressCard-phone">
+        <span class="addressCard-phone">
             {{ address.phone }}
         </span>
     </span>

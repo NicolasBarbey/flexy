@@ -27,37 +27,37 @@
 }
 
 .Tag--validated {
-  background-color: var(--validated-lightest);
-  color: var(--black);
-  border: 0.5px solid var(--validated);
+  background-color: var(--color-validated-lightest);
+  color: var(--color-black);
+  border: 0.5px solid var(--color-validated);
 }
 
 .Tag--validated:focus-visible {
-  border: 1px solid var(--validated);
+  border: 1px solid var(--color-validated);
 }
 
 .Tag--validated .Tag-icon {
-  color: var(--validated);
+  color: var(--color-validated);
 }
 
 .Tag--error {
-  background-color: var(--error-lightest);
-  color: var(--error-light);
-  border-color: var(--error);
+  background-color: var(--color-error-lightest);
+  color: var(--color-error-light);
+  border-color: var(--color-error);
 }
 
 .Tag--error:focus-visible {
-  border: 1px solid var(--error-dark);
+  border: 1px solid var(--color-error-dark);
 }
 
 .Tag--vermillon {
-  background-color: var(--theme-light);
-  color: var(--theme-dark);
-  border-color: var(--theme);
+  background-color: var(--color-theme-light);
+  color: var(--color-theme-dark);
+  border-color: var(--color-theme);
 }
 
 .Tag--vermillon:focus-visible {
-  border: 1px solid var(--theme-dark);
+  border: 1px solid var(--color-theme-dark);
 }
 
 .Tag-icon {

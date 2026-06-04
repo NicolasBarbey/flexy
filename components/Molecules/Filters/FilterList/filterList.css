@@ -6,7 +6,7 @@
 }
 
 .FilterList:focus-visible {
-  outline: 1px solid var(--theme);
+  outline: 1px solid var(--color-theme);
 }
 
 .FilterList-input {
@@ -18,7 +18,7 @@
 
 .FilterList-label {
   @apply paragraph-4;
-  color: var(--black);
+  color: var(--color-black);
   border-radius: 4px;
   width: 100%;
   padding: rem-convert(12px) rem-convert(56px) rem-convert(12px)
@@ -33,11 +33,11 @@
 }
 
 .FilterList-label:hover {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
 }
 
 .FilterList:has(.FilterList-input:checked) label {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
   background-image: url('/assets/icons/checkmark.svg');
   background-repeat: no-repeat;
   background-position: right 8px top 50%;
@@ -51,5 +51,5 @@
 }
 
 .FilterList:hover:has(.FilterList-input:checked) label {
-  background-color: var(--theme-medium);
+  background-color: var(--color-theme-medium);
 }

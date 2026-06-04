@@ -1,5 +1,5 @@
 .FieldCode {
-  border: 1px solid var(--theme);
+  border: 1px solid var(--color-theme);
   border-radius: 8px;
   position: relative;
   display: inline-flex;
@@ -25,10 +25,8 @@
   padding: 16px 14px;
   box-sizing: content-box;
   -moz-appearance: textfield;
-}
 
-@screen lg {
-  .FieldCode input {
+  @variant lg {
     width: 26px;
   }
 }
@@ -50,7 +48,7 @@
 
 .FieldCode:focus-within {
   outline-offset: 0;
-  outline: 1px solid var(--theme);
+  outline: 1px solid var(--color-theme);
 }
 
 .FieldCode:focus-within:before {
@@ -58,18 +56,18 @@
 }
 
 .FieldCode--error input {
-  border: 1px solid var(--error-light);
-  color: var(--error);
+  border: 1px solid var(--color-error-light);
+  color: var(--color-error);
 }
 
 .FieldCode--error input:hover {
-  background-color: var(--error-lightest);
+  background-color: var(--color-error-lightest);
 }
 
 .FieldCode--error input:focus-visible {
-  outline: 1px solid var(--error-dark);
+  outline: 1px solid var(--color-error-dark);
 }
 
 .FieldCode--error ::placeholder {
-  color: var(--error);
+  color: var(--color-error);
 }

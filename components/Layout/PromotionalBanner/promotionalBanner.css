@@ -1,7 +1,7 @@
 .PromotionalBanner {
   position: relative;
   padding: rem-convert(32px) rem-convert(24px);
-  background: var(--theme-medium);
+  background: var(--color-theme-medium);
   display: flex;
   justify-content: center;
 }
@@ -19,25 +19,25 @@
   height: rem-convert(32px);
 }
 .PromotionalBanner-content {
-  color: var(--black);
+  color: var(--color-black);
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: rem-convert(16px);
   align-items: flex-start;
-}
-@screen md {
-  .PromotionalBanner-content {
+  @variant md {
     max-width: rem-convert(1110px);
   }
 }
-@screen md {
-  .PromotionalBanner-content--button {
+
+.PromotionalBanner-content--button {
+  @variant md {
     flex-direction: row;
     gap: rem-convert(48px);
     align-items: center;
   }
 }
+
 .PromotionalBanner-button {
   flex-grow: 1;
   flex-shrink: 0;

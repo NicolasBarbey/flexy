@@ -6,9 +6,9 @@
 .Score-star {
   width: rem-convert(14px);
   height: rem-convert(14px);
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Score-star--empty {
-  color: var(--grey-lighter);
+  color: var(--color-grey-lighter);
 }

@@ -1,5 +1,5 @@
 form hr {
   height: 1px;
-  color: var(--theme-medium);
-  border-bottom: 1px solid var(--theme-medium);
+  color: var(--color-theme-medium);
+  border-bottom: 1px solid var(--color-theme-medium);
 }

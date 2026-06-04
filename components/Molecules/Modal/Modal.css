@@ -1,9 +1,7 @@
 dialog[open] {
   opacity: 1;
-}
 
-@starting-style {
-  dialog[open] {
+  @variant starting {
     opacity: 0;
   }
 }
@@ -29,10 +27,7 @@ dialog::backdrop {
 dialog[open]::backdrop {
   background-color: #0008;
   opacity: 1;
-}
-
-@starting-style {
-  dialog[open]::backdrop {
+  @variant starting {
     opacity: 0;
   }
 }
@@ -42,10 +37,8 @@ dialog[open]::backdrop {
   padding: 40px;
   width: calc(100% - 48px);
   border-radius: 20px;
-}
 
-@screen md {
-  .Modal {
+  @variant md {
     width: 650px;
   }
 }

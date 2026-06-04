@@ -1,13 +1,13 @@
 .DeliveryMode {
-  background: var(--theme-lightest);
-  border: 1px solid var(--theme-lightest);
+  background: var(--color-theme-lightest);
+  border: 1px solid var(--color-theme-lightest);
   border-radius: rem-convert(8px);
 }
 
 .DeliveryMode.checked,
 .DeliveryMode.selected {
-  background: var(--theme-lighter);
-  border: 1px solid var(--theme-medium);
+  background: var(--color-theme-lighter);
+  border: 1px solid var(--color-theme-medium);
 }
 
 .DeliveryMode label {
@@ -17,20 +17,20 @@
 .DeliveryMode-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
   margin-bottom: rem-convert(2px);
 }
 
 .DeliveryMode-description {
   @apply paragraph-6;
   font-weight: 400;
-  color: var(--grey);
+  color: var(--color-grey);
 }
 
 .DeliveryMode-price {
   @apply paragraph-4;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .DeliveryMode-content {
@@ -47,15 +47,15 @@
   flex-grow: 1;
 }
 
-.DeliveryMode-content .Radio {
+.DeliveryMode-content .radio {
   margin-top: 4px;
   margin-right: 8px;
   visibility: hidden;
   max-width: 0;
 }
 
-@screen md {
-  .DeliveryMode-content .Radio {
+@media (width >= theme(--breakpoint-md)) {
+  .DeliveryMode-content .radio {
     visibility: visible;
     max-width: initial;
   }

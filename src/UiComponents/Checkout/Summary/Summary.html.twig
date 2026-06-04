@@ -7,14 +7,14 @@
         {% set taxed_discount = this.summary.taxed_discount ? this.summary.taxed_discount|format_currency('EUR', locale: 'fr') : null %}
         {% set discount = this.summary.discount ? this.summary.discount|format_currency('EUR', locale: 'fr') : null %}
         {% set coupons = this.summary.coupons %}
-        <div class="Summary">
+        <div class="summary">
 
-            <div class="Summary-promo mb-4">
+            <div class="mb-4 summary-promo">
                 {{ component('Flexy:Checkout:PromoCodeForm', { class: ''} )}}
             </div>
 
-            <div class="Summary-list">
-                <div class="Summary-line">
+            <div class="summary-list">
+                <div class="summary-line">
                     <div>
                         {{ 'Subtotal'|trans }}
                         <span class="font-normal paragraph-6 ">
@@ -28,7 +28,7 @@
                         {{ subTotal }}
                     </div>
                 </div>
-                <div class="Summary-line">
+                <div class="summary-line">
                     <div>
                         {{ 'Delivery'|trans }}
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 {% if coupons|length %}
-                    <div class="Summary-line flex-wrap">
+                    <div class="flex-wrap summary-line">
                         <div>
                             {{ 'Promo Code'|trans }}
                             {% if promo %}
@@ -46,12 +46,12 @@
                                 </div>
                             {% endif %}
                         </div>
-                        <ul class="flex gap-1 flex-wrap">
+                        <ul class="flex flex-wrap gap-1">
                             {% for coupon in coupons %}
                                 <li>
-                                    <button type="button" class="FilterPill" data-action="live#emit" data-live-event-param="removeCoupon" data-live-code-param="{{ coupon }}">
+                                    <button type="button" class="filterPill" data-action="live#emit" data-live-event-param="removeCoupon" data-live-code-param="{{ coupon }}">
                                         <span>{{ coupon }}</span>
-                                        <span class='FilterPill-iconClose'>{{ ux_icon("close") }}</span>
+                                        <span class='filterPill-iconClose'>{{ ux_icon("close") }}</span>
                                     </button>
                                 </li>
                             {% endfor %}
@@ -59,7 +59,7 @@
                     </div>
                 {% endif %}
                 {% if not noGiftCard %}
-                    <div class="Summary-line">
+                    <div class="summary-line">
                         <div>
                             {{ 'Gift Card'|trans }}
                             <div class="font-normal paragraph-6">
@@ -79,7 +79,7 @@
                     </div>
                 {% endif %}
                 {% if this.hasDiscount %}
-                    <div class="Summary-line">
+                    <div class="summary-line">
                         <div>
                             {{ 'Discount'|trans }}
                         </div>
@@ -89,8 +89,8 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="Summary-footer">
-                <div class="Summary-total">
+            <div class="summary-footer">
+                <div class="summary-total">
                     <div>
                         {% if this.hasTax %}
                             {{ 'Total (including VAT)'|trans }}

@@ -11,7 +11,7 @@
 
 .HeaderButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 1px var(--theme) inset;
+  box-shadow: 0 0 0 1px var(--color-theme) inset;
 }
 
 .HeaderButton-icon {
@@ -35,35 +35,35 @@
 }
 
 .HeaderButton--theme {
-  --header-button-bg: var(--white);
-  --header-button-color: var(--black);
-  --header-button-bg-hover: var(--grey-lightest);
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+  --header-button-bg-hover: var(--color-grey-lightest);
 }
 
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .HeaderButton--theme {
-    --header-button-bg: var(--theme-light);
-    --header-button-color: var(--black);
-    --header-button-bg-hover: var(--theme-medium);
+    --header-button-bg: var(--color-theme-light);
+    --header-button-color: var(--color-black);
+    --header-button-bg-hover: var(--color-theme-medium);
   }
 }
 
 .HeaderButton--dark {
-  --header-button-bg: var(--black);
-  --header-button-color: var(--white);
+  --header-button-bg: var(--color-black);
+  --header-button-color: var(--color-white);
 }
 
 .HeaderButton--dark:hover {
-  --header-button-bg: var(--grey-darker);
+  --header-button-bg: var(--color-grey-darker);
 }
 
 .HeaderButton--light {
-  --header-button-bg: var(--white);
-  --header-button-color: var(--black);
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
 }
 
 .HeaderButton--light:hover {
-  --header-button-bg: var(--grey-lightest);
+  --header-button-bg: var(--color-grey-lightest);
 }
 
 .HeaderButton--cart {
@@ -71,17 +71,15 @@
 }
 
 .HeaderButton.is-selected {
-  background-color: var(--theme);
+  background-color: var(--color-theme);
 }
 
 .DropdownProfile {
   transition: 0.2s opacity linear;
-  background: var(--white);
+  background: var(--color-white);
   border-radius: 0 0 8px 8px;
-}
 
-@screen lg {
-  .DropdownProfile {
+  @variant lg {
     opacity: 0;
     visibility: hidden;
     width: max-content;
@@ -108,12 +106,10 @@
   top: 0;
   height: 1px;
   left: 50%;
-  background-color: var(--grey-lighter);
+  background-color: var(--color-grey-lighter);
   transform: translate(-50%, -50%);
-}
 
-@screen md {
-  .DropdownProfile-item + .DropdownProfile-item:before {
+  @variant md {
     width: calc(100% - rem-convert(48px));
   }
 }

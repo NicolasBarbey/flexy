@@ -2,70 +2,56 @@
   display: flex;
   flex-direction: column;
   padding: 50px 1.5rem 34px;
-  background: var(--theme-lightest);
-}
+  background: var(--color-theme-lightest);
 
-@screen md {
-  .Footer {
+  @variant md {
     padding: 0 0 45px;
   }
 }
 
 .Footer-newsletter {
   margin-bottom: 50px;
-}
 
-@screen md {
-  .Footer-newsletter {
+  @variant md {
     margin-bottom: 0;
     padding-top: 50px;
     padding-left: 50px;
   }
-}
 
-@screen lg {
-  .Footer-newsletter {
+  @variant lg {
     padding-top: 100px;
   }
 }
 
 .Footer-storeInfos {
   margin-bottom: 30px;
-}
-
-@screen md {
-  .Footer-storeInfos {
+  @variant md {
     margin-bottom: 0;
     padding-left: 40px;
   }
-}
-
-@screen lg {
-  .Footer-storeInfos {
+  @variant lg {
     padding-top: 100px;
     padding-bottom: 90px;
   }
 }
 
-@screen md {
-  .Footer-socialsWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top-width: 1px;
-    padding: 30px 50px 0;
-  }
+.Footer-socialsWrapper{
+    @variant md {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-width: 1px;
+        padding: 30px 50px 0;
+    }
 }
 
 .Footer-socials {
   display: flex;
   margin-bottom: 1.25rem;
   justify-content: space-between;
-  color: var(--black);
-}
-
-@screen md {
-  .Footer-socials {
+  color: var(--color-black);
+  @variant md {
     margin-bottom: 0;
     gap: 30px;
   }

@@ -9,37 +9,41 @@
     round = false,
 %}
 {% set button = html_cva(
-    base: 'Button',
+    base: 'button ',
+    default_variant: {
+        color: 'base',
+    },
     variants: {
         color: {
-            secondary: 'Button--secondary',
-            minimal: 'Button--minimal',
-            error: 'Button--error',
+            base: 'button-style',
+            secondary: 'button-style--secondary',
+            minimal: 'button-style--minimal',
+            error: 'button-style--error',
         },
         size: {
-            large: 'Button--large',
-            small: 'Button--small',
+            large: 'button--large',
+            small: 'button--small',
         },
         fill: {
             false: null,
-            true: 'Button--fill',
+            true: 'button--fill',
         },
         rectangle: {
             false: null,
-            true: 'Button--rectangle',
+            true: 'button--rectangle',
         },
         sharp: {
             false: null,
-            true: 'Button--sharp',
+            true: 'button--sharp',
         },
         round: {
             false: null,
-            true: 'Button--round',
+            true: 'button--round',
         },
     },
 ) %}
 
-<{{ tag }} class="{{ button.apply({color, size, fill, rectangle, sharp, round}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+<{{ tag }} class="{{ button.apply({color, size, fill, rectangle, sharp, round}, attributes.render('class')) }} " {{ attributes.without('class') }}>
     {% if icon_left %}
         <span class="icon icon-left">
             {{ ux_icon(icon_left) }}

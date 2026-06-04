@@ -1,17 +1,17 @@
 .FilterSelect {
   position: relative;
-  background-color: var(--white);
+  background-color: var(--color-white);
 }
 .FilterSelect-current {
   position: relative;
   cursor: pointer;
   outline: none;
-  border: 1px solid var(--grey-lighter);
+  border: 1px solid var(--color-grey-lighter);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .FilterSelect-current:focus + .FilterSelect-list {
     opacity: 1;
     animation-name: none;
@@ -28,7 +28,7 @@
   padding-right: rem-convert(8px);
   height: rem-convert(28px);
   width: rem-convert(28px);
-  color: var(--black);
+  color: var(--color-black);
 }
 .FilterSelect-value {
   display: none;
@@ -48,7 +48,7 @@
   width: 100%;
   padding: rem-convert(16px);
   align-items: center;
-  color: var(--black);
+  color: var(--color-black);
 }
 .FilterSelect-list {
   position: absolute;
@@ -63,7 +63,7 @@
   animation-fill-mode: forwards;
   animation-timing-function: step-start;
 }
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .FilterSelect-list {
     /* Navigation au clavier */
   }
@@ -74,21 +74,21 @@
 }
 .FilterSelect-option {
   @apply paragraph-4;
-  background-color: var(--white);
+  background-color: var(--color-white);
   padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
     rem-convert(16px);
   display: flex;
   align-items: center;
-  color: var(--black);
+  color: var(--color-black);
   outline: none;
   cursor: pointer;
 }
 .FilterSelect-option:hover,
 .FilterSelect-option:focus {
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
 }
 .FilterSelect-mobileDrawer .FilterSelect-ListItem {
-  border-bottom: 1px solid var(--grey-lighter);
+  border-bottom: 1px solid var(--color-grey-lighter);
 }
 .FilterSelect-mobileDrawer .FilterSelect-ListItem:last-child {
   border-bottom: 0;

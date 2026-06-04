@@ -1,53 +1,53 @@
-.FilterPill {
+.filterPill {
   @apply paragraph-4;
   padding: rem-convert(8px) rem-convert(10px);
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
   color: var(--grey-dark);
-  border: 1.5px solid var(--theme-light);
+  border: 1.5px solid var(--color-theme-light);
   cursor: pointer;
 }
 
-.FilterPill:hover {
-  background-color: var(--theme-lightest);
+.filterPill:hover {
+  background-color: var(--color-theme-lightest);
 }
 
-.FilterPill--withIcon {
+.filterPill--withIcon {
   padding: rem-convert(8px) rem-convert(10px) rem-convert(8px) rem-convert(4px);
 }
 
-.FilterPill-iconClose {
+.filterPill-iconClose {
   width: rem-convert(20px);
   height: rem-convert(20px);
   margin-left: rem-convert(4px);
 }
 
-.FilterPill:has(:checked),
-.FilterPill.active {
-  background-color: var(--theme-light);
-  border: 1.5px solid var(--theme-medium);
+.filterPill:has(:checked),
+.filterPill.active {
+  background-color: var(--color-theme-light);
+  border: 1.5px solid var(--color-theme-medium);
 }
 
-.FilterPill:has(:checked) .FilterPill-iconClose,
-.FilterPill.active .FilterPill-iconClose {
+.filterPill:has(:checked) .filterPill-iconClose,
+.filterPill.active .filterPill-iconClose {
   display: inline-block;
 }
 
-.FilterPill-icon {
+.filterPill-icon {
   width: rem-convert(21px);
   height: rem-convert(21px);
   display: inline-block;
   margin-right: rem-convert(4px);
 }
 
-.FilterPill:disabled {
-  border-color: var(--grey-lighter);
-  color: var(--grey-lighter);
+.filterPill:disabled {
+  border-color: var(--color-grey-lighter);
+  color: var(--color-grey-lighter);
   cursor: not-allowed;
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
 }
 
-.FilterPill:disabled .FilterPill-icon {
+.filterPill:disabled .filterPill-icon {
   opacity: 0.2;
 }

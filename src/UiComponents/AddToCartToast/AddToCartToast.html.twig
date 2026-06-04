@@ -54,7 +54,7 @@
 
                 {% if attributesAvColor %}
                     <span class="flex items-center AddToCartToast-secondarySize">
-                        <span class="mr-1 Colors-item" style="background-color:{{ attributesAvColor.hexa }}"></span>
+                        <span class="mr-1 colors-item" style="background-color:{{ attributesAvColor.hexa }}"></span>
                         {{ t('Color') }}
                         :
                         {{ attributesAvColor.name }}
@@ -66,8 +66,8 @@
                 {% if rate != null or colors|length > 0 %}
                     <div class="AddToCartToast-footerLeft">
                         {% if rate != null %}
-                            <div class="Rating">
-                                <div class="Rating-mark">
+                            <div class="rating">
+                                <div class="rating-mark">
                                     {% for i in 1..5 %}
                                         {% if rate >= i %}
                                             <div>
@@ -84,20 +84,20 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <span class="Rating-reviewCount indication-small">
+                                <span class="rating-reviewCount indication-small">
                                     {{ reviewCount }}
                                     {{ 'Reviews'|trans }}
                                 </span>
                             </div>
                         {% endif %}
                         {% if hasColors %}
-                            <div class="Colors">
+                            <div class="colors">
                                 {% set limit = 6 %}
                                 {% for color in colors %}
                                     {% if loop.index0 < limit %}
-                                        <a href="#" class="Colors-item" style="background-color:{{ color }}"></a>
+                                        <a href="#" class="colors-item" style="background-color:{{ color }}"></a>
                                     {% else %}
-                                        <div class="Colors-others">
+                                        <div class="colors-others">
                                             ...
                                         </div>
                                     {% endif %}

@@ -7,7 +7,7 @@
   bottom: 0;
   padding-left: rem-convert(40px);
   padding-right: rem-convert(40px);
-  background: var(--white);
+  background: var(--color-white);
   padding-top: rem-convert(50px);
   padding-bottom: rem-convert(42px);
   border-radius: rem-convert(20px) rem-convert(20px) 0px 0px;
@@ -26,13 +26,13 @@
   height: rem-convert(5px);
   width: rem-convert(42px);
   border-radius: rem-convert(50px);
-  background-color: var(--grey);
+  background-color: var(--color-grey);
 }
 
-.MobileDrawer-header {
+.mobileDrawer-header {
 }
 
-.MobileDrawer-close {
+.mobileDrawer-close {
   width: rem-convert(38px);
   height: rem-convert(38px);
   position: absolute;
@@ -48,12 +48,12 @@
   @apply translate-y-0;
 }
 
-.MobileDrawer-overlay {
+.mobileDrawer-overlay {
   position: fixed;
   inset: 0;
   z-index: 10;
   opacity: 0.8;
-  background-color: var(--black);
+  background-color: var(--color-black);
 }
 
 body.locked:has(.MobileDrawer.is-open.sm\:reset-drawer) {

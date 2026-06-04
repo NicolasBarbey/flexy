@@ -1,0 +1,11 @@
+@utility button--fill {
+  width: 100%;
+
+  &:before {
+    display: none;
+  }
+}
+
+@utility button--unfill {
+  width: initial;
+}

@@ -1,13 +1,13 @@
 .Transporter {
-  background: var(--theme-lightest);
-  border: 1px solid var(--theme-lightest);
+  background: var(--color-theme-lightest);
+  border: 1px solid var(--color-theme-lightest);
   border-radius: rem-convert(8px);
   padding: rem-convert(16px);
 }
 
 .Transporter.selected {
-  background: var(--theme-lighter);
-  border: 1px solid var(--theme-medium);
+  background: var(--color-theme-lighter);
+  border: 1px solid var(--color-theme-medium);
 }
 
 .Transporter label {
@@ -27,7 +27,7 @@
   flex-grow: 1;
 }
 
-.Transporter-content .Radio {
+.Transporter-content .radio {
   margin-top: 4px;
   margin-right: 8px;
 }
@@ -44,11 +44,11 @@
 .Transporter-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Transporter-description {
   @apply paragraph-6;
   font-weight: 400;
-  color: var(--grey);
+  color: var(--color-grey);
 }

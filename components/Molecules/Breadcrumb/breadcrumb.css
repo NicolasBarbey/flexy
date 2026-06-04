@@ -9,7 +9,7 @@
 }
 .Breadcrumb-item {
   @apply paragraph-4;
-  color: var(--black);
+  color: var(--color-black);
   display: flex;
   align-items: center;
   gap: var(--gap);
@@ -19,13 +19,13 @@
   text-decoration: underline;
 }
 .Breadcrumb-item-link:hover {
-  color: var(--grey);
+  color: var(--color-grey);
 }
 .Breadcrumb-item-link:focus-visible {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
 }
 .Breadcrumb-item:last-child {
-  color: var(--grey);
+  color: var(--color-grey);
 }
 .Breadcrumb-item:not(:first-child):before {
   font-size: var(--font-size-2xs);
@@ -33,7 +33,7 @@
   content: '/';
 }
 .Breadcrumb-compressed {
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
   width: rem-convert(16px);
   height: rem-convert(16px);
   display: inline-flex;
@@ -43,11 +43,11 @@
   margin-top: rem-convert(2px);
 }
 .Breadcrumb-compressed:focus-visible {
-  background-color: var(--grey-lightest);
-  border: solid 1px var(--theme-medium);
+  background-color: var(--color-grey-lightest);
+  border: solid 1px var(--color-theme-medium);
 }
 .Breadcrumb-compressed:hover {
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 .Breadcrumb .hide {
   display: none;

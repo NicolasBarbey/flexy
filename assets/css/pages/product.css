@@ -8,27 +8,21 @@
   border: 1px solid transparent;
 }
 .ProductGallery-item.is-active {
-  border: 1px solid var(--theme-dark);
+  border: 1px solid var(--color-theme-dark);
 }
 
 .ProductPage {
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .ProductPage-grid {
   display: grid;
-}
-
-@screen lg {
-  .ProductPage-grid {
+  @variant lg {
     grid-template-rows: auto auto;
     grid-template-columns: repeat(12, 1fr);
     gap: 46px 54px;
   }
-}
-
-@screen xl {
-  .ProductPage-grid {
+  @variant xl {
     gap: 16px 20px;
   }
 }
@@ -42,24 +36,18 @@
   width: 100vw;
   margin-right: -50vw;
   margin-left: -50vw;
-}
 
-@screen sm {
-  .ProductPage-gallery {
+  @variant sm {
     position: static;
     width: auto;
     margin: 0;
   }
-}
 
-@screen lg {
-  .ProductPage-gallery {
+  @variant lg {
     grid-column: 1 / 7;
   }
-}
 
-@screen xl {
-  .ProductPage-gallery {
+  @variant xl {
     grid-column: 1 / 8;
   }
 }
@@ -67,50 +55,41 @@
 .ProductPage-infos {
   order: 2;
   margin-top: 30px;
-}
 
-@screen lg {
-  .ProductPage-infos {
+  @variant lg {
     grid-row: 1 / 3;
     grid-column: 7 / 13;
     margin: 0;
   }
-}
 
-@screen xl {
-  .ProductPage-infos {
+  @variant xl {
     grid-column: 9 / 13;
   }
 }
 
 .ProductPage-description {
   order: 3;
-}
-
-@screen lg {
-  .ProductPage-description {
+  @variant lg {
     grid-column: 1 / 7;
   }
-}
 
-@screen xl {
-  .ProductPage-description {
+  @variant xl {
     grid-column: 2 / 8;
   }
 }
 
-@media screen and (max-width: 640px) {
-  .PseSelector .FilterPill {
+@media screen and (max-width: theme(--breakpoint-sm)) {
+  .PseSelector .filterPill {
     display: block;
     border: none;
     width: 100%;
     text-align: left;
   }
-  .PseSelector .FilterPill:hover {
+  .PseSelector .filterPill:hover {
     background-color: white;
   }
-  .PseSelector .FilterPill:has(:checked),
-  .PseSelector .FilterPill.active {
+  .PseSelector .filterPill:has(:checked),
+  .PseSelector .filterPill.active {
     background-color: white;
     background-image: url('/assets/icons/checkmark.svg');
     background-repeat: no-repeat;

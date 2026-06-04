@@ -1,6 +1,6 @@
 .Link {
   @apply link-large;
-  color: var(--black);
+  color: var(--color-black);
   display: inline-flex;
   align-items: center;
   padding: rem-convert(3px);
@@ -9,19 +9,19 @@
 }
 
 .Link:hover {
-  color: var(--grey);
+  color: var(--color-grey);
 }
 
 .Link:focus-visible {
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
 }
 
 .Link:active {
-  color: var(--theme);
+  color: var(--color-theme);
 }
 
 .Link[disabled] {
-  color: var(--grey-lighter);
+  color: var(--color-grey-lighter);
   cursor: not-allowed;
 }
 

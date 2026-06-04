@@ -1,6 +1,6 @@
 .CartItemDelete {
   border-radius: 4px;
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
   overflow: hidden;
   padding: 0.5rem;
   position: relative;
@@ -38,7 +38,7 @@
   align-items: center;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .CartItemDelete-desc {
     padding: 0;
     padding-right: 8px;

@@ -1,6 +1,6 @@
 .StoreDelivery.checked {
-  background: var(--theme-lighter);
-  border: 1px solid var(--theme-medium);
+  background: var(--color-theme-lighter);
+  border: 1px solid var(--color-theme-medium);
 }
 .StoreDelivery-content
   span:not(.StoreDelivery-address):not(.StoreDelivery-address span) {
@@ -8,7 +8,7 @@
 }
 .StoreDelivery-bottom {
   padding: 1rem 1rem 1rem 2rem;
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 .StoreDelivery-hoursListing {
   margin-top: rem-convert(16px);
@@ -44,9 +44,9 @@
   width: rem-convert(9px);
   height: rem-convert(9px);
   border-radius: 999px;
-  background: var(--success-dark);
+  background: var(--color-success-dark);
   margin-right: rem-convert(4px);
 }
 .StoreDelivery-opening.closed:before {
-  background: var(--error-dark);
+  background: var(--color-error-dark);
 }

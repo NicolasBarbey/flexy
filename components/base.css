@@ -1,194 +1,445 @@
 @import './variables.css';
-@import '../assets/css/form.css';
-@import '../assets/css/menu.css';
-@import '../assets/css/mobileDrawer.css';
-@import '../assets/css/slider.css';
-@import '../assets/css/form/code.css';
-@import '../assets/css/form/delta.css';
-@import '../assets/css/form/file.css';
-@import '../assets/css/form/filter.css';
-@import '../assets/css/form/range.css';
-@import './Atoms/Colors/colors.css';
-@import './Atoms/Font/font.css';
-@import './Atoms/Form/checkbox.css';
-@import './Atoms/Form/toggle.css';
-@import './Layout/Footer/footer.css';
-@import './Layout/Header/Header.css';
-@import './Layout/Hero/hero.css';
-@import './Layout/ProductGallery/ProductGallery.css';
-@import './Layout/PromotionalBanner/promotionalBanner.css';
-@import './Layout/Reinsurance/reinsurance.css';
-@import './Layout/Review/review.css';
-@import './Layout/Subheader/subheader.css';
-@import './Molecules/Accordion/accordion.css';
-@import './Molecules/Breadcrumb/breadcrumb.css';
-@import './Molecules/Dropdown/dropdown.css';
-@import './Molecules/Favorite/favorite.css';
-@import './Molecules/Fields/FieldInput/fieldInput.css';
-@import './Molecules/Fields/FieldNumber/fieldNumber.css';
-@import './Molecules/Fields/FieldSelect/fieldSelect.css';
-@import './Molecules/Fields/FieldTextArea/FieldTextArea.css';
-@import './Molecules/Filters/FilterList/filterList.css';
-@import './Molecules/Filters/FilterPill/filterPill.css';
-@import './Molecules/Filters/FilterSelect/filterSelect.css';
-@import './Molecules/ItemHeader/itemHeader.css';
-@import './Molecules/Link/link.css';
-@import './Molecules/Modal/Modal.css';
-@import './Molecules/OrderTag/OrderTag.css';
-@import './Molecules/Pagination/pagination.css';
-@import './Molecules/PasswordControls/passwordControls.css';
-@import './Molecules/RadioCard/radiocard.css';
-@import './Molecules/Score/score.css';
-@import './Molecules/Shortcut/Shortcut.css';
-@import './Molecules/Tab/tab.css';
-@import './Molecules/Tag/Tag.css';
-@import './Molecules/Tooltip/tooltip.css';
-@import './Molecules/UserMenu/userMenu.css';
-@import './Organisms/Card/Article/article.css';
-@import './Organisms/Card/PickupPoint/pickupPoint.css';
-@import './Organisms/Card/Review/review.css';
-@import './Organisms/Card/SelfPromotion/selfPromotion.css';
-@import './Organisms/Card/StoreInfo/storeInfo.css';
-@import './Organisms/Card/SuggestFilters/suggestFilters.css';
-@import './Organisms/Card/Transporter/transporter.css';
-@import './Organisms/CategoryCard/categoryCard.css';
-@import './Organisms/HeaderNav/HeaderNav.css';
-@import './Organisms/Modules/Payment/Payment.css';
-@import './Organisms/Reinsurance/reinsurance.css';
-@import './Organisms/SearchItem/searchItem.css';
-@import './Organisms/SimilarContentCard/similarContentCard.css';
-@import './Organisms/SnackBar/snackbar.css';
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
 
-@import url('../src/UiComponents/AccountHero/AccountHero.css');
-@import url('../src/UiComponents/AddressCard/addressCard.css');
-@import url('../src/UiComponents/AddToCartToast/addToCartToast.css');
-@import url('../src/UiComponents/Blocks/blocks.css');
-@import url('../src/UiComponents/Button/button.css');
-@import url('../src/UiComponents/CartItem/CartItem.css');
-@import url('../src/UiComponents/CartItemDelete/CartItemDelete.css');
-@import url('../src/UiComponents/CatHero/CatHero.css');
-@import url('../src/UiComponents/Checkout/checkout.css');
-@import url('../src/UiComponents/Checkout/CheckoutSteps/CheckoutSteps.css');
-@import url('../src/UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.css');
-@import url('../src/UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.css');
-@import url('../src/UiComponents/Checkout/Delivery/PickupDelivery/pickupPointModule.css');
-@import url('../src/UiComponents/Checkout/Delivery/StoreDelivery/storeDelivery.css');
-@import url('../src/UiComponents/Checkout/PromoCodeForm/PromoCodeForm.css');
-@import url('../src/UiComponents/Checkout/Summary/Summary.css');
-@import url('../src/UiComponents/CrossSelling/crossSelling.css');
-@import url('../src/UiComponents/DeliveryTracking/DeliveryTracking.css');
-@import url('../src/UiComponents/HeaderButton/HeaderButton.css');
-@import url('../src/UiComponents/InvoiceCard/InvoiceCard.css');
-@import url('../src/UiComponents/LangSelect/LangSelect.css');
-@import url('../src/UiComponents/OrderCard/OrderCard.css');
-@import url('../src/UiComponents/OrderProductCard/orderProductCard.css');
-@import url('../src/UiComponents/PaymentCard/PaymentCard.css');
-@import url('../src/UiComponents/ProductCard/ProductCard.css');
-@import url('../src/UiComponents/SearchBar/searchBar.css');
-@import url('../src/UiComponents/SimilarContent/similarContent.css');
+@import '../assets/css/form.css' layer(base);
+@import '../assets/css/menu.css' layer(base);
+@import '../assets/css/mobileDrawer.css' layer(base);
+@import '../assets/css/slider.css' layer(base);
+@import '../assets/css/form/code.css' layer(base);
+@import '../assets/css/form/delta.css' layer(base);
+@import '../assets/css/form/file.css' layer(base);
+@import '../assets/css/form/filter.css' layer(base);
+@import '../assets/css/form/range.css' layer(base);
 
-body {
-  font-family: 'Poppins', 'Roboto', serif;
-  color: var(--black);
+@import '../assets/css/pages/category.css' layer(base);
+@import '../assets/css/pages/product.css' layer(base);
+
+@import './Atoms/Colors/colors.css' layer(base);
+@import './Atoms/Font/font.css' layer(base);
+
+@import './Atoms/Form/checkbox.css' layer(base);
+@import './Atoms/Form/toggle.css' layer(base);
+@import './Layout/Footer/footer.css' layer(base);
+@import './Layout/Header/Header.css' layer(base);
+@import './Layout/Hero/hero.css' layer(base);
+@import './Layout/ProductGallery/ProductGallery.css' layer(base);
+@import './Layout/PromotionalBanner/promotionalBanner.css' layer(base);
+@import './Layout/Reinsurance/reinsurance.css' layer(base);
+@import './Layout/Review/review.css' layer(base);
+@import './Layout/Subheader/subheader.css' layer(base);
+
+@import './Molecules/Accordion/accordion.css' layer(base);
+@import './Molecules/Breadcrumb/breadcrumb.css' layer(base);
+@import './Molecules/Dropdown/dropdown.css' layer(base);
+@import './Molecules/Favorite/favorite.css' layer(base);
+@import './Molecules/Fields/FieldInput/fieldInput.css' layer(base);
+@import './Molecules/Fields/FieldNumber/fieldNumber.css' layer(base);
+@import './Molecules/Fields/FieldSelect/fieldSelect.css' layer(base);
+@import './Molecules/Fields/FieldTextArea/FieldTextArea.css' layer(base);
+@import './Molecules/Filters/FilterList/filterList.css' layer(base);
+@import './Molecules/Filters/FilterPill/filterPill.css' layer(base);
+@import './Molecules/Filters/FilterSelect/filterSelect.css' layer(base);
+@import './Molecules/ItemHeader/itemHeader.css' layer(base);
+@import './Molecules/Link/link.css' layer(base);
+@import './Molecules/Modal/Modal.css' layer(base);
+@import './Molecules/OrderTag/OrderTag.css' layer(base);
+@import './Molecules/Pagination/pagination.css' layer(base);
+@import './Molecules/PasswordControls/passwordControls.css' layer(base);
+@import './Molecules/RadioCard/radiocard.css' layer(base);
+@import './Molecules/Score/score.css' layer(base);
+@import './Molecules/Shortcut/Shortcut.css' layer(base);
+@import './Molecules/Tab/tab.css' layer(base);
+@import './Molecules/Tag/Tag.css' layer(base);
+@import './Molecules/Tooltip/tooltip.css' layer(base);
+@import './Molecules/UserMenu/userMenu.css' layer(base);
+@import './Organisms/Card/Article/article.css' layer(base);
+@import './Organisms/Card/PickupPoint/pickupPoint.css' layer(base);
+@import './Organisms/Card/Review/review.css' layer(base);
+@import './Organisms/Card/SelfPromotion/selfPromotion.css' layer(base);
+@import './Organisms/Card/StoreInfo/storeInfo.css' layer(base);
+@import './Organisms/Card/SuggestFilters/suggestFilters.css' layer(base);
+@import './Organisms/Card/Transporter/transporter.css' layer(base);
+@import './Organisms/CategoryCard/categoryCard.css' layer(base);
+@import './Organisms/HeaderNav/HeaderNav.css' layer(base);
+@import './Organisms/Modules/Payment/Payment.css' layer(base);
+@import './Organisms/Reinsurance/reinsurance.css' layer(base);
+@import './Organisms/SearchItem/searchItem.css' layer(base);
+@import './Organisms/SimilarContentCard/similarContentCard.css' layer(base);
+@import './Organisms/SnackBar/snackbar.css' layer(base);
+
+@import '../src/UiComponents/AccountHero/AccountHero.css';
+@import '../src/UiComponents/AddressCard/addressCard.css';
+@import '../src/UiComponents/AddToCartToast/addToCartToast.css';
+@import '../src/UiComponents/Blocks/blocks.css';
+@import '../src/UiComponents/Button/button.css';
+@import '../src/UiComponents/Button/button.utilities.css';
+@import '../src/UiComponents/CartItem/CartItem.css';
+@import '../src/UiComponents/CartItemDelete/CartItemDelete.css';
+
+@import '../src/UiComponents/CatHero/CatHero.css';
+@import '../src/UiComponents/Checkout/checkout.css';
+@import '../src/UiComponents/Checkout/CheckoutSteps/CheckoutSteps.css';
+@import '../src/UiComponents/Checkout/Delivery/DeliveryMode/DeliveryMode.css';
+
+@import '../src/UiComponents/Checkout/Delivery/HomeDelivery/HomeDelivery.css';
+
+@import '../src/UiComponents/Checkout/Delivery/PickupDelivery/pickupPointModule.css';
+
+@import '../src/UiComponents/Checkout/Delivery/StoreDelivery/storeDelivery.css';
+
+@import '../src/UiComponents/Checkout/PromoCodeForm/PromoCodeForm.css';
+
+@import '../src/UiComponents/Checkout/Summary/Summary.css';
+@import '../src/UiComponents/CrossSelling/crossSelling.css';
+
+@import '../src/UiComponents/DeliveryTracking/DeliveryTracking.css';
+
+@import '../src/UiComponents/HeaderButton/HeaderButton.css';
+
+@import '../src/UiComponents/InvoiceCard/InvoiceCard.css';
+@import '../src/UiComponents/LangSelect/LangSelect.css';
+@import '../src/UiComponents/OrderCard/OrderCard.css';
+@import '../src/UiComponents/OrderProductCard/orderProductCard.css';
+
+@import '../src/UiComponents/PaymentCard/PaymentCard.css';
+@import '../src/UiComponents/ProductCard/ProductCard.css';
+@import '../src/UiComponents/SearchBar/searchBar.css';
+@import '../src/UiComponents/SimilarContent/similarContent.css';
+
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-grey, currentcolor);
+  }
+}
+
+@utility reset-drawer {
+  all: revert;
+
+  &:before {
+    content: none;
+  }
+  & .mobileDrawer-header {
+    display: none;
+  }
+  & .filterChoice-label {
+    pointer-events: none;
+  }
+  & + .mobileDrawer-overlay {
+    display: none;
+  }
+}
+
+@utility mobileDrawer-header {
+  .reset-drawer & {
+    display: none;
+  }
+}
+
+@utility filterChoice-label {
+  .reset-drawer & {
+    pointer-events: none;
+  }
+}
+
+@utility mobileDrawer-overlay {
+  .reset-drawer + & {
+    display: none;
+  }
+}
+
+@utility locked {
+  &body {
+    overflow: hidden;
+  }
+}
+
+@utility bottom-card-buttons {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-body.locked {
-  overflow: hidden;
-}
-
-svg {
   width: 100%;
-  height: 100%;
+
+  & > * {
+    color: var(--color-black);
+    padding: rem-convert(16px);
+    text-decoration: none;
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    gap: 6px;
+    @apply typo-button-small;
+  }
+
+  & > * span {
+    width: rem-convert(14px);
+    height: rem-convert(14px);
+  }
+
+  & > * {
+    border-top: 1px solid var(--color-grey-lighter);
+    border-right: 1px solid var(--color-grey-lighter);
+  }
+
+  & > *:last-child {
+    border-right: none;
+  }
 }
 
-.bottom-card-buttons {
-  display: flex;
-  width: 100%;
-}
-
-.bottom-card-buttons > * {
-  color: var(--black);
-  padding: rem-convert(16px);
-  text-decoration: none;
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0;
-  gap: 6px;
-  @apply typo-button-small;
-}
-
-.bottom-card-buttons > * span {
-  width: rem-convert(14px);
-  height: rem-convert(14px);
-}
-
-.bottom-card-buttons > * {
-  border-top: 1px solid var(--grey-lighter);
-  border-right: 1px solid var(--grey-lighter);
-}
-
-.bottom-card-buttons > *:last-child {
-  border-right: none;
-}
-
-.underline-with-icon {
+@utility underline-with-icon {
   display: flex;
   gap: rem-convert(6px);
   align-items: center;
   text-decoration: underline;
   margin-top: rem-convert(10px);
   margin-bottom: rem-convert(10px);
+
+  & svg {
+    width: rem-convert(18px);
+    height: rem-convert(18px);
+  }
 }
 
-.underline-with-icon svg {
-  width: rem-convert(18px);
-  height: rem-convert(18px);
-}
-
-.step-content {
+@utility step-content {
   display: none;
+
+  &.active {
+    display: block;
+  }
 }
 
-.step-content.active {
-  display: block;
+@utility active {
+  &.step-content {
+    display: block;
+  }
 }
 
-hr {
-  height: 1px;
-  color: var(--grey-lighter);
+@utility paragraph-1 {
+  font-size: var(--font-size-paragraph-1);
+  font-family: var(--font-family-paragraph-1);
+  line-height: var(--line-height-paragraph-1);
 }
 
-footer {
-  margin-top: auto;
+@utility paragraph-2 {
+  font-size: var(--font-size-paragraph-2);
+  font-family: var(--font-family-paragraph-2);
+  line-height: var(--line-height-paragraph-2);
 }
 
-@layer components {
-  .reset-drawer {
-    all: revert;
+@utility paragraph-3 {
+  font-size: var(--font-size-paragraph-3);
+  font-family: var(--font-family-paragraph-3);
+  line-height: var(--line-height-paragraph-3);
+}
+
+@utility paragraph-4 {
+  font-size: var(--font-size-paragraph-4);
+  font-family: var(--font-family-paragraph-4);
+  line-height: var(--line-height-paragraph-4);
+}
+
+@utility paragraph-5 {
+  font-size: var(--font-size-paragraph-5);
+  font-family: var(--font-family-paragraph-5);
+  line-height: var(--line-height-paragraph-5);
+}
+
+@utility paragraph-6 {
+  font-size: var(--font-size-paragraph-6);
+  font-family: var(--font-family-paragraph-6);
+  line-height: var(--line-height-paragraph-6);
+}
+
+@utility paragraph-7 {
+  font-size: var(--font-size-paragraph-7);
+  font-family: var(--font-family-paragraph-7);
+  line-height: var(--line-height-paragraph-7);
+}
+
+@utility paragraph--semibold {
+  font-weight: 600;
+}
+
+@utility paragraph--bold {
+  font-weight: 700;
+}
+
+@utility typo-button-large {
+  font-size: var(--font-size-button-large);
+  font-family: var(--font-family-button-large);
+  font-weight: var(--font-weight-button-large);
+}
+
+@utility typo-button-medium {
+  font-size: var(--font-size-button-medium);
+  font-family: var(--font-family-button-medium);
+  font-weight: var(--font-weight-button-medium);
+}
+
+@utility typo-button-small {
+  font-size: var(--font-size-button-small);
+  font-family: var(--font-family-button-small);
+  font-weight: var(--font-weight-button-small);
+}
+
+@utility link {
+  font-size: var(--font-size-link-medium);
+  font-family: var(--font-family-link-medium);
+  font-weight: var(--font-weight-link-medium);
+  text-decoration: underline;
+}
+
+@utility link-large {
+  font-size: var(--font-size-link-large);
+  font-family: var(--font-family-link-large);
+  font-weight: var(--font-weight-link-large);
+}
+
+@utility link-small {
+  font-size: var(--font-size-link-small);
+  font-family: var(--font-family-link-small);
+  font-weight: var(--font-weight-link-small);
+}
+
+@utility indication {
+  text-transform: uppercase;
+  font-family: var(--font-family-indication);
+  font-weight: var(--font-weight-indication);
+  font-size: var(--font-size-indication);
+  letter-spacing: var(--letter-spacing-indication);
+}
+
+@utility indication-small {
+  font-size: var(--font-size-indication-small);
+  letter-spacing: var(--letter-spacing-indication-small);
+}
+
+@utility indication-lower {
+  text-transform: lowercase;
+}
+
+@utility h1 {
+  font-size: var(--font-size-h1-m);
+  font-weight: var(--font-weight-h1);
+  line-height: var(--line-height-h1-m);
+  @variant md {
+    font-size: var(--font-size-h1-d);
+    font-weight: var(--font-weight-h1);
+    line-height: var(--line-height-h1-d);
+  }
+}
+
+@utility h2 {
+  font-size: var(--font-size-h2-m);
+  font-weight: var(--font-weight-h2);
+  line-height: var(--line-height-h2-m);
+  @variant md {
+    font-size: var(--font-size-h2-d);
+    font-weight: var(--font-weight-h2);
+    line-height: var(--line-height-h2-d);
+  }
+}
+
+@utility h3 {
+  font-size: var(--font-size-h3-m);
+  font-weight: var(--font-weight-h3);
+  line-height: var(--line-height-h3-m);
+  @variant md {
+    font-size: var(--font-size-h3-d);
+    font-weight: var(--font-weight-h3);
+    line-height: var(--line-height-h3-d);
+  }
+}
+
+@utility h4 {
+  font-size: var(--font-size-h4-m);
+  font-weight: var(--font-weight-h4);
+  line-height: var(--line-height-h4-m);
+  @variant md {
+    font-size: var(--font-size-h4-d);
+    font-weight: var(--font-weight-h4);
+    line-height: var(--line-height-h4-d);
+  }
+}
+
+@utility h5 {
+  font-size: var(--font-size-h5-m);
+  font-weight: var(--font-weight-h5);
+  line-height: var(--line-height-h5-m);
+  @variant md {
+    font-size: var(--font-size-h5-d);
+    font-weight: var(--font-weight-h5);
+    line-height: var(--line-height-h5-d);
+  }
+}
+
+@utility h6 {
+  font-size: var(--font-size-h6-m);
+  font-weight: var(--font-weight-h6);
+  line-height: var(--line-height-h6-m);
+
+  @variant md {
+    font-size: var(--font-size-h6-d);
+    font-weight: var(--font-weight-h6);
+    line-height: var(--line-height-h6-d);
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-grey, currentcolor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: 'Poppins', 'Roboto', serif;
+    color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  .reset-drawer:before {
-    content: none;
+  svg {
+    width: 100%;
+    height: 100%;
   }
-  .reset-drawer .MobileDrawer-header {
-    display: none;
+
+  hr {
+    height: 1px;
+    color: var(--color-grey-lighter);
   }
-  .reset-drawer .FilterChoice-label {
-    pointer-events: none;
-  }
-  .reset-drawer + .MobileDrawer-overlay {
-    display: none;
+
+  footer {
+    margin-top: auto;
   }
 }
 
@@ -197,4 +448,10 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+@layer utilities {
+  body a {
+    text-decoration: underline;
+  }
 }

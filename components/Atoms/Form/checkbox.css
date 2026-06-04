@@ -1,22 +1,22 @@
 .Checkbox,
-.Radio {
+.radio {
   display: inline-flex;
   align-items: first baseline;
   align-self: flex-start;
   position: relative;
   cursor: pointer;
   gap: 0.5rem;
-  --current-checkbox-color: var(--black);
+  --current-checkbox-color: var(--color-black);
   --current-checkbox-hover: var(--grey-dark);
-  --current-checkbox-disabled: var(--grey-lighter);
+  --current-checkbox-disabled: var(--color-grey-lighter);
 }
 .Checkbox.error,
-.Radio.error {
-  --current-checkbox-color: var(--error-light);
-  --current-checkbox-hover: var(--error-dark);
+.radio.error {
+  --current-checkbox-color: var(--color-error-light);
+  --current-checkbox-hover: var(--color-error-dark);
 }
 .Checkbox input,
-.Radio input {
+.radio input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -24,38 +24,38 @@
   width: 0;
 }
 .Checkbox input:focus-visible ~ .checkmark,
-.Radio input:focus-visible ~ .checkmark {
-  outline: var(--checkbox-focus) solid 1px;
+.radio input:focus-visible ~ .checkmark {
+  outline: var(--color-checkbox-focus) solid 1px;
   outline-offset: 1px;
 }
 .Checkbox .checkmark,
-.Radio .checkmark {
+.radio .checkmark {
   width: 1rem;
   height: 1rem;
-  background: var(--white);
+  background: var(--color-white);
   border: 1px solid var(--current-checkbox-color);
   border-radius: 2px;
   position: relative;
   flex-shrink: 0;
 }
 .Checkbox .checkmark span,
-.Radio .checkmark span {
+.radio .checkmark span {
   display: none;
 }
 .Checkbox input:disabled ~ .checkmark,
-.Radio input:disabled ~ .checkmark {
+.radio input:disabled ~ .checkmark {
   border: 1px solid var(--current-checkbox-disabled);
 }
 .Checkbox:hover input:not(:disabled) ~ .checkmark,
-.Radio:hover input:not(:disabled) ~ .checkmark {
+.radio:hover input:not(:disabled) ~ .checkmark {
   border: 1px solid var(--current-checkbox-hover);
 }
 .Checkbox:hover input:not(:disabled):indeterminate ~ .checkmark,
-.Radio:hover input:not(:disabled):indeterminate ~ .checkmark {
-  background-color: var(--grey-lightest);
+.radio:hover input:not(:disabled):indeterminate ~ .checkmark {
+  background-color: var(--color-grey-lightest);
 }
 .Checkbox:hover input:not(:disabled):indeterminate ~ .checkmark:after,
-.Radio:hover input:not(:disabled):indeterminate ~ .checkmark:after {
+.radio:hover input:not(:disabled):indeterminate ~ .checkmark:after {
   background: var(--current-checkbox-hover);
 }
 
@@ -87,15 +87,15 @@
   background-color: var(--current-checkbox-hover);
 }
 
-.Radio .checkmark {
+.radio .checkmark {
   border-radius: 555rem;
   width: 14px;
   height: 14px;
 }
 
-.Radio input:checked ~ .checkmark:after,
-.Radio input.checked ~ .checkmark:after,
-.Radio.checked .checkmark:after {
+.radio input:checked ~ .checkmark:after,
+.radio input.checked ~ .checkmark:after,
+.radio.checked .checkmark:after {
   content: '';
   position: absolute;
   border-radius: 555rem;
@@ -106,7 +106,7 @@
   background-color: var(--current-checkbox-color);
 }
 
-.Radio input:disabled ~ .checkmark:after {
+.radio input:disabled ~ .checkmark:after {
   background: var(--current-checkbox-disabled);
 }
 

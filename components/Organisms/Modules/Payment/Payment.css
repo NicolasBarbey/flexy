@@ -1,19 +1,17 @@
 .Payment {
-  background: var(--theme-lightest);
-  border: 1px solid var(--theme-lightest);
+  background: var(--color-theme-lightest);
+  border: 1px solid var(--color-theme-lightest);
   border-radius: rem-convert(8px);
   max-width: rem-convert(340px);
-}
 
-@screen lg {
-  .Payment {
+  @variant lg {
     max-width: rem-convert(540px);
   }
 }
 
 .Payment.selected {
-  background: var(--theme-lighter);
-  border: 1px solid var(--theme-medium);
+  background: var(--color-theme-lighter);
+  border: 1px solid var(--color-theme-medium);
 }
 
 .Payment label {
@@ -23,7 +21,7 @@
 .Payment-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Payment-content {
@@ -40,7 +38,7 @@
   flex-grow: 1;
 }
 
-.Payment-content .Radio {
+.Payment-content .radio {
   margin-top: 4px;
   margin-right: 8px;
 }

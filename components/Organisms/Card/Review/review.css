@@ -1,5 +1,5 @@
 .Review {
-  background-color: var(--white);
+  background-color: var(--color-white);
   padding: rem-convert(16px);
   border-radius: 8px;
 }
@@ -7,7 +7,7 @@
 .Review-author {
   @apply paragraph-5;
   margin-bottom: rem-convert(8px);
-  color: var(--grey);
+  color: var(--color-grey);
 }
 
 .Review-review {
@@ -22,5 +22,5 @@
 
 .Review-date {
   @apply indication;
-  color: var(--grey);
+  color: var(--color-grey);
 }

@@ -1,26 +1,26 @@
-.Favorite {
+.favorite {
   display: flex;
   align-items: center;
   gap: rem-convert(6px);
-  background: var(--white);
+  background: var(--color-white);
   padding: rem-convert(4px) rem-convert(8px);
   border-radius: rem-convert(8px);
 }
 
-.Favorite .star {
+.favorite .star {
   width: rem-convert(16px);
   height: rem-convert(16px);
-  color: var(--grey-lighter);
+  color: var(--color-grey-lighter);
 }
 
-.Favorite .text {
+.favorite .text {
   @apply indication indication-small;
 }
 
-.Favorite.selected {
+.favorite.selected {
   pointer-events: none;
 }
 
-.Favorite.selected .star {
-  color: var(--theme);
+.favorite.selected .star {
+  color: var(--color-theme);
 }

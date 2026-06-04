@@ -1,17 +1,24 @@
-.LangSelect {
+@utility langSelect {
   height: 100%;
   display: none;
   align-items: stretch;
   position: relative;
-}
 
-@screen md {
-  .LangSelect {
+  @media (width >= theme(--breakpoint-md)) {
     display: flex;
+  }
+
+  &.is-open .langSelect-current {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &.is-open .langSelect-list {
+    display: flex;
+    opacity: 1;
   }
 }
 
-.LangSelect-current {
+@utility langSelect-current {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,39 +26,45 @@
   text-transform: uppercase;
   font-weight: 500;
   padding: 16px 0 16px 16px;
-}
 
-@screen md {
-  .LangSelect-current {
+  @media (width >= theme(--breakpoint-md)) {
     font-size: 0;
   }
-}
 
-@screen lg {
-  .LangSelect-current {
+  @media (width >= theme(--breakpoint-lg)) {
     font-size: inherit;
+  }
+
+  &:hover {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus-visible {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--color-black);
+    outline-offset: -1px;
+  }
+
+  .langSelect.is-open & {
+    background-color: var(--color-grey-lightest);
   }
 }
 
-.LangSelect-current:hover,
-.LangSelect-current:focus,
-.LangSelect-current:focus-visible {
-  background-color: var(--grey-lightest);
-}
-
-.LangSelect-current:focus-visible {
-  outline: 1px solid var(--black);
-  outline-offset: -1px;
-}
-
-.LangSelect-flag {
+@utility langSelect-flag {
   width: 18px;
   aspect-ratio: 1/1;
   display: inline-block;
   flex-shrink: 0;
 }
 
-.LangSelect-list {
+@utility langSelect-list {
   display: none;
   transition-property: opacity, display;
   transition-behavior: allow-discrete;
@@ -66,36 +79,58 @@
   align-items: stretch;
   box-shadow: 0px 0px 8px 0px rgba(84, 84, 84, 0.15);
   width: 200px;
+
+  .langSelect.is-open & {
+    display: flex;
+    opacity: 1;
+  }
 }
 
-.LangSelect-lang {
+@utility langSelect-lang {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 16px 24px;
   width: 100%;
   text-decoration: none;
+
+  &:hover {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &.active {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus-visible {
+    background-color: var(--color-grey-lightest);
+  }
 }
 
-.LangSelect-lang:hover,
-.LangSelect-lang:focus,
-.LangSelect-lang.active,
-.LangSelect-lang:focus-visible {
-  background-color: var(--grey-lightest);
+@utility active {
+  & .langSelect-lang {
+    background-color: var(--color-grey-lightest);
+  }
 }
 
-.LangSelect-check {
-  color: var(--black);
+@utility langSelect-check {
+  color: var(--color-black);
   width: 16px;
   aspect-ratio: 1/1;
   margin-left: auto;
 }
 
-.LangSelect.is-open .LangSelect-current {
-  background-color: var(--grey-lightest);
-}
+@utility is-open {
+  &.langSelect .langSelect-current {
+    background-color: var(--color-grey-lightest);
+  }
 
-.LangSelect.is-open .LangSelect-list {
-  display: flex;
-  opacity: 1;
+  &.langSelect .langSelect-list {
+    display: flex;
+    opacity: 1;
+  }
 }

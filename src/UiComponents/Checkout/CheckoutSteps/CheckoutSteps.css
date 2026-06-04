@@ -1,8 +1,8 @@
 .CheckoutSteps {
-  background: var(--theme-lightest);
+  background: var(--color-theme-lightest);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--theme-medium);
+  border-bottom: 1px solid var(--color-theme-medium);
   padding: 0 20px;
   height: rem-convert(60px);
   justify-content: space-between;
@@ -17,7 +17,7 @@
   display: block;
 }
 
-@screen xs {
+@media (width >= theme(--breakpoint-xs)) {
   .CheckoutSteps {
     justify-content: center;
     padding: 0;
@@ -38,7 +38,7 @@
   align-items: center;
   gap: rem-convert(6px);
   position: relative;
-  color: var(--grey);
+  color: var(--color-grey);
   display: none;
 }
 
@@ -53,7 +53,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--theme-medium);
+  border: 1px solid var(--color-theme-medium);
 }
 
 .Step-number:after {
@@ -63,7 +63,7 @@
   width: rem-convert(27px);
   border-radius: 50%;
   background: conic-gradient(
-    var(--theme-medium) 0% var(--p),
+    var(--color-theme-medium) 0% var(--p),
     /* Bordure couvrant 25% */ transparent var(--p) 100% /* Reste transparent */
   );
   -webkit-mask: radial-gradient(
@@ -79,7 +79,7 @@
   z-index: 5;
 }
 
-@screen xs {
+@media (width >= theme(--breakpoint-xs)) {
   .Step-number:after {
     content: none;
   }
@@ -98,24 +98,24 @@
 }
 
 .Step.previous .Step-number {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
 }
 
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .Step-label {
     display: inline-block;
   }
 }
 
-@screen xs {
+@media (width >= theme(--breakpoint-xs)) {
   .Step {
     display: flex;
   }
   .Step.current {
-    color: var(--black);
+    color: var(--color-black);
   }
   .Step.current .Step-number {
-    background-color: var(--theme-medium);
+    background-color: var(--color-theme-medium);
   }
   .Step.current .Step-label {
     font-weight: 400;
@@ -128,6 +128,6 @@
     height: 1px;
     position: absolute;
     left: -50px;
-    background-color: var(--theme-medium);
+    background-color: var(--color-theme-medium);
   }
 }

@@ -1,8 +1,8 @@
 .Tab {
   @apply typo-button-large;
   text-align: center;
-  outline: var(--black) solid 1px;
-  color: var(--black);
+  outline: var(--color-black) solid 1px;
+  color: var(--color-black);
   padding: rem-convert(12px) rem-convert(24px);
   display: inline-flex;
   align-items: center;
@@ -11,8 +11,8 @@
 }
 
 .Tab:hover:not(:focus):not([disabled]) {
-  background: var(--black);
-  color: var(--white);
+  background: var(--color-black);
+  color: var(--color-white);
 }
 
 .Tab:hover:focus-visible {
@@ -20,8 +20,8 @@
 }
 
 .Tab:active:not([disabled]) {
-  background: var(--black);
-  color: var(--white);
+  background: var(--color-black);
+  color: var(--color-white);
 }
 
 .Tab:active:hover {
@@ -34,18 +34,18 @@
 }
 
 .Tab:focus-visible {
-  outline: var(--theme-medium) solid 2px;
+  outline: var(--color-theme-medium) solid 2px;
 }
 
 .Tab[disabled] {
-  outline-color: var(--grey-lighter);
-  color: var(--grey-lighter);
+  outline-color: var(--color-grey-lighter);
+  color: var(--color-grey-lighter);
   cursor: not-allowed;
 }
 
 .Tab[disabled]:active {
-  background-color: var(--grey-lighter);
-  color: var(--white);
+  background-color: var(--color-grey-lighter);
+  color: var(--color-white);
 }
 
 .Tab--small {

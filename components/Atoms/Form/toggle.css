@@ -1,9 +1,9 @@
 .ToggleButton {
-  --on-color: var(--black);
-  --off-color: var(--grey);
+  --on-color: var(--color-black);
+  --off-color: var(--color-grey);
   --on-color-hover: var(--grey-dark);
-  --off-color-hover: var(--black);
-  --color-disabled: var(--grey-lighter);
+  --off-color-hover: var(--color-black);
+  --color-disabled: var(--color-grey-lighter);
 
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@
   width: 10px;
   height: 10px;
   display: inline-block;
-  background: var(--white);
+  background: var(--color-white);
   @apply translate-x-[0.1rem];
   @apply rounded-full transition duration-200 ease-in-out;
 }
@@ -42,7 +42,7 @@
   @apply translate-x-[0.8rem];
 }
 .ToggleButton input:focus-visible ~ .ToggleButton-wrapper {
-  outline: var(--checkbox-focus) solid 1px;
+  outline: var(--color-checkbox-focus) solid 1px;
   outline-offset: 1px;
 }
 .ToggleButton input:disabled ~ .ToggleButton-wrapper {

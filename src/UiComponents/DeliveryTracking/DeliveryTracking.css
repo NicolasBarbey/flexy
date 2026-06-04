@@ -1,7 +1,7 @@
 .DeliveryTracking {
   border-radius: rem-convert(8px);
-  border: 1px solid var(--theme-medium);
-  background: var(--theme-lightest);
+  border: 1px solid var(--color-theme-medium);
+  background: var(--color-theme-lightest);
   padding: rem-convert(24px) rem-convert(32px);
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@
 .DeliveryTracking-title {
   @apply paragraph-2;
   font-weight: 700;
-  color: var(--black);
+  color: var(--color-black);
   padding-bottom: rem-convert(4px);
 }
 
@@ -48,14 +48,14 @@
   left: 8px;
   height: 24px;
   width: 1px;
-  background-color: var(--theme);
+  background-color: var(--color-theme);
 }
 
 .DeliveryTracking-icon {
   display: block;
   width: 16px;
   height: 16px;
-  color: var(--theme);
+  color: var(--color-theme);
   border: 1px solid currentColor;
   border-radius: 50%;
 }

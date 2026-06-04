@@ -1,5 +1,5 @@
 .Reinsurance {
-  background: var(--theme-lighter);
+  background: var(--color-theme-lighter);
   max-width: rem-convert(400px);
   padding-top: rem-convert(20px);
   padding-bottom: rem-convert(20px);
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   gap: rem-convert(10px);
-  border-bottom: 0.5px solid var(--theme-medium);
+  border-bottom: 0.5px solid var(--color-theme-medium);
   padding-bottom: rem-convert(14px);
   padding-top: rem-convert(14px);
 }
@@ -30,5 +30,5 @@
   display: inline-block;
   width: rem-convert(21px);
   height: rem-convert(21px);
-  color: var(--theme);
+  color: var(--color-theme);
 }

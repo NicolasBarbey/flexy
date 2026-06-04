@@ -1,5 +1,5 @@
 .HeaderNav {
-  @apply fixed border-t border-grey md:border-0 md:static bottom-0 left-0 w-screen md:w-auto flex h-[var(--header-nav-height)] md:h-auto items-center align-middle z-10;
+  @apply fixed border-t border-grey md:border-0 md:static bottom-0 left-0 w-screen md:w-auto flex h-(--header-nav-height) md:h-auto items-center align-middle z-10;
 }
 
 .HeaderNav-btn:last-child {

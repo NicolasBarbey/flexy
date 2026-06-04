@@ -3,24 +3,24 @@
   display: block;
   border-radius: 0.5rem;
   border-width: 1px;
-  border-color: var(--theme);
-  color: var(--black);
-  background-color: var(--white);
+  border-color: var(--color-theme);
+  color: var(--color-black);
+  background-color: var(--color-white);
   cursor: pointer;
 }
 
 .FieldFile::file-selector-button {
   appearance: none;
-  background-color: var(--theme);
+  background-color: var(--color-theme);
   border: none;
   padding: 0.625rem 1rem;
   color: white;
 }
 
 .FieldFile.is-error {
-  color: var(--error);
+  color: var(--color-error);
 }
 
 .FieldFile.is-error::file-selector-button {
-  background-color: var(--error);
+  background-color: var(--color-error);
 }

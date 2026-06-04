@@ -1,6 +1,6 @@
 .SnackBar {
   border-radius: 8px;
-  border: 1px solid var(--black);
+  border: 1px solid var(--color-black);
   padding-bottom: rem-convert(20px);
   padding-top: rem-convert(20px);
 }
@@ -34,26 +34,26 @@
   padding-left: rem-convert(24px);
 }
 .SnackBar--neutral-light {
-  background: var(--theme-lightest);
-  border-color: var(--theme-medium);
+  background: var(--color-theme-lightest);
+  border-color: var(--color-theme-medium);
 }
 .SnackBar--neutral-dark {
-  background: var(--theme-light);
-  border-color: var(--theme-medium);
+  background: var(--color-theme-light);
+  border-color: var(--color-theme-medium);
 }
 .SnackBar--error {
-  background: var(--error-lightest);
-  border-color: var(--error);
+  background: var(--color-error-lightest);
+  border-color: var(--color-error);
 }
 .SnackBar--warning {
-  background: var(--warning-lightest);
-  border-color: var(--warning);
+  background: var(--color-warning-lightest);
+  border-color: var(--color-warning);
 }
 .SnackBar--validated {
-  background: var(--validated-lightest);
-  border-color: var(--validated);
+  background: var(--color-validated-lightest);
+  border-color: var(--color-validated);
 }
 .SnackBar--informative {
-  background: var(--informative-lightest);
-  border-color: var(--informative);
+  background: var(--color-informative-lightest);
+  border-color: var(--color-informative);
 }

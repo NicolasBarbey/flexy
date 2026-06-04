@@ -1,6 +1,6 @@
 .PromoCodeForm-label {
   @apply paragraph-4;
-  color: var(--black);
+  color: var(--color-black);
   font-weight: 600;
 }
 .PromoCodeForm .FieldWrapper {

@@ -1,7 +1,7 @@
 .FieldRange {
   position: relative;
   appearance: none;
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
   border-radius: 4px;
   height: 6px;
   width: 100%;
@@ -14,7 +14,7 @@
   border: none;
   width: 1.25rem;
   height: 1.25rem;
-  background: var(--theme);
+  background: var(--color-theme);
   border-radius: 50%;
   cursor: pointer;
 }

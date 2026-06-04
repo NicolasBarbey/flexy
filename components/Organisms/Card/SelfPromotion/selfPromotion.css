@@ -11,17 +11,17 @@
 .SelfPromotion-content {
   padding: rem-convert(13px) rem-convert(20px) rem-convert(13px)
     rem-convert(24px);
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 
 .SelfPromotion-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
   margin-bottom: rem-convert(2px);
 }
 
 .SelfPromotion-desc {
   @apply paragraph-6;
-  color: var(--grey);
+  color: var(--color-grey);
 }

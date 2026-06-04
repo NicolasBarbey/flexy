@@ -1,37 +1,47 @@
-.PaymentCard {
+@utility paymentCard {
   position: relative;
   border-radius: rem-convert(8px);
-  border: 1px solid var(--theme-medium);
-  background: var(--theme-lightest);
+  border: 1px solid var(--color-theme-medium);
+  background: var(--color-theme-lightest);
   padding: rem-convert(18px);
+
+  &.selected {
+    background: var(--color-theme-lighter);
+  }
+
+  & .radioButton {
+    align-self: baseline;
+  }
 }
 
-.PaymentCard.selected {
-  background: var(--theme-lighter);
+@utility selected {
+  &.paymentCard {
+    background: var(--color-theme-lighter);
+  }
 }
 
-.PaymentCard-icon {
+@utility paymentCard-icon {
   position: absolute;
   top: 0;
   right: 0;
   padding: rem-convert(20px);
+
+  & span {
+    display: block;
+    width: rem-convert(38px);
+    height: rem-convert(38px);
+    color: var(--color-theme-light);
+  }
 }
 
-.PaymentCard-icon span {
-  display: block;
-  width: rem-convert(38px);
-  height: rem-convert(38px);
-  color: var(--theme-light);
-}
-
-.PaymentCard-title {
+@utility paymentCard-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
   display: block;
 }
 
-.PaymentCard-content {
+@utility paymentCard-content {
   @apply paragraph-4;
   display: flex;
   cursor: pointer;
@@ -39,6 +49,8 @@
   gap: 0.5rem;
 }
 
-.PaymentCard .RadioButton {
-  align-self: baseline;
+@utility radioButton {
+  .paymentCard & {
+    align-self: baseline;
+  }
 }

@@ -4,14 +4,14 @@
 	{% if filters %}
 		{% set ActiveFiltersCount = filters_count(formValues|filter(f => f is iterable)) %}
 		<div class="CategoryFilters MobileDrawer lg:reset-drawer" data-action="change->filters#filterChange" data-drawer-target="drawer">
-			<div class='MobileDrawer-header lg:hidden'>
-				<button class='MobileDrawer-close' type='button' data-action="drawer#close">{{ ux_icon("close") }}</button>
+			<div class='mobileDrawer-header lg:hidden'>
+				<button class='mobileDrawer-close' type='button' data-action="drawer#close">{{ ux_icon("close") }}</button>
 			</div>
 			{{ form(form)}}
 				<div class="flex items-center mt-[30px] flex-row-reverse">
-					<button type="button" class="ml-auto leading-3 Button Button--primary Button--large lg:hidden" data-action="drawer#close">{{'Apply'|trans}}</button>
+					<button type="button" class="ml-auto leading-3 Button button--primary button--large lg:hidden" data-action="drawer#close">{{'Apply'|trans}}</button>
 					{% if filtersCount %}
-						<button type="button" class="leading-3 Button Button--secondary CategoryFilters-erase" data-action="filters#resetForm drawer#close">{{'Erase'|trans}}
+						<button type="button" class="leading-3 Button button--secondary CategoryFilters-erase" data-action="filters#resetForm drawer#close">{{'Erase'|trans}}
 							({{filtersCount}})
 						{% endif %}
 					</button>
@@ -60,12 +60,12 @@
 						</div>
 						<h3 class="text-center h4">{{"No products found"|trans}}</h3>
 						{% if ActiveFiltersCount %}
-							<button type="button" class="mt-4 Button--medium Button Button--secondary" data-action="click->filters#resetForm">
+							<button type="button" class="mt-4 button--medium Button button--secondary" data-action="click->filters#resetForm">
 								{{'Erase filters'|trans}}
 								({{filtersCount}})
 							</button>
 						{% else %}
-							<a href="/" class="mt-4 Button--medium Button Button--secondary">
+							<a href="/" class="mt-4 button--medium Button button--secondary">
 								{{'Home'|trans}}
 							</a>
 						{% endif %}

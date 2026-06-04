@@ -11,14 +11,14 @@
 
 .FieldInput-label {
   @apply paragraph-5;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .FieldInput-help {
   width: rem-convert(18px);
   width: rem-convert(18px);
   height: rem-convert(18px);
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .FieldInput-blockInput {
@@ -27,9 +27,9 @@
 
 .FieldInput-input {
   @apply paragraph-4;
-  border: 1px solid var(--theme-medium);
+  border: 1px solid var(--color-theme-medium);
   border-radius: 8px;
-  color: var(--black);
+  color: var(--color-black);
   width: 100%;
   padding: rem-convert(16px) rem-convert(10px);
   transition: 0.2s ease all;
@@ -37,13 +37,13 @@
 }
 
 .FieldInput-input:hover {
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 
 .FieldInput-input:focus-visible {
   outline-offset: 2px;
-  outline: 1px solid var(--theme);
-  border-color: var(--theme);
+  outline: 1px solid var(--color-theme);
+  border-color: var(--color-theme);
 }
 
 .FieldInput-input[disabled] {
@@ -63,16 +63,16 @@
 }
 
 .FieldInput-input.is-error {
-  border: 1px solid var(--error-light);
-  color: var(--error);
+  border: 1px solid var(--color-error-light);
+  color: var(--color-error);
 }
 
 .FieldInput-input.is-error:hover {
-  background-color: var(--error-lightest);
+  background-color: var(--color-error-lightest);
 }
 
 .FieldInput-input.is-error:focus-visible {
-  outline: 1px solid var(--error-dark);
+  outline: 1px solid var(--color-error-dark);
 }
 
 .FieldInput-unit {
@@ -98,12 +98,12 @@
 
 .FieldInput-error {
   @apply paragraph-5;
-  color: var(--error-dark);
+  color: var(--color-error-dark);
   font-style: italic;
 }
 
 .FieldInput--success .FieldInput-input {
-  border: 1px solid var(--success);
+  border: 1px solid var(--color-success);
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none"><path d="m26.648 19.113-6.33 6.524a1.176 1.176 0 0 1-1.698 0l-3.268-3.368a1.265 1.265 0 0 1 0-1.75 1.176 1.176 0 0 1 1.698 0l2.419 2.493 5.481-5.65a1.176 1.176 0 0 1 1.698 0 1.265 1.265 0 0 1 0 1.751Z" fill="%2337E17B"></path></svg>');
   background-repeat: no-repeat;
   background-position: right 0 top 50%;

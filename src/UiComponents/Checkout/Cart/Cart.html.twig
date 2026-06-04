@@ -1,5 +1,5 @@
 <div {{  attributes.defaults(stimulus_controller('cart')) }}>
-    
+
 
     {% if this.totalItems %}
         {% if this.itemHasNoStockMessage %}
@@ -11,7 +11,7 @@
             } %}
         {% endif %}
         {% if this.totalItems %}
-            <div class="Checkout-main-header">
+            <div class="checkout-main-header">
                 {{ this.totalItems }}
                 {{ this.totalItems <= 1 ? 'item'|trans : 'items'|trans }}
             </div>

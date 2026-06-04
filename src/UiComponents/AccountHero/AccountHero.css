@@ -1,34 +1,44 @@
-.AccountHero {
-  background: var(--theme-lighter);
-  display: flex;
-  flex-direction: column;
-}
-
-.AccountHero-breadcrumb {
-  @apply pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)];
-}
-
-.AccountHero-links {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  border: 1px solid var(--black);
-  align-items: stretch;
-  max-width: 500px;
-}
-
-@screen sm {
-  .AccountHero-links {
-    flex-direction: row;
+@layer components {
+  .AccountHero {
+    background: var(--color-theme-lighter);
+    display: flex;
+    flex-direction: column;
   }
-}
 
-.AccountHero-links .Button {
-  border-radius: 0;
-  border: none;
-  border-right: 1px solid var(--black);
-}
+  .AccountHero-breadcrumb {
+    @apply pt-5 md:px-12.5 px-[calc(var(--margin-container)*1px)];
+  }
 
-.AccountHero-links :last-child .Button {
-  border-right: none;
+  .AccountHero-links {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border: 1px solid var(--color-black);
+    align-items: stretch;
+    max-width: 500px;
+
+    @variant sm {
+      flex-direction: row;
+    }
+  }
+
+  .AccountHero-links .button {
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid var(--color-black);
+  }
+
+  .AccountHero-links:last-child .button {
+    border-right: none;
+  }
+
+  .AccountHero-links {
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid var(--color-black);
+  }
+
+  .AccountHero-links:last-child {
+    border-right: none;
+  }
 }

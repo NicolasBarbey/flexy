@@ -17,16 +17,16 @@ class DrawerController extends Controller {
 
   toggleOverlay(open) {
     if (open) {
-      if (!this.element.querySelector('.MobileDrawer-overlay')) {
+      if (!this.element.querySelector('.mobileDrawer-overlay')) {
         const overlay = document.createElement('div');
-        overlay.classList.add('MobileDrawer-overlay');
+        overlay.classList.add('mobileDrawer-overlay');
         overlay.addEventListener('click', () => this.close());
         return this.element.appendChild(overlay);
       }
       return;
     }
 
-    document.querySelector('.MobileDrawer-overlay')?.remove();
+    document.querySelector('.mobileDrawer-overlay')?.remove();
   }
 }
 

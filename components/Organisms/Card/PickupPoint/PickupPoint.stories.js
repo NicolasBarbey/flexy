@@ -47,7 +47,7 @@ export const Base = {
 
 export const MobileDrawer = {
   render: (args) =>
-    `<div class='text-center'><button class='Button Button--secondary' data-drawer-toggle='#PickupPointDrawer' type='button'>Test Drawer</button></div>${PickupPointDrawer(args)}`,
+    `<div class='text-center'><button class='Button button--secondary' data-drawer-toggle='#PickupPointDrawer' type='button'>Test Drawer</button></div>${PickupPointDrawer(args)}`,
   play: () => {
     MobileDrawerInit();
   },

@@ -1,10 +1,10 @@
-.InvoiceCard {
+@utility invoiceCard {
   padding: 30px;
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
   border-radius: 8px;
 }
 
-.InvoiceCard-bottom {
+@utility invoiceCard-bottom {
   display: flex;
   justify-content: flex-end;
 }

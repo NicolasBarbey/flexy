@@ -10,11 +10,11 @@
 <div class="relative grow h-full flex" {{ stimulus_controller('drawer profile') }}>
     {{ component('Flexy:HeaderButton' , headerButtonConfig) }}
     <div class="MobileDrawer lg:reset-drawer" data-drawer-target="drawer">
-        <div class="MobileDrawer-header">
+        <div class="mobileDrawer-header">
             <strong class="block text-center text-black h3">
                 {{ 'hy_customer'|trans({'%firstname%': customer.firstname}) }}
             </strong>
-            <button class="MobileDrawer-close" type="button" data-action="drawer#close">
+            <button class="mobileDrawer-close" type="button" data-action="drawer#close">
                 {{ ux_icon('close') }}
             </button>
         </div>

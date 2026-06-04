@@ -29,24 +29,24 @@
 			<ul class="Fieldset-group">
 				{% for attr in productAttrs %}
 					<li>
-						<div class="FilterChoice FilterChoice--drawer" data-controller="drawer filter-choice">
-							<div class="FilterChoice-label" data-action="click->drawer#toggle" data-select-label="{{ attr.values|find(val => val.id == currentPse.combination[attr.id]).label }}" data-filter-choice-target="label">
+						<div class="FilterChoice filterChoice--drawer" data-controller="drawer filter-choice">
+							<div class="filterChoice-label" data-action="click->drawer#toggle" data-select-label="{{ attr.values|find(val => val.id == currentPse.combination[attr.id]).label }}" data-filter-choice-target="label">
 								{{ attr.label }}
 							</div>
 							<div class="MobileDrawer sm:reset-drawer" data-drawer-target="drawer">
-								<div class="MobileDrawer-header lg:hidden">
-									<button class="MobileDrawer-close" type="button" data-action="drawer#close">
+								<div class="mobileDrawer-header lg:hidden">
+									<button class="mobileDrawer-close" type="button" data-action="drawer#close">
 										{{ ux_icon('close') }}
 									</button>
 								</div>
-								<ul class="FilterChoice-list">
+								<ul class="filterChoice-list">
 									{% for value in attr.values %}
 										{# {% set available = this.isAvailableAttrValue({(attr.id): value.id}) %} #}
 										{% set available = true %}
 										<li>
-											<button type="button" class="FilterPill FilterPill--drawer {{ currentCombination[attr.id] == value.id ? 'active' : '' }}" data-action="filter-choice#updateLabel drawer#close live#action" data-live-action-param="updateCurrentCombination" data-live-attr-param="{{ attr.id }}" data-live-value-param="{{ value.id }}" data-filter-choice-label-param="{{ value.label }}" {% if not available %} disabled {% endif %}>
+											<button type="button" class="filterPill filterPill--drawer {{ currentCombination[attr.id] == value.id ? 'active' : '' }}" data-action="filter-choice#updateLabel drawer#close live#action" data-live-action-param="updateCurrentCombination" data-live-attr-param="{{ attr.id }}" data-live-value-param="{{ value.id }}" data-filter-choice-label-param="{{ value.label }}" {% if not available %} disabled {% endif %}>
                                                 {% if value.color is defined %}
-                                                    <span class="FilterPill-icon"  style="color:{{ value.color }}">{{ ux_icon('circle') }}</span>
+                                                    <span class="filterPill-icon"  style="color:{{ value.color }}">{{ ux_icon('circle') }}</span>
                                                 {% endif %}
                                                 {{ value.label }}
 											</button>
@@ -90,7 +90,7 @@
 				<div data-controller="quantity">
 					{{ include('@components/Molecules/Button/QuantityButton.html.twig', {
                         value: field_value(form.quantity),
-                        classes: 'Button--large',
+                        classes: 'button--large',
                         text: 'Add to cart'|trans,
                         icon: 'cart',
                         fill: true,

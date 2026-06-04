@@ -2,39 +2,33 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-@screen md {
-  .Reviews {
+  @variant md {
     flex-direction: row;
-    overflow: hidden;
+    overflow-x: auto;
     gap: 1.5rem;
   }
-
-  .Reviews .Review {
-    width: 271px;
-    flex-shrink: 0;
-  }
-
-  .Reviews .Review:last-child {
-    margin-right: 3rem;
+  @variant lg {
+    cursor: initial;
   }
 }
 
-@screen lg {
-  .Reviews {
-    cursor: initial;
+.Reviews .Review {
+  @variant md {
+    flex-shrink: 0;
+    width: 271px;
   }
-
-  .Reviews .Review {
-    width: auto;
+  @variant md:last {
+    margin-right: 3rem;
+  }
+  @variant lg {
     flex-shrink: 1;
+    width: auto;
   }
-  .Reviews .Review:active {
-    cursor: initial;
+  @variant lg:last {
+    margin-right: 0;
   }
 
-  .Reviews .Review:last-child {
-    margin-right: 0;
+  @variant lg:active {
+    cursor: initial;
   }
 }

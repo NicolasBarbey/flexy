@@ -1,6 +1,6 @@
 .SimilarContentCard {
   display: flex;
-  background: var(--white);
+  background: var(--color-white);
   border-radius: rem-convert(8px);
 }
 .SimilarContentCard-img {
@@ -16,12 +16,12 @@
 .SimilarContentCard-title {
   @apply paragraph-2;
   font-weight: 700;
-  color: var(--black);
+  color: var(--color-black);
   margin-bottom: rem-convert(8px);
 }
 .SimilarContentCard-footer {
   @apply paragraph-6;
-  color: var(--grey);
+  color: var(--color-grey);
 }
 .SimilarContentCard-desc {
   display: flex;

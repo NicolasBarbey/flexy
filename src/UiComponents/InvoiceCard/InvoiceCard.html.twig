@@ -1,11 +1,11 @@
-<div class="InvoiceCard">
-    <div class="InvoiceCard-address">
+<div class="invoiceCard">
+    <div class="invoiceCard-address">
         {{ include('@UiComponents/AddressCard/AddressInfo.html.twig', {
             title,
             address: this.address
         }) }}
     </div>
-    <div class="InvoiceCard-bottom">
+    <div class="invoiceCard-bottom">
         {{ component('Flexy:Button', {
             type: 'button',
             text: 'Edit the address'|trans,

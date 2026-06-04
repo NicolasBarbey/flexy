@@ -1,16 +1,10 @@
 .ReinsuranceModule {
-  background: var(--white);
+  background: var(--color-white);
   --spacer: 24px;
-}
-
-@screen md {
-  .ReinsuranceModule {
+  @variant md {
     --spacer: 10px;
   }
-}
-
-@screen lg {
-  .ReinsuranceModule {
+  @variant lg {
     --spacer: 54px;
   }
 }
@@ -22,11 +16,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: var(--grey);
-}
+  color: var(--color-grey);
 
-@screen md {
-  .ReinsuranceModule-wrapper {
+  @variant md {
     flex-direction: row;
   }
 }
@@ -35,39 +27,31 @@
   @apply paragraph-4;
   font-weight: 700;
   display: block;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .ReinsuranceModule-wrapper > div {
   display: flex;
   gap: rem-convert(12px);
-}
-
-@screen md {
-  .ReinsuranceModule-wrapper > div {
+  @variant md {
     max-width: calc(100% / 3);
   }
 }
 
 .ReinsuranceModule-wrapper > div:first-child {
   padding: 0 0 var(--spacer);
-}
-
-@screen md {
-  .ReinsuranceModule-wrapper > div:first-child {
+  @variant md {
     padding: 0 var(--spacer) 0 0;
   }
 }
 
 .ReinsuranceModule-wrapper > div:nth-child(2) {
-  border: solid var(--grey-lighter);
+  border: solid var(--color-grey-lighter);
   border-width: 1px 0;
 
   padding: var(--spacer) 0;
-}
 
-@screen md {
-  .ReinsuranceModule-wrapper > div:nth-child(2) {
+  @variant md {
     border-width: 0 1px;
     padding: 0 var(--spacer);
   }
@@ -75,10 +59,8 @@
 
 .ReinsuranceModule-wrapper > div:last-child {
   padding: var(--spacer) 0 0;
-}
 
-@screen md {
-  .ReinsuranceModule-wrapper > div:last-child {
+  @variant md {
     padding: 0 0 0 var(--spacer);
   }
 }
@@ -91,6 +73,6 @@
   display: inline-block;
   width: rem-convert(36px);
   height: rem-convert(36px);
-  color: var(--grey);
+  color: var(--color-grey);
   flex-shrink: 0;
 }

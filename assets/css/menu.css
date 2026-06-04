@@ -5,7 +5,7 @@
   --padding-button-close: 24px;
 }
 
-@media screen and (max-width: theme('screens.lg')) {
+@media screen and (max-width: theme(--breakpoint-lg)) {
   #Menu {
     @apply fixed inset-0 hidden text-black bg-white;
   }
@@ -15,7 +15,7 @@
   }
 
   #Menu ul {
-    @apply flex flex-col items-stretch gap-0 pb-[var(--header-nav-height)] pt-[var(--padding-top-menu)] justify-start;
+    @apply flex flex-col items-stretch gap-0 pb-(--header-nav-height) pt-(--padding-top-menu) justify-start;
 
     padding-right: calc(var(--padding-x-menu) - var(--padding-button-sub));
     padding-left: var(--padding-x-menu);
@@ -30,14 +30,14 @@
 
   #Menu ul .Submenu-link,
   #Menu ul .ItemHeader-link {
-    @apply py-[var(--padding-button-sub)];
+    @apply py-(--padding-button-sub);
   }
 
   #Menu ul svg {
     @apply w-[28px];
   }
   #Menu ul ul {
-    @apply hidden fixed bg-white left-0 right-0 top-[var(--padding-top-menu)] bottom-[var(--header-nav-height)] pt-0;
+    @apply hidden fixed bg-white left-0 right-0 top-(--padding-top-menu) bottom-(--header-nav-height) pt-0;
   }
 
   #Menu ul ul.is-active {
@@ -50,15 +50,16 @@
 }
 
 [data-menu-close] {
-  @apply block lg:hidden p-[var(--padding-button-close)] absolute right-0 top-0 z-10;
+  @apply block lg:hidden p-(--padding-button-close) absolute right-0 top-0 z-10;
 }
 
 [data-menu-close] svg {
-  @apply w-[32px] text-grey-dark;
+  @apply w-[32px];
+  color: var(--color-grey-dark);
 }
 
 [data-menu-back] {
-  @apply lg:hidden p-[var(--padding-button-close)] absolute  top-0 z-10 -translate-y-1/2;
+  @apply lg:hidden p-(--padding-button-close) absolute  top-0 z-10 -translate-y-1/2;
 
   left: calc(var(--padding-x-menu) - var(--padding-button-close));
   top: calc(var(--padding-top-menu) / 2);

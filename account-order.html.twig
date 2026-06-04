@@ -56,18 +56,18 @@
                     'Discount': order.amountDiscountWithTaxes ? order.amountDiscountWithTaxes|format_currency('EUR', locale: lang_code) : 0,
                     'Number of articles': nbItems
                 } %}
-                <div class="Summary">
-                    <ul class="Summary-list">
+                <div class="summary">
+                    <ul class="summary-list">
                         {% for key, value in summary %}
                             {% if value %}
-                                <li class="Summary-line">
+                                <li class="summary-line">
                                     <b>{{ key|trans }}</b><div>{{ value }}</div>
                                 </li>
                             {% endif %}
                         {% endfor %}
                     </ul>
-                    <div class="Summary-footer">
-                        <div class="Summary-total">
+                    <div class="summary-footer">
+                        <div class="summary-total">
                             <div>
                                 {{ 'Total w/t'|trans }}
                                 {% set taxes = order.totalAmount - order.totalAmountWithoutTaxes %}

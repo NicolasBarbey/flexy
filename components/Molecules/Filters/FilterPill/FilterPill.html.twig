@@ -8,10 +8,10 @@
 {% set classes = classes|default(null) %}
 
 {% if icon %}
-    {% set classes = classes ~ ' FilterPill--withIcon' %}
+    {% set classes = classes ~ ' filterPill--withIcon' %}
 {% endif %}
 {% if inDrawer %}
-    {% set classes = classes ~ ' FilterPill--drawer' %}
+    {% set classes = classes ~ ' filterPill--drawer' %}
 {% endif %}
 {% if color %}
     {% set icon = 'circle' %}
@@ -20,13 +20,13 @@
 
 {% set attr = choice.attr|merge({class : choice.attr.class~ 'hidden'}) %}
 
-<label class="FilterPill{{ classes }}" {% if inDrawer %} data-action="click->filter-choice#updateLabel click->drawer#close" data-filter-choice-label-param="{{choice.label}}" {% endif %}>
+<label class="filterPill{{ classes }}" {% if inDrawer %} data-action="click->filter-choice#updateLabel click->drawer#close" data-filter-choice-label-param="{{choice.label}}" {% endif %}>
     <input type='{{ type }}' class="hidden" {{ block('widget_attributes') }} value="{{ choice.value }}" {% if choice.value in value  %}checked{% endif %}/>
     {% if icon %}
-        <span class="FilterPill-icon" {% if iconColor %} style="color:{{ iconColor }}" {% endif %}>{{ ux_icon(icon) }}</span>
+        <span class="filterPill-icon" {% if iconColor %} style="color:{{ iconColor }}" {% endif %}>{{ ux_icon(icon) }}</span>
     {% endif %}
     {{ choice.label }}
     {% if closeButton %}
-        <span class='FilterPill-iconClose'>{{ ux_icon("close") }}</span>
+        <span class='filterPill-iconClose'>{{ ux_icon("close") }}</span>
     {% endif %}
 </label>

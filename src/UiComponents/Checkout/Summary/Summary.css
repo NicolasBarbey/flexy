@@ -1,66 +1,73 @@
-.Summary {
+@utility summary {
   --border-radius: 4px;
+  & .filterPill-icon {
+    color: var(--color-theme-dark);
+  }
 }
-.Summary-list,
-.Summary-footer {
+
+@utility summary-list {
   padding-right: rem-convert(20px);
   padding-left: rem-convert(20px);
-}
-.Summary-list {
-  background: var(--white);
+  background: var(--color-white);
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   padding-top: rem-convert(8px);
 }
-.Summary-line {
+
+@utility summary-footer {
+  padding-right: rem-convert(20px);
+  padding-left: rem-convert(20px);
+  background: var(--color-theme-medium);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  @apply paragraph-5;
+  padding-bottom: rem-convert(20px);
+  color: var(--color-black);
+}
+
+@utility summary-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: rem-convert(15px);
   padding-bottom: rem-convert(15px);
   gap: 1rem;
+  & > div:last-child {
+    max-width: 120px;
+    text-align: right;
+    @apply paragraph-5;
+    color: var(--grey-dark);
+  }
+  & > div:first-child {
+    @apply paragraph-4;
+    color: var(--color-black);
+    font-weight: 600;
+  }
+  border-bottom: 1px solid var(--color-grey-lighter);
+  &:last-child {
+    border-bottom: none;
+  }
 }
-.Summary-line > div:last-child {
-  max-width: 120px;
-  text-align: right;
-  @apply paragraph-5;
-  color: var(--grey-dark);
-}
-.Summary-line > div:first-child {
-  @apply paragraph-4;
-  color: var(--black);
-  font-weight: 600;
-}
-.Summary-line {
-  border-bottom: 1px solid var(--grey-lighter);
-}
-.Summary-line:last-child {
-  border-bottom: none;
-}
-.Summary-footer {
-  background: var(--theme-medium);
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  @apply paragraph-5;
-  padding-bottom: rem-convert(20px);
-  color: var(--black);
-}
-.Summary-total {
+
+@utility summary-total {
   display: flex;
   justify-content: space-between;
   padding-top: rem-convert(20px);
   padding-bottom: rem-convert(8px);
   @apply paragraph-4;
-  color: var(--black);
+  color: var(--color-black);
   font-weight: 600;
-}
-.Summary-total > div:last-child {
-  text-align: right;
-}
-.Summary .FilterPill-icon {
-  color: var(--theme-dark);
+  & > div:last-child {
+    text-align: right;
+  }
 }
 
-.Summary-promo {
+@utility filterPill-icon {
+  .summary & {
+    color: var(--color-theme-dark);
+  }
+}
+
+@utility summary-promo {
   @apply mb-4;
 }

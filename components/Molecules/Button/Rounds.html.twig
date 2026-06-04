@@ -1,6 +1,6 @@
-{% set classes = 'Button--round' %}
+{% set classes = 'button--round' %}
 {% if variant != 'primary' %}
-    {% set classes = classes ~ ' Button--' ~ variant %}
+    {% set classes = classes ~ ' button--' ~ variant %}
 {% endif %}
 
 <div>
@@ -9,12 +9,12 @@
     </div>
     <div class="flex gap-4">
         {{ include('./Button.html.twig',
-      {classes: 'Button--large',
+      {classes: 'button--large',
         round: true,
         variant: variant,
         icon_left: icon}) }}
         {{ include('./Button.html.twig',
-      {disabled: true, round: true, classes: 'Button--large',
+      {disabled: true, round: true, classes: 'button--large',
         icon_left: icon}) }}
     </div>
 </div>
@@ -25,10 +25,10 @@
     </div>
     <div class="flex gap-4">
         {{ include('./Button.html.twig',
-      {classes: 'Button--small', round: true,
+      {classes: 'button--small', round: true,
         icon_left: icon}) }}
         {{ include('./Button.html.twig',
-      {disabled: true, classes: 'Button--small', round: true,
+      {disabled: true, classes: 'button--small', round: true,
         icon_left: icon}) }}
     </div>
 </div>

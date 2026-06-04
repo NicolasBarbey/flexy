@@ -1,12 +1,12 @@
 .StoreInfo {
   max-width: rem-convert(540px);
-  background: var(--theme-lightest);
+  background: var(--color-theme-lightest);
   padding: rem-convert(24px);
   border-radius: rem-convert(8px);
 }
 
 .StoreInfo-title {
-  color: var(--black);
+  color: var(--color-black);
   @apply paragraph-2;
   font-weight: 700;
   margin-bottom: rem-convert(8px);
@@ -18,10 +18,8 @@
 
 .StoreInfo-address span {
   display: block;
-}
 
-@screen lg {
-  .StoreInfo-address span {
+  @variant lg {
     display: inline;
   }
 }
@@ -33,7 +31,7 @@
   text-decoration: underline;
   margin-top: rem-convert(10px);
   margin-bottom: rem-convert(10px);
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .StoreInfo-hours svg {
@@ -52,7 +50,7 @@
   padding-right: rem-convert(30px);
 }
 
-@screen lg {
+@media (width >= theme(--breakpoint-lg)) {
   .StoreInfo-hoursListing {
     margin-top: rem-convert(24px);
     grid-template-columns: repeat(4, auto);
@@ -63,7 +61,7 @@
   }
   .StoreInfo-hoursListing div:nth-child(4n + 2) {
     padding-right: rem-convert(30px);
-    border-right: 1px solid var(--grey-lighter);
+    border-right: 1px solid var(--color-grey-lighter);
   }
   .StoreInfo-hoursListing div:nth-child(4n + 3) {
     padding-left: rem-convert(30px);

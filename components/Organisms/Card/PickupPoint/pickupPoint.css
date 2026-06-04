@@ -1,13 +1,13 @@
 .PickupPoint {
-  background: var(--theme-lighter);
-  border: 1px solid var(--theme-lighter);
+  background: var(--color-theme-lighter);
+  border: 1px solid var(--color-theme-lighter);
   border-radius: rem-convert(8px);
   padding: rem-convert(16px);
 }
 
 .PickupPoint.selected {
-  background: var(--white);
-  border: 1px solid var(--theme-medium);
+  background: var(--color-white);
+  border: 1px solid var(--color-theme-medium);
 }
 
 .PickupPoint label {
@@ -27,19 +27,16 @@
   flex-grow: 1;
 }
 
-.PickupPoint-content .Radio {
+.PickupPoint-content .radio {
   margin-top: 4px;
   margin-right: 8px;
   max-width: 0;
-}
-
-@screen md {
-  .PickupPoint-content .Radio {
+  @variant md {
     max-width: initial;
   }
 }
 
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .PickupPoint-hoursListing,
   .PickupPoint-bottom {
     margin-left: rem-convert(22px);
@@ -51,10 +48,7 @@
   @apply paragraph-4;
   font-weight: 600;
   display: none;
-}
-
-@screen md {
-  .PickupPoint-bottom {
+  @variant md {
     display: flex;
   }
 }
@@ -67,7 +61,7 @@
 .PickupPoint-hoursListing {
   margin-top: rem-convert(16px);
   padding-top: rem-convert(16px);
-  border-top: 1px solid var(--grey-lighter);
+  border-top: 1px solid var(--color-grey-lighter);
   @apply paragraph-4;
 }
 
@@ -78,13 +72,13 @@
 .PickupPoint-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .PickupPoint-description {
   @apply paragraph-6;
   font-weight: 400;
-  color: var(--grey);
+  color: var(--color-grey);
 }
 
 .PickupPoint-opening,
@@ -106,18 +100,18 @@
   width: rem-convert(9px);
   height: rem-convert(9px);
   border-radius: 999px;
-  background: var(--success-dark);
+  background: var(--color-success-dark);
   margin-right: rem-convert(4px);
 }
 
 .PickupPoint .PickupPoint-opening.closed:before {
-  background: var(--error-dark);
+  background: var(--color-error-dark);
 }
 
 .PickupPointDrawer-title {
   @apply h4;
   font-weight: 700;
-  color: var(--black);
+  color: var(--color-black);
   margin-bottom: rem-convert(16px);
 }
 

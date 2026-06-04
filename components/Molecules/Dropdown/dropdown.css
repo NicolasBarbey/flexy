@@ -1,6 +1,6 @@
 .Dropdown {
   position: relative;
-  background-color: var(--white);
+  background-color: var(--color-white);
 }
 
 .Dropdown-current {
@@ -10,7 +10,7 @@
 }
 
 .Dropdown-current:hover {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
 }
 
 .Dropdown-current:focus + .Dropdown-list {
@@ -41,7 +41,7 @@
   padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
     rem-convert(16px);
   align-items: center;
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Dropdown-list {
@@ -67,18 +67,18 @@
 
 .Dropdown-option {
   @apply paragraph-4;
-  background-color: var(--white);
+  background-color: var(--color-white);
   padding: rem-convert(16px) rem-convert(44px) rem-convert(16px)
     rem-convert(16px);
   display: flex;
   align-items: center;
-  color: var(--black);
+  color: var(--color-black);
   outline: none;
 }
 
 .Dropdown-option:hover,
 .Dropdown-option:focus-visible {
-  background-color: var(--theme-light);
+  background-color: var(--color-theme-light);
 }
 
 @keyframes HideList {

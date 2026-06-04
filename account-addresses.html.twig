@@ -25,7 +25,7 @@
     }) }}
     {% if addresses|length %}
         <div class="flex flex-col items-center justify-center mt-6 md:mt-11 mb-[80px] md:mb-[120px] px-6">
-            <ul class="grid w-full max-w-screen-lg grid-cols-1 gap-6 mx-auto sm:grid-cols-2">
+            <ul class="grid w-full max-w-(--breakpoint-lg) grid-cols-1 gap-6 mx-auto sm:grid-cols-2">
                 {% if app.request.get('delete_success') %}
                     <div class="col-span-full">
                         {{ include('@components/Organisms/SnackBar/SnackBar.html.twig', {text: 'Your address has been deleted'|trans, variant: 'validated', withIcon: true, size: 'full'}) }}
@@ -96,10 +96,10 @@
             {{ 'Are you sure you want to delete this address ?'|trans }}
         </div>
         <div class="grid md:grid-cols-2 gap-4 mt-8">
-            <button type="button" class="Button Button--secondary Button--fill" data-action="modal#close">
+            <button type="button" class="Button button--secondary button--fill" data-action="modal#close">
                 {{ 'Cancel'|trans }}
             </button>
-            <a href="#" class="Button Button--fill" data-modal-target="confirm">
+            <a href="#" class="Button button--fill" data-modal-target="confirm">
                 {{ 'Yes'|trans }}
             </a>
         </div>
@@ -115,10 +115,10 @@
             {{ 'Are you sure you want to choose this address by default ?'|trans }}
         </div>
         <div class="grid md:grid-cols-2 gap-4 mt-8">
-            <button type="button" class="Button Button--secondary Button--fill" data-action="modal#close">
+            <button type="button" class="Button button--secondary button--fill" data-action="modal#close">
                 {{ 'Cancel'|trans }}
             </button>
-            <a href="#" class="Button Button--fill" data-modal-target="confirm">
+            <a href="#" class="Button button--fill" data-modal-target="confirm">
                 {{ 'Yes'|trans }}
             </a>
         </div>

@@ -8,11 +8,8 @@
 
 .ItemHeader-link {
   padding: 0;
-}
-
-@screen lg {
-  .ItemHeader-link {
-    @apply relative flex items-center justify-center text-black no-underline outline-none paragraph-2;
+  @variant lg {
+    @apply relative flex items-center justify-center text-black no-underline outline-hidden paragraph-2;
   }
 }
 
@@ -30,7 +27,7 @@
 
 .ItemHeader-link:focus-visible,
 .ItemHeader-link:focus {
-  color: var(--theme);
+  color: var(--color-theme);
 }
 
 .ItemHeader-link.is-open ~ .Submenu {
@@ -40,10 +37,7 @@
 
 .ItemHeader-back {
   padding: var(--padding-button-sub);
-}
-
-@screen lg {
-  .ItemHeader-back {
+  @variant lg {
     display: none;
   }
 }
@@ -55,7 +49,7 @@
   order: 9999;
 }
 
-@screen lg {
+@media (width >= theme(--breakpoint-lg)) {
   .Submenu {
     position: absolute;
     top: 100%;
@@ -66,7 +60,7 @@
     padding: 24px 48px 48px;
     grid-template-columns: repeat(5, 1fr);
     gap: 24px;
-    color: var(--black);
+    color: var(--color-black);
     opacity: 0;
     display: none;
     transition-behavior: allow-discrete;
@@ -76,7 +70,7 @@
 
   .Submenu:after {
     content: '';
-    background-color: var(--grey-lightest);
+    background-color: var(--color-grey-lightest);
     top: 0;
     position: absolute;
     height: 100%;
@@ -103,7 +97,7 @@
   margin-top: 24px;
 }
 
-@screen xl {
+@media (width >= theme(--breakpoint-xl)) {
   .Submenu {
     gap: 40px 32px;
   }

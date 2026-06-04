@@ -1,16 +1,13 @@
 :root {
   --header-height: 48px;
-}
-
-@screen sm {
-  :root {
+  @variant sm {
     --header-height: 80px;
   }
 }
 
 .Header,
 .HeaderCheckout {
-  border-bottom: 1px solid var(--grey-lighter);
+  border-bottom: 1px solid var(--color-grey-lighter);
 }
 
 .Header .HeaderButton--search .HeaderButton--text,
@@ -19,64 +16,52 @@
 }
 
 .Header .HeaderButton--account {
-  --header-button-bg: var(--white);
-  --header-button-color: var(--black);
-}
-
-@screen lg {
-  .Header .HeaderButton--account {
-    --header-button-bg: var(--theme-light);
-    --header-button-color: var(--black);
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+  @variant lg {
+    --header-button-bg: var(--color-theme-light);
+    --header-button-color: var(--color-black);
   }
 }
 
 .Header .HeaderButton--account:hover {
-  --header-button-bg: var(--grey-lightest);
-}
-
-@screen lg {
-  .Header .HeaderButton--account:hover {
-    --header-button-bg: var(--theme-medium);
+  --header-button-bg: var(--color-grey-lightest);
+  @variant lg {
+    --header-button-bg: var(--color-theme-medium);
   }
 }
 
 .Header .HeaderButton--cart {
-  --header-button-bg: var(--white);
-  --header-button-color: var(--black);
-}
-
-@screen lg {
-  .Header .HeaderButton--cart {
-    --header-button-bg: var(--black);
-    --header-button-color: var(--white);
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+  @variant lg {
+    --header-button-bg: var(--color-black);
+    --header-button-color: var(--color-white);
   }
 }
 
 .Header .HeaderButton--cart:hover {
-  --header-button-bg: var(--grey-lightest);
-}
-
-@screen lg {
-  .Header .HeaderButton--cart:hover {
-    --header-button-bg: var(--grey-darker);
+  --header-button-bg: var(--color-grey-lightest);
+  @variant lg {
+    --header-button-bg: var(--color-grey-darker);
   }
 }
 
 .Header .HeaderButton--search,
 .Header .HeaderButton--menu,
 .Header .HeaderButton--wishlist {
-  --header-button-bg: var(--white);
-  --header-button-color: var(--black);
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
 }
 
 .Header .HeaderButton--search:hover,
 .Header .HeaderButton--menu:hover,
 .Header .HeaderButton--wishlist:hover {
-  --header-button-bg: var(--grey-lightest);
+  --header-button-bg: var(--color-grey-lightest);
 }
 
 .Header-top {
-  @apply h-[var(--header-height)] flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-[1] bg-white;
+  @apply h-(--header-height) flex justify-center md:justify-between  sm:pl-[30px] sticky md:relative top-0 z-1 bg-white;
 }
 
 .Header-logo {
@@ -84,15 +69,15 @@
 }
 
 .Header-navWrap {
-  @apply relative flex justify-center bg-grey-lightest h-[78px] z-[1];
+  @apply relative flex justify-center bg-grey-lightest h-[78px] z-1;
 }
 
 .Header-navigation {
   @apply flex items-stretch justify-center gap-[30px] xl:gap-[50px] list-none h-full;
 }
 
-@screen sm {
-  .Header--withSearchBar {
+.Header--withSearchBar {
+  @variant sm {
     --header-height: 100px;
   }
 }

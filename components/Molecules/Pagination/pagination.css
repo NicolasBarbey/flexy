@@ -5,7 +5,7 @@
 }
 .Pagination-item {
   @apply typo-button-medium;
-  color: var(--black);
+  color: var(--color-black);
   text-decoration: none;
   min-width: rem-convert(45px);
   height: rem-convert(45px);
@@ -14,14 +14,14 @@
   align-items: center;
 }
 a.Pagination-item:hover {
-  background-color: var(--grey-lightest);
-  color: var(--grey);
+  background-color: var(--color-grey-lightest);
+  color: var(--color-grey);
 }
 .Pagination-item:focus-visible {
-  outline: var(--theme-medium) solid 2px;
+  outline: var(--color-theme-medium) solid 2px;
 }
 .Pagination-item--active {
-  color: var(--theme-dark);
+  color: var(--color-theme-dark);
 }
 @media screen and (min-width: 768px) {
   .Pagination-item--isPrev {
@@ -50,7 +50,7 @@ a.Pagination-item:hover {
   width: rem-convert(21px);
   height: rem-convert(21px);
   display: inline-block;
-  color: var(--black);
+  color: var(--color-black);
 }
 .Pagination-text {
   display: none;

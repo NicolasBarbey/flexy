@@ -1,6 +1,6 @@
 {% use '@formTwig/flexy_form_theme.html.twig' %}
 
-<label class="Radio {{ classes }} {{ error ? 'error'  : ''}}">
+<label class="radio {{ classes }} {{ error ? 'error'  : ''}}">
     <input type="radio"
         {{ block('widget_attributes') }}
         {% if value is defined %} value="{{ value }}"{% endif %}

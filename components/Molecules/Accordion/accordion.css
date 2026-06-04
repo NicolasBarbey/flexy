@@ -1,8 +1,8 @@
 .Accordion + .Accordion {
-  border-top: 1px solid var(--grey-lighter);
+  border-top: 1px solid var(--color-grey-lighter);
 }
 .Accordion:has(.Accordion-summary:focus-visible) {
-  outline: var(--theme) solid 1px;
+  outline: var(--color-theme) solid 1px;
   border-bottom: 0px solid transparent;
 }
 .Accordion-summary {
@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
 
-  color: var(--black);
+  color: var(--color-black);
   outline: 0;
   cursor: pointer;
 }
@@ -22,7 +22,7 @@
 .Accordion-icon {
   height: rem-convert(28px);
   width: rem-convert(28px);
-  color: var(--black);
+  color: var(--color-black);
   transform: rotate(0);
   transition: 0.2s ease all;
 }
@@ -30,7 +30,7 @@
   @apply paragraph-5;
   padding: rem-convert(18px) rem-convert(28px) rem-convert(30px)
     rem-convert(16px);
-  color: var(--black);
+  color: var(--color-black);
 }
 .Accordion[open] .Accordion-summary {
   border-bottom: none;
@@ -40,7 +40,7 @@
   transition: 0.2s ease all;
 }
 .Accordion--filter {
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
   border-bottom: none;
 }
 .Accordion--filter .Accordion-summary {

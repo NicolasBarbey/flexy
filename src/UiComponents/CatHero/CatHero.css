@@ -1,31 +1,25 @@
-.CatHero {
+@utility catHero {
   padding: 120px 24px 40px;
   position: relative;
-  background-color: var(--theme-lightest);
-}
+  background-color: var(--color-theme-lightest);
 
-@screen md {
-  .CatHero {
+  @media (width >= theme(--breakpoint-md)) {
     padding: 80px 0 40px;
   }
 }
 
-.CatHero-breadcrumb {
+@utility catHero-breadcrumb {
   position: absolute;
   top: 20px;
   left: 12px;
   right: 20px;
-}
 
-@screen md {
-  .CatHero-breadcrumb {
+  @media (width >= theme(--breakpoint-md)) {
     left: 24px;
     right: 24px;
   }
-}
 
-@screen lg {
-  .CatHero-breadcrumb {
+  @media (width >= theme(--breakpoint-lg)) {
     left: 50px;
     right: 50px;
   }

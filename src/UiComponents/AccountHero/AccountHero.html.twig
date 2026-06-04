@@ -1,7 +1,7 @@
 {% set title = title|default('') %}
 {% set selected = selected|default('profile') %}
 
-<div class='AccountHero'>
+<div class="AccountHero">
     <div class="AccountHero-breadcrumb">
         {% if breadcrumb|length %}
         {% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {
@@ -9,7 +9,7 @@
         } %}
         {% endif %}
     </div>
-    <div class="container flex flex-col items-center gap-10 my-[50px]">
+    <div class="container flex flex-col items-center gap-10 my-12.5">
         <h1 class="h1">{{ title }}</h1>
         <ul class="AccountHero-links">
             {% for item in this.accountItems %}

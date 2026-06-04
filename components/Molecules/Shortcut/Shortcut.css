@@ -7,28 +7,28 @@
   font-size: rem-convert(20px);
   line-height: rem-convert(28px);
   font-weight: 400;
-  background-color: var(--white);
-  border-bottom: 1px solid var(--grey-lighter);
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-grey-lighter);
   transition: 0.2s;
 }
 
 .Shortcut > span {
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Shortcut:hover {
-  background-color: var(--grey-lightest);
+  background-color: var(--color-grey-lightest);
 }
 
 .Shortcut:focus-visible {
-  outline: var(--theme-medium) solid 1px;
+  outline: var(--color-theme-medium) solid 1px;
   border-bottom: 0;
 }
 
 .Shortcut.active {
-  background: var(--grey-lightest);
+  background: var(--color-grey-lightest);
 }
 
 .Shortcut.active:hover {
-  background-color: var(--grey-lighter);
+  background-color: var(--color-grey-lighter);
 }

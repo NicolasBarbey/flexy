@@ -3,8 +3,8 @@
 {% set module = module|default(null) %}
 {% set id = id|default(null) %}
 
-<div class="AddressCard AddressCard--module {% if selected %}selected{% endif %}">
-    <label class="cursor-pointer AddressCard-content">
+<div class="addressCard addressCard--module {% if selected %}selected{% endif %}">
+    <label class="cursor-pointer addressCard-content">
         {{ include('@components/Atoms/Form/Radio.html.twig', {
             classes: classes, type: 'span',
             name: 'delivery_module_option',

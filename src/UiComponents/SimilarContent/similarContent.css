@@ -2,52 +2,42 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
 
-@screen md {
-  .SimilarContents {
+  @variant md {
     flex-direction: row;
     overflow: hidden;
   }
-  .SimilarContents .SimilarContentCard {
-    width: 340px;
-    flex-shrink: 0;
-  }
-
-  .SimilarContents .SimilarContentCard:last-child {
-    margin-right: 3rem;
-  }
-}
-
-@screen lg {
-  .SimilarContents {
+  @variant lg {
     display: grid;
+    cursor: initial;
     grid-template-columns: repeat(2, 1fr);
-    cursor: initial;
   }
-  .SimilarContents .SimilarContentCard {
-    width: initial;
-  }
-  .SimilarContents .SimilarContentCard:active {
-    cursor: initial;
-  }
-  .SimilarContents .SimilarContentCard:last-child {
-    margin-right: 0;
-  }
-}
-
-@screen xl {
-  .SimilarContents {
+  @variant xl {
     @apply container mx-auto;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
-
-  .SimilarContents .SimilarContentCard {
+}
+.SimilarContents .SimilarContentCard {
+  @variant md {
+    width: 340px;
+    flex-shrink: 0;
+  }
+  @variant lg {
+    width: initial;
+  }
+  @variant xl {
     width: initial;
     flex-shrink: 0;
   }
-  .SimilarContents .SimilarContentCard:active {
+
+  @variant md:last {
+    margin-right: 3rem;
+  }
+  @variant lg:last {
+    margin-right: 0;
+  }
+  @variant lg:active {
     cursor: initial;
   }
 }

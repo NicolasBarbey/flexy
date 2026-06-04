@@ -7,10 +7,10 @@
   bottom: 0;
   left: 0;
   z-index: 99;
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast {
     top: 30px;
     right: 30px;
@@ -44,7 +44,7 @@
   margin-bottom: 12px;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-mainContent {
     flex-direction: row;
     column-gap: 24px;
@@ -71,7 +71,7 @@
   align-items: center;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-desc {
     padding: 0;
     padding-right: 8px;
@@ -79,11 +79,11 @@
 }
 
 .AddToCartToast-infos {
-  color: var(--grey);
+  color: var(--color-grey);
   display: flex;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-infos {
     flex-direction: row;
     flex-wrap: wrap;
@@ -94,7 +94,7 @@
   content: '';
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-infos span:not(:last-child):after {
     content: ',\00a0';
   }
@@ -117,7 +117,7 @@
   content: '' !important;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-infos .AddToCartToast-secondaryTitle {
     margin-bottom: 5px;
   }
@@ -134,12 +134,12 @@
 
 .AddToCartToast-message {
   @apply font-bold h4;
-  color: var(--black);
+  color: var(--color-black);
   margin-bottom: 16px;
   text-align: center;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-message {
     max-width: 90%;
   }
@@ -149,7 +149,7 @@
   content: '';
   border-radius: 20px;
   width: 42px;
-  background: var(--grey);
+  background: var(--color-grey);
   height: 5px;
   position: absolute;
   top: 18px;
@@ -159,13 +159,13 @@
   transform: translate(-50%, -50%);
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-message:before {
     display: none;
   }
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-message {
     @apply paragraph-1;
     text-align: left;
@@ -174,7 +174,7 @@
 
 .AddToCartToast-title {
   @apply h5 paragraph-2;
-  color: var(--black);
+  color: var(--color-black);
   text-decoration: none;
   transition: inherit;
   display: block;
@@ -188,19 +188,19 @@
   flex-wrap: wrap;
 }
 
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .AddToCartToast-bottom {
     margin-top: 0;
     flex-wrap: wrap;
   }
 }
 
-.AddToCartToast-bottom .Button {
+.AddToCartToast-bottom .button {
   flex-grow: 1;
 }
 
-@screen lg {
-  .AddToCartToast-bottom .Button {
+@media (width >= theme(--breakpoint-lg)) {
+  .AddToCartToast-bottom .button {
     flex-grow: 0;
   }
 }
@@ -209,19 +209,19 @@
   display: none;
 }
 
-.Colors {
+.colors {
   display: flex;
   gap: 6px;
   align-items: center;
 }
 
-.Colors-item {
+.colors-item {
   border-radius: 100%;
   display: inline-block;
   width: 0.75rem;
   height: 0.75rem;
 }
 
-.Colors-others {
+.colors-others {
   margin-left: 2px;
 }

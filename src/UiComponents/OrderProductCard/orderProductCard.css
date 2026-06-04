@@ -2,15 +2,15 @@
   position: relative;
   justify-content: space-between;
   @apply rounded-lg;
-  background-color: var(--theme-lightest);
+  background-color: var(--color-theme-lightest);
   display: flex;
   flex-direction: row;
   max-width: initial;
   align-items: center;
-  border: 1px solid var(--theme-medium);
+  border: 1px solid var(--color-theme-medium);
   padding: 8px;
 }
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .OrderProductCard {
     max-width: 540px;
   }
@@ -25,14 +25,14 @@
 .OrderProductCard-img {
   height: 130px;
   width: 112px;
-  background-color: var(--white);
+  background-color: var(--color-white);
   display: flex;
   justify-content: center;
 }
 .OrderProductCard-img img {
   object-fit: cover;
 }
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .OrderProductCard-img {
     height: 112px;
   }
@@ -49,18 +49,18 @@
   @apply paragraph-2;
   font-weight: 600;
   margin-bottom: 5px;
-  color: var(--black);
+  color: var(--color-black);
   text-decoration: none;
   transition: inherit;
   display: inline-block;
 }
 .OrderProductCard-orderInfos {
-  color: var(--grey);
+  color: var(--color-grey);
   display: flex;
   flex-direction: column;
   padding-bottom: rem-convert(6px);
 }
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .OrderProductCard-orderInfos {
     flex-direction: row;
     flex-wrap: wrap;
@@ -69,13 +69,13 @@
 .OrderProductCard-orderInfos span:not(:last-child):after {
   content: '';
 }
-@screen sm {
+@media (width >= theme(--breakpoint-sm)) {
   .OrderProductCard-orderInfos span:not(:last-child):after {
     content: ',\00a0';
   }
 }
 .OrderProductCard-originalPrice {
-  color: var(--black);
+  color: var(--color-black);
   font-size: var(--font-size-paragraph-7);
   text-decoration-line: line-through;
   font-family: var(--font-family-paragraph-6);
@@ -83,7 +83,7 @@
 .OrderProductCard-price {
   @apply paragraph-4;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
   position: relative;
   line-height: normal;
   margin-top: 0;
@@ -95,7 +95,7 @@
   align-items: center;
   margin-top: 10px;
 }
-.OrderProductCard:hover .ProductCard-img img,
-.OrderProductCard:focus-visible .ProductCard-img img {
+.OrderProductCard:hover .productCard-img img,
+.OrderProductCard:focus-visible .productCard-img img {
   transform: scale(1.075);
 }

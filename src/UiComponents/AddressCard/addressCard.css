@@ -1,73 +1,100 @@
-.AddressCard {
-  background: var(--theme-lightest);
-  border: 1px solid var(--theme-medium);
+@utility addressCard {
+  background: var(--color-theme-lightest);
+  border: 1px solid var(--color-theme-medium);
   border-radius: rem-convert(8px);
   position: relative;
   display: flex;
   flex-direction: column;
+
+  &.selected {
+    background: var(--color-white);
+  }
 }
 
-.AddressCard--client-information {
+@utility addressCard--client-information {
   border: none;
-  color: var(--black);
+  color: var(--color-black);
 }
 
-.AddressCard.selected {
-  background: var(--white);
+@utility selected {
+  &.addressCard {
+    background: var(--color-white);
+  }
+
+  &.addressCard--module {
+    background: var(--color-theme-lighter);
+  }
 }
 
-.AddressCard-top {
+@utility addressCard-top {
   position: absolute;
   padding: rem-convert(10px);
   right: 0;
   top: 0;
 }
 
-.AddressCard-content {
+@utility addressCard-content {
   display: flex;
   padding: 1.5rem 1.5rem 1rem;
   align-items: flex-start;
+
+  & span {
+    display: block;
+  }
+
+  & .radio {
+    margin-top: 4px;
+    margin-right: 8px;
+  }
 }
 
-.AddressCard-content span {
-  display: block;
+@utility radio {
+  .addressCard-content & {
+    margin-top: 4px;
+    margin-right: 8px;
+  }
 }
 
-.AddressCard-content .Radio {
-  margin-top: 4px;
-  margin-right: 8px;
-}
-
-.AddressCard-title {
+@utility addressCard-title {
   @apply paragraph-2;
   font-weight: 600;
-  color: var(--black);
+  color: var(--color-black);
   padding-bottom: rem-convert(8px);
 }
 
-.AddressCard-name {
+@utility addressCard-name {
   @apply paragraph-4;
   font-weight: 600;
   display: block;
   margin-bottom: 10px;
 }
 
-.AddressCard-address {
+@utility addressCard-address {
   @apply paragraph-4;
   font-weight: 400;
 }
 
-.AddressCard-bottom {
+@utility addressCard-bottom {
   padding-bottom: rem-convert(31px);
   padding-right: rem-convert(24px);
   padding-left: rem-convert(24px);
   text-align: right;
 }
 
-.AddressCard--checkout .Favorite {
-  cursor: default;
+@utility addressCard--checkout {
+  & .favorite {
+    cursor: default;
+  }
 }
 
-.AddressCard--module.selected {
-  background: var(--theme-lighter);
+@utility favorite {
+  .addressCard--checkout & {
+    cursor: default;
+  }
+}
+
+@utility addressCard--module {
+  &.selected {
+    background: var(--color-theme-lighter);
+  }
 }

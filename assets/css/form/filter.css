@@ -1,25 +1,25 @@
-.FilterChoice-label {
+.filterChoice-label {
   @apply flex sm:text-black sm:font-semibold paragraph-4 sm:mb-2 sm:pointer-events-none;
 }
-.FilterChoice-list {
+.filterChoice-list {
   @apply flex-wrap gap-2 divide-y divide-grey-lighter sm:divide-y-0 sm:flex;
 }
-@media screen and (max-width: theme('screens.sm')) {
-  .FilterChoice--drawer .FilterChoice-label {
+@media screen and (max-width: theme(--breakpoint-sm)) {
+  .filterChoice--drawer .filterChoice-label {
     position: relative;
     cursor: pointer;
     outline: none;
-    border: 1px solid var(--grey-lighter);
+    border: 1px solid var(--color-grey-lighter);
     padding: 16px 14px;
     justify-content: space-between;
     align-items: center;
     font-size: 0;
   }
-  .FilterChoice--drawer .FilterChoice-label:before {
+  .filterChoice--drawer .filterChoice-label:before {
     content: attr(data-select-label);
     font-size: rem-convert(14px);
   }
-  .FilterChoice--drawer .FilterChoice-label:after {
+  .filterChoice--drawer .filterChoice-label:after {
     content: '';
     display: block;
     background: url('/assets/icons/chevron-small-down.svg') no-repeat center;
@@ -27,8 +27,9 @@
     width: rem-convert(20px);
   }
 }
-@media screen and (max-width: theme('screens.md')) {
-  .FilterChoice--drawer.FilterChoice--rounded .FilterChoice-label {
+
+@media screen and (max-width: theme(--breakpoint-md)) {
+  .filterChoice--drawer.filterChoice--rounded .filterChoice-label {
     border-radius: 50px;
     justify-content: center;
     color: var(--dark);

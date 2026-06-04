@@ -80,7 +80,7 @@
                         </div>
                     {% else %}
                         <div class="CartItem-quantity">
-                            <label for="{{ id }}" class="Button Button--secondary Button-quantity Button--small {% if disabled %}disabled{% endif %}">
+                            <label for="{{ id }}" class="Button button--secondary Button-quantity button--small {% if disabled %}disabled{% endif %}">
                                 <button type="button" data-action="live#action" data-live-action-param="minus" data-live-index-param="{{index}}" {% if this.cartItem.quantity <= 0 %}class="invisible"{% endif %}>-</button>
 
                                 <input

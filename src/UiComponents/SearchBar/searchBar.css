@@ -1,147 +1,174 @@
-.SearchBar {
-  display: flex;
-  align-items: center;
-  color: var(--grey);
-  outline: 1px solid var(--grey-lighter);
-  border-radius: rem-convert(50px);
-  padding: 0.75rem 1rem;
-  z-index: 1000;
-}
-
-@screen lg {
+@layer components {
   .SearchBar {
-    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    color: var(--color-grey);
+    outline: 1px solid var(--color-grey-lighter);
+    border-radius: rem-convert(50px);
+    padding: 0.75rem 1rem;
+    z-index: 1000;
+    background: var(--color-grey-lightest);
+
+    @variant lg {
+      padding: 1rem 1.25rem;
+    }
+
+    & button {
+      margin-right: rem-convert(10px);
+      color: var(--color-black);
+    }
+
+    & input {
+      background: var(--color-grey-lightest);
+    }
+
+    & input {
+      flex-grow: 1;
+      @apply ml-4 paragraph-2;
+      color: var(--color-black);
+    }
+
+    & input:focus-visible {
+      outline: none;
+    }
+
+    & input::placeholder {
+      font-style: italic;
+      color: var(--color-grey);
+      font-weight: 300;
+    }
+
+    &:focus-within {
+      outline: 2px solid var(--theme);
+    }
+
+    &:hover {
+      background: var(--color-white);
+    }
+
+    &:hover input {
+      background: var(--color-white);
+    }
   }
-}
 
-.SearchBar button {
-  margin-right: rem-convert(10px);
-  color: var(--black);
-}
+  .SearchBar--white {
+    border: 1px solid var(--color-theme-medium);
+    background: var(--color-white);
 
-.SearchBar,
-.SearchBar input {
-  background: var(--grey-lightest);
-}
+    & input {
+      background: var(--color-white);
+    }
 
-.SearchBar input {
-  flex-grow: 1;
-  @apply ml-4 paragraph-2;
-  color: var(--black);
-}
+    &:hover {
+      background: var(--color-grey-lightest);
+      border-color: var(--color-theme-medium);
+    }
 
-.SearchBar input:focus-visible {
-  outline: none;
-}
+    &:hover input {
+      background: var(--color-grey-lightest);
+      border-color: var(--color-theme-medium);
+    }
 
-.SearchBar input::placeholder {
-  font-style: italic;
-  color: var(--grey);
-  font-weight: 300;
-}
+    &:focus-within {
+      border-width: 2px;
+    }
+  }
 
-.SearchBar:focus-within {
-  outline: 2px solid var(--theme);
-}
+  .SearchDropdown {
+    position: absolute;
+    top: var(--header-height);
+    padding-top: 35px;
+    padding-bottom: 59px;
+    width: 100vw;
+    left: 0;
+    z-index: 1000;
+    background-color: white;
+  }
 
-.SearchBar:hover,
-.SearchBar:hover input {
-  background: var(--white);
-}
-
-.SearchBar--white {
-  border: 1px solid var(--theme-medium);
-}
-
-.SearchBar--white,
-.SearchBar--white input {
-  background: var(--white);
-}
-
-.SearchBar--white:hover,
-.SearchBar--white:hover input {
-  background: var(--grey-lightest);
-  border-color: var(--theme-medium);
-}
-
-.SearchBar--white:focus-within {
-  border-width: 2px;
-}
-
-.SearchDropdown {
-  position: absolute;
-  top: var(--header-height);
-  padding-top: 35px;
-  padding-bottom: 59px;
-  width: 100vw;
-  left: 0;
-  z-index: 1000;
-  background-color: white;
-}
-
-.SearchDropdown-results-categories {
-  display: flex;
-  flex-direction: column;
-}
-
-@screen md {
   .SearchDropdown-results-categories {
+    display: flex;
+    flex-direction: column;
+
+    @variant md {
+      padding-left: rem-convert(24px);
+      border-left: 1px solid var(--color-grey-lighter);
+    }
+  }
+
+  .SearchDropdown-results-categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem-convert(24px);
+  }
+
+  .SearchDropdown-results-products {
     padding-left: rem-convert(24px);
-    border-left: 1px solid var(--grey-lighter);
   }
-}
 
-.SearchDropdown-results-categories-list {
-  display: flex;
-  flex-direction: column;
-  gap: rem-convert(24px);
-}
-
-.SearchDropdown-results-products {
-  padding-left: rem-convert(24px);
-}
-
-.SearchDropdown-results-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-@screen md {
   .SearchDropdown-results-grid {
-    grid-template-columns: 2fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @variant md {
+      grid-template-columns: 2fr 1fr;
+    }
   }
-}
 
-.SearchDropdown-results {
-  --min-height-cartitem: rem-convert(50px);
-
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
-}
-
-@screen sm {
   .SearchDropdown-results {
-    grid-template-columns: repeat(2, 1fr);
+    --min-height-cartitem: rem-convert(50px);
+
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.5rem;
+
+    @variant sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    & .cartItem {
+      margin-top: 0;
+      padding: rem-convert(12px);
+      display: flex;
+      gap: 1rem;
+    }
+
+    & .cartItem-img {
+      flex-shrink: 0;
+      max-width: 100px;
+      max-height: 100px;
+    }
+
+    & .cartItem-contain {
+      display: flex;
+      flex-direction: column;
+      gap: rem-convert(10px);
+      justify-content: center;
+    }
   }
-}
 
-.SearchDropdown-results .CartItem {
-  margin-top: 0;
-  padding: rem-convert(12px);
-  display: flex;
-  gap: 1rem;
-}
+  .CartItem {
+    .searchDropdown-results & {
+      margin-top: 0;
+      padding: rem-convert(12px);
+      display: flex;
+      gap: 1rem;
+    }
+  }
 
-.SearchDropdown-results .CartItem-img {
-  flex-shrink: 0;
-  max-width: 100px;
-  max-height: 100px;
-}
+  .CartItem-img {
+    .searchDropdown-results & {
+      flex-shrink: 0;
+      max-width: 100px;
+      max-height: 100px;
+    }
+  }
 
-.SearchDropdown-results .CartItem-contain {
-  display: flex;
-  flex-direction: column;
-  gap: rem-convert(10px);
-  justify-content: center;
+  .CartItem-contain {
+    .searchDropdown-results & {
+      display: flex;
+      flex-direction: column;
+      gap: rem-convert(10px);
+      justify-content: center;
+    }
+  }
 }

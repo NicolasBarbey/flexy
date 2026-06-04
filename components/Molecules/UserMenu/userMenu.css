@@ -1,6 +1,6 @@
 .UserMenu {
   @apply paragraph-2;
-  color: var(--black);
+  color: var(--color-black);
   text-decoration: none;
   outline: none;
   padding: 20px 0;
@@ -11,7 +11,7 @@
   cursor: pointer;
 }
 
-@screen md {
+@media (width >= theme(--breakpoint-md)) {
   .UserMenu {
     padding: 20px 24px;
   }

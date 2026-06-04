@@ -8,7 +8,7 @@
   cursor: pointer;
   width: rem-convert(20px);
   height: rem-convert(20px);
-  color: var(--black);
+  color: var(--color-black);
 }
 
 .Tooltip-text {
@@ -16,8 +16,8 @@
   visibility: hidden;
   max-width: 292px;
   width: max-content;
-  background-color: var(--black);
-  color: var(--white);
+  background-color: var(--color-black);
+  color: var(--color-white);
   padding: rem-convert(22px) rem-convert(34px) rem-convert(22px)
     rem-convert(20px);
   border-radius: 8px;
@@ -49,7 +49,7 @@
   top: 100%;
   right: 0;
   transform: translate(-16px);
-  border-color: var(--black) transparent transparent transparent;
+  border-color: var(--color-black) transparent transparent transparent;
 }
 
 .Tooltip-text--bottom {
@@ -62,7 +62,7 @@
   bottom: 100%;
   right: 0;
   transform: translate(-16px);
-  border-color: transparent transparent var(--black) transparent;
+  border-color: transparent transparent var(--color-black) transparent;
 }
 
 .Tooltip-close {

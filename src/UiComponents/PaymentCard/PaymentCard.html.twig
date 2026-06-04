@@ -1,5 +1,5 @@
-<div class="PaymentCard {% if this.checked %}selected{% endif %}">
-    <label class="PaymentCard-content">
+<div class="paymentCard {% if this.checked %}selected{% endif %}">
+    <label class="paymentCard-content">
         {{ component('Flexy:RadioButton', {
             'data-action': 'live#emit',
             'data-live-event-param': constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutEvents::SET_PAYMENT_MODULE_ID'),
@@ -7,11 +7,11 @@
             checked: this.checked,
         }) }}
         <div>
-            <span class="PaymentCard-title">
+            <span class="paymentCard-title">
                 {{ this.module.i18ns.title }}
             </span>
             {% if this.module.i18ns.chapo %}
-                <small class="PaymentCard-desc">
+                <small class="paymentCard-desc">
                     {{ this.module.i18ns.chapo }}
                 </small>
             {% endif %}

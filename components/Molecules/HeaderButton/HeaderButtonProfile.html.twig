@@ -2,7 +2,7 @@
   {customText: 'My orders'|trans, href: path('account_orders'), variant: 'white'},
   {customText: 'My profile'|trans, href: path('account_index'), variant: 'white'},
   {customText: 'My delivery addresses'|trans, href: path('account_addresses'), variant: 'white'},
-  {customText: 'Logout'|trans, href: path('customer_logout'), variant: 'white', icon: true, classes: '!justify-center !underline font-semibold'},
+  {customText: 'Logout'|trans, href: path('customer_logout'), variant: 'white', icon: true, classes: 'justify-center! underline! font-semibold'},
 ] %}
 
 {% set customer = getCurrentCustomer() %}
@@ -19,11 +19,11 @@
 <div class="relative flex-1 h-full" {{ stimulus_controller('drawer profile') }}>
     {{ include('@components/Molecules/HeaderButton/HeaderButton.html.twig', headerButtonConfig) }}
     <div class="MobileDrawer md:reset-drawer" data-drawer-target="drawer">
-        <div class="MobileDrawer-header">
+        <div class="mobileDrawer-header">
             <strong class="block text-center text-black h3">
                 {{ 'hy_customer'|trans({'%firstname%': customer.firstname}) }}
             </strong>
-            <button class="MobileDrawer-close" type="button" data-action="drawer#close">
+            <button class="mobileDrawer-close" type="button" data-action="drawer#close">
                 {{ ux_icon('close') }}
             </button>
         </div>
