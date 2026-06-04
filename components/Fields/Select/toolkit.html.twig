@@ -7,6 +7,7 @@
 <div class="grid grid-cols-2 gap-8">
     <div class="flex flex-col gap-4">
         <twig:Fields:Select:Base label="Label" choices="{{ choices }}"  />
+        <twig:Fields:Select:Base label="Label" value="option2" choices="{{ choices }}"  />
         <twig:Fields:Select:Base label="Label" choices="{{ choices }}" help="This is a help text" />
         <twig:Fields:Select:Base label="error" error choices="{{ choices }}" help="This is a help text" />
         <twig:Fields:Select:Base label="error details" error="oups" choices="{{ choices }}" help="This is a help text" />
@@ -15,6 +16,7 @@
 
     <div class="flex flex-col gap-4 ">
         <twig:Fields:Select:Base label="Label" choices="{{ choices }}" size="small" />
+        <twig:Fields:Select:Base label="Label" value="option2" choices="{{ choices }}" size="small" />
         <twig:Fields:Select:Base label="Label" choices="{{ choices }}" size="small" help="This is a help text" />
         <twig:Fields:Select:Base label="error" error choices="{{ choices }}" size="small" help="This is a help text" />
         <twig:Fields:Select:Base label="error details" error="oups" choices="{{ choices }}" size="small" help="This is a help text" />
