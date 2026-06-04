@@ -1,0 +1,26 @@
+{% props error = false, labelOff = null, labelOn = null %}
+
+{% set toggle = html_cva(
+    base: 'Toggle',
+    variants: {
+        error: {
+            false: null,
+            true: 'error',
+        },
+    },
+) %}
+
+<label  class="{{ toggle.apply({error}, attributes.render('class')) }} " {{attributes.without('class')}}>
+  <input type="checkbox"
+        {{attributes.nested('input').without('type')}}
+  >
+  {% if labelOff %}
+    <span class="Toggle-uncheckedLabel">{{ labelOff }}</span>
+  {% endif %}
+  <span class="Toggle-wrapper">
+    <span></span>
+  </span>
+  {% if labelOn %}
+    <span class="Toggle-checkedLabel">{{ labelOn }}</span>
+  {% endif %}
+</label>

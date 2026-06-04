@@ -1,0 +1,70 @@
+.Toggle {
+  --on-color: var(--color-black);
+  --off-color: var(--color-grey);
+  --on-color-hover: var(--grey-dark);
+  --off-color-hover: var(--color-black);
+  --color-disabled: var(--color-grey-lighter);
+  --color-toggle-focus: #dc2626;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+
+  @variant hover {
+    .Toggle-wrapper {
+      background: var(--off-color-hover);
+    }
+  }
+}
+
+.Toggle-wrapper {
+  background: var(--off-color);
+  width: 25px;
+  height: 14px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-color: transparent;
+  @apply rounded-full transition-colors duration-200 ease-in-out;
+}
+
+.Toggle-wrapper span {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background: var(--color-white);
+  @apply translate-x-[0.1rem];
+  @apply rounded-full transition duration-200 ease-in-out;
+}
+
+.Toggle input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+
+  @variant checked {
+    & ~ .Toggle-wrapper {
+      background: var(--on-color);
+    }
+    & ~ .Toggle-wrapper span {
+      @apply translate-x-[0.8rem];
+    }
+  }
+
+  @variant focus-visible {
+    & ~ .Toggle-wrapper {
+      outline: var(--color-toggle-focus) solid 1px;
+      outline-offset: 1px;
+    }
+  }
+
+  @variant disabled {
+    & ~ .Toggle-wrapper {
+      cursor: not-allowed;
+      background: var(--color-disabled);
+    }
+  }
+}

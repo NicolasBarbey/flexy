@@ -5,6 +5,10 @@
 
 @import "../../components/Atoms/Typography/Typography.css";
 
+@import "../../components/Fields/Checkbox/Base.css";
+@import "../../components/Fields/Select/Base.css";
+@import "../../components/Fields/Toggle/Base.css";
+
 @import "../../components/Molecules/Button/Base.css";
 @import "../../components/Molecules/Link/Base.css";
 @import "../../components/Molecules/Tabulation/Base.css";
