@@ -299,7 +299,7 @@ class Product
             ]
         );
 
-        $this->psesImgs = $this->getUniquePseImg($images);
+        $this->psesImgs = $this->getUniquePseImg($images, $imagesPdt);
 
         $this->productImgs = array_filter($imagesPdt, static function ($img) use ($images) {
             foreach ($images as $pseImg) {
@@ -312,14 +312,23 @@ class Product
         });
     }
 
-    private function getUniquePseImg(array $images): array
+    private function getUniquePseImg(array $images, array $productImages): array
     {
-        $grouped = array_reduce($images, static function ($carry, $item) {
+        $positionByImageId = [];
+        foreach ($productImages as $productImage) {
+            $positionByImageId[$productImage['id']] = $productImage['position'] ?? 0;
+        }
+
+        $grouped = array_reduce($images, static function ($carry, $item) use ($positionByImageId) {
             $imageId = $item['productImageId'];
             $pseId = (string) $item['productSaleElementsId'];
 
             if (!isset($carry[$imageId])) {
-                $carry[$imageId] = ['pseIds' => [], 'id' => $imageId];
+                $carry[$imageId] = [
+                    'pseIds' => [],
+                    'id' => $imageId,
+                    'position' => $positionByImageId[$imageId] ?? 0,
+                ];
             }
 
             $carry[$imageId]['pseIds'][] = $pseId;
@@ -327,7 +336,9 @@ class Product
             return $carry;
         }, []);
 
-        return array_values($grouped);
+        usort($grouped, static fn($a, $b) => $a['position'] <=> $b['position']);
+
+        return $grouped;
     }
 
     public function isAvailableAttrValue($variant): bool

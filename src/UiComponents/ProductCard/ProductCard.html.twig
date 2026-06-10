@@ -7,11 +7,8 @@
 %}
 
 
-{% if this.product.id is defined and img is not defined %}
-	{% set images = resources('/api/front/product_images', {'product.id': this.product.id, position: 'ASC', itemsPerPage: 1}) %}
-	{% if images %}
-		{% set img = {url: '/legacy-image-library/product_image_' ~ images|first.id ~ '/full/%5E*!386,280/0/default.webp', alt: this.product.title} %}
-	{% endif %}
+{% if img is not defined and this.imageId is not null %}
+	{% set img = {url: '/legacy-image-library/product_image_' ~ this.imageId ~ '/full/%5E*!386,280/0/default.webp', alt: this.product.title} %}
 {% endif %}
 
 {% if img is not defined %}
