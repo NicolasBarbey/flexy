@@ -28,6 +28,7 @@ class ProductCard
 {
     public ?int $productId = null;
     private ?ProductDTO $product = null;
+    private ?int $imageId = null;
     private ?float $price = null;
     private ?float $taxedPrice = null;
     private ?float $promoPrice = null;
@@ -72,6 +73,8 @@ class ProductCard
         }
 
         $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
+
+        $this->setImage($defaultPse);
 
         if ($defaultPse instanceof ProductSaleElementDTO) {
             //TODO: temporary fix taxed prices
@@ -150,6 +153,59 @@ class ProductCard
     public function getProduct(): ProductDTO
     {
         return $this->product;
+    }
+
+    public function getImageId(): ?int
+    {
+        return $this->imageId;
+    }
+
+    /**
+     * Resolve the image to display: the one linked to the default PSE if any,
+     * otherwise the first product image.
+     */
+    private function setImage(?ProductSaleElementDTO $defaultPse): void
+    {
+        $productImages = $this->dataAccessService->resources(
+            '/api/front/product_images',
+            [
+                'product.id' => $this->product->id,
+                'visible' => true,
+                'order[position]' => 'asc',
+            ]
+        );
+
+        if (!$productImages) {
+            return;
+        }
+
+        if ($defaultPse instanceof ProductSaleElementDTO) {
+            $pseImages = $this->dataAccessService->resources(
+                '/api/front/product_sale_elements_product_image',
+                [
+                    'productImageId' => array_map(static fn($img) => $img['id'], $productImages),
+                    'productSaleElements.product.id' => $this->product->id,
+                    'visible' => true,
+                ]
+            );
+
+            $pseImageIds = [];
+            foreach ($pseImages as $pseImage) {
+                if ((int) $pseImage['productSaleElementsId'] === $defaultPse->id) {
+                    $pseImageIds[] = $pseImage['productImageId'];
+                }
+            }
+
+            foreach ($productImages as $productImage) {
+                if (in_array($productImage['id'], $pseImageIds, true)) {
+                    $this->imageId = $productImage['id'];
+
+                    return;
+                }
+            }
+        }
+
+        $this->imageId = $productImages[0]['id'] ?? null;
     }
 
     public function getPromoRate(): float

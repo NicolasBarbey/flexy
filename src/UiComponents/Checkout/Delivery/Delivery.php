@@ -179,6 +179,7 @@ class Delivery
         }
 
         $this->emit('syncSummary');
+        $this->emit('updateNextButton');
     }
 
     #[LiveListener(CheckoutEvents::SET_DELIVERY_ORDER_ADDRESS_ID)]
@@ -194,6 +195,7 @@ class Delivery
         $this->deliveryModuleId = null;
 
         $this->emit('syncSummary');
+        $this->emit('updateNextButton');
     }
 
     #[LiveListener(CheckoutEvents::SET_INVOICE_ORDER_ADDRESS_ID)]

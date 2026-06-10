@@ -58,6 +58,22 @@ class ProductController extends Controller {
 
     this.main.mount();
     this.main.on('moved', (index) => this.onSliderMove(index));
+
+    this.syncSlideToCurrentPse();
+  }
+
+  syncSlideToCurrentPse() {
+    if (!this.currentPseIdValue) {
+      return;
+    }
+
+    const currentThumb = this.thumbnailTargets.find((thumb) =>
+      thumb.dataset.pseId?.split(',').includes(this.currentPseIdValue.toString())
+    );
+
+    if (currentThumb) {
+      this.goToSlide(currentThumb);
+    }
   }
 
   onSliderMove(index) {
