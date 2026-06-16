@@ -6,7 +6,7 @@
     "thelia-frontoffice-template",
     "thelia-flexy"
   ],
-  "license": "LGPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "require": {
     "symfony/webpack-encore-bundle": "^2.1",
     "symfony/ux-twig-component": "^2.19",
