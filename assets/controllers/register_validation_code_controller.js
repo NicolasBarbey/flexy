@@ -60,7 +60,6 @@ class RegisterCodeController extends Controller {
 
   beforeSave(e) {
     e.preventDefault();
-    console.log(this.codeTarget.value);
     this.component.action('save');
     this.toggleSubmit(false);
     this.inputTargets.forEach((input) => input.value = '');

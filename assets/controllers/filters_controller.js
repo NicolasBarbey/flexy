@@ -7,7 +7,6 @@ class FiltersController extends Controller {
 
     window.addEventListener('live:form:reset', () => {
       const url = new URL(window.location.href);
-      console.log(url);
       setTimeout(() => {
         window.history.replaceState({ }, 'reset filters on current page', url.pathname);
       },100);
