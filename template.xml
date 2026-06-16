@@ -22,6 +22,6 @@
         </author>
     </authors>
     <thelia>2.5.4</thelia>
-    <stability>prod</stability>
+    <stability>beta</stability>
     <assets>dist</assets>
 </template>
