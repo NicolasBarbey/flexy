@@ -21,6 +21,8 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 class SimilarContent
 {
     public array $similarContents;
+    public int $itemsPerPage = 3;
+    public ?int $folderId = null;
 
     public function __construct(private DataAccessService $dataAccessService)
     {
@@ -36,10 +38,13 @@ class SimilarContent
     public function similarContents(): array
     {
         $contents = $this->dataAccessService->resources('/api/front/contents', [
-            'itemsPerPage' => 3,
+            'itemsPerPage' => $this->itemsPerPage,
+            'contentFolders.folder.id' => $this->folderId,
+            'visible' => true,
         ]);
 
-        return array_map(fn ($item) => [
+        return array_map(fn($item) => [
+            'id' => $item['id'],
             'title' => $item['i18ns']['title'] ?? '',
             'date' => $item['createdAt'],
             'url' => $item['publicUrl'],
