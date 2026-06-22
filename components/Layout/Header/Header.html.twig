@@ -28,9 +28,9 @@
             {{ component('Flexy:SearchBar') }}
         {% else %}
             <nav id="Menu" data-header-target="panel" data-header-panel-id="menu">
-                <button type="button" data-menu-back="-1" data-header-target="back" data-action="header#back">
-                    {{ ux_icon('arrow-left') }}
-                </button>
+                <twig:Flexy:Button data-menu-back="-1" data-header-target="back" data-action="header#back" icon_left="chevron-left" size="small" color="minimal">
+                    {{ 'Menu'|trans }}
+                </twig:Flexy:Button>
                 <button type="button" data-menu-close data-action="header#close">
                     {{ ux_icon('close') }}
                 </button>
@@ -44,9 +44,9 @@
     </div>
     {% if type == 'searchbar' %}
         <nav id="Menu" class="Header-navWrap" data-header-target="panel" data-header-panel-id="menu">
-            <button type="button" data-menu-back="-1" data-header-target="back" data-action="header#back">
-                {{ ux_icon('arrow-left') }}
-            </button>
+            <twig:Flexy:Button data-menu-back="-1" data-header-target="back" data-action="header#back" icon_left="chevron-left" size="small" color="minimal">
+                {{ 'Menu'|trans }}
+            </twig:Flexy:Button>
             <button type="button" data-menu-close data-action="header#close">
                 {{ ux_icon('close') }}
             </button>

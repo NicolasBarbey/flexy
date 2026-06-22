@@ -85,17 +85,13 @@
   }
 }
 
-[data-menu-back] {
-  @apply lg:hidden p-[var(--padding-button-close)] absolute  top-0 z-10 -translate-y-1/2;
+.Button[data-menu-back] {
+  @apply lg:hidden absolute z-10 -translate-y-1/2;
 
   left: calc(var(--padding-x-menu) - var(--padding-button-close));
   top: calc(var(--padding-top-menu) / 2);
-
-  svg {
-    @apply w-[28px];
-  }
 }
 
-[data-menu-back='-1'] {
+.Button[data-menu-back='-1'] {
   display: none;
 }
