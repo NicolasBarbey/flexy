@@ -90,4 +90,50 @@
       opacity: 1;
     }
   }
+
+  &-mobileList {
+    list-style: none;
+    padding: 0;
+  }
+
+  &-mobileItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    margin-bottom: 2px;
+    height: 72px;
+    border-radius: 8px;
+    color: var(--black);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+
+    @apply paragraph-2 paragraph--semibold;
+
+    &:hover,
+    &:focus {
+      background-color: var(--grey-lightest);
+    }
+
+    &.active {
+      background-color: var(--grey-lightest);
+
+      .LangSelect-check {
+        color: var(--theme);
+      }
+    }
+
+    .LangSelect-flag {
+      @apply rounded-full;
+      width: 24px;
+      height: 24px;
+    }
+
+    .LangSelect-check {
+      margin-left: auto;
+      width: 24px;
+      height: 24px;
+      color: var(--theme);
+    }
+  }
 }

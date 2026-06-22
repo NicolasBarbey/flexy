@@ -23,13 +23,12 @@
         small: true
     }) }}
     {{ component('Flexy:HeaderButton', {
-        href: path('checkout_cart'),
         icon: 'menu',
         color: 'light',
-        id: 'toggleMenu',
         class: "HeaderNav-btn lg:hidden",
-        text: 'Cart'|trans,
+        text: 'Menu'|trans,
         small: true,
-        'data-header-target': "toggler"
+        'data-action': 'header#togglePanel',
+        'data-header-panel-param': 'menu'
     }) }}
 </div>

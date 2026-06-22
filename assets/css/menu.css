@@ -5,7 +5,35 @@
   --padding-button-close: 24px;
 }
 
-@media screen and (max-width: theme('screens.lg')) {
+/* ── Generic mobile fullscreen panel ── */
+
+.MobilePanel {
+  display: none;
+}
+
+@screen maxLg {
+  .MobilePanel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: var(--header-nav-height);
+    display: none;
+    background-color: var(--white);
+    color: var(--black);
+    overflow-y: auto;
+    padding-top: var(--padding-top-menu);
+    padding-inline: var(--padding-x-menu);
+
+    &.is-open {
+      display: block;
+    }
+  }
+}
+
+/* ── Menu navigation ── */
+
+@screen maxLg {
   #Menu {
     @apply fixed inset-0 hidden text-black bg-white;
 

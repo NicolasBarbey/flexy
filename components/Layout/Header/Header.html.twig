@@ -27,7 +27,7 @@
         {% if type == 'searchbar' %}
             {{ component('Flexy:SearchBar') }}
         {% else %}
-            <nav id="Menu" data-header-target="menu">
+            <nav id="Menu" data-header-target="panel" data-header-panel-id="menu">
                 <button type="button" data-menu-back="-1" data-header-target="back" data-action="header#back">
                     {{ ux_icon('arrow-left') }}
                 </button>
@@ -43,7 +43,7 @@
         {{ include('@components/Organisms/HeaderNav/HeaderNav.html.twig') }}
     </div>
     {% if type == 'searchbar' %}
-        <nav id="Menu" class="Header-navWrap" data-header-target="menu">
+        <nav id="Menu" class="Header-navWrap" data-header-target="panel" data-header-panel-id="menu">
             <button type="button" data-menu-back="-1" data-header-target="back" data-action="header#back">
                 {{ ux_icon('arrow-left') }}
             </button>
