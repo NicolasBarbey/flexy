@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
@@ -38,7 +38,6 @@ use Thelia\Domain\Customer\Service\CustomerUpdateService;
 use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
-use Thelia\Log\Tlog;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\Customer;
 use Thelia\Model\CustomerQuery;
@@ -124,7 +123,7 @@ class CustomerController extends FlexyController
             );
         }
 
-        Tlog::getInstance()->error(
+        $this->logger->error(
             \sprintf(
                 'Error during customer login process : %s. Exception was %s',
                 $message,
@@ -177,7 +176,7 @@ class CustomerController extends FlexyController
             $message = $this->translator->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
         }
 
-        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $this->logger->error(\sprintf('Error during address creation process : %s', $message));
         $form->setErrorMessage($message);
 
         $this->parserContext
@@ -259,7 +258,7 @@ class CustomerController extends FlexyController
             $message = $this->getTranslator()->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
         }
 
-        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $this->logger->error(\sprintf('Error during address creation process : %s', $message));
         $form->setErrorMessage($message);
 
         $this->getParserContext()
@@ -366,7 +365,7 @@ class CustomerController extends FlexyController
             $message = $this->translator->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
         }
 
-        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $this->logger->error(\sprintf('Error during address creation process : %s', $message));
         $form->setErrorMessage($message);
 
         $this->parserContext

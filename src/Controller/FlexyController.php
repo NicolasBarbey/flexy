@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,8 +51,8 @@ class FlexyController extends BaseController
         public TheliaFormFactory $theliaFormFactory,
         protected readonly FrontSecurityServiceInterface $securityService,
         protected readonly RouterInterface $router,
-    ) {
-    }
+        protected readonly LoggerInterface $logger,
+    ) {}
 
     public function getControllerType(): string
     {
