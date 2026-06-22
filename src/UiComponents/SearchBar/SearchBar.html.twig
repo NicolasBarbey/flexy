@@ -30,7 +30,7 @@
                     {% else %}
                         <div class="SearchDropdown-results">
                             {% for product in this.products %}
-                                {{ include('@components/Organisms/ProductCard/ProductCard.html.twig', product) }}
+                                {{ component('Flexy:ProductCard', {product}) }}
                             {% endfor %}
                         </div>
                     {% endif %}

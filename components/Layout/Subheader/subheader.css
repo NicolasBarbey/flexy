@@ -2,7 +2,7 @@
   background: var(--theme-lighter);
   display: flex;
   align-items: center;
-  &-titleOnly {
+  &--titleOnly {
     min-height: rem-convert(340px);
     padding: rem-convert(24px 0);
     @screen md {
