@@ -50,10 +50,7 @@ class Product
     public ?array $availablePses = [];
 
     #[LiveProp]
-    public ?array $psesImgs = [];
-
-    #[LiveProp]
-    public ?array $productImgs = [];
+    public array $images = [];
 
     #[LiveProp]
     public ?array $productAttrs = [];
@@ -299,9 +296,9 @@ class Product
             ]
         );
 
-        $this->psesImgs = $this->getUniquePseImg($images, $imagesPdt);
+        $psesImgs = $this->getUniquePseImg($images, $imagesPdt);
 
-        $this->productImgs = array_filter($imagesPdt, static function ($img) use ($images) {
+        $productImgs = array_filter($imagesPdt, static function ($img) use ($images) {
             foreach ($images as $pseImg) {
                 if ($pseImg['productImageId'] === $img['id']) {
                     return false;
@@ -310,6 +307,11 @@ class Product
 
             return true;
         });
+
+        $this->images = array_merge(
+            $psesImgs,
+            array_map(static fn(array $img) => [...$img, 'isProductImg' => true], array_values($productImgs))
+        );
     }
 
     private function getUniquePseImg(array $images, array $productImages): array
