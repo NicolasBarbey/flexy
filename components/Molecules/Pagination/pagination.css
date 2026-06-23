@@ -14,59 +14,20 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    border-radius: rem-convert(8px);
 
     a&:hover {
       background-color: var(--grey-lightest);
       color: var(--grey);
     }
 
-    &:focus-visible{
+    &:focus-visible {
       outline: var(--theme-medium) solid 2px;
     }
 
     &--active {
       color: var(--theme-dark);
     }
-
-    @media screen and (min-width: 768px) {
-      &--isPrev {
-        padding: 0 rem-convert(12px) 0 rem-convert(4px);
-
-        .Pagination-text {
-          margin-left: rem-convert(6px);
-        }
-      }
-
-      &--isNext {
-        padding: 0 rem-convert(4px) 0 rem-convert(12px);
-
-        .Pagination-text {
-          margin-right: rem-convert(6px);
-        }
-      }
-    }
   }
 
-  &-listItemPrev {
-    margin-right: rem-convert(12px);
-  }
-
-  &-listItemNext {
-    margin-left: rem-convert(12px);
-  }
-
-  &-icon {
-    width: rem-convert(21px);
-    height: rem-convert(21px);
-    display: inline-block;
-    color: var(--black);
-  }
-
-  &-text {
-    display: none;
-
-    @media screen and (min-width: 768px) {
-      display: inline;
-    }
-  }
 }
