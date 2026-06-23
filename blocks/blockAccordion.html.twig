@@ -1,0 +1,20 @@
+<div class="tb-{{type.id}} my-4 md:my-8">
+	<div class="h3 mb-4">{{data.title}}</div>
+	{% for item in data.group %}
+		{% set itemContain = [] %}
+		{% for block in item.content %}
+			{% if block.type.id %}
+				{% set itemContain = itemContain|merge([block.type.id]) %}
+			{% endif %}
+		{% endfor %}
+
+		{% set content %}
+		<div data-tb-contain="{{ itemContain|join(' ') }}">
+			{{ getTheliaBLocksRenderedContent(item.content|json_encode)|raw }}
+		</div>
+		{% endset %}
+
+		{% include '@components/Molecules/Accordion/Accordion.html.twig' with { title: item.title, content: content, iconPlus: 'plus', iconMinus: 'minus'} %}
+
+	{% endfor %}
+</div>

@@ -4,6 +4,7 @@ module.exports = {
     './components/**/*.{twig,ts,js,json}',
     './src/UiComponents/**/*.{twig,ts,js,json}',
     './form/**/*.twig',
+    './blocks/**/*.twig',
     './*.twig'
   ],
   theme  : {

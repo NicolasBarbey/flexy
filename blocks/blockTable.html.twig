@@ -1,0 +1,26 @@
+<div class="tb-{{ type.id }} BlockTable">
+    <table>
+        <thead>
+            <tr>
+                {% for header in data.headers %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data.rows %}
+                <tr>
+                    {% for item in row %}
+                        <td>
+                            {% if item.type == 'link' %}
+                                <a href="{{ item.value.link }}">{{ item.value.label }}</a>
+                            {% else %}
+                                {{ item.value }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

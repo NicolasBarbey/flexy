@@ -13,7 +13,7 @@
 	<div class="container flex gap-[173px] pt-[25px] lg:pt-[54px] pb-[80px] lg:pb-[120px]">
 		<article class="wysiwyg">
 			<div>
-				{{ attr('content', 'description') }}
+				{{ attr('content', 'description')|raw }}
 			</div>
 			{{ component('Flexy:Blocks', {item_type: 'content', item_id: attr('content', 'id')}) }}
 			{% if ps %}
