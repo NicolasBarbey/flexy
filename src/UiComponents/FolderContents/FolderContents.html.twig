@@ -1,0 +1,20 @@
+{% if contents|length %}
+    <ul class="grid gap-4 my-8 grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+        {% for content in contents %}
+            <li>
+                {{ include('@components/Organisms/Card/Article/Article.html.twig', {
+                    id: content.id,
+                    source: 'content',
+                    href: content.publicUrl,
+                    title: content.i18ns.title,
+                    date: content.publishedAt|date('d/m/Y'),
+                }) }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if pagination.totalItems > pagination.itemsPerPage %}
+        <div class="flex justify-center">
+            {% include '@components/Molecules/Pagination/Pagination.html.twig' with pagination %}
+        </div>
+    {% endif %}
+{% endif %}
