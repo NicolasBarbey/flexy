@@ -7,6 +7,10 @@
 @import 'tailwindcss/utilities';
 @import url('../src/UiComponents/**/*.css');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Poppins', 'Roboto', serif;
   color: var(--black);
