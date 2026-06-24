@@ -5,6 +5,9 @@
 {% block title %}{{ 'Search'|trans }}
 {% endblock %}
 
+{# Recherche interne : URLs à paramètres non indexées (noindex, follow) #}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
 {% block body %}
     {% set products = resources('/api/front/products', {itemsPerPage: 9, page: page}) %}
     {% set totalProducts = resources('/api/front/products', {itemsPerPage: 9, page: page}) %}
