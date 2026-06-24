@@ -4,6 +4,9 @@
     {{ 'Checkout'|trans }}
 {% endblock %}
 
+{# Pages transactionnelles du tunnel : non indexées (noindex, follow) #}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
 {% block header %}
     {{ include('@components/Layout/Header/HeaderCheckout.html.twig') }}
 {% endblock %}
