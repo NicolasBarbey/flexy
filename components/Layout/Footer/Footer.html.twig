@@ -49,7 +49,9 @@
                 </div>
                 <div class="my-4 paragraph-5">
                     Tel.
-                    {{ attr('config', 'store_phone') }}
+                    <a href="tel:{{ attr('config', 'store_phone')|replace({' ': '', '(': '', ')': ''}) }}">
+                        {{ attr('config', 'store_phone') }}
+                    </a>
                 </div>
             </div>
             {{ component('Flexy:Button', {
