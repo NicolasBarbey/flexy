@@ -2,7 +2,8 @@
 {% set classes = classes|default('') %}
 {% set customText = customText|default('') %}
 {% set sub = sub|default(null) %}
-{% set subCategories = resources('/api/front/categories', {parent: sub}) %}
+{% set node = node|default(null) %}
+{% set subCategories = node ? (node.children|default([])) : [] %}
 {% set isActive = false %}
 
 <li class="ItemHeader" {{ stimulus_controller('item-header') }}>
@@ -23,7 +24,7 @@
 			</li>
 			{% for category in subCategories %}
 				<li class="Submenu-item">
-					{% set sub2Categories = resources('/api/front/categories', {parent: category.id, visible: true}) %}
+					{% set sub2Categories = category.children|default([]) %}
 					<a href="{{ category.publicUrl }}" class="Submenu-link">
 						{{ category.i18ns.title }}
 					</a>

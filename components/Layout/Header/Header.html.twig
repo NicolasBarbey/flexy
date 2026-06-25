@@ -1,15 +1,13 @@
 {% set type = type|default('generic') %}
-{% set categories = resources('/api/front/categories', {
-    parent: 0,
-    visible: true
-}) %}
+{% set categories = category_menu_tree() %}
 
 {% set categoriesRender %}
     {% for category in categories %}
         {{ include('@components/Molecules/ItemHeader/ItemHeader.html.twig', {
             customText: category.i18ns.title,
             href: category.publicUrl,
-            sub: category.id
+            sub: category.id,
+            node: category
         }) }}
     {% endfor %}
 {% endset %}
