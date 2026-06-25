@@ -1,0 +1,13 @@
+<div class="tb-{{ type.id }}">
+    {% for item in data.content %}
+        {% set itemContain = [] %}
+        {% for block in item %}
+            {% if block.type.id %}
+                {% set itemContain = itemContain|merge([block.type.id]) %}
+            {% endif %}
+        {% endfor %}
+        <div data-tb-contain="{{ itemContain|join(' ') }}">
+            {{ getTheliaBLocksRenderedContent(item|json_encode)|raw }}
+        </div>
+    {% endfor %}
+</div>

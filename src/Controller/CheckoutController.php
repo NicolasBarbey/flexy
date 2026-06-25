@@ -29,7 +29,6 @@ use Thelia\Domain\Checkout\Exception\EmptyCartException;
 use Thelia\Domain\Checkout\Exception\InvalidDeliveryException;
 use Thelia\Domain\Checkout\Exception\MissingAddressException;
 use Thelia\Domain\Shipping\ShippingFacade;
-use Thelia\Log\Tlog;
 
 #[Route('/checkout', name: 'checkout_')]
 class CheckoutController extends FlexyController

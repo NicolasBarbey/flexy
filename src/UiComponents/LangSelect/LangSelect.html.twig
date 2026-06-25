@@ -21,4 +21,36 @@
             </ul>
         {% endif %}
     </div>
+
+    {{ component('Flexy:HeaderButton', {
+        icon: 'flags:' ~ currentLang.code,
+        color: 'light',
+        small: true,
+        text: currentLang.title,
+        class: 'md:hidden',
+        'data-action': 'header#togglePanel',
+        'data-header-panel-param': 'lang'
+    }) }}
+
+    <div class="MobilePanel" data-header-target="panel" data-header-panel-id="lang">
+        <button type="button" data-menu-close data-action="header#close">
+            {{ ux_icon('close') }}
+        </button>
+        <p class="h3 mb-7">{{ 'Language'|trans }}</p>
+        {% if langs|length %}
+            <ul class="LangSelect-mobileList">
+                {% for lang in langs %}
+                    <li>
+                        <a href="{{ attr('config', 'url_site') ~ '?' ~ {lang: lang.locale}|url_encode }}" class="LangSelect-mobileItem {% if currentLang.code == lang.code %}active{% endif %}">
+                            {{ ux_icon('flags:' ~ lang.code, {class: 'LangSelect-flag'}) }}
+                            <span>{{ lang.title }}</span>
+                            {% if currentLang.code == lang.code %}
+                                {{ ux_icon('checkmark', {class: 'LangSelect-check'}) }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endif %}

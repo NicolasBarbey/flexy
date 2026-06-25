@@ -1,26 +1,32 @@
 import { Controller } from '@hotwired/stimulus';
 
 class HeaderController extends Controller {
-  static targets = ['toggler', 'menu', 'close', 'back', 'sub'];
+  static targets = ['panel', 'back', 'sub'];
 
   constructor(arg) {
     super(arg);
     this.previous = 0;
   }
 
-  connect() {
-    this.togglerTarget?.addEventListener('click', () => {
-      this.menuTarget.classList.toggle('is-open');
-      this.togglerTarget.classList.toggle('is-selected');
-      document.body.classList.toggle('locked');
-    });
+  // data-action="header#togglePanel" data-header-panel-param="menu|lang|search"
+  togglePanel(event) {
+    const { panel: panelId } = event.params;
+    const target = this.#findPanel(panelId);
+    if (!target) return;
+
+    const isOpen = target.classList.contains('is-open');
+    this.#closeAll();
+
+    if (!isOpen) {
+      target.classList.add('is-open');
+      document.body.classList.add('locked');
+      event.currentTarget.classList.add('is-selected');
+    }
   }
 
   close() {
-    this.menuTarget.classList.remove('is-open');
-    this.backTarget.dataset.menuBack = -1;
-    this.togglerTarget.classList.remove('is-selected');
-    document.body.classList.remove('locked');
+    this.#closeAll();
+    if (this.hasBackTarget) this.backTarget.dataset.menuBack = -1;
     this.subTargets.forEach((sub) => sub.classList.remove('is-active'));
   }
 
@@ -49,7 +55,7 @@ class HeaderController extends Controller {
       this.previous = -1;
     }
 
-    displayBackBtn(this.backTarget, this.previous);
+    if (this.hasBackTarget) this.backTarget.dataset.menuBack = this.previous;
   }
 
   back(event) {
@@ -57,10 +63,18 @@ class HeaderController extends Controller {
       params: { item: event.currentTarget.dataset.menuBack }
     });
   }
-}
 
-function displayBackBtn(backBtn, previous) {
-  backBtn.dataset.menuBack = previous;
+  #findPanel(panelId) {
+    return this.panelTargets.find((p) => p.dataset.headerPanelId === panelId);
+  }
+
+  #closeAll() {
+    this.panelTargets.forEach((p) => p.classList.remove('is-open'));
+    document.body.classList.remove('locked');
+    this.element
+      .querySelectorAll('[data-header-panel-param]')
+      .forEach((btn) => btn.classList.remove('is-selected'));
+  }
 }
 
 export default HeaderController;

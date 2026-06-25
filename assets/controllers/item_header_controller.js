@@ -17,8 +17,8 @@ class ItemHeaderController extends Controller {
       }
     });
   }
-  toggle({ target }) {
-    target.classList.toggle('is-open');
+  toggle({ currentTarget }) {
+    currentTarget.classList.toggle('is-open');
   }
 }
 

@@ -10,28 +10,35 @@
         id: attr('content', 'id'),
     })}}
 
-	<div class="container flex gap-[173px] pt-[25px] lg:pt-[54px] pb-[80px] lg:pb-[120px]">
-		<article class="wysiwyg">
-			<div>
-				{{ attr('content', 'description') }}
-			</div>
-			{{ component('Flexy:Blocks', {item_type: 'content', item_id: attr('content', 'id')}) }}
-			{% if ps %}
-				<small>{{ ps }}</small>
-			{% endif %}
+	<div class="container pt-[25px] lg:pt-[54px] pb-[80px] lg:pb-[120px]">
+		<div class="xl:flex xl:gap-12 xl:items-start">
+			<article class="wysiwyg flex flex-col gap-10 min-w-0 flex-1">
+				<div>
+					{{ attr('content', 'description')|raw }}
+				</div>
+				{{ component('Flexy:Blocks', {item_type: 'content', item_id: attr('content', 'id')}) }}
+				{% if ps %}
+					<small>{{ ps }}</small>
+				{% endif %}
+			</article>
 
-		</article>
+            {% block table_of_contents %}
+			    {{ component('Flexy:BlocksToc', {item_type: 'content', item_id: attr('content', 'id'), max_level: 3}) }}
+            {% endblock %}
+		</div>
 	</div>
 
-	<div class="bg-theme-lighter">
-		{{
-            component('Flexy:SimilarContent', {
-                title: 'On the same topic'|trans,
-                button: {
-                    label: 'See all news'|trans,
-                    href: '/'
-                },
-            })
-        }}
-	</div>
+    {% block similar_content %}
+        <div class="bg-theme-lighter">
+            {{
+                component('Flexy:SimilarContent', {
+                    title: 'On the same topic'|trans,
+                    button: {
+                        label: 'See all news'|trans,
+                        href: '/'
+                    },
+                })
+            }}
+        </div>
+    {% endblock %}
 {% endblock %}

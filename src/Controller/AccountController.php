@@ -27,7 +27,6 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Domain\Addressing\Service\AddressService;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Form\Exception\FormValidationException;
-use Thelia\Log\Tlog;
 use Thelia\Model\Base\AddressQuery;
 use Thelia\Model\Customer;
 use Thelia\Model\Event\AddressEvent;
@@ -94,7 +93,7 @@ class AccountController extends FlexyController
         }
         $this->getParserContext()->set('address_id', $addressId);
 
-        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $this->logger->error(\sprintf('Error during address creation process : %s', $message));
 
         $addressUpdate->setErrorMessage($message);
 
@@ -132,7 +131,7 @@ class AccountController extends FlexyController
             $message = $this->getTranslator()->trans('Please check your input: %s', ['%s' => $e->getMessage()], Front::MESSAGE_DOMAIN);
         }
 
-        Tlog::getInstance()->error(\sprintf('Error during address creation process : %s', $message));
+        $this->logger->error(\sprintf('Error during address creation process : %s', $message));
 
         $addressCreate->setErrorMessage($message);
 
@@ -180,7 +179,7 @@ class AccountController extends FlexyController
         $eventDispatcher->dispatch(new AddressEvent($address), TheliaEvents::ADDRESS_DELETE);
 
 
-        Tlog::getInstance()->error(\sprintf('Error during address deletion : %s', $error_message));
+        $this->logger->error(\sprintf('Error during address deletion : %s', $error_message));
 
         // If Ajax Request
         if ($this->getRequest()->isXmlHttpRequest()) {
@@ -275,7 +274,7 @@ class AccountController extends FlexyController
             );
         }
 
-        Tlog::getInstance()->error(
+        $this->logger->error(
             \sprintf(
                 'Error during customer password modification process : %s.',
                 $message

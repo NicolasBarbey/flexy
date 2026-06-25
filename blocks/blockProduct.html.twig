@@ -1,0 +1,9 @@
+{% if data.productList is defined and data.productList|length > 0 %}
+<div class="tb-{{ type.id }} grid gap-8" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))">
+    {% for productId in data.productList %}
+        <div class="max-w-sm mx-auto w-full">
+            {{ component('Flexy:ProductCard', {productId: productId}) }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

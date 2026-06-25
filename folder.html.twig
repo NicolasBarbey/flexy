@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('folder', 'id')}) %}
 {% set childFolders = resources('/api/front/folders', {parent: attr('folder', 'id')}) %}
 {% set ps = attr('folder', 'postscriptum') %}
 
@@ -9,39 +8,30 @@
     {{ include('@components/Layout/Subheader/ContentPage/SubheaderContentPage.html.twig', {title: attr('folder', 'title'), description: attr('folder', 'chapo')}) }}
 
     <div class="px-[25px] lg:pr-[225px] lg:pl-[250px] xl:pr-[325px] xl:pl-[350px] flex gap-[173px] mt-[25px] lg:mt-[54px] mb-[80px] lg:mb-[120px]">
-        <article class="wysiwyg">
-            {{ attr('folder', 'description') }}
-            {{ component('Flexy:Blocks', {item_type: 'folder', item_id: attr('folder', 'id')}) }}
-
+        <article>
+            <div class="wysiwyg">
+                {{ attr('folder', 'description')|raw }}
+                {{ component('Flexy:Blocks', {item_type: 'folder', item_id: attr('folder', 'id')}) }}
+            </div>
             {% if childFolders|length %}
                 <ul class="grid gap-4 my-8 md:grid-cols-3">
                     {% for folder in childFolders %}
                         <li>
                             {{ include('@components/Organisms/Card/Article/Article.html.twig', {
-                id: folder.id,
-                source: 'folder',
-                href: folder.publicUrl,
-                title: 'Titre',
-                }) }}
+                                id: folder.id,
+                                source: 'folder',
+                                href: folder.publicUrl,
+                                title: 'Titre',
+                            }) }}
                         </li>
                     {% endfor %}
                 </ul>
             {% endif %}
 
-            {% if contents|length %}
-                <ul class="grid grid-cols-3 gap-4 my-8">
-                    {% for content in contents %}
-                        <li>
-                            {{ include('@components/Organisms/Card/Article/Article.html.twig', {
-                id: content.id,
-                source: 'content',
-                href: content.publicUrl,
-                title: content.i18ns.title,
-                }) }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            {{ component('Flexy:FolderContents', {
+                folderId: attr('folder', 'id'),
+                page: app.request.query.getInt('page', 1)
+            }) }}
 
             {% if ps %}
                 <small>{{ ps }}</small>

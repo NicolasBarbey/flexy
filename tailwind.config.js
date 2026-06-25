@@ -4,6 +4,7 @@ module.exports = {
     './components/**/*.{twig,ts,js,json}',
     './src/UiComponents/**/*.{twig,ts,js,json}',
     './form/**/*.twig',
+    './blocks/**/*.twig',
     './*.twig'
   ],
   theme  : {
@@ -42,12 +43,12 @@ module.exports = {
       screens: {
         xxs   : '320px',
         '3xl' : '1920px',
-        max2xl: { max: '1680px' },
-        maxXl : { max: '1366px' },
-        maxLg : { max: '1024px' },
-        maxMd : { max: '768px' },
-        maxSm : { max: '390px' },
-        maxXs : { max: '321px' }
+        max2xl: { max: '1679px' },
+        maxXl : { max: '1365px' },
+        maxLg : { max: '1023px' },
+        maxMd : { max: '767px' },
+        maxSm : { max: '639px' },
+        maxXs : { max: '389px' }
       }
     },
     screens : {
