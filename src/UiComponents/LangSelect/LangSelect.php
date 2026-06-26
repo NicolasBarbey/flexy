@@ -42,7 +42,7 @@ class LangSelect
     {
         $this->langs = $this->dataAccessService->resources('/api/front/languages', [
             'active' => true,
-        ]);
+        ]) ?? [];
 
         return $this->langs;
     }
