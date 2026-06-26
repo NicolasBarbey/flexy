@@ -37,6 +37,10 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
+        {% block microdata %}
+         {{ SEOneMicroData()|raw }}
+        {% endblock %}
     </head>
 
     <body class="no-js {% block body_class %}{% endblock %}">
