@@ -20,7 +20,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
-use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
 
 #[AsTwigComponent(name: 'Flexy:ProductCard', template: '@UiComponents/ProductCard/ProductCard.html.twig')]
@@ -28,6 +27,7 @@ class ProductCard
 {
     public ?int $productId = null;
     private ?ProductDTO $product = null;
+    private ?int $defaultPseId = null;
     private ?int $imageId = null;
     private ?float $price = null;
     private ?float $taxedPrice = null;
@@ -39,8 +39,7 @@ class ProductCard
     public function __construct(
         private readonly DataAccessService $dataAccessService,
         private TaxEngine $taxEngine,
-    )
-    {
+    ) {
     }
 
     #[PreMount]
@@ -55,7 +54,7 @@ class ProductCard
     {
         if ($product instanceof ProductDTO) {
             $this->product = $product;
-        } else if (is_array($product)) {
+        } elseif (is_array($product)) {
             $this->product = ProductDTO::fromArray($product);
         }
 
@@ -73,6 +72,8 @@ class ProductCard
         }
 
         $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
+
+        $this->defaultPseId = $defaultPse?->id;
 
         $this->setImage($defaultPse);
 
@@ -155,6 +156,17 @@ class ProductCard
         return $this->product;
     }
 
+    public function getDefaultPseId(): ?int
+    {
+        if (null !== $this->defaultPseId) {
+            return $this->defaultPseId;
+        }
+
+        $firstPse = $this->product?->productSaleElements[0] ?? null;
+
+        return $firstPse?->id;
+    }
+
     public function getImageId(): ?int
     {
         return $this->imageId;
@@ -183,7 +195,7 @@ class ProductCard
             $pseImages = $this->dataAccessService->resources(
                 '/api/front/product_sale_elements_product_image',
                 [
-                    'productImageId' => array_map(static fn($img) => $img['id'], $productImages),
+                    'productImageId' => array_map(static fn ($img) => $img['id'], $productImages),
                     'productSaleElements.product.id' => $this->product->id,
                     'visible' => true,
                 ]

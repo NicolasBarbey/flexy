@@ -1,8 +1,6 @@
 {% props
     imgWidth = 300,
     imgHeight = 300,
-    wishButton = false,
-    inWishlist = false,
     reviewCount = 0
 %}
 
@@ -25,17 +23,7 @@
 				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: this.promoRate|format_number(style: 'percent'), variant: 'error'}) }}
 			{% endif %}
 		</div>
-
-		{% if wishButton %}
-			<button type="button" class="ButtonWishList {% if inWishlist %}in-wishlist{% endif %}">
-				<span class="in-wishlist-icon">
-					<span>{{ ux_icon('heart-fill') }}</span>
-				</span>
-				<span class="not-in-wishlist-icon">
-					<span>{{ ux_icon('heart') }}</span>
-				</span>
-			</button>
-		{% endif %}
+		{{ component('WishList:WishListButton', {pseId: this.defaultPseId}) }}
 	</div>
 	<div class="ProductCard-mainContent">
 		<a class="ProductCard-imgLink" href="{{ this.product.publicUrl }}">
