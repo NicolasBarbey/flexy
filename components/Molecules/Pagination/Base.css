@@ -1,5 +1,3 @@
-.Pagination {
-}
 .Pagination-list {
   display: flex;
   align-items: center;
@@ -14,60 +12,18 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  border-radius: --spacing(2);
+
+  &:hover {
+    background-color: var(--color-grey-lightest);
+    color: var(--color-grey);
+  }
 
   @variant focus-visible {
     outline: var(--color-medium) solid 2px;
-  }
-
-  @variant md {
-    .Pagination-item--isPrev {
-      padding: 0 --spacing(12px) 0 --spacing(4px);
-
-      .Pagination-text {
-        margin-left: --spacing(6px);
-      }
-    }
-
-    .Pagination-item--isNext {
-      padding: 0 --spacing(4px) 0 --spacing(12px);
-
-      .Pagination-text {
-        margin-right: --spacing(6px);
-      }
-    }
   }
 }
 
 .Pagination-item--active {
   color: var(--color-dark);
-}
-
-.Pagination-item a {
-  &:hover {
-    background-color: var(--color-grey-lightest);
-    color: var(--color-grey);
-  }
-}
-
-.Pagination-listItemPrev {
-  margin-right: --spacing(3);
-}
-
-.Pagination-listItemNext {
-  margin-left: --spacing(3);
-}
-
-.Pagination-icon {
-  width: --spacing(5.25);
-  height: --spacing(5.25);
-  display: inline-block;
-  color: var(--color-black);
-}
-
-.Pagination-text {
-  display: none;
-
-  @variant md {
-    display: inline;
-  }
 }
