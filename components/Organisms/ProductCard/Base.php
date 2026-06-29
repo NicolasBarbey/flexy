@@ -20,14 +20,12 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
-use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
 
 #[AsTwigComponent]
-class Base
+class Base extends AbstractProductCard
 {
     public ?int $productId = null;
-    private ?ProductDTO $product = null;
     private ?float $price = null;
     private ?float $taxedPrice = null;
     private ?float $promoPrice = null;
@@ -36,44 +34,32 @@ class Base
     private bool $isNew = false;
 
     public function __construct(
-        private readonly DataAccessService $dataAccessService,
+        DataAccessService $dataAccessService,
         private TaxEngine $taxEngine,
-    ) {}
+    ) {
+        parent::__construct($dataAccessService);
+    }
 
     #[PreMount]
     public function preMount(?array $data): void
     {
         if (isset($data['productId']) && $data['productId']) {
-            $this->productId = $data['productId'];
+            $this->productId = (int) $data['productId'];
         }
     }
 
     public function mount(ProductDTO|array|null $product = null): void
     {
-        if ($product instanceof ProductDTO) {
-            $this->product = $product;
-        } else if (is_array($product)) {
-            $this->product = ProductDTO::fromArray($product);
-        }
+        $this->loadProduct($product, $this->productId);
 
-        if ($this->productId === null && $this->product === null) {
+        if ($this->product === null) {
             return;
-        }
-
-        if ($this->productId !== null && $this->product === null) {
-            $data = $this->dataAccessService->resources('/api/front/products/' . $this->productId);
-            if (!$data) {
-                return;
-            }
-
-            $this->product = ProductDTO::fromArray($data);
         }
 
         $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
 
         if ($defaultPse instanceof ProductSaleElementDTO) {
             //TODO: temporary fix taxed prices
-
             $productModel = ProductQuery::create()
                 ->useProductSaleElementsQuery()
                 ->filterById($defaultPse->id)
@@ -126,14 +112,20 @@ class Base
         return $this->isNew;
     }
 
+    public function getPromoRate(): float
+    {
+        if ($this->isPromo) {
+            return (($this->price - $this->promoPrice) / $this->price) * -1;
+        }
+
+        return 0;
+    }
 
     /**
      * @var pseList ProductSaleElementDTO[]
-     * @return ProductSaleElementDTO | null
      */
-    private function findDefaultPse($pseList)
+    private function findDefaultPse($pseList): ?ProductSaleElementDTO
     {
-
         if ($pseList) {
             foreach ($pseList as $pse) {
                 if ($pse->isDefault) {
@@ -143,19 +135,5 @@ class Base
         }
 
         return null;
-    }
-
-    public function getProduct(): ProductDTO
-    {
-        return $this->product;
-    }
-
-    public function getPromoRate(): float
-    {
-        if ($this->isPromo) {
-            return (($this->price - $this->promoPrice) / $this->price) * -1;
-        }
-
-        return 0;
     }
 }

@@ -1,0 +1,233 @@
+.ProductCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  z-index: 0;
+
+  .ButtonWishList {
+    transition: 0.2s;
+    display: none;
+
+    @variant sm {
+      display: block;
+    }
+
+    svg {
+      max-width: --spacing(8.75);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    .in-wishlist-icon {
+      display: none;
+
+      &:hover svg {
+        color: var(--color-medium);
+      }
+    }
+
+    .not-in-wishlist-icon {
+      display: inline-block;
+
+      &:hover svg {
+        color: var(--color-dark);
+      }
+    }
+
+    &.in-wishlist {
+      .in-wishlist-icon {
+        display: inline-block;
+      }
+
+      .not-in-wishlist-icon {
+        display: none;
+      }
+    }
+  }
+
+  .ProductCard-mainContent {
+    width: 100%;
+  }
+
+  .Colors {
+    display: flex;
+    gap: --spacing(1.5);
+    align-items: center;
+  }
+
+  .Rating {
+    display: flex;
+    gap: --spacing(2.5);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .ProductCard-img img {
+      transform: scale(1.075);
+    }
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+
+    .ProductCard-img {
+      outline: 2px solid var(--color-grey-lighter);
+    }
+  }
+}
+
+.Colors-item {
+  border-radius: 100%;
+  display: inline-block;
+  width: --spacing(3);
+  height: --spacing(3);
+}
+
+.Colors-others {
+  margin-left: --spacing(0.5);
+}
+
+.Rating-mark {
+  display: flex;
+  gap: --spacing(1);
+  max-width: --spacing(23);
+
+  svg {
+    color: var(--color-black);
+  }
+
+  .star-empty svg {
+    color: var(--color-grey-lighter);
+  }
+}
+
+.Rating-reviewCount {
+  margin-top: --spacing(1);
+  text-transform: uppercase;
+  color: var(--color-grey);
+
+  @variant md {
+    font-size: var(--text-xs);
+    letter-spacing: 0.04375rem;
+  }
+}
+
+.ProductCard-header {
+  margin-bottom: --spacing(2);
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: --spacing(2.5);
+  z-index: 1;
+}
+
+.ProductCard-tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: --spacing(2.5);
+  align-items: center;
+}
+
+.ProductCard-img {
+  overflow: hidden;
+  height: --spacing(46.75);
+
+  @variant sm {
+    height: --spacing(70);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: all cubic-bezier(0, 0, 0, 0.7) 0.3s;
+  }
+}
+
+.ProductCard-footer {
+  margin-top: --spacing(3.25);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: --spacing(5);
+  flex-direction: column;
+
+  @variant md {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.ProductCard-footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(1.25);
+  margin-bottom: --spacing(3.25);
+
+  @variant sm {
+    margin-bottom: 0;
+    gap: --spacing(2.5);
+  }
+}
+
+.ProductCard-footerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ProductCard-desc {
+  padding: --spacing(4);
+
+  @variant sm {
+    padding: --spacing(6);
+  }
+}
+
+.ProductCard-ref {
+  margin-top: --spacing(2);
+}
+
+.ProductCard-title {
+  @apply paragraph-1;
+  font-weight: 600;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: inherit;
+  display: block;
+}
+
+.ProductCard-subTitle {
+  @apply paragraph-3;
+  color: var(--color-grey);
+}
+
+.ProductCard-price {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-black);
+  position: relative;
+  line-height: normal;
+  margin-top: 0;
+}
+
+.ProductCard-originalPrice {
+  color: var(--color-black);
+  font-size: var(--text-xs);
+  text-decoration-line: line-through;
+}
+

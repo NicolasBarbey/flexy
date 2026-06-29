@@ -15,17 +15,17 @@
 {% endif %}
 
 {% if img is not defined %}
-	{% set img = img|default({url: asset('dist/images/placeholder2.webp'), alt: ''}) %}
+	{% set img = img|default({url: asset('images/placeholder2.webp'), alt: ''}) %}
 {% endif %}
 
 <div class="ProductCard {{ attributes.render('class') }}" {{attributes}}>
 	<div class="ProductCard-header">
 		<div class="ProductCard-tagList">
 			{% if this.isNew %}
-				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: 'New'|trans, variant: 'vermillon'}) }}
+				{{ include('@Flexy/Molecules/Tag/Base.html.twig', {customText: 'New'|trans, color: 'warning'}) }}
 			{% endif %}
 			{% if this.isPromo %}
-				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: this.promoRate|format_number(style: 'percent'), variant: 'error'}) }}
+				{{ include('@Flexy/Molecules/Tag/Base.html.twig', {customText: this.promoRate|format_number(style: 'percent'), color: 'error'}) }}
 			{% endif %}
 		</div>
 
@@ -50,7 +50,7 @@
 			<a href="{{ this.product.publicUrl }}" class="ProductCard-title">{{ this.product.title }}</a>
 
 			{% if this.product.chapo %}
-				<div class="ProductCard-subTitle paragraph-3">{{ this.product.chapo }}</div>
+				<div class="ProductCard-subTitle">{{ this.product.chapo }}</div>
 			{% endif %}
 
 			<div class="ProductCard-footer">
@@ -61,23 +61,16 @@
 								<div class="Rating-mark">
 									{% for i in 1..5 %}
 										{% if this.rate >= i %}
-											<div>
-												{{ ux_icon('star-full') }}
-											</div>
+											<div>{{ ux_icon('star-full') }}</div>
 										{% elseif this.rate <= i and this.rate > i - 1 %}
-											<div>
-												{{ ux_icon('star-half-empty') }}
-											</div>
+											<div>{{ ux_icon('star-half-empty') }}</div>
 										{% else %}
-											<div class="star-empty">
-												{{ ux_icon('star-full') }}
-											</div>
+											<div class="star-empty">{{ ux_icon('star-full') }}</div>
 										{% endif %}
 									{% endfor %}
 								</div>
 								<span class="Rating-reviewCount indication-small">
-									{{ reviewCount }}
-									{{ 'Reviews'|trans }}
+									{{ reviewCount }} {{ 'Reviews'|trans }}
 								</span>
 							</div>
 						{% endif %}

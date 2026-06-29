@@ -1,0 +1,87 @@
+.ProductCard--order {
+  flex-direction: row;
+  background-color: var(--color-lightest);
+  border: 1px solid var(--color-medium);
+  padding: --spacing(2);
+
+  @variant sm {
+    max-width: --spacing(135);
+  }
+
+  .ProductCard-mainContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .ProductCard-img {
+    overflow: visible;
+    height: --spacing(32.5);
+    width: --spacing(28);
+    background-color: var(--color-white);
+    display: flex;
+    justify-content: center;
+
+    @variant sm {
+      height: --spacing(28);
+    }
+  }
+
+  .ProductCard-desc {
+    margin-right: auto;
+    padding: 0;
+    margin-left: --spacing(4.75);
+  }
+
+  .ProductCard-title {
+    @apply paragraph-2;
+    margin-bottom: --spacing(1.25);
+    display: inline-block;
+  }
+
+  .ProductCard-price {
+    @apply paragraph-4;
+  }
+
+  .ProductCard-footer {
+    flex-direction: row;
+    gap: --spacing(2);
+    margin-top: --spacing(2.5);
+  }
+
+  .ProductCard-orderInfos {
+    @apply paragraph-6;
+    color: var(--color-grey);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: --spacing(1.5);
+
+    @variant sm {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    & span:not(:last-child) {
+      &::after {
+        content: '';
+      }
+
+      @variant sm {
+        &::after {
+          content: ',\00a0';
+        }
+      }
+    }
+  }
+
+  .ProductCard-secondaryTitle {
+    display: block;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .ProductCard-img img {
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{% set pse        = {id: 1, isDefault: true, promo: false, newness: false, productPrices: [{price: 25.00, promoPrice: 20.00, currency: 'EUR'}], attributeCombinations: []} %}
+{% set psePromo   = {id: 1, isDefault: true, promo: true,  newness: false, productPrices: [{price: 25.00, promoPrice: 18.50, currency: 'EUR'}], attributeCombinations: []} %}
+{% set pseNew     = {id: 1, isDefault: true, promo: false, newness: true,  productPrices: [{price: 25.00, promoPrice: 20.00, currency: 'EUR'}], attributeCombinations: []} %}
+{% set pseNewPromo = {id: 1, isDefault: true, promo: true, newness: true,  productPrices: [{price: 25.00, promoPrice: 18.50, currency: 'EUR'}], attributeCombinations: []} %}
+
+{% set base         = {id: 99999, i18ns: {title: 'T-shirt coton bio', chapo: 'Col rond, coupe droite'}, publicUrl: '/produit-test', ProductColor: {colors: []}, productSaleElements: [pse]} %}
+{% set withColors   = base|merge({ProductColor: {colors: ['#282828', '#d6d6d6', '#ff4822', '#37e17b', '#40b1ca']}}) %}
+{% set orderProduct = {id: 99999, i18ns: {title: 'T-shirt coton bio', chapo: 'Col rond, coupe droite'}, publicUrl: '/produit-test'} %}
+{% set orderPse     = {attributeCombinations: [{attribute: {i18ns: {title: 'Taille'}}, attributeAv: {i18ns: {title: 'M'}}}]} %}
+
+<div class="grid gap-12">
+
+    {# ── Base ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Base</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-lightest p-4 rounded-md">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">données réelles (productId)</span>
+                <twig:Organisms:ProductCard:Base productId="1" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">tag New</span>
+                <twig:Organisms:ProductCard:Base :product="base|merge({productSaleElements: [pseNew]})" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec remise</span>
+                <twig:Organisms:ProductCard:Base :product="base|merge({productSaleElements: [psePromo]})" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">New + remise</span>
+                <twig:Organisms:ProductCard:Base :product="base|merge({productSaleElements: [pseNewPromo]})" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">variantes couleur</span>
+                <twig:Organisms:ProductCard:Base :product="withColors" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">wishlist (non ajouté)</span>
+                <twig:Organisms:ProductCard:Base :product="base" wishButton />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">wishlist (ajouté)</span>
+                <twig:Organisms:ProductCard:Base :product="base" wishButton inWishlist />
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Order ──────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Order</h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">données réelles (productId)</span>
+                <twig:Organisms:ProductCard:Order :orderProduct="{
+                    productId: 1,
+                    productSaleElementsId: 1,
+                    productSaleElementsRef: 'REF-001',
+                    quantity: 2,
+                    wasInPromo: false,
+                    price: 25.99
+                }" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">sans remise</span>
+                <twig:Organisms:ProductCard:Order
+                    :orderProduct="{productId: 99999, productSaleElementsId: 99999, productSaleElementsRef: 'REF-001', quantity: 2, wasInPromo: false, price: 25.99}"
+                    :product="orderProduct"
+                    :pse="orderPse"
+                />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec remise</span>
+                <twig:Organisms:ProductCard:Order
+                    :orderProduct="{productId: 99999, productSaleElementsId: 99999, productSaleElementsRef: 'REF-001', quantity: 1, wasInPromo: true, price: 49.00, promoPrice: 29.99}"
+                    :product="orderProduct"
+                    :pse="orderPse"
+                />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">sans quantité</span>
+                <twig:Organisms:ProductCard:Order
+                    :orderProduct="{productId: 99999, productSaleElementsId: 99999, productSaleElementsRef: 'REF-001', quantity: 0, wasInPromo: false, price: 12.50}"
+                    :product="orderProduct"
+                    :pse="orderPse"
+                />
+            </div>
+
+        </div>
+    </div>
+
+</div>

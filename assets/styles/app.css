@@ -19,6 +19,9 @@
 @import "../../components/Molecules/Breadcrumb/Base.css";
 @import "../../components/Molecules/Score/Base.css";
 
+@import "../../components/Organisms/ProductCard/Base.css";
+@import "../../components/Organisms/ProductCard/Order.css";
+
 @source "../../partials";
 
 body {
