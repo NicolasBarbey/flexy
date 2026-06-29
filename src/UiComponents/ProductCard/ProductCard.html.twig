@@ -23,7 +23,7 @@
 				{{ include('@components/Molecules/Tag/Tag.html.twig', {customText: this.promoRate|format_number(style: 'percent'), variant: 'error'}) }}
 			{% endif %}
 		</div>
-		{{ component('WishList:WishListButton', {pseId: this.defaultPseId}) }}
+		{# {{ component('WishList:WishListButton', {pseId: this.defaultPseId}) }} #}
 	</div>
 	<div class="ProductCard-mainContent">
 		<a class="ProductCard-imgLink" href="{{ this.product.publicUrl }}">
