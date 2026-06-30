@@ -1,0 +1,119 @@
+<div class="grid gap-12">
+
+    {# ── Base ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Base</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-md">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">par défaut</span>
+                <twig:Fields:Input:Base name="text-base" label="Champ texte" placeholder="Votre texte..." />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">requis</span>
+                <twig:Fields:Input:Base name="text-required" label="Champ requis" placeholder="Votre texte..." :required="true" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">optionnel</span>
+                <twig:Fields:Input:Base name="text-optional" label="Champ optionnel" placeholder="Votre texte..." :optional="true" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">désactivé</span>
+                <twig:Fields:Input:Base name="text-disabled" label="Désactivé" placeholder="Votre texte..." :disabled="true" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">erreur</span>
+                <twig:Fields:Input:Base name="text-error" label="Avec erreur" value="valeur invalide" error="Ce champ est requis" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">succès</span>
+                <twig:Fields:Input:Base name="text-success" label="Avec succès" value="Valeur valide" :success="true" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec unité</span>
+                <twig:Fields:Input:Base name="text-unit" label="Montant" placeholder="0" unit="€" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec aide (tooltip)</span>
+                <twig:Fields:Input:Base name="text-help" label="Avec aide" placeholder="Votre texte..." help="Ce champ est utilisé pour la facturation uniquement." />
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Types ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Types</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">email</span>
+                <twig:Fields:Input:Base type="email" name="email" label="Email" placeholder="exemple@domaine.fr" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">number + unité</span>
+                <twig:Fields:Input:Base type="number" name="quantity" label="Quantité" placeholder="1" unit="pcs" />
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Small ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Small</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">par défaut</span>
+                <twig:Fields:Input:Base name="small-base" label="Petit" placeholder="Votre texte..." size="small" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec aide</span>
+                <twig:Fields:Input:Base name="small-help" label="Petit avec aide" placeholder="Votre texte..." size="small" help="Taille réduite pour les formulaires compacts." />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">erreur</span>
+                <twig:Fields:Input:Base name="small-error" label="Petit avec erreur" size="small" value="invalide" error="Valeur incorrecte" />
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Password ────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Password</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">simple</span>
+                <twig:Fields:Input:Password name="password-simple" label="Mot de passe" placeholder="########" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec aide</span>
+                <twig:Fields:Input:Password name="password-help" label="Mot de passe" placeholder="########" help="Utilisez un gestionnaire de mots de passe." />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">avec critères de force</span>
+                <twig:Fields:Input:Password name="password-criteria" label="Nouveau mot de passe" placeholder="########" :showCriteria="true" />
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -11,12 +11,12 @@
             type: 'button',
             id: _accordionItem_triggerId,
             'data-slot': 'accordion-trigger',
-            'data-accordion-target': 'trigger',
-            'data-action': 'click->Molecules--Accordion--base#toggle keydown->Molecules--Accordion--base#handleKeydown',
             disabled: _accordionItem_disabled,
             'data-orientation': _accordionItem_orientation,
             'aria-expanded': _accordionItem_isOpen ? 'true' : 'false',
             'aria-controls': _accordionItem_contentId,
+            ...stimulus_target('Molecules--Accordion--base', 'trigger'),
+            ...stimulus_action('Molecules--Accordion--base', 'toggle', 'click')|stimulus_action('Molecules--Accordion--base', 'handleKeydown', 'keydown'),
         }) }}
     >
         {%- block content %}{% endblock -%}

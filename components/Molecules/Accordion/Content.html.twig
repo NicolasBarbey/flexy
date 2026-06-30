@@ -7,13 +7,13 @@
     {{ attributes.defaults({
         id: _accordionItem_contentId,
         'data-slot': 'accordion-content',
-        'data-accordion-target': 'content',
         role: 'region',
         'aria-labelledby': _accordionItem_triggerId,
         'aria-hidden': not _accordionItem_isOpen ? 'true' : 'false',
         'data-open': _accordionItem_isOpen ? 'true' : false,
         'data-closed': not _accordionItem_isOpen ? 'true' : false,
         style: _accordionItem_isOpen ? 'grid-template-rows: 1fr;' : 'grid-template-rows: 0fr;',
+        ...stimulus_target('Molecules--Accordion--base', 'content'),
     }).without('class') }}
 >
     <div class="min-h-0 min-w-0 overflow-hidden">

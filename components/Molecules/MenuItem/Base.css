@@ -1,0 +1,33 @@
+.MenuItem {
+  @apply paragraph-2;
+  color: var(--color-black);
+  text-decoration: none;
+  outline: none;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  cursor: pointer;
+
+  @variant md {
+    padding: 1.25rem 1.5rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.5;
+  }
+}
+
+.MenuItem--withIcon {
+  justify-content: flex-start;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.MenuItem-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-block;
+}

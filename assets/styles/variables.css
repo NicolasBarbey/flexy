@@ -68,6 +68,13 @@
   --font-family-paragraph-6: var(--font-condensed);
   --font-family-paragraph-7: var(--font-condensed);
 
+  --font-family-indication: var(--font-condensed);
+  --font-size-indication: var(--text-sm);
+  --font-size-indication-small: var(--text-xs);
+  --font-weight-indication: 400;
+  --letter-spacing-indication: 0.04375rem;
+  --letter-spacing-indication-small: 0.0375rem;
+
   --font-weight-h1: 800;
   --font-size-h1-d: 2.375rem;
   --line-height-h1-d: 3.5625rem;

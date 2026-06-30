@@ -1,0 +1,58 @@
+<div class="grid gap-12">
+
+    {# ── Base — déclencheurs arbitraires ────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Base</h4>
+        <div class="flex flex-wrap justify-center gap-12 p-8 rounded-md">
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">bouton texte — top</span>
+                <twig:Molecules:Tooltip:Base tooltip="Déclenché par un bouton texte.">
+                    <button type="button" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
+                        En savoir plus
+                    </button>
+                </twig:Molecules:Tooltip:Base>
+            </div>
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">badge — top</span>
+                <twig:Molecules:Tooltip:Base tooltip="Ce produit bénéficie d'une remise exceptionnelle ce mois-ci.">
+                    <span class="Tag Tag--promo" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
+                        -20%
+                    </span>
+                </twig:Molecules:Tooltip:Base>
+            </div>
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">bouton texte — bottom</span>
+                <twig:Molecules:Tooltip:Base tooltip="Tooltip sous le déclencheur." position="bottom">
+                    <button type="button" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
+                        Voir détails
+                    </button>
+                </twig:Molecules:Tooltip:Base>
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Help ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Help</h4>
+        <div class="flex flex-wrap justify-center gap-12 p-8 rounded-md">
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">position top (défaut)</span>
+                <twig:Molecules:Tooltip:Help tooltip="Ce champ est utilisé pour la facturation uniquement." />
+            </div>
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">position bottom</span>
+                <twig:Molecules:Tooltip:Help tooltip="Tooltip affiché en bas." position="bottom" />
+            </div>
+
+        </div>
+    </div>
+
+</div>

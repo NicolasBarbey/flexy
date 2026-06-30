@@ -36,6 +36,7 @@ class FlexyBundle extends AbstractBundle
         $this->prependConfigAssetMapper($builder);
         $this->prependConfigUxIcons($builder);
         $this->prependConfigTailwind($builder);
+        $this->prependConfigStimulus($builder);
     }
 
 
@@ -127,6 +128,20 @@ class FlexyBundle extends AbstractBundle
             'input_css' => '%kernel.project_dir%/templates/frontOffice/%thelia_front_template%/assets/styles/app.css',
             'binary_version' => 'v4.3.0',
 
+        ]);
+    }
+
+    private function prependConfigStimulus(ContainerBuilder $containerBuilder): void
+    {
+        if (!$containerBuilder->hasExtension('stimulus')) {
+            return;
+        }
+
+        $containerBuilder->prependExtensionConfig('stimulus', [
+            'controller_paths' => [
+                '%kernel.project_dir%/assets/controllers',
+                \dirname(__DIR__) . '/components',
+            ],
         ]);
     }
 }

@@ -60,6 +60,19 @@
   line-height: var(--line-height-paragraph-7);
 }
 
+@utility indication {
+  text-transform: uppercase;
+  font-family: var(--font-family-indication);
+  font-weight: var(--font-weight-indication);
+  font-size: var(--font-size-indication);
+  letter-spacing: var(--letter-spacing-indication);
+}
+
+@utility indication-small {
+  font-size: var(--font-size-indication-small);
+  letter-spacing: var(--letter-spacing-indication-small);
+}
+
 @utility h1 {
   font-size: var(--font-size-h1-m);
   font-weight: var(--font-weight-h1);

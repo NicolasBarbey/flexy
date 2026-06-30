@@ -21,11 +21,11 @@
     class="{{ ('not-last:border-b group ' ~ attributes.render('class'))|tailwind_merge }}"
     {{ attributes.defaults({
         'data-slot': 'accordion-item',
-        'data-accordion-target': 'item',
         'data-value': value,
         'data-open': _accordion_item_is_open ? 'true' : false,
         'data-closed': not _accordion_item_is_open ? 'true' : false,
         'aria-disabled': _accordion_item_disabled ? 'true' : false,
+        ...stimulus_target('Molecules--Accordion--base', 'item'),
     }) }}
 >
     {%- block content %}{% endblock -%}

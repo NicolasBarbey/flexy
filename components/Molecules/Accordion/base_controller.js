@@ -14,7 +14,7 @@ export default class extends Controller {
    */
   toggle(event) {
     const trigger = event.currentTarget;
-    const item = trigger.closest('[data-accordion-target="item"]');
+    const item = this.itemTargets.find((item) => item.contains(trigger));
 
     if (!item || this.#isDisabled(item)) {
       return;
@@ -88,8 +88,8 @@ export default class extends Controller {
       }
     }
 
-    const trigger = item.querySelector('[data-accordion-target="trigger"]');
-    const content = item.querySelector('[data-accordion-target="content"]');
+    const trigger = this.triggerTargets.find((t) => item.contains(t));
+    const content = this.contentTargets.find((c) => item.contains(c));
 
     if (!trigger || !content) {
       return;
@@ -120,8 +120,8 @@ export default class extends Controller {
    * @param {HTMLElement} item
    */
   #closeItem(item) {
-    const trigger = item.querySelector('[data-accordion-target="trigger"]');
-    const content = item.querySelector('[data-accordion-target="content"]');
+    const trigger = this.triggerTargets.find((t) => item.contains(t));
+    const content = this.contentTargets.find((c) => item.contains(c));
 
     if (!trigger || !content) {
       return;
@@ -170,7 +170,7 @@ export default class extends Controller {
    */
   #getEnabledTriggers() {
     return this.triggerTargets.filter((trigger) => {
-      const item = trigger.closest('[data-accordion-target="item"]');
+      const item = this.itemTargets.find((item) => item.contains(trigger));
       return item && !this.#isDisabled(item);
     });
   }

@@ -1,11 +1,11 @@
 .Score {
   display: flex;
-  gap: --spacing(1.25);
+  gap: 0.3125rem;
 }
 
 .Score-star {
-  width: --spacing(3.5);
-  height: --spacing(3.5);
+  width: 0.875rem;
+  height: 0.875rem;
   color: var(--color-black);
 }
 
