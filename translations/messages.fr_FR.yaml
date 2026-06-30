@@ -96,6 +96,8 @@ Error: Erreur
 FAQ page: Page FAQ
 Page not found: Page non trouvée
 Oops, this page does not exist...: Oups, cette page n'existe pas...
+Oops, an error has occurred...: Oups, une erreur est survenue...
+Please try again later or return to the homepage.: Veuillez réessayer plus tard ou revenir à la page d'accueil.
 Discover: Découvrir
 Our customers speak about us: Nos clients parlent de nous
 See all reviews: Voir tous les avis
@@ -302,6 +304,7 @@ Register: Inscription
 Remember to check your spam, then try to: Pensez à vérifier vos spams, puis essayez de nouveau de
 resend the e-mail: renvoyer le mail
 "Please check your input: %s": "Veuillez vérifier votre saisie : %s"
+Wrong email or password. Please try again: Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.
 Your account is not yet confirmed. A confirmation email has been sent to your email address, please check your mailbox: Votre compte n'est pas encore confirmé. Un e-mail de confirmation a été envoyé à votre adresse e-mail, veuillez vérifier votre boîte de réception
 view_all: Voir tous les produits
 view_all_promo: Voir toutes les promotions
