@@ -1,0 +1,9 @@
+{# @prop position 'top'|'bottom' Position of the tooltip relative to the trigger. Defaults to `top` #}
+{# @prop tooltip string Content of the tooltip #}
+{% props position = 'top', tooltip = '' %}
+
+<twig:Molecules:Tooltip:Base :position="position" :tooltip="tooltip">
+    <button type="button" class="Tooltip-icon" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
+        {{ ux_icon("help") }}
+    </button>
+</twig:Molecules:Tooltip:Base>

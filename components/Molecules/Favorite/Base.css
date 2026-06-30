@@ -1,0 +1,26 @@
+.Favorite {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--color-white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.Favorite-star {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-grey-lighter);
+}
+
+.Favorite-text {
+  @apply indication indication-small;
+}
+
+.Favorite--selected {
+  pointer-events: none;
+}
+
+.Favorite--selected .Favorite-star {
+  color: var(--color-base);
+}

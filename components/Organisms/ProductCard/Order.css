@@ -2,10 +2,10 @@
   flex-direction: row;
   background-color: var(--color-lightest);
   border: 1px solid var(--color-medium);
-  padding: --spacing(2);
+  padding: 0.5rem;
 
   @variant sm {
-    max-width: --spacing(135);
+    max-width: 33.75rem;
   }
 
   .ProductCard-mainContent {
@@ -16,26 +16,26 @@
 
   .ProductCard-img {
     overflow: visible;
-    height: --spacing(32.5);
-    width: --spacing(28);
+    height: 8.125rem;
+    width: 7rem;
     background-color: var(--color-white);
     display: flex;
     justify-content: center;
 
     @variant sm {
-      height: --spacing(28);
+      height: 7rem;
     }
   }
 
   .ProductCard-desc {
     margin-right: auto;
     padding: 0;
-    margin-left: --spacing(4.75);
+    margin-left: 1.1875rem;
   }
 
   .ProductCard-title {
     @apply paragraph-2;
-    margin-bottom: --spacing(1.25);
+    margin-bottom: 0.3125rem;
     display: inline-block;
   }
 
@@ -45,8 +45,8 @@
 
   .ProductCard-footer {
     flex-direction: row;
-    gap: --spacing(2);
-    margin-top: --spacing(2.5);
+    gap: 0.5rem;
+    margin-top: 0.625rem;
   }
 
   .ProductCard-orderInfos {
@@ -54,7 +54,7 @@
     color: var(--color-grey);
     display: flex;
     flex-direction: column;
-    padding-bottom: --spacing(1.5);
+    padding-bottom: 0.375rem;
 
     @variant sm {
       flex-direction: row;

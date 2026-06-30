@@ -7,10 +7,10 @@
     &:before {
       content: "";
       display: inline-block;
-      width: --spacing(2.25);
-      height: --spacing(2.25);
+      width: 0.5625rem;
+      height: 0.5625rem;
       border-radius: 100%;
-      margin-right: --spacing(1);
+      margin-right: 0.25rem;
       background-color: var(--color-grey-dark);
     }
   }

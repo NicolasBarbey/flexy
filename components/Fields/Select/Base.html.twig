@@ -26,10 +26,8 @@
 
     <div class="Select__header">
         <label class="Select__label">{{ label }}</label>
-        {% if help is not empty %}
-        <span class="Select__help">
-                {{ ux_icon('help') }}
-        </span>
+        {% if help %}
+            <twig:Molecules:Tooltip:Help tooltip="{{ help }}" />
         {% endif %}
     </div>
 

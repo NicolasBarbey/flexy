@@ -9,7 +9,7 @@
     color: var(--black);
     display: inline-flex;
     align-items: center;
-    padding: --spacing(0.5);
+    padding: 0.125rem;
     transition: 0.2s ease all;
     outline: 0;
     text-decoration: underline;
@@ -37,8 +37,8 @@
     }
 
     .Link-icon {
-      width: --spacing(4.5);
-      height: --spacing(4.5);
+      width: 1.125rem;
+      height: 1.125rem;
       display: flex;
     }
   }

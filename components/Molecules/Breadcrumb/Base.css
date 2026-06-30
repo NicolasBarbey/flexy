@@ -1,5 +1,5 @@
 @theme inline {
-  --breadcrumb-gap: --spacing(3);
+  --breadcrumb-gap: 0.75rem;
   --breadcrumb-spacer-color: var(--color-grey);
   --breadcrumb-last-item-color: var(--color-grey);
   --breadcrumb-item-color: var(--color-black);
