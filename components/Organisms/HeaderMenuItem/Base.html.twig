@@ -1,0 +1,89 @@
+{% set isActive = false %}
+{% set hasSubMenu = columns|length or leafLinks|length %}
+
+<li
+    class="{{ ('HeaderMenuItem ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({...stimulus_controller('Organisms--HeaderMenuItem--base')}).without('class') }}
+>
+    {% if hasSubMenu %}
+        <button
+            type="button"
+            class="HeaderMenuItem-link{% if isActive %} is-active{% endif %}"
+            {{ stimulus_action('Organisms--HeaderMenuItem--base', 'toggle', 'click') }}
+            {{ stimulus_target('Organisms--HeaderMenuItem--base', 'toggler') }}
+        >
+            {{ title }}
+        </button>
+
+        <button
+            type="button"
+            class="HeaderMenuItem-back"
+            data-action="header#displaySubMenu"
+            data-header-item-param="{{ id }}"
+        >
+            {{ ux_icon('arrow-right') }}
+        </button>
+
+        <ul
+            class="Submenu{% if columns is empty %} Submenu--flat{% endif %}"
+            data-menu-sub="{{ id }}"
+            data-menu-previous="0"
+            data-header-target="sub"
+        >
+            {% if showSeeMore %}
+                <li class="HeaderMenuItem-all">
+                    <twig:Molecules:Button:Base
+                        text="{{ 'See more'|trans }}"
+                        href="{{ href }}"
+                        class="w-full lg:w-auto mt-4 lg:mt-auto"
+                    />
+                </li>
+            {% endif %}
+
+            {% for column in columns %}
+                <li class="Submenu-column">
+                    <a href="{{ column.branch.publicUrl }}" class="Submenu-heading">
+                        {{ column.branch.i18ns.title }}
+                    </a>
+
+                    <button
+                        type="button"
+                        class="HeaderMenuItem-back"
+                        data-action="header#displaySubMenu"
+                        data-header-item-param="{{ id }}_5"
+                    >
+                        {{ ux_icon('arrow-right') }}
+                    </button>
+
+                    <ul class="Submenu-sub" data-menu-sub="{{ id }}_5" data-menu-previous="{{ id }}" data-header-target="sub">
+                        {% for child in column.children %}
+                            <li class="Submenu-subItem">
+                                <a href="{{ child.publicUrl }}" class="Submenu-link">
+                                    {{ child.i18ns.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+
+            {% if leafLinks|length %}
+                <li class="Submenu-column Submenu-column--links">
+                    {% for leaf in leafLinks %}
+                        <a href="{{ leaf.publicUrl }}" class="Submenu-link">
+                            {{ leaf.i18ns.title }}
+                        </a>
+                    {% endfor %}
+                </li>
+            {% endif %}
+        </ul>
+    {% else %}
+        <a
+            href="{{ href }}"
+            class="HeaderMenuItem-link"
+            {{ stimulus_target('Organisms--HeaderMenuItem--base', 'toggler') }}
+        >
+            {{ title }}
+        </a>
+    {% endif %}
+</li>

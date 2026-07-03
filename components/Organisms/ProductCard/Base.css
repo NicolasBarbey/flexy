@@ -203,7 +203,7 @@
 }
 
 .ProductCard-title {
-  @apply paragraph-1;
+  @apply h5;
   font-weight: 600;
   color: var(--color-black);
   text-decoration: none;
@@ -211,23 +211,19 @@
   display: block;
 }
 
-.ProductCard-subTitle {
+.ProductCard-subtitle {
   @apply paragraph-3;
   color: var(--color-grey);
 }
 
 .ProductCard-price {
-  font-size: var(--text-base);
+  @apply paragraph-1;
   font-weight: 600;
   color: var(--color-black);
-  position: relative;
-  line-height: normal;
-  margin-top: 0;
 }
 
 .ProductCard-originalPrice {
+  @apply paragraph-7;
   color: var(--color-black);
-  font-size: var(--text-xs);
   text-decoration-line: line-through;
 }
-

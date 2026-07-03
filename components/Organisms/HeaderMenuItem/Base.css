@@ -1,0 +1,153 @@
+.HeaderMenuItem {
+  display: flex;
+}
+
+.HeaderMenuItem a {
+  text-decoration: none;
+}
+
+.HeaderMenuItem-link {
+  padding: 0;
+  cursor: pointer;
+
+  &:focus-visible,
+  &:focus {
+    color: var(--color-base);
+  }
+
+  @variant lg {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-black);
+    text-decoration: none;
+    outline: none;
+    @apply paragraph-2;
+  }
+}
+
+.HeaderMenuItem-link::after {
+  @apply absolute bottom-0 left-0 h-0.5 w-full bg-dark;
+}
+
+.HeaderMenuItem-link:hover::after,
+.HeaderMenuItem-link.is-active::after,
+.HeaderMenuItem-link.is-open::after,
+.HeaderMenuItem-link:focus::after,
+.HeaderMenuItem-link:focus-visible::after {
+  content: "";
+}
+
+.HeaderMenuItem-link.is-open ~ .Submenu {
+  display: flex;
+  opacity: 1;
+}
+
+.HeaderMenuItem-back {
+  padding: 1.375rem;
+
+  @variant lg {
+    display: none;
+  }
+}
+
+.HeaderMenuItem-all {
+  display: flex;
+  justify-content: center;
+  flex: 1 1 100%;
+  order: 9999;
+}
+
+.Submenu {
+  @variant lg {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 100vw;
+    max-width: 83.4375rem;
+    transform: translate(-50%, 0);
+    padding: 1.5rem 3rem 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    color: var(--color-black);
+    opacity: 0;
+    display: none;
+    transition-behavior: allow-discrete;
+    transition-property: display, opacity;
+    transition-duration: 0.25s;
+    z-index: 50;
+  }
+
+  @variant xl {
+    gap: 2.5rem 2rem;
+  }
+}
+
+.Submenu::after {
+  @variant lg {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    height: 100%;
+    background-color: var(--color-grey-lightest);
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Column = branch with children, or the final group of childless leaves. */
+.Submenu-column {
+  @variant lg {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 12rem;
+    max-width: 16rem;
+    gap: 1rem;
+  }
+}
+
+.Submenu-column--links {
+  @variant lg {
+    gap: 0.75rem;
+  }
+}
+
+/* No columns at all: display the leaves inline instead of stacked. */
+.Submenu--flat .Submenu-column--links {
+  @variant lg {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: none;
+    gap: 1.5rem 2rem;
+  }
+}
+
+.Submenu-heading {
+  @apply paragraph-4 font-semibold;
+
+  @variant lg {
+    display: block;
+  }
+}
+
+.Submenu-link {
+  @apply paragraph-2 font-normal;
+
+  @variant lg {
+    display: block;
+  }
+}
+
+.Submenu-sub {
+  margin-top: 1.5rem;
+
+  @variant lg {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0;
+  }
+}

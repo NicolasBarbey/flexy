@@ -60,6 +60,27 @@
   line-height: var(--line-height-paragraph-7);
 }
 
+@utility button-l {
+  font-family: var(--font-family-button-l);
+  font-size: var(--font-size-button-l);
+  line-height: var(--line-height-button-l);
+  font-weight: var(--font-weight-medium);
+}
+
+@utility button-m {
+  font-family: var(--font-family-button-m);
+  font-size: var(--font-size-button-m);
+  line-height: var(--line-height-button-m);
+  font-weight: var(--font-weight-medium);
+}
+
+@utility button-s {
+  font-family: var(--font-family-button-s);
+  font-size: var(--font-size-button-s);
+  line-height: var(--line-height-button-s);
+  font-weight: var(--font-weight-normal);
+}
+
 @utility indication {
   text-transform: uppercase;
   font-family: var(--font-family-indication);

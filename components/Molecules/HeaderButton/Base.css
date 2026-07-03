@@ -1,0 +1,114 @@
+.HeaderButton {
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  gap: 0.25rem;
+  background: var(--header-button-bg);
+  color: var(--header-button-color);
+  cursor: pointer;
+
+  @variant lg {
+    flex-direction: row;
+  }
+
+  @variant md {
+    padding-inline: 1.25rem;
+    flex: initial;
+  }
+
+  &:hover {
+    --header-button-bg: var(--color-grey-lightest);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--color-base) inset;
+  }
+}
+
+.HeaderButton-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-block: 0.25rem;
+}
+
+.HeaderButton-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+
+  @variant md {
+    @apply sr-only;
+  }
+
+  @variant xl {
+    @apply not-sr-only;
+    align-items: flex-start;
+  }
+}
+
+.HeaderButton-text {
+  @apply button-s line-clamp-1;
+
+  @variant xl {
+    @apply button-l;
+  }
+}
+
+.HeaderButton-subText {
+  @apply font-light paragraph-7 line-clamp-1;
+}
+
+.HeaderButton--small .HeaderButton-content {
+  @variant xl {
+    @apply sr-only;
+  }
+}
+
+.HeaderButton--theme {
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+
+  &:hover {
+    --header-button-bg: var(--color-grey-lightest);
+  }
+
+  @variant md {
+    --header-button-bg: var(--color-light);
+    --header-button-color: var(--color-black);
+
+    &:hover {
+      --header-button-bg: var(--color-medium);
+    }
+  }
+}
+
+.HeaderButton--dark {
+  --header-button-bg: var(--color-black);
+  --header-button-color: var(--color-white);
+
+  &:hover {
+    --header-button-bg: var(--color-grey-darker);
+  }
+}
+
+.HeaderButton--light {
+  --header-button-bg: var(--color-white);
+  --header-button-color: var(--color-black);
+
+  &:hover {
+    --header-button-bg: var(--color-grey-lightest);
+  }
+}
+
+.HeaderButton.is-selected {
+  background-color: var(--color-base);
+}
