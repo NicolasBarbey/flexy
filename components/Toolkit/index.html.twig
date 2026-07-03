@@ -10,58 +10,95 @@
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}" blocking="render">
     {{ importmap('app') }}
 </head>
-<body class="flex min-h-screen bg-gray-50 text-gray-900">
+<body class="flex min-h-screen bg-gray-50 text-gray-900" {{ stimulus_controller('Toolkit--preview', {}, {previewing: 'bg-gray-800'}) }}>
 
-    {# Sidebar #}
-    <aside class="w-64 shrink-0  top-0 h-screen overflow-y-auto bg-white border-r border-gray-200 p-6 fixed">
-        <div class="mb-8">
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Flexy</p>
-            <h1 class="text-xl font-bold">Design System</h1>
-        </div>
+    {% if not embed %}
+        {# Sidebar #}
+        <aside class="w-64 shrink-0 top-0 h-screen bg-white border-r border-gray-200 fixed flex flex-col">
+            <div class="shrink-0 bg-gray-200 border-b border-gray-200 p-6">
+                <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Flexy</p>
+                <h1 class="text-xl font-bold mb-4">Design System</h1>
 
-        <nav class="space-y-6">
-            {% for category, components in grouped %}
+                <select {{ stimulus_target('Toolkit--preview', 'select') }} {{ stimulus_action('Toolkit--preview', 'setWidth', 'change') }}
+                        class="w-full text-xs border border-gray-200 rounded-lg px-3 py-1 bg-white">
+                    <option value="">Responsive</option>
+                    {% for bp in breakpoints %}
+                        {% if bp.label %}
+                            <option value="{{ bp.px }}">{{ bp.label }} ({{ bp.px }}px)</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto space-y-6 p-6">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">{{ category }}</p>
+                    <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Design tokens</p>
                     <ul class="space-y-1">
-                        {% for component in components %}
-                            <li>
-                                <a href="#{{ component.slug }}"
-                                   class="block px-3 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
-                                    {{ component.name }}
-                                </a>
-                            </li>
-                        {% endfor %}
+                        <li>
+                            <a href="#breakpoints" {{ stimulus_action('Toolkit--preview', 'navigate', 'click') }}
+                               class="block px-3 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                                Breakpoints
+                            </a>
+                        </li>
                     </ul>
                 </div>
-            {% endfor %}
-        </nav>
-    </aside>
+
+                {% for category, components in grouped %}
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">{{ category }}</p>
+                        <ul class="space-y-1">
+                            {% for component in components %}
+                                <li>
+                                    <a href="#{{ component.slug }}" {{ stimulus_action('Toolkit--preview', 'navigate', 'click') }}
+                                       class="block px-3 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                                        {{ component.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </nav>
+        </aside>
+    {% endif %}
 
     {# Main content #}
-    <main class="flex-1 p-10 space-y-16 overflow-y-auto ml-64">
+    <main {{ stimulus_target('Toolkit--preview', 'main') }}
+          class="flex-1 py-10 px-2.5 md:px-5 lg:px-10 overflow-y-auto transition-colors{{ embed ? '' : ' ml-64' }}">
 
-        {% for category, components in grouped %}
+        <div {{ stimulus_target('Toolkit--preview', 'content') }} class="space-y-16">
+            {% include '@Flexy/Toolkit/breakpoints.html.twig' %}
 
-            <section>
-                <h2 class="text-2xl font-bold mb-8 pb-3 border-b border-gray-200">{{ category }}</h2>
+            {% for category, components in grouped %}
 
-                <div class="space-y-12">
-                    {% for component in components %}
-                        <div id="{{ component.slug }}">
-                            <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ component.name }}</h3>
+                <section>
+                    <h2 class="text-2xl font-bold mb-8 pb-3 border-b border-gray-200">{{ category }}</h2>
 
-                            <div class="bg-white rounded-2xl border border-gray-200 p-8">
-                                {% include component.twigPath ignore missing %}
+                    <div class="space-y-12">
+                        {% for component in components %}
+                            <div id="{{ component.slug }}">
+                                <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ component.name }}</h3>
+
+                                <div class="bg-white rounded-2xl border border-gray-200 p-4 lg:p-8">
+                                    {% include component.twigPath ignore missing %}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+                        {% endfor %}
+                    </div>
+                </section>
 
-        {% else %}
-            <p class="text-gray-400">No toolkit files found.</p>
-        {% endfor %}
+            {% else %}
+                <p class="text-gray-400">No toolkit files found.</p>
+            {% endfor %}
+        </div>
+
+        <iframe
+            hidden
+            {{ stimulus_target('Toolkit--preview', 'frame') }}
+            class="mx-auto block ring-1 ring-gray-200 rounded-2xl bg-white"
+            style="height: calc(100vh - 6rem);"
+            title="Aperçu responsive"
+        />
 
     </main>
 
