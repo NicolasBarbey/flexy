@@ -1,7 +1,8 @@
 .Select {
-  --select-color: inherit;
-  --select-hover-bg-color: var(--color-lightest);
+  --select-color: var(--color-black);
   --select-border-color: var(--color-medium);
+  --select-hover-bg-color: var(--color-lightest);
+  --select-focus-outline-color: var(--color-base);
 
   display: flex;
   flex-direction: column;
@@ -9,43 +10,59 @@
   font-size: var(--text-sm);
   color: var(--select-color);
 
-  &.Select--small .Select__input {
+  &.Select--small .Select-input {
     padding: 0.625rem;
+    padding-right: 2rem;
   }
 
   &.Select--error {
     --select-color: var(--color-error);
-    --select-border-color: var(--color-error);
+    --select-border-color: var(--color-error-light);
     --select-hover-bg-color: var(--color-error-lightest);
+    --select-focus-outline-color: var(--color-error-dark);
   }
 
-  &.Select--disabled {
-    --select-color: var(--color-grey);
-    --select-border-color: var(--color-grey);
+  &.Select--success .Select-input {
+    border-color: var(--color-success);
 
-    .Select__input {
-      background-color: var(--color-grey-lightest);
-      cursor: not-allowed;
+    &:not([multiple]) {
+      padding-right: 3.75rem;
+      background-image: var(--background-image-icon-check), var(--background-image-icon-chevron-small-down);
+      background-repeat: no-repeat, no-repeat;
+      background-position: right 2rem top 50%, right 0 top 50%;
+      background-size: auto, 2.5rem auto;
     }
   }
 }
 
-.Select__header {
+.Select-header {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   justify-content: space-between;
 }
 
-.Select__label {
+.Select-label {
+  @apply paragraph-5;
+  color: var(--color-black);
 }
 
-.Select__input {
+.Select-input {
+  @apply paragraph-4;
   border: 1px solid var(--select-border-color);
   border-radius: 0.5rem;
+  color: var(--select-color);
   font-style: normal;
   width: 100%;
-  padding: 1rem 0.875rem;
+  padding: 1rem 0.625rem;
+  padding-right: 2.25rem;
+  appearance: none;
+  background-image: var(--background-image-icon-chevron-small-down);
+  background-repeat: no-repeat;
+  background-position: right 0 top 50%;
+  background-size: 2.5rem auto;
+  cursor: pointer;
+  transition: 0.2s ease all;
 
   @variant hover {
     background-color: var(--select-hover-bg-color);
@@ -53,14 +70,35 @@
 
   @variant focus-visible {
     outline-offset: 2px;
-    outline: 1px solid var(--color-base);
+    outline: 1px solid var(--select-focus-outline-color);
+    border-color: var(--select-focus-outline-color);
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Graceful degradation: browsers without :has() just skip the placeholder styling. */
+  &:has(option[value=""]:checked) {
+    font-style: italic;
+    color: var(--color-grey-dark);
   }
 }
 
-.Select__input option {
+.Select .Select-input[multiple] {
+  background-image: none;
+  padding-right: 1.5rem;
+  /* The native scrollbar renders flush against the right edge and clips the rounded corner otherwise. */
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.Select-input option {
   color: var(--color-black);
 }
 
-.Select__error {
+.Select-error {
+  @apply paragraph-5;
   font-style: italic;
+  color: var(--color-error-dark);
 }

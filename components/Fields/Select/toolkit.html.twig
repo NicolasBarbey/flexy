@@ -1,26 +1,78 @@
-{% set choices = [
-    { value: '', label: 'placeholder' },
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
-] %}
-<div class="grid grid-cols-2 gap-8">
-    <div class="flex flex-col gap-4">
-        <twig:Fields:Select:Base label="Label" choices="{{ choices }}"  />
-        <twig:Fields:Select:Base label="Label" value="option2" choices="{{ choices }}"  />
-        <twig:Fields:Select:Base label="Label" choices="{{ choices }}" help="This is a help text" />
-        <twig:Fields:Select:Base label="error" error choices="{{ choices }}" help="This is a help text" />
-        <twig:Fields:Select:Base label="error details" error="oups" choices="{{ choices }}" help="This is a help text" />
-        <twig:Fields:Select:Base label="Disabled" disabled choices="{{ choices }}" help="This is a help text" />
+{% set choices = range(1, 10)|map(i => { value: 'option' ~ i, label: 'Option ' ~ i }) %}
+
+<div class="grid gap-12">
+
+    {# ── Base ───────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Base</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-md">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">default</span>
+                <twig:Fields:Select:Base label="Label" placeholder="Choose an option" choices="{{ choices }}" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">preselected value</span>
+                <twig:Fields:Select:Base label="Label" value="option2" placeholder="Choose an option" choices="{{ choices }}" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">with help (tooltip)</span>
+                <twig:Fields:Select:Base label="Label" placeholder="Choose an option" choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">multiple</span>
+                <twig:Fields:Select:Base label="Label" multiple choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">error</span>
+                <twig:Fields:Select:Base label="Label" error placeholder="Choose an option" choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">error with message</span>
+                <twig:Fields:Select:Base label="Label" error="oups" placeholder="Choose an option" choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">success</span>
+                <twig:Fields:Select:Base label="Label" success value="option2" choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">disabled</span>
+                <twig:Fields:Select:Base label="Label" disabled placeholder="Choose an option" choices="{{ choices }}" help="This is a help text" />
+            </div>
+
+        </div>
     </div>
 
-    <div class="flex flex-col gap-4 ">
-        <twig:Fields:Select:Base label="Label" choices="{{ choices }}" size="small" />
-        <twig:Fields:Select:Base label="Label" value="option2" choices="{{ choices }}" size="small" />
-        <twig:Fields:Select:Base label="Label" choices="{{ choices }}" size="small" help="This is a help text" />
-        <twig:Fields:Select:Base label="error" error choices="{{ choices }}" size="small" help="This is a help text" />
-        <twig:Fields:Select:Base label="error details" error="oups" choices="{{ choices }}" size="small" help="This is a help text" />
-        <twig:Fields:Select:Base label="Disabled" disabled choices="{{ choices }}" size="small" help="This is a help text" />
+    {# ── Small ──────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Small</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-md">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">default</span>
+                <twig:Fields:Select:Base label="Label" placeholder="Choose an option" choices="{{ choices }}" size="small" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">with help (tooltip)</span>
+                <twig:Fields:Select:Base label="Label" placeholder="Choose an option" choices="{{ choices }}" size="small" help="This is a help text" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">error</span>
+                <twig:Fields:Select:Base label="Label" error placeholder="Choose an option" choices="{{ choices }}" size="small" help="This is a help text" />
+            </div>
+
+        </div>
     </div>
 
 </div>
