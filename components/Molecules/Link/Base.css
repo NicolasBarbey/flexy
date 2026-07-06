@@ -6,7 +6,7 @@
 
 @layer components {
   .Link {
-    color: var(--black);
+    color: var(--color-black);
     display: inline-flex;
     align-items: center;
     padding: 0.125rem;
