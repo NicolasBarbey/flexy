@@ -1,0 +1,18 @@
+{# @block content Content displayed inside the modal #}
+{# @prop id string Unique id of the dialog, used by outlet controllers to target this modal #}
+{% props id %}
+
+<dialog
+    id="{{ id }}"
+    class="{{ ('Modal ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({...stimulus_controller('Molecules--Modal--base')}).without('class') }}
+>
+    <button
+        type="button"
+        class="Modal-close"
+        aria-label="{{ 'Close'|trans }}"
+        autofocus
+        {{ stimulus_action('Molecules--Modal--base', 'close', 'click') }}
+    >{{ ux_icon('close') }}</button>
+    {% block content %}{% endblock %}
+</dialog>

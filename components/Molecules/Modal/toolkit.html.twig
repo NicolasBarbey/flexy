@@ -1,0 +1,42 @@
+<div class="grid gap-12">
+
+    {# ── Base ────────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Base</h4>
+        <div class="flex flex-wrap justify-center gap-12 p-8 rounded-md">
+
+            <div class="grid gap-2 justify-items-center content-start">
+                <span class="text-xs text-grey">
+                    Opened by id via <code>open_controller.js</code> (<code>Molecules--Modal--open</code>) —
+                    the trigger and the dialog don't need to share a DOM ancestor.
+                </span>
+                <twig:Molecules:Button:Base
+                    {{ ...stimulus_controller('Molecules--Modal--open', {id: 'toolkitModal'}) }}
+                    {{ ...stimulus_action('Molecules--Modal--open', 'open', 'click') }}
+                >
+                    Open the modal
+                </twig:Molecules:Button:Base>
+
+                <twig:Molecules:Modal:Base id="toolkitModal">
+                    <p class="paragraph-2">Arbitrary content displayed inside the modal.</p>
+                    <div class="flex gap-4 mt-8">
+                        <twig:Molecules:Button:Base
+                            color="secondary"
+                            {{ ...stimulus_action('Molecules--Modal--base', 'close', 'click') }}
+                        >
+                            Cancel
+                        </twig:Molecules:Button:Base>
+                        <twig:Molecules:Button:Base
+                            {{ ...stimulus_action('Molecules--Modal--base', 'close', 'click') }}
+                        >
+                            Confirm
+                        </twig:Molecules:Button:Base>
+                    </div>
+                </twig:Molecules:Modal:Base>
+            </div>
+
+        </div>
+    </div>
+
+</div>

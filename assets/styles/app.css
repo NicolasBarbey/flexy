@@ -24,6 +24,7 @@
   @import "../../components/Fields/Input/Password.css";
   @import "../../components/Fields/Checkbox/Base.css";
   @import "../../components/Fields/Select/Base.css";
+  @import "../../components/Fields/TextArea/Base.css";
   @import "../../components/Fields/Toggle/Base.css";
 
   @import "../../components/Molecules/Tabulation/Base.css";
@@ -33,6 +34,7 @@
   @import "../../components/Molecules/Favorite/Base.css";
   @import "../../components/Molecules/MenuItem/Base.css";
   @import "../../components/Molecules/HeaderButton/Base.css";
+  @import "../../components/Molecules/Modal/Base.css";
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";

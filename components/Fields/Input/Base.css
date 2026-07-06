@@ -97,7 +97,7 @@
 
 .Input--success .Input-input {
   border: 1px solid var(--color-success);
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none"><path d="m26.648 19.113-6.33 6.524a1.176 1.176 0 0 1-1.698 0l-3.268-3.368a1.265 1.265 0 0 1 0-1.75 1.176 1.176 0 0 1 1.698 0l2.419 2.493 5.481-5.65a1.176 1.176 0 0 1 1.698 0 1.265 1.265 0 0 1 0 1.751Z" fill="%2337E17B"></path></svg>');
+  background-image: var(--background-image-icon-check);
   background-repeat: no-repeat;
   background-position: right 0 top 50%;
 }
