@@ -1,7 +1,7 @@
 .Toggle {
   --on-color: var(--color-black);
   --off-color: var(--color-grey);
-  --on-color-hover: var(--grey-dark);
+  --on-color-hover: var(--color-grey-dark);
   --off-color-hover: var(--color-black);
   --color-disabled: var(--color-grey-lighter);
   --color-toggle-focus: #dc2626;

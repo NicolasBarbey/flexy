@@ -6,7 +6,7 @@
   --breadcrumb-item-hover-color: var(--color-grey);
 }
 
-@layer theme {
+@layer components {
   .Breadcrumb {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
