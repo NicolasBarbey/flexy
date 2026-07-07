@@ -24,7 +24,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class ToolkitController extends AbstractController
 {
     private const array LABELS = [
-        '2xs' => 'Mobile',
+        '2xs' => 'Mobile S',
+        'xs' => 'Mobile M',
+        'sm' => 'Mobile L',
         'md' => 'Tablet',
         'lg' => 'Small Desktop',
         'xl' => 'Desktop',

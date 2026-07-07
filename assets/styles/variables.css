@@ -48,6 +48,7 @@
 
   --background-image-icon-chevron-small-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 44 44'%3E%3Cpath fill='%23282828' d='m25.88 20.64-3.44 3.2a.66.66 0 0 1-.88 0l-3.44-3.2c-.26-.24-.07-.64.31-.64h7.14c.38 0 .57.4.31.64'/%3E%3C/svg%3E");
   --background-image-icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44' fill='none'%3E%3Cpath fill='%2337E17B' d='m26.648 19.113-6.33 6.524a1.176 1.176 0 0 1-1.698 0l-3.268-3.368a1.265 1.265 0 0 1 0-1.75 1.176 1.176 0 0 1 1.698 0l2.419 2.493 5.481-5.65a1.176 1.176 0 0 1 1.698 0 1.265 1.265 0 0 1 0 1.751Z'/%3E%3C/svg%3E");
+  --background-image-icon-checkmark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='16' fill='%23282828'/%3E%3Cpath fill='%23fff' d='m29.3 18.92-7.5 7.5-3.1-3.1a1.25 1.25 0 0 0-1.77 1.76l3.99 4a1.25 1.25 0 0 0 1.77 0l8.38-8.39a1.25 1.25 0 0 0-1.76-1.77'/%3E%3C/svg%3E");
 
   --font-roboto: "Roboto", sans-serif;
   --font-condensed: "Roboto Condensed", sans-serif;

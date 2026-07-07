@@ -1,0 +1,53 @@
+{% props
+    htmlTag = 'label',
+    type = 'checkbox',
+    label = '',
+    icon = null,
+    iconColor = null,
+    color = null,
+    close = false,
+    selected = false
+%}
+
+{# A product color filter always renders as a circle tinted with `color` #}
+{% set effectiveIcon = color ? 'circle' : icon %}
+{% set effectiveIconColor = color ?? iconColor %}
+
+{% set filterPill = html_cva(
+    base: 'FilterPill',
+    variants: {
+        withIcon: {
+            true: 'FilterPill--withIcon',
+        },
+        selected: {
+            true: 'FilterPill--selected',
+        },
+    }
+) %}
+
+<{{ htmlTag }}
+    class="{{ filterPill.apply({withIcon: effectiveIcon is not null, selected}, attributes.render('class')) }} "
+    {% if htmlTag == 'button' %}type="button"{% endif %}
+    {{ attributes.without('class') }}
+>
+    {% if htmlTag == 'label' %}
+        <input
+            type="{{ type }}"
+            {{ attributes.nested('input').defaults({type: type}).without('type') }}
+        />
+    {% endif %}
+
+    {% if effectiveIcon %}
+        <span class="FilterPill-icon"{% if effectiveIconColor %} style="--filterpill-icon-color: {{ effectiveIconColor }}"{% endif %}>
+            {{ ux_icon(effectiveIcon) }}
+        </span>
+    {% endif %}
+
+    <span class="FilterPill-label">{{ label }}</span>
+
+    {% if close %}
+        <span class="FilterPill-iconClose">
+            {{ ux_icon('close-big') }}
+        </span>
+    {% endif %}
+</{{ htmlTag }}>
