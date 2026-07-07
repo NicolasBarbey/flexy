@@ -1,0 +1,24 @@
+{# @block content Content displayed inside the drawer panel, after the close button #}
+{# Mobile-only by design: becomes static inline content from md upward, see Base.css #}
+
+<div
+    inert
+    class="{{ ('MobileDrawer ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({
+        ...stimulus_target('Molecules--MobileDrawer--base', 'drawer'),
+    }).without('class') }}
+>
+    <div class="MobileDrawer-header">
+        <button
+            type="button"
+            class="MobileDrawer-close"
+            aria-label="{{ 'Close'|trans }}"
+            {{ stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+        >{{ ux_icon('close') }}</button>
+    </div>
+    {% block content %}{% endblock %}
+</div>
+<div
+    class="MobileDrawer-overlay"
+    {{ stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+></div>

@@ -1,0 +1,44 @@
+.FilterList {
+  display: inline-flex;
+  width: 100%;
+  border-radius: 0.25rem;
+}
+
+.FilterList:has(input:focus-visible) {
+  outline: var(--color-medium) solid 2px;
+}
+
+.FilterList input {
+  @apply sr-only;
+}
+
+.FilterList-label {
+  @apply paragraph-4;
+
+  color: var(--color-black);
+  border-radius: 0.25rem;
+  width: 100%;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: right 0.5rem top 50%;
+  background-size: 2rem auto;
+
+  @variant hover {
+    background-color: var(--color-light);
+  }
+
+  @variant md {
+    @apply paragraph-3;
+    background-size: 2.25rem auto;
+  }
+}
+
+.FilterList:has(input:checked) .FilterList-label {
+  background-color: var(--color-light);
+  background-image: var(--background-image-icon-checkmark);
+}
+
+.FilterList:has(input:checked):hover .FilterList-label {
+  background-color: var(--color-medium);
+}

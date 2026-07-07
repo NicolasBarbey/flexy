@@ -17,6 +17,7 @@
 @import "../../components/Molecules/Tag/Base.css";
 @import "../../components/Molecules/Tag/OrderTag.css";
 @import "../../components/Molecules/Tag/StockTag.css";
+@import "../../components/Molecules/MobileDrawer/Base.css";
 
 /* Other components are put on components layer : sublayers can be defined inside to allow further customization */
 @layer components {
@@ -35,6 +36,9 @@
   @import "../../components/Molecules/MenuItem/Base.css";
   @import "../../components/Molecules/HeaderButton/Base.css";
   @import "../../components/Molecules/Modal/Base.css";
+  @import "../../components/Molecules/FilterPill/Base.css";
+  @import "../../components/Molecules/FilterList/Base.css";
+  @import "../../components/Molecules/FilterSelect/Base.css";
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";

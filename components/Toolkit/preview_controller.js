@@ -9,9 +9,21 @@ export default class extends Controller {
         const width = this.selectTarget.value;
 
         if (!width) {
+            const hash = this.currentHash();
+
             this.contentTarget.hidden = false;
             this.frameTarget.hidden = true;
             this.mainTarget.classList.remove(...this.previewingClasses);
+
+            // Same requirement as the iframe branch below: the browser resolves a #hash
+            // scroll position against the layout at the time it's set, so it must be
+            // re-applied after the content is visible again, not before.
+            if (hash) {
+                requestAnimationFrame(() => {
+                    window.location.hash = '';
+                    window.location.hash = hash;
+                });
+            }
             return;
         }
 
