@@ -20,6 +20,24 @@ return [
         'version' => '3.2.2',
     ],
     '@symfony/stimulus-bundle' => [
-        'path' => '../../../vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+        'path' => '@symfony/stimulus-bundle/loader.js',
+    ],
+    'intl-messageformat' => [
+        'version' => '10.7.18',
+    ],
+    'tslib' => [
+        'version' => '2.8.1',
+    ],
+    '@formatjs/fast-memoize' => [
+        'version' => '2.2.7',
+    ],
+    '@formatjs/icu-messageformat-parser' => [
+        'version' => '2.11.4',
+    ],
+    '@formatjs/icu-skeleton-parser' => [
+        'version' => '1.8.16',
+    ],
+    '@symfony/ux-translator' => [
+        'path' => '@symfony/ux-translator/translator_controller.js',
     ],
 ];

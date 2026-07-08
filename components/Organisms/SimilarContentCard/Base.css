@@ -1,0 +1,36 @@
+.SimilarContentCard {
+  display: flex;
+  background: var(--color-white);
+  border-radius: 0.5rem;
+}
+
+.SimilarContentCard-img {
+  width: 6.125rem;
+  height: 100%;
+}
+
+.SimilarContentCard-img img {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  object-fit: cover;
+  height: 100%;
+}
+
+.SimilarContentCard-title {
+  @apply paragraph-2;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 0.5rem;
+}
+
+.SimilarContentCard-footer {
+  @apply paragraph-6;
+  color: var(--color-grey);
+}
+
+.SimilarContentCard-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.8125rem 1rem;
+}
