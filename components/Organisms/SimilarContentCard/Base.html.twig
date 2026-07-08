@@ -1,0 +1,28 @@
+{# @prop id int|string Content id, used to look up its image #}
+{# @prop title string #}
+{# @prop date string|null Publication date #}
+{# @prop url string Public URL of the content #}
+{% props id, title = '', date = null, url = '#' %}
+
+<div class="SimilarContentCard {{ attributes.render('class') }}" {{ attributes.without('class') }}>
+    <div class="SimilarContentCard-imgLink">
+        {% set image = getImages({
+            source_type: 'content',
+            source_id: id,
+            filters: 'similar_content_default',
+            wrapper: 'figure',
+            wrapper_attrs: {class: 'SimilarContentCard-img'},
+            position: 1,
+            alt: title,
+            img_attrs: {loading: 'lazy'},
+            placeholder: asset('images/placeholder2.webp'),
+        }) %}
+        {{ image|raw }}
+    </div>
+    <div class="SimilarContentCard-desc">
+        <a href="{{ url }}" class="SimilarContentCard-title">{{ title }}</a>
+        {% if date %}
+            <div class="SimilarContentCard-footer">{{ date|date('d/m/Y') }}</div>
+        {% endif %}
+    </div>
+</div>

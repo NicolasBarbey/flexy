@@ -37,6 +37,7 @@ class FlexyBundle extends AbstractBundle
         $this->prependConfigUxIcons($builder);
         $this->prependConfigTailwind($builder);
         $this->prependConfigStimulus($builder);
+        $this->prependConfigPackages($container);
     }
 
 
@@ -143,5 +144,10 @@ class FlexyBundle extends AbstractBundle
                 \dirname(__DIR__) . '/components',
             ],
         ]);
+    }
+
+    private function prependConfigPackages(ContainerConfigurator $containerConfigurator): void
+    {
+        $containerConfigurator->import('../config/packages/*.yaml');
     }
 }
