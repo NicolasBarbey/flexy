@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>
             {% block title %}
-                TITLE
+                Flexy
             {% endblock %}
         </title>
         <meta name="description" content="{% block meta_desc %}{% endblock %}">
@@ -24,7 +24,7 @@
 
     <body class="no-js {% block body_class %}{% endblock %}">
         {% block header %}
-            header
+            <twig:Layouts:Header:Base />
         {% endblock %}
 
         <main {% block stimulus_controller %}{% endblock %}>
@@ -32,7 +32,7 @@
         </main>
 
         {% block footer %}
-            footer
+            <twig:Layouts:Footer:Base />
         {% endblock %}
 
         {% block modals %}{% endblock %}

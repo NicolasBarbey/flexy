@@ -1,0 +1,241 @@
+@layer components {
+  :root {
+    --header-height: 3rem; /* 48px */
+    --header-nav-height: 3.875rem; /* 62px */
+
+    --padding-button-sub: 1.375rem; /* 22px */
+    --padding-top-menu: 5.125rem; /* 82px */
+    --padding-x-menu: 3.4375rem; /* 55px */
+    --padding-button-close: 1.5rem; /* 24px */
+
+    @variant md {
+      --header-height: 5rem; /* 80px */
+    }
+  }
+
+  .Header {
+    border-bottom: 1px solid var(--color-grey-lighter);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .Header-top {
+    display: flex;
+    justify-content: center;
+    height: var(--header-height);
+    background-color: var(--color-white);
+    transition: height 250ms ease;
+
+    @variant sm {
+      padding-left: 1.875rem;
+    }
+
+    @variant md {
+      justify-content: space-between;
+    }
+  }
+
+  .Header-logo {
+    height: 1.125rem; /* 18px, mobile */
+    width: auto;
+    display: block;
+    transition: height 250ms ease;
+  }
+
+  .Header-logo svg {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
+
+  @variant md {
+    .Header-logo {
+      height: 1.875rem; /* 30px */
+    }
+  }
+
+  .Header-navigation {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    list-style-type: none;
+    height: 100%;
+    gap: 1.875rem;
+
+    @variant xl {
+      gap: 3.125rem;
+    }
+  }
+
+  @variant md {
+    .Header.is-stuck .Header-top {
+      height: 3.75rem; /* 60px */
+    }
+
+    .Header.is-stuck .Header-logo {
+      height: 1.5rem; /* 24px */
+    }
+  }
+
+  /* ── Generic mobile fullscreen panel (lang, menu) ── */
+
+  .MobilePanel {
+    display: none;
+  }
+
+  @variant max-md {
+    .MobilePanel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: var(--header-nav-height);
+      display: none;
+      background-color: var(--color-white);
+      color: var(--color-black);
+      overflow-y: auto;
+      padding-top: var(--padding-top-menu);
+      padding-inline: var(--padding-x-menu);
+    }
+
+    .MobilePanel.is-open {
+      display: block;
+    }
+
+    /* ── Mobile menu navigation (drill-down submenus) ── */
+
+    .Header-menu {
+      position: fixed;
+      inset: 0;
+      display: none;
+      color: var(--color-black);
+      background-color: var(--color-white);
+    }
+
+    .Header-menu .Header-navigation {
+      position: relative;
+      height: 100%;
+    }
+
+    .Header-menu ul {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 0;
+      padding-top: var(--padding-top-menu);
+      padding-bottom: var(--header-nav-height);
+      padding-right: calc(var(--padding-x-menu) - var(--padding-button-sub));
+      padding-left: var(--padding-x-menu);
+    }
+
+    .Header-menu ul li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: calc(1.875rem - var(--padding-button-sub));
+    }
+
+    .Header-menu ul .Submenu-link,
+    .Header-menu ul .HeaderMenuItem-link {
+      padding-block: var(--padding-button-sub);
+    }
+
+    .Header-menu ul svg {
+      width: 1.75rem;
+    }
+
+    .Header-menu ul ul {
+      display: none;
+      position: fixed;
+      top: var(--padding-top-menu);
+      right: 0;
+      bottom: var(--header-nav-height);
+      left: 0;
+      padding-top: 0;
+      background-color: var(--color-white);
+    }
+
+    .Header-menu ul ul.is-active {
+      display: flex;
+    }
+
+    .Header-menu.is-open {
+      display: block;
+      height: 100%;
+    }
+  }
+
+  /* ── md-lg only: dropdown bar under the Header, same UI as >lg (no fullscreen panel, no back/close buttons) ── */
+
+  @variant md {
+    @variant max-lg {
+      .Header-menu {
+        position: absolute;
+        top: calc(
+          100% + 1px
+        ); /* leaves the Header's own border-bottom visible instead of covering it */
+        left: 0;
+        right: 0;
+        display: none;
+        height: var(--header-height); /* 80px at md */
+        background-color: var(--color-white);
+        border-bottom: 1px solid var(--color-grey-lighter);
+      }
+
+      .Header-menu.is-open {
+        display: block;
+      }
+    }
+  }
+
+  [data-menu-close] {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: var(--padding-button-close);
+
+    @variant md {
+      display: none;
+    }
+  }
+
+  [data-menu-close] svg {
+    width: 2rem;
+    color: var(--color-grey-dark);
+  }
+
+  [data-menu-back] {
+    position: absolute;
+    z-index: 10;
+    transform: translateY(-50%);
+    left: calc(var(--padding-x-menu) - var(--padding-button-close));
+    top: calc(var(--padding-top-menu) / 2);
+
+    @variant md {
+      display: none;
+    }
+  }
+
+  [data-menu-back="-1"] {
+    display: none;
+  }
+}
+
+/*
+ * Restores page scroll when the "open" .Header-menu is actually the md-lg dropdown bar (a small overlay)
+ * rather than the fullscreen mobile panel. Deliberately left OUTSIDE the `@layer components` block
+ * above (and this file must stay imported unwrapped in app.css): the global `body.locked { overflow: hidden }`
+ * rule (assets/styles/app.css) is itself unlayered, and unlayered rules always beat layered ones regardless
+ * of specificity — this override would never apply otherwise. Same pattern as MobileDrawer/Base.css.
+ */
+body.locked:has(.Header-menu.is-open) {
+  @variant md {
+    @variant max-lg {
+      overflow: auto;
+    }
+  }
+}

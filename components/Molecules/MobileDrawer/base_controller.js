@@ -37,10 +37,13 @@ export default class extends Controller {
     }
   }
 
-  // "locked" is a single shared class on <body>: derive it from whether any drawer instance
-  // is open rather than toggling it per instance, so multiple drawers on the same page don't
-  // desync each other's lock state.
+  // "locked" is a single shared class on <body>: derive it from whether any drawer or
+  // Header panel is open rather than toggling it per instance, so multiple lock sources
+  // on the same page don't desync each other's lock state.
   syncBodyLock() {
-    document.body.classList.toggle("locked", document.querySelector(".MobileDrawer.is-open") !== null);
+    document.body.classList.toggle(
+      "locked",
+      document.querySelector(".MobileDrawer.is-open, .Header-menu.is-open, .MobilePanel.is-open") !== null,
+    );
   }
 }

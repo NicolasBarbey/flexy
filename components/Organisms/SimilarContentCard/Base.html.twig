@@ -4,7 +4,7 @@
 {# @prop url string Public URL of the content #}
 {% props id, title = '', date = null, url = '#' %}
 
-<div class="SimilarContentCard {{ attributes.render('class') }}" {{ attributes.without('class') }}>
+<div class="{{ ('SimilarContentCard ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
     <div class="SimilarContentCard-imgLink">
         {% set image = getImages({
             source_type: 'content',

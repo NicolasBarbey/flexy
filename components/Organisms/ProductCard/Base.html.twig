@@ -18,7 +18,7 @@
 	{% set img = img|default({url: asset('images/placeholder2.webp'), alt: ''}) %}
 {% endif %}
 
-<div class="ProductCard {{ attributes.render('class') }}" {{attributes}}>
+<div class="{{ ('ProductCard ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
 	<div class="ProductCard-header">
 		<div class="ProductCard-tagList">
 			{% if this.isNew %}

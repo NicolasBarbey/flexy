@@ -21,6 +21,7 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 class Category extends AbstractHeaderMenuItem
 {
     public int|string|null $id = null;
+    public string $menuKey = '';
     public string $title = '';
     public string $href = '';
     public array $columns = [];
@@ -35,6 +36,7 @@ class Category extends AbstractHeaderMenuItem
     public function mount(int|string|null $id = null, ?string $title = null, ?string $href = null): void
     {
         $this->id = $id;
+        $this->menuKey = $this->buildMenuKey($id);
 
         [$this->title, $this->href] = $this->resolveTitleAndHref('/api/front/categories', $id, $title, $href);
 

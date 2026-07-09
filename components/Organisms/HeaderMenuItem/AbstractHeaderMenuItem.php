@@ -47,6 +47,17 @@ abstract class AbstractHeaderMenuItem
     }
 
     /**
+     * Unique navigation key for the mobile drill-down (data-menu-sub) — prefixed by the
+     * concrete class name, since Category and Folder ids live in separate spaces and can collide.
+     */
+    protected function buildMenuKey(int|string|null $id): string
+    {
+        $parts = explode('\\', static::class);
+
+        return strtolower(end($parts)).'-'.$id;
+    }
+
+    /**
      * Groups branches with children into columns, others into leafLinks.
      *
      * @param array<int, array<string, mixed>>                       $branches

@@ -1,0 +1,168 @@
+.Footer {
+  display: flex;
+  flex-direction: column;
+  padding: 3.125rem 0 2.125rem;
+  background: var(--color-lightest);
+
+  @variant max-md {
+    margin-bottom: var(--header-nav-height);
+  }
+
+  @variant md {
+    padding: 0 0 2.8125rem;
+  }
+}
+
+.Footer-grid {
+  @variant md {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.Footer--withNewsletter .Footer-grid {
+  @variant lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.Footer-newsletter {
+  margin-bottom: 3.125rem;
+
+  @variant md {
+    margin-bottom: 0;
+    padding-top: 3.125rem;
+    padding-left: 3.125rem;
+  }
+
+  @variant lg {
+    padding-top: 6.25rem;
+  }
+}
+
+.Footer-storeName,
+.Footer-newsletterTitle {
+  font-weight: 600;
+}
+
+.Footer-newsletterText {
+  margin-bottom: 1rem;
+}
+
+.Footer-newsletterButton {
+  width: 100%;
+
+  @variant md {
+    width: auto;
+  }
+}
+
+.Footer-storeInfos {
+  margin-bottom: 1.875rem;
+
+  @variant md {
+    margin-bottom: 0;
+    padding-top: 3.125rem;
+    padding-left: 2.5rem;
+    border-right: 1px solid var(--color-grey-lighter);
+  }
+
+  @variant lg {
+    padding-top: 6.25rem;
+    padding-bottom: 5.625rem;
+  }
+}
+
+.Footer--withNewsletter .Footer-storeInfos {
+  @variant md {
+    border-right: 0;
+    border-left: 1px solid var(--color-grey-lighter);
+  }
+
+  @variant lg {
+    border-right: 1px solid var(--color-grey-lighter);
+  }
+}
+
+.Footer-storeName {
+  margin-bottom: 0.25rem;
+}
+
+.Footer-storePhone {
+  margin: 1rem 0;
+}
+
+.Footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.875rem;
+  color: var(--color-black);
+
+  @variant md {
+    gap: 1.5rem;
+    margin-bottom: 0;
+    padding: 3.125rem 0 4.375rem 2.5rem;
+  }
+
+  @variant lg {
+    padding-top: 6.25rem;
+  }
+}
+
+.Footer--withNewsletter .Footer-links {
+  @variant md {
+    grid-column: span 2 / span 2;
+  }
+
+  @variant lg {
+    grid-column: span 1 / span 1;
+  }
+}
+
+.Footer-link {
+  text-decoration: underline;
+  outline: none;
+
+  @variant hover {
+    text-decoration: none;
+    opacity: 0.75;
+  }
+
+  @variant focus {
+    text-decoration: none;
+    opacity: 0.75;
+  }
+}
+
+.Footer-socialsWrapper {
+  @variant md {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.875rem 3.125rem 0;
+  }
+}
+
+.Footer-socials {
+  display: flex;
+  margin-bottom: 1.25rem;
+  justify-content: space-between;
+  color: var(--color-black);
+
+  @variant md {
+    margin-bottom: 0;
+    gap: 1.875rem;
+  }
+}
+
+.Footer-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.Footer-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

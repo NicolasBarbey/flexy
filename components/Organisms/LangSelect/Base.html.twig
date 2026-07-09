@@ -1,0 +1,81 @@
+{# Must match the controller identifier declared in Layouts/Header/Base.html.twig. #}
+{% set headerController = 'Layouts--Header--base' %}
+
+{% set currentLang = this.currentLang %}
+{% if currentLang %}
+    {% set langs = this.langs %}
+
+    <div
+        class="{{ ('LangSelect ' ~ attributes.render('class'))|tailwind_merge }}"
+        {{ attributes.defaults({...stimulus_controller('Organisms--LangSelect--base')}).without('class') }}
+    >
+        <button
+            type="button"
+            class="LangSelect-current"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="LangSelect-list"
+            {{ stimulus_action('Organisms--LangSelect--base', 'toggle', 'click') }}
+            {{ stimulus_target('Organisms--LangSelect--base', 'toggler') }}
+        >
+            {{ ux_icon('flags:' ~ currentLang.code, { class: 'LangSelect-flag' }) }}
+            {{ currentLang.code }}
+            {{ ux_icon('chevron-small-down', { class: 'w-6 h-6' }) }}
+        </button>
+        {% if langs|length %}
+            <ul class="LangSelect-list" id="LangSelect-list">
+                {% for lang in langs %}
+                    <li>
+                        <a
+                            href="{{ attr('config', 'url_site') ~ '?' ~ { lang: lang.locale }|url_encode }}"
+                            class="LangSelect-lang{% if currentLang.code == lang.code %} active{% endif %}"
+                        >
+                            {{ ux_icon('flags:' ~ lang.code, { class: 'LangSelect-flag' }) }}
+                            <span>{{ lang.title }}</span>
+                            {% if currentLang.code == lang.code %}
+                                {{ ux_icon('checkmark', { class: 'LangSelect-check' }) }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <twig:Molecules:HeaderButton:Base
+        icon="{{ 'flags:' ~ currentLang.code }}"
+        color="light"
+        small="true"
+        text="{{ currentLang.title }}"
+        class="md:hidden"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="lang-panel"
+        {{...stimulus_action(headerController, 'togglePanel', 'click', {panel: 'lang'})}}
+    />
+
+    <div class="MobilePanel" id="lang-panel" {{ stimulus_target(headerController, 'panel') }} data-header-panel-id="lang">
+        <button type="button" {{ stimulus_action(headerController, 'close') }}>
+            {{ ux_icon('close') }}
+        </button>
+        <p class="h3 mb-7">{{ 'Language'|trans }}</p>
+        {% if langs|length %}
+            <ul class="LangSelect-mobileList">
+                {% for lang in langs %}
+                    <li>
+                        <a
+                            href="{{ attr('config', 'url_site') ~ '?' ~ { lang: lang.locale }|url_encode }}"
+                            class="LangSelect-mobileItem{% if currentLang.code == lang.code %} active{% endif %}"
+                        >
+                            {{ ux_icon('flags:' ~ lang.code, { class: 'LangSelect-flag' }) }}
+                            <span>{{ lang.title }}</span>
+                            {% if currentLang.code == lang.code %}
+                                {{ ux_icon('checkmark', { class: 'LangSelect-check' }) }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}

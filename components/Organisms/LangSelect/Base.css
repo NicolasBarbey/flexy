@@ -1,0 +1,142 @@
+.LangSelect {
+  height: 100%;
+  display: none;
+  align-items: stretch;
+  position: relative;
+
+  @variant md {
+    display: flex;
+  }
+}
+
+.LangSelect-current {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 1rem 0 1rem 1rem;
+  cursor: pointer;
+
+  @variant md {
+    font-size: 0;
+  }
+
+  @variant lg {
+    font-size: inherit;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background-color: var(--color-grey-lightest);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--color-black);
+    outline-offset: -1px;
+  }
+}
+
+.LangSelect-flag {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.LangSelect-list {
+  display: none;
+  transition-property: opacity, display;
+  transition-behavior: allow-discrete;
+  transition-duration: 0.15s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translate(-0.625rem, 0.125rem);
+  background-color: var(--color-white);
+  padding: 0.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 0 0 0.5rem 0 rgb(84 84 84 / 15%);
+  width: 12.5rem;
+}
+
+.LangSelect-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &.active,
+  &:focus-visible {
+    background-color: var(--color-grey-lightest);
+  }
+}
+
+.LangSelect-check {
+  color: var(--color-black);
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+}
+
+.LangSelect.is-open .LangSelect-current {
+  background-color: var(--color-grey-lightest);
+}
+
+.LangSelect.is-open .LangSelect-list {
+  display: flex;
+  opacity: 1;
+}
+
+.LangSelect-mobileList {
+  list-style: none;
+  padding: 0;
+}
+
+.LangSelect-mobileItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0.125rem;
+  height: 4.5rem;
+  border-radius: 0.5rem;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+
+  @apply paragraph-2 font-semibold;
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-grey-lightest);
+  }
+}
+
+.LangSelect-mobileItem.active {
+  background-color: var(--color-grey-lightest);
+}
+
+.LangSelect-mobileItem.active .LangSelect-check {
+  color: var(--color-base);
+}
+
+.LangSelect-mobileItem .LangSelect-flag {
+  @apply rounded-full;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.LangSelect-mobileItem .LangSelect-check {
+  margin-left: auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-base);
+}

@@ -140,7 +140,7 @@ class FlexyBundle extends AbstractBundle
 
         $containerBuilder->prependExtensionConfig('stimulus', [
             'controller_paths' => [
-                '%kernel.project_dir%/assets/controllers',
+                \dirname(__DIR__) . '/assets/controllers',
                 \dirname(__DIR__) . '/components',
             ],
         ]);

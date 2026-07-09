@@ -18,6 +18,7 @@
 @import "../../components/Molecules/Tag/OrderTag.css";
 @import "../../components/Molecules/Tag/StockTag.css";
 @import "../../components/Molecules/MobileDrawer/Base.css";
+@import "../../components/Layouts/Header/Base.css";
 
 /* Other components are put on components layer : sublayers can be defined inside to allow further customization */
 @layer components {
@@ -45,6 +46,16 @@
   @import "../../components/Organisms/ProductCard/Order.css";
   @import "../../components/Organisms/SimilarContentCard/Base.css";
   @import "../../components/Organisms/HeaderMenuItem/Base.css";
+  @import "../../components/Organisms/LangSelect/Base.css";
+  @import "../../components/Organisms/HeaderProfile/Base.css";
+  @import "../../components/Organisms/HeaderNav/Base.css";
+  @import "../../components/Organisms/CategoryCard/Base.css";
+  @import "../../components/Organisms/ReviewCard/Base.css";
+  @import "../../components/Layouts/Footer/Base.css";
+  @import "../../components/Layouts/Footer/Checkout.css";
+  @import "../../components/Layouts/CrossSelling/Base.css";
+  @import "../../components/Layouts/Review/Base.css";
+  @import "../../components/Layouts/SimilarContent/Base.css";
 }
 
 /* Pages go there, no layer (base layer) */
@@ -56,6 +67,8 @@ body {
   flex-direction: column;
   min-height: 100vh;
   overflow-x: hidden;
+  /* Scroll anchoring would otherwise compensate the sticky Header's height change on is-stuck, bouncing scrollY back and un-triggering it. */
+  overflow-anchor: none;
 
   &.locked {
     overflow: hidden;
