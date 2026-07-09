@@ -1,9 +1,13 @@
 {% extends 'base.html.twig' %}
+{% import '@components/Layout/Meta/SocialMeta.html.twig' as social %}
 
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('product-css') }}
 {% endblock %}
+
+{% block og_type %}product{% endblock %}
+{% block og_image %}{{ social.image('product', productId) ?: parent() }}{% endblock %}
 
 {% set productId = attr('product', 'id') %}
 

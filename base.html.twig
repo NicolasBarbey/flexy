@@ -20,6 +20,21 @@
         {% block breadcrumb_json %}
             {{ SEOneBreadcrumbJsonLd(breadcrumb)|raw }}
         {% endblock %}
+
+        {# --- Open Graph / Twitter Cards — https://ogp.me --- #}
+        {% set og_site_name = attr('config', 'store_name')|default('') %}
+        <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+        <meta property="og:url" content="{% block og_url %}{{ SEOnePageCanonical() }}{% endblock %}">
+        <meta property="og:title" content="{% block og_title %}{{ SEOnePageTitle() }}{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}{{ SEOnePageDesc() }}{% endblock %}">
+        <meta property="og:image" content="{% block og_image %}{{ absolute_url(asset('dist/images/logo.png')) }}{% endblock %}">
+        <meta property="og:locale" content="{{ current_locale() }}">
+        {% if og_site_name %}<meta property="og:site_name" content="{{ og_site_name }}">{% endif %}
+
+        <meta name="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock %}">
+        <meta name="twitter:title" content="{{ block('og_title')|raw }}">
+        <meta name="twitter:description" content="{{ block('og_description')|raw }}">
+        <meta name="twitter:image" content="{{ block('og_image')|raw }}">
         <link rel="icon" type=" image/png" href="{{ asset('dist/favicons/favicon-96x96.png') }} " sizes=" 96x96"/>
         <link rel="icon" type=" image/svg+xml" href="{{ asset('dist/favicons/favicon.svg') }}"/>
         <link rel="shortcut icon" href="{{ asset('dist/favicons/favicon.ico') }}"/>
