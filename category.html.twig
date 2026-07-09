@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
+{% import '@components/Layout/Meta/SocialMeta.html.twig' as social %}
 {% set page = app.request.get('page')|default(1) %}
 {% set categoryId = attr('category', 'id') %}
+
+{% block og_image %}{{ social.image('category', categoryId) ?: parent() }}{% endblock %}
 {% set category = resources('/api/front/categories/'~categoryId) %}
 
 {% set childCategories = resources('/api/front/categories', {

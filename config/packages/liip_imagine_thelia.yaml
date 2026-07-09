@@ -19,6 +19,20 @@ liip_imagine:
 
   filter_sets:
     default:
+        quality: 82
+        format: webp
     add_to_cart:
+        quality: 80
+        format: webp
+        filters:
+            thumbnail: { size: [ 400, 400 ], mode: inset }
     order_card:
+        quality: 80
+        format: webp
+        filters:
+            thumbnail: { size: [ 200, 200 ], mode: inset }
     order_card_detail:
+        quality: 80
+        format: webp
+        filters:
+            thumbnail: { size: [ 300, 300 ], mode: inset }

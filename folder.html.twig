@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
+{% import '@components/Layout/Meta/SocialMeta.html.twig' as social %}
 
 {% set childFolders = resources('/api/front/folders', {parent: attr('folder', 'id')}) %}
 {% set ps = attr('folder', 'postscriptum') %}
+
+{% block og_image %}{{ social.image('folder', attr('folder', 'id')) ?: parent() }}{% endblock %}
 
 {% block body %}
 
