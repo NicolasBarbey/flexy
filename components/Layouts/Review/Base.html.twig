@@ -1,0 +1,18 @@
+{% props title = '', reviews = [], button = null %}
+
+<div class="{{ ('container-l py-14 xl:py-20 ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <div class="pb-6 text-black h2">{{ title }}</div>
+    <div class="Reviews" {{ stimulus_controller('simple-slider') }}>
+        {% for review in reviews %}
+            <twig:Organisms:ReviewCard:Base
+                author="{{ review.author }}"
+                review="{{ review.review }}"
+                date="{{ review.date }}"
+                note="{{ review.note }}"
+            />
+        {% endfor %}
+    </div>
+    {% if button %}
+        <twig:Molecules:Button:Base href="{{ button.href }}" text="{{ button.label }}" icon_right="chevron-right" color="secondary" class="mt-5" />
+    {% endif %}
+</div>

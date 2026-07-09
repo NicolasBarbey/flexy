@@ -1,0 +1,39 @@
+{# Must match the controller identifier declared in Layouts/Header/Base.html.twig. #}
+{% set headerController = 'Layouts--Header--base' %}
+
+<div class="{{ ('HeaderNav ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <twig:Organisms:LangSelect:Base />
+
+    {% if isAuthenticatedFront() %}
+        <twig:Organisms:HeaderProfile:Base />
+    {% else %}
+        <twig:Molecules:HeaderButton:Base
+            href="{{ path('account_index') }}"
+            icon="account"
+            color="theme"
+            class="HeaderNav-btn"
+            text="{{ 'Account'|trans }}"
+            small="true"
+        />
+    {% endif %}
+
+    <twig:Molecules:HeaderButton:Base
+        href="{{ path('checkout_cart') }}"
+        icon="cart"
+        color="dark"
+        class="HeaderNav-btn"
+        text="{{ 'Cart'|trans }}"
+        small="true"
+    />
+    <twig:Molecules:HeaderButton:Base
+        icon="menu"
+        color="light"
+        class="HeaderNav-btn lg:hidden"
+        text="{{ 'Menu'|trans }}"
+        small="true"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="Menu"
+        {{...stimulus_action(headerController, 'togglePanel', 'click', {panel: 'menu'})}}
+    />
+</div>

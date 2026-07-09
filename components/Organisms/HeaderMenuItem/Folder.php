@@ -21,6 +21,7 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 class Folder extends AbstractHeaderMenuItem
 {
     public int|string|null $id = null;
+    public string $menuKey = '';
     public string $title = '';
     public string $href = '';
     public bool $includeContents = false;
@@ -36,6 +37,7 @@ class Folder extends AbstractHeaderMenuItem
     public function mount(int|string|null $id = null, ?string $title = null, ?string $href = null, bool $includeContents = false): void
     {
         $this->id = $id;
+        $this->menuKey = $this->buildMenuKey($id);
         $this->includeContents = $includeContents;
 
         [$this->title, $this->href] = $this->resolveTitleAndHref('/api/front/folders', $id, $title, $href);

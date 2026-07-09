@@ -1,0 +1,13 @@
+<footer class="{{ ('FooterCheckout ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <ul class="FooterCheckout-links">
+        {% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('config', 'information_folder_id')}) %}
+        {% for content in contents %}
+            <li class="paragraph-5">
+                <a href="{{ content.publicUrl }}" class="Footer-link">{{ content.i18ns.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <span class="FooterCheckout-copyright text-grey indication indication-small">
+        © <a href="https://www.openstudio.fr/">OpenStudio</a> - {{ 'now'|date('Y') }}
+    </span>
+</footer>

@@ -1,0 +1,27 @@
+.HeaderNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  width: 100%;
+  height: var(--header-nav-height);
+  border-top: 1px solid var(--color-grey);
+
+  @variant md {
+    position: static;
+    width: auto;
+    height: auto;
+    border-top: 0;
+  }
+}
+
+.HeaderNav-btn:last-child {
+  order: -9999;
+
+  @variant md {
+    order: 1;
+  }
+}

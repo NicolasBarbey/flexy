@@ -20,6 +20,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class Base
 {
     public int|string|null $id = null;
+    public string $menuKey = '';
     public string $title = '';
     public string $href = '';
     public array $columns = [];

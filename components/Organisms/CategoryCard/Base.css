@@ -1,0 +1,105 @@
+.CategoryCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-white);
+  border-radius: 0.5rem;
+
+  @variant md {
+    &:nth-child(2n) .CategoryCard-mainContent {
+      flex-direction: row-reverse;
+    }
+  }
+
+  @variant lg {
+    &:nth-child(2n) .CategoryCard-mainContent {
+      flex-direction: row;
+    }
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+
+    .CategoryCard-img {
+      outline: 2px solid var(--color-grey);
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    .CategoryCard-img img {
+      transform: scale(1.075);
+    }
+  }
+}
+
+.CategoryCard-mainContent {
+  width: 100%;
+
+  @variant md {
+    display: flex;
+  }
+
+  @variant lg {
+    display: block;
+  }
+}
+
+.CategoryCard-img {
+  overflow: hidden;
+  height: 11.6875rem;
+
+  @variant sm {
+    height: 17.5rem;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.CategoryCard-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: all cubic-bezier(0, 0, 0, 0.7) 0.3s;
+}
+
+.CategoryCard-desc {
+  padding: 1rem 0;
+
+  @variant sm {
+    padding: 1.5rem 0;
+  }
+
+  @variant md {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  @variant lg {
+    padding: 1.5rem 0;
+  }
+}
+
+.CategoryCard-title {
+  @apply h5;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: inherit;
+  display: block;
+}
+
+.CategoryCard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}

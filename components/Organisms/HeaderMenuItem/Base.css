@@ -9,13 +9,15 @@
 .HeaderMenuItem-link {
   padding: 0;
   cursor: pointer;
+  @apply paragraph-2;
+  font-weight: 600;
 
   &:focus-visible,
   &:focus {
     color: var(--color-base);
   }
 
-  @variant lg {
+  @variant md {
     position: relative;
     display: flex;
     align-items: center;
@@ -23,6 +25,7 @@
     color: var(--color-black);
     text-decoration: none;
     outline: none;
+    font-weight: normal;
     @apply paragraph-2;
   }
 }
@@ -47,7 +50,7 @@
 .HeaderMenuItem-back {
   padding: 1.375rem;
 
-  @variant lg {
+  @variant md {
     display: none;
   }
 }
@@ -60,7 +63,7 @@
 }
 
 .Submenu {
-  @variant lg {
+  @variant md {
     position: absolute;
     top: 100%;
     left: 50%;
@@ -85,7 +88,7 @@
 }
 
 .Submenu::after {
-  @variant lg {
+  @variant md {
     content: "";
     position: absolute;
     top: 0;
@@ -100,7 +103,7 @@
 
 /* Column = branch with children, or the final group of childless leaves. */
 .Submenu-column {
-  @variant lg {
+  @variant md {
     display: flex;
     flex-direction: column;
     flex: 1 1 12rem;
@@ -110,14 +113,24 @@
 }
 
 .Submenu-column--links {
-  @variant lg {
+  @variant md {
     gap: 0.75rem;
+  }
+}
+
+/* Beats .Header-menu ul li's specificity (Layouts/Header/Base.css) */
+.HeaderMenuItem .Submenu-column--links {
+  @variant max-md {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
   }
 }
 
 /* No columns at all: display the leaves inline instead of stacked. */
 .Submenu--flat .Submenu-column--links {
-  @variant lg {
+  @variant md {
     flex-direction: row;
     flex-wrap: wrap;
     max-width: none;
@@ -126,9 +139,10 @@
 }
 
 .Submenu-heading {
-  @apply paragraph-4 font-semibold;
+  @apply paragraph-2 font-semibold;
 
-  @variant lg {
+  @variant md {
+    @apply paragraph-4;
     display: block;
   }
 }
@@ -136,18 +150,15 @@
 .Submenu-link {
   @apply paragraph-2 font-normal;
 
-  @variant lg {
+  @variant md {
     display: block;
   }
 }
 
 .Submenu-sub {
-  margin-top: 1.5rem;
-
-  @variant lg {
+  @variant md {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-top: 0;
   }
 }
