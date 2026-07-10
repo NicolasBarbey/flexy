@@ -2,6 +2,12 @@
 
 {% block breadcrumb_json %}{% endblock %}
 
+{% block structured_data %}
+    {{ SEOneWebSite() }}
+    {{ SEOneWebPage() }}
+    {{ SEOneLocalBusiness(absolute_url(asset('dist/images/logo.png'))) }}
+{% endblock %}
+
 {% block body %}
     {{ theme_hook('home.top') }}
 
