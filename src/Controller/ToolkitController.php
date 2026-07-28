@@ -60,10 +60,12 @@ class ToolkitController extends AbstractController
             ];
         }
 
-        if (isset($grouped['Layouts'])) {
-            $layouts = $grouped['Layouts'];
-            unset($grouped['Layouts']);
-            $grouped['Layouts'] = $layouts;
+        foreach (['Forms', 'Layouts'] as $category) {
+            if (isset($grouped[$category])) {
+                $items = $grouped[$category];
+                unset($grouped[$category]);
+                $grouped[$category] = $items;
+            }
         }
 
         return $this->render('@Flexy/Toolkit/index.html.twig', [

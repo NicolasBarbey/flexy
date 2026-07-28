@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Login'|trans }}{% endblock %}
+
+{% block body %}
+    {% set form = getForm('thelia.front.customer.login') %}
+
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
+        {% for error in form.vars.errors %}
+            <twig:Molecules:SnackBar:Base variant="error" text="{{ error.message }}" />
+        {% endfor %}
+
+        <h2 class="h2 text-black mb-4">{{ 'Log in'|trans }}</h2>
+
+        {{ form_start(form, {attr: {
+            action: path('customer_login_action'),
+            method: 'POST',
+            class: 'flex flex-col gap-6 mb-3',
+        }}) }}
+        {{ form_row(form.success_url, {value: '/account'}) }}
+        {{ form_row(form.error_url, {value: path('customer_login')}) }}
+        <input type="hidden" name="{{ field_name(form.account) }}" value="1">
+        {{ form_row(form.email, {label: 'Email'|trans, placeholder: 'Your email'|trans}) }}
+        {{ form_row(form.password, {label: 'Password'|trans, placeholder: 'Your password'|trans}) }}
+        {{ form_row(form.remember_me, {required: false}) }}
+
+        <div class="flex flex-col gap-6">
+            <twig:Molecules:Link:Base href="{{ path('password_forgotten') }}" customText="{{ 'Forgot password?'|trans }}" />
+            <twig:Molecules:Button:Base text="{{ 'Log in'|trans }}" type="submit" class="w-max" />
+        </div>
+        {{ form_end(form) }}
+
+        <hr class="my-10 text-grey" />
+
+        <h4 class="h4 text-black mb-4">{{ 'Don’t have an account yet?'|trans }}</h4>
+        <twig:Molecules:Button:Base href="{{ path('customer_register') }}" text="{{ 'Sign up'|trans }}" color="secondary" />
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Sign up'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
+        <h2 class="h2 text-black mb-4">{{ 'Create account'|trans }}</h2>
+        <p class="paragraph-2 text-black mb-8">{{ 'Enter the code received by e-mail'|trans }}</p>
+
+        <twig:Forms:RegisterValidationCode:Base email="{{ email }}" />
+
+        <twig:Molecules:Link:Base href="{{ path('customer_send_code', {email: email}) }}" customText="{{ 'Don\'t have receive code ?'|trans }}" class="mt-6" />
+    </div>
+{% endblock %}

@@ -64,6 +64,7 @@
   width: 1rem;
   height: 1rem;
 
+  background-color: var(--color-white);
   border: 1px solid var(--checkbox-color);
   border-radius: 0.125rem;
   position: relative;
