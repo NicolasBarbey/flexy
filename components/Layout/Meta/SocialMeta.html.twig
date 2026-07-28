@@ -10,13 +10,18 @@
  #   {% block og_image %}{{ social.image('product', productId) ?: parent() }}{% endblock %}
  #}
 {% macro image(source_type, source_id) %}
+{%- if source_type and source_id -%}
 {%- set markup = getImages({
     source_id: source_id,
     source_type: source_type,
     filters: 'default',
     limit: 1,
 }) -%}
-{%- if markup and ' src="' in markup -%}
-{{- absolute_url(markup|split(' src="')|last|split('"')|first) -}}
+{#- getImages() falls back to an empty `src` when the entity has no image:
+    absolute_url() must never be called with an empty path. -#}
+{%- set src = markup and ' src="' in markup ? markup|split(' src="')|last|split('"')|first|trim : '' -%}
+{%- if src is not empty -%}
+{{- absolute_url(src) -}}
+{%- endif -%}
 {%- endif -%}
 {% endmacro %}
