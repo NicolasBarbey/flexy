@@ -1,0 +1,9 @@
+<div class="grid gap-4">
+    <h4>Base (LiveComponent — activation code form)</h4>
+    <span class="text-xs text-grey">
+        Submitting will attempt a real activation via <code>CustomerCodeManager::activateCustomerByCode()</code> — expect an error flash unless the email/code pair is real.
+    </span>
+    <div class="max-w-md bg-lightest p-4 rounded-md">
+        <twig:Forms:RegisterValidationCode:Base email="test@thelia.net" />
+    </div>
+</div>

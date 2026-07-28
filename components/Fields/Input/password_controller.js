@@ -25,6 +25,8 @@ class PasswordController extends Controller {
     };
 
     this.indicators = null;
+    this.onToggleClick = this.onToggleClick.bind(this);
+    this.onInputFocus = this.onInputFocus.bind(this);
   }
 
   connect() {
@@ -36,15 +38,34 @@ class PasswordController extends Controller {
         number: this.hasNumberTarget ? this.numberTarget : null,
         special: this.hasSpecialTarget ? this.specialTarget : null
       };
-      this.inputTarget.addEventListener('focus', () => {
-        this.controlTarget.style.display = 'block';
-      });
+      this.inputTarget.addEventListener('focus', this.onInputFocus);
     }
 
-    switchType(this.togglerTarget, this.inputTarget);
+    this.togglerTarget.addEventListener('click', this.onToggleClick);
+  }
+
+  disconnect() {
+    if (this.hasControlTarget) {
+      this.inputTarget.removeEventListener('focus', this.onInputFocus);
+    }
+
+    this.togglerTarget.removeEventListener('click', this.onToggleClick);
+  }
+
+  onInputFocus() {
+    this.controlTarget.style.display = 'block';
+  }
+
+  onToggleClick() {
+    this.inputTarget.type = this.inputTarget.type === 'password' ? 'text' : 'password';
+    this.togglerTarget.classList.toggle('is-visible');
   }
 
   control() {
+    if (!this.hasControlTarget) {
+      return;
+    }
+
     const handleConditions = [];
     for (const [condition, check] of Object.entries(this.conditions)) {
       const isValid = check(this.inputTarget.value);
@@ -53,13 +74,6 @@ class PasswordController extends Controller {
     }
     this.inputTarget.classList.toggle('is-error', handleConditions.some((c) => !c));
   }
-}
-
-function switchType(toggler, input) {
-  toggler.addEventListener('click', () => {
-    input.type = input.type === 'password' ? 'text' : 'password';
-    toggler.classList.toggle('is-visible');
-  });
 }
 
 function updateIndicator(indicator, isValid) {

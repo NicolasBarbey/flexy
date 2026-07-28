@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}404 - {{ 'Page not found'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container-m flex flex-col items-center justify-center h-screen text-center">
+        <div class="w-3/5 h-auto mb-6">
+            {{ source('assets/images/not-found.svg') }}
+        </div>
+        <h3 class="mt-4 mb-6 h3">{{ 'Oops, this page does not exist...'|trans }}</h3>
+
+        <twig:Molecules:Button:Base
+            text="{{ 'Homepage'|trans }}"
+            size="large"
+            href="/"
+            icon_left="chevron-left"
+        />
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

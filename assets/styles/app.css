@@ -41,6 +41,7 @@
   @import "../../components/Molecules/FilterList/Base.css";
   @import "../../components/Molecules/FilterSelect/Base.css";
   @import "../../components/Molecules/SnackBar/Base.css";
+  @import "../../components/Molecules/CheckoutSteps/Base.css";
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";

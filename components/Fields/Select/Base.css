@@ -49,6 +49,7 @@
 
 .Select-input {
   @apply paragraph-4;
+  background-color: var(--color-white);
   border: 1px solid var(--select-border-color);
   border-radius: 0.5rem;
   color: var(--select-color);

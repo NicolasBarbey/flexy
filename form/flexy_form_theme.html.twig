@@ -1,1 +1,115 @@
 {% use 'form_div_layout.html.twig' %}
+
+{# ROW — label/error are rendered by the widget components themselves, no extra wrapper needed #}
+
+{%- block form_row -%}
+    {{- form_widget(form) -}}
+{%- endblock form_row -%}
+
+{% block form_errors %}{% endblock form_errors %}
+
+{# WIDGETS #}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {% if type in ['range', 'file', 'hidden'] %}
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}"{% endif %}/>
+    {% else %}
+        {{ component('Fields:Input:Base', {
+            label: label,
+            name: full_name,
+            id: id,
+            type: type,
+            value: value,
+            placeholder: placeholder ?? attr.placeholder ?? null,
+            error: errors|first.message|default(false),
+            disabled: disabled,
+            required: required,
+            help: help ?? null,
+        }) }}
+    {% endif %}
+{%- endblock form_widget_simple -%}
+
+{%- block password_widget -%}
+    {{ component('Fields:Input:Password', {
+        label: label,
+        name: full_name,
+        id: id,
+        value: value,
+        placeholder: placeholder ?? attr.placeholder ?? null,
+        error: errors|first.message|default(false),
+        disabled: disabled,
+        required: required,
+        help: help ?? null,
+        showCriteria: attr.password_control|default(false),
+    }) }}
+{%- endblock password_widget -%}
+
+{%- block textarea_widget -%}
+    {{ component('Fields:TextArea:Base', {
+        label: label,
+        name: full_name,
+        id: id,
+        value: value,
+        placeholder: placeholder ?? attr.placeholder ?? null,
+        error: errors|first.message|default(false),
+        disabled: disabled,
+        required: required,
+        help: help ?? null,
+    }) }}
+{%- endblock textarea_widget -%}
+
+{%- block choice_widget_collapsed -%}
+    {% set choicesList = [] %}
+    {% for group_label, choice in choices %}
+        {% set choicesList = choicesList|merge([{value: choice.value, label: choice.label|trans}]) %}
+    {% endfor %}
+    {{ component('Fields:Select:Base', {
+        label: label,
+        choices: choicesList,
+        value: value,
+        placeholder: placeholder ?? null,
+        error: errors|first.message|default(false),
+        disabled: disabled,
+        help: help ?? null,
+        'select:name': full_name,
+    }) }}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_expanded -%}
+    <div class="flex flex-col gap-2">
+        {%- for child in form %}
+            {{- form_row(child) -}}
+        {% endfor -%}
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block checkbox_widget -%}
+    {{ component('Fields:Checkbox:Base', {
+        label: label,
+        error: errors|first.message|default(false),
+        required: required,
+        'input:name': full_name,
+        'input:value': value,
+        'input:checked': checked,
+    }) }}
+{%- endblock checkbox_widget -%}
+
+{%- block radio_widget -%}
+    {{ component('Fields:Checkbox:Base', {
+        type: 'radio',
+        label: label,
+        error: errors|first.message|default(false),
+        required: required,
+        'input:name': full_name,
+        'input:value': value,
+        'input:checked': checked,
+    }) }}
+{%- endblock radio_widget -%}
+
+{%- block submit_widget -%}
+    {{ component('Molecules:Button:Base', {
+        text: label,
+        type: 'submit',
+    }) }}
+{%- endblock submit_widget -%}

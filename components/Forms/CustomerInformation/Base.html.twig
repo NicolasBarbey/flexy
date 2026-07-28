@@ -1,0 +1,41 @@
+<div {{ attributes }}>
+    {{ form_start(form, {attr: {class: 'flex flex-col gap-6'}}) }}
+    {{ form_row(form.success_url, {value: path('account_index')}) }}
+
+    {{ form_row(form.label, {help: 'This name will allow you to easily identify each of your addresses'|trans}) }}
+    {{ form_row(form.title) }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.firstname, {label: 'Firstname'|trans}) }}
+        {{ form_row(form.lastname, {label: 'Lastname'|trans}) }}
+    </div>
+
+    {{ form_row(form.company, {label: 'Company'|trans}) }}
+    {{ form_row(form.address1, {label: 'Address'|trans}) }}
+    {{ form_row(form.address2) }}
+    {{ form_row(form.address3) }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.city) }}
+        {{ form_row(form.zipcode) }}
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.country) }}
+        {% if form.state is defined %}
+            {{ form_row(form.state) }}
+        {% endif %}
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.phone, {label: 'Phone number'|trans}) }}
+        {{ form_row(form.cellphone) }}
+    </div>
+
+    {{ form_row(form.newsletter) }}
+    {{ form_row(form.accept_privacy_policy) }}
+    {{ form_rest(form) }}
+
+    <twig:Molecules:Button:Base text="{{ 'Confirm my registration'|trans }}" type="submit" size="large" class="w-max" />
+    {{ form_end(form) }}
+</div>
