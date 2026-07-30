@@ -1,8 +1,141 @@
-<twig:Molecules:Accordion:Base id="accordion-usage">
-    <twig:Molecules:Accordion:Item value="item-1">
-        <twig:Molecules:Accordion:Trigger>Is it accessible?</twig:Molecules:Accordion:Trigger>
-        <twig:Molecules:Accordion:Content>
-            Yes. It adheres to the WAI-ARIA design pattern.
-        </twig:Molecules:Accordion:Content>
-    </twig:Molecules:Accordion:Item>
-</twig:Molecules:Accordion:Base>
+<div class="grid gap-12">
+
+    {# ── Default ─────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Default</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">single icon, rotates 180° on open</span>
+            <twig:Molecules:Accordion:Base id="accordion-default">
+                <twig:Molecules:Accordion:Item value="item-1">
+                    <twig:Molecules:Accordion:Trigger>Is it accessible?</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Yes. It adheres to the WAI-ARIA design pattern.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-2">
+                    <twig:Molecules:Accordion:Trigger>Is it styled?</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Yes. It comes with default styles that match the theme.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-3">
+                    <twig:Molecules:Accordion:Trigger>Is it animated?</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Yes. It's animated by default, but you can disable it if you prefer.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+    {# ── Custom icons ────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Custom icons</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">distinct iconClosed/iconOpen swap instead of rotating</span>
+            <twig:Molecules:Accordion:Base id="accordion-custom-icons">
+                <twig:Molecules:Accordion:Item value="item-1">
+                    <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus">Une question fréquente ici ?</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+    {# ── Horizontal orientation ──────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Horizontal orientation</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">orientation="horizontal" on Base — changes keyboard navigation to left/right arrow keys</span>
+            <twig:Molecules:Accordion:Base id="accordion-horizontal" orientation="horizontal">
+                <twig:Molecules:Accordion:Item value="item-1">
+                    <twig:Molecules:Accordion:Trigger>First item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Focus this trigger and use the arrow keys to navigate.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-2">
+                    <twig:Molecules:Accordion:Trigger>Second item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Left/Right instead of Up/Down.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+    {# ── Multiple open ───────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Multiple open</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">multiple="true", items don't close each other</span>
+            <twig:Molecules:Accordion:Base id="accordion-multiple" :multiple="true" :defaultValue="['item-1', 'item-2']">
+                <twig:Molecules:Accordion:Item value="item-1">
+                    <twig:Molecules:Accordion:Trigger>First item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Open by default via defaultValue.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-2">
+                    <twig:Molecules:Accordion:Trigger>Second item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Also open by default via defaultValue.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-3">
+                    <twig:Molecules:Accordion:Trigger>Third item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        Opening this one does not close the others.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+    {# ── Disabled item ───────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Disabled item</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">disabled="true" on Item</span>
+            <twig:Molecules:Accordion:Base id="accordion-disabled">
+                <twig:Molecules:Accordion:Item value="item-1">
+                    <twig:Molecules:Accordion:Trigger>Enabled item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        This one can be toggled.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+                <twig:Molecules:Accordion:Item value="item-2" :disabled="true">
+                    <twig:Molecules:Accordion:Trigger>Disabled item</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content>
+                        This one cannot be toggled.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+    {# ── Custom styling ──────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Custom styling</h4>
+        <div class="grid gap-2 content-start">
+            <span class="text-xs text-grey">class overrides on Item/Trigger/Content (background, h4 title, bigger padding, bigger icon, no separator)</span>
+            <twig:Molecules:Accordion:Base id="accordion-custom-styling">
+                <twig:Molecules:Accordion:Item value="item-1" class="border-none bg-lighter">
+                    <twig:Molecules:Accordion:Trigger class="h4 py-3.5 md:py-4.5" iconClosed="plus" iconOpen="minus" iconClass="size-10">A frequent question here?</twig:Molecules:Accordion:Trigger>
+                    <twig:Molecules:Accordion:Content class="paragraph-2 pb-5">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </twig:Molecules:Accordion:Content>
+                </twig:Molecules:Accordion:Item>
+            </twig:Molecules:Accordion:Base>
+        </div>
+    </div>
+
+</div>

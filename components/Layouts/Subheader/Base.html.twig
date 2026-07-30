@@ -1,0 +1,32 @@
+{# @prop title string Heading text #}
+{# @prop type string|null Visual variant of the subheader, driven by html_cva — not a structural difference. 'titleOnly' is implemented; 'contentPage'/'search' will land as optional blocks on this same file #}
+{# @prop tag string HTML tag for the heading. Defaults to 'h1' #}
+{# @prop container string 'large' (default, container-l), 'medium' (container-m) or 'small' (container-s) #}
+{# @prop centered boolean Center the title text. Defaults to false #}
+{% props title, type = null, tag = 'h1', container = 'large', centered = false %}
+{% set subheader = html_cva(
+    base: 'Subheader',
+    default_variant: {
+        type: 'titleOnly',
+    },
+    variants: {
+        type: {
+            titleOnly: 'Subheader--titleOnly',
+        },
+        centered: {
+            false: null,
+            true: 'Subheader--centered',
+        },
+    },
+) %}
+{% set container_class = {
+    large: 'container-l',
+    medium: 'container-m',
+    small: 'container-s',
+}[container] %}
+
+<div class="{{ subheader.apply({type, centered}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    <div class="{{ container_class }}">
+        <{{ tag }} class="Subheader-title">{{ title }}</{{ tag }}>
+    </div>
+</div>

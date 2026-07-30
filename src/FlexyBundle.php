@@ -59,13 +59,15 @@ class FlexyBundle extends AbstractBundle
                 \dirname(__DIR__) . '/form' => 'FlexyForm',
                 \dirname(__DIR__) . '/partials' => 'FlexyPartials',
             ],
-
+            'form_themes' => [
+                '@FlexyForm/flexy_form_theme.html.twig',
+            ],
         ]);
     }
     private function prependConfigTwigComponent(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->prependExtensionConfig('twig_component', [
-            'anonymous_template_directory' =>  \dirname(__DIR__) . '/components',
+            'anonymous_template_directory' => 'frontOffice/%thelia_front_template%/components/',
             'defaults' => [
                 'FlexyBundle\\Components\\' => [
                     'template_directory' => '@Flexy',

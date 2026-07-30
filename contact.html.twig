@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Contact'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="p-5 lg:justify-between lg:items-center lg:flex">
+        <twig:Molecules:Breadcrumb:Base :items="[{title: 'Contact'|trans}]" />
+    </div>
+
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
+        {% set form = getForm('thelia.front.contact') %}
+
+        {% block contactFormTitle %}
+            <h2 class="mb-4 h2">{{ 'Contact Us'|trans }}</h2>
+        {% endblock %}
+
+        {% block contactForm %}
+            {{ form_start(form, {attr: {class: 'flex flex-col gap-4'}}) }}
+
+            {{ form_rest(form) }}
+
+            {{ form_errors(form) }}
+
+            <twig:Molecules:Button:Base
+                text="{{ 'Send'|trans }}"
+                type="submit"
+                class="w-max mt-6"
+            />
+
+            {{ form_end(form) }}
+        {% endblock %}
+    </div>
+{% endblock %}

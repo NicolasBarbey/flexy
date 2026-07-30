@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Site under maintenance'|trans }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="container-m flex flex-1 flex-col gap-8 items-center justify-center text-center">
+        <div class="w-3/5 h-auto">
+            {{ source('assets/images/coffee.svg') }}
+        </div>
+        <h3 class="h3">{{ 'Your favorite site is getting a makeover and will be back shortly.'|trans }}</h3>
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
