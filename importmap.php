@@ -40,4 +40,7 @@ return [
     '@symfony/ux-translator' => [
         'path' => '@symfony/ux-translator/translator_controller.js',
     ],
+    '@symfony/ux-live-component' => [
+        'path' => '@symfony/ux-live-component/live_controller.js',
+    ],
 ];
