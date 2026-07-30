@@ -1,0 +1,24 @@
+.Subheader {
+  background: var(--color-lighter);
+  display: flex;
+  align-items: center;
+}
+
+.Subheader--titleOnly {
+  min-height: 21.25rem;
+  padding: 1.5rem 0;
+
+  @variant md {
+    min-height: 15.625rem;
+    padding: 2rem 0;
+  }
+}
+
+.Subheader--centered {
+  text-align: center;
+}
+
+.Subheader-title {
+  @apply h1;
+  color: var(--color-black);
+}

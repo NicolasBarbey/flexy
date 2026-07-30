@@ -1,0 +1,32 @@
+<div class="grid gap-12">
+
+    {# ── Title Only ──────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Title Only</h4>
+        <div class="grid gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">default (container large)</span>
+                <twig:Layouts:Subheader:Base title="Nom de la page" type="titleOnly" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">container medium</span>
+                <twig:Layouts:Subheader:Base title="Nom de la page" type="titleOnly" container="medium" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">container small</span>
+                <twig:Layouts:Subheader:Base title="Nom de la page" type="titleOnly" container="small" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">centered</span>
+                <twig:Layouts:Subheader:Base title="Nom de la page" type="titleOnly" :centered="true" />
+            </div>
+
+        </div>
+    </div>
+
+</div>

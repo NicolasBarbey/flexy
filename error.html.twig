@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ status_code }} - {{ 'Error'|trans }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="container-m flex flex-1 flex-col gap-8 items-center justify-center text-center">
+        <div class="w-3/5 h-auto">
+            {% block error_image %}
+                {{ source('assets/images/volcano.svg') }}
+            {% endblock %}
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            {% block error_content %}
+                <h3 class="h3">{{ status_code }}</h3>
+                <p class="paragraph-2">{{ exception_message }}</p>
+            {% endblock %}
+        </div>
+
+        <twig:Molecules:Button:Base
+            text="{{ 'Homepage'|trans }}"
+            size="large"
+            href="/"
+            icon_left="chevron-left"
+        />
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

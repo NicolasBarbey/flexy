@@ -18,7 +18,7 @@
 {%- do provide('accordionItem.isOpen', _accordion_item_is_open) -%}
 {%- do provide('accordionItem.orientation', _accordion_orientation) -%}
 <div
-    class="{{ ('not-last:border-b group ' ~ attributes.render('class'))|tailwind_merge }}"
+    class="{{ ('not-last:border-b border-grey-lighter group ' ~ attributes.render('class'))|tailwind_merge }}"
     {{ attributes.defaults({
         'data-slot': 'accordion-item',
         'data-value': value,
