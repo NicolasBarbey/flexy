@@ -13,12 +13,12 @@
 /* If a component needs to override styles from external lib (carousel, etc), it should be put here, and have fine-tuned layering inside it's own file */
 @import "../../components/Molecules/Button/Base.css";
 @import "../../components/Molecules/Link/Base.css";
-@import "../../components/Molecules/Breadcrumb/Base.css";
 @import "../../components/Molecules/Tag/Base.css";
 @import "../../components/Molecules/Tag/OrderTag.css";
 @import "../../components/Molecules/Tag/StockTag.css";
 @import "../../components/Molecules/MobileDrawer/Base.css";
 @import "../../components/Layouts/Header/Base.css";
+@import "../../components/Molecules/Accordion/Base.css";
 
 /* Other components are put on components layer : sublayers can be defined inside to allow further customization */
 @layer components {
@@ -29,6 +29,7 @@
   @import "../../components/Fields/TextArea/Base.css";
   @import "../../components/Fields/Toggle/Base.css";
 
+  @import "../../components/Molecules/Breadcrumb/Base.css";
   @import "../../components/Molecules/Tabulation/Base.css";
   @import "../../components/Molecules/Pagination/Base.css";
   @import "../../components/Molecules/Score/Base.css";
@@ -42,7 +43,6 @@
   @import "../../components/Molecules/FilterSelect/Base.css";
   @import "../../components/Molecules/SnackBar/Base.css";
   @import "../../components/Molecules/CheckoutSteps/Base.css";
-  @import "../../components/Molecules/Accordion/Base.css";
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";
@@ -53,12 +53,17 @@
   @import "../../components/Organisms/HeaderNav/Base.css";
   @import "../../components/Organisms/CategoryCard/Base.css";
   @import "../../components/Organisms/ReviewCard/Base.css";
+  @import "../../components/Organisms/ArticleCard/Base.css";
   @import "../../components/Layouts/Footer/Base.css";
   @import "../../components/Layouts/Footer/Checkout.css";
   @import "../../components/Layouts/CrossSelling/Base.css";
   @import "../../components/Layouts/Review/Base.css";
   @import "../../components/Layouts/SimilarContent/Base.css";
   @import "../../components/Layouts/Subheader/Base.css";
+  @import "../../components/Layouts/Subheader/Item.css";
+
+  @import "../../components/Organisms/BlocksToc/Base.css";
+  @import "./blocks.css";
 }
 
 /* Pages go there, no layer (base layer) */
@@ -82,4 +87,9 @@ main {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+}
+
+/* Unlayered on purpose: must beat the Typography plugin's own max-width, which lives in @layer utilities. */
+.wysiwyg {
+  max-width: none;
 }

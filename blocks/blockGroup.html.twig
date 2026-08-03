@@ -1,0 +1,7 @@
+<div class="tb-{{ type.id }}">
+    {% for item in data.content %}
+        <div>
+            {{ getTheliaBLocksRenderedContent(item|json_encode)|raw }}
+        </div>
+    {% endfor %}
+</div>

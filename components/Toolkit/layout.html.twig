@@ -1,6 +1,7 @@
 <section id="layout">
     <h2 class="text-2xl font-bold mb-8 pb-3 border-b border-grey-lighter">Layout</h2>
 
+    <div class="space-y-10">
     <div class="space-y-4 ">
         <h3 class="text-lg font-semibold text-grey-darker">container-l</h3>
 
@@ -66,5 +67,59 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-grey-darker">container-double-1 <span class="text-sm font-normal text-grey">— checkout tunnel. The 1st/2nd child is the full column (background-styleable, here only B has one) and needs one nested wrapper div for the centered fixed-width content</span></h3>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-double-1">
+                <div>
+                    <div class="h-24 bg-light outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">A — 444px / 540px</div>
+                </div>
+                <div class="bg-medium">
+                    <div class="h-24 bg-lighter outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">B — 328px / 400px</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-grey-darker">container-double-2 <span class="text-sm font-normal text-grey">— category page</span></h3>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-double-2">
+                <div class="h-24 bg-light outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">A</div>
+                <div class="h-24 bg-lighter outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">B</div>
+            </div>
+        </div>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-double-2">
+                <div class="h-24 bg-lighter outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">B alone — should stay centered</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-grey-darker">container-double-3 <span class="text-sm font-normal text-grey">— text content page</span></h3>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-double-3">
+                <div class="h-24 bg-light outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">A — 406/496/676px</div>
+                <div class="h-24 bg-lighter outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">B — 206/280/350px</div>
+            </div>
+        </div>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-double-3">
+                <div class="h-24 bg-light outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">A alone — should stay centered</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-grey-darker">container-single-3 <span class="text-sm font-normal text-grey">— single-column text content page (e.g. FAQ), matches container-double-3's slot A width but without its 2-column wrapper</span></h3>
+        <div class="bg-grey-lightest overflow-hidden">
+            <div class="container-single-3">
+                <div class="h-24 bg-light outline-2 outline-dashed outline-medium flex items-center justify-center font-mono text-xs text-grey-dark">406/496/676px</div>
+            </div>
+        </div>
+    </div>
     </div>
 </section>

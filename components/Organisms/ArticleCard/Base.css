@@ -1,0 +1,49 @@
+.ArticleCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-white);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-decoration: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--color-lighter);
+  }
+}
+
+.ArticleCard-img-wrapper {
+  height: 12.5rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.ArticleCard-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ArticleCard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.ArticleCard-title {
+  @apply paragraph-2;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.ArticleCard-date {
+  @apply paragraph-6;
+  color: var(--color-grey);
+}
+
+.ArticleCard:hover .ArticleCard-title {
+  text-decoration: underline;
+}

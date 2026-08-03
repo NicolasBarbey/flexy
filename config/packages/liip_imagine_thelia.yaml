@@ -23,3 +23,18 @@ liip_imagine:
     similar_content_default:
       filters:
         thumbnail: { size: [196, 196], mode: outbound }
+    article_card:
+      filters:
+        thumbnail: { size: [480, 320], mode: outbound }
+    subheader_item_sm:
+      filters:
+        thumbnail: { size: [800, 450], mode: outbound }
+    subheader_item_md:
+      filters:
+        thumbnail: { size: [400, 450], mode: outbound }
+    subheader_item_lg:
+      filters:
+        thumbnail: { size: [500, 450], mode: outbound }
+    subheader_item_xl:
+      filters:
+        thumbnail: { size: [900, 500], mode: outbound }

@@ -7,6 +7,7 @@
   --breakpoint-lg: 64rem; /* 1024px */
   --breakpoint-xl: 85.375rem; /* 1366px */
   --breakpoint-2xl: 105rem; /* 1680px */
+  --breakpoint-3xl: 120rem; /* 1920px */
 
   --color-*: initial;
   --color-dark: #ff4822;
@@ -131,4 +132,12 @@
   --line-height-h6-d: 1.75rem;
   --font-size-h6-m: 1.125rem;
   --line-height-h6-m: 1.625rem;
+
+  /* container-double-3's column widths — shared with anything that must align to its slots without duplicating the layout (e.g. Subheader-image) */
+  --container-double-3-col-a-md: 25.375rem; /* 406px */
+  --container-double-3-col-b-md: 12.875rem; /* 206px */
+  --container-double-3-col-a-lg: 31rem; /* 496px */
+  --container-double-3-col-b-lg: 17.5rem; /* 280px */
+  --container-double-3-col-a-xl: 42.25rem; /* 676px */
+  --container-double-3-col-b-xl: 21.875rem; /* 350px */
 }

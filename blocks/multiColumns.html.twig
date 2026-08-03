@@ -1,0 +1,7 @@
+<div class="tb-{{ type.id }} flex flex-col md:flex-row gap-8">
+    {% for column in data %}
+        <div class="flex-1">
+            {{ getTheliaBLocksRenderedContent(column|json_encode)|raw }}
+        </div>
+    {% endfor %}
+</div>
