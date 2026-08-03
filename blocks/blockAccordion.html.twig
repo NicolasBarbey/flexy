@@ -1,0 +1,13 @@
+<div class="tb-{{ type.id }} my-4 md:my-8">
+    <div class="h3 mb-4">{{ data.title }}</div>
+    <twig:Molecules:Accordion:Base id="tb-blockAccordion-{{ id }}">
+        {% for item in data.group %}
+            <twig:Molecules:Accordion:Item value="item-{{ loop.index }}">
+                <twig:Molecules:Accordion:Trigger>{{ item.title }}</twig:Molecules:Accordion:Trigger>
+                <twig:Molecules:Accordion:Content>
+                    {{ getTheliaBLocksRenderedContent(item.content|json_encode)|raw }}
+                </twig:Molecules:Accordion:Content>
+            </twig:Molecules:Accordion:Item>
+        {% endfor %}
+    </twig:Molecules:Accordion:Base>
+</div>

@@ -3,9 +3,9 @@
 {% block title %}{{ 'FAQ page'|trans }}{% endblock %}
 
 {% block body %}
-    <twig:Layouts:Subheader:Base title="{{ 'FAQ'|trans }}" container="medium" />
+    <twig:Layouts:Subheader:Base title="{{ 'FAQ'|trans }}" container="single-3" :breadcrumb="[{title: 'FAQ'|trans}]" />
 
-    <div class="container-m flex flex-col mt-6 mb-20 lg:mt-14 lg:mb-30">
+    <div class="container-single-3 mt-6 mb-20 lg:mt-14 lg:mb-30">
         <twig:Molecules:Accordion:Base id="faq-accordion">
             {% for i in 1..8 %}
                 <twig:Molecules:Accordion:Item value="faq-item-{{ i }}">

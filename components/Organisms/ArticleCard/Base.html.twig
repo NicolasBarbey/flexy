@@ -1,0 +1,39 @@
+{# @prop title string #}
+{# @prop date string Optional secondary text under the title #}
+{# @prop href string #}
+{# @prop description string|null Optional excerpt shown below the title (e.g. chapo), clamped to 4 lines #}
+{# @prop source string API source_type used to fetch the illustration via getImages() (e.g. 'folder', 'content') #}
+{# @prop id int|string|null Source item id, used to fetch the illustration via getImages() #}
+{% props title = '', date = '', href = '#', description = null, source = null, id = null %}
+{% if source and id %}
+    {% set img = getImages({
+        source_type: source,
+        source_id: id,
+        filters: 'article_card',
+        alt: title,
+        img_attrs: {
+            class: 'ArticleCard-img',
+            loading: 'lazy',
+        },
+        placeholder: asset('images/placeholder2.webp'),
+    }) %}
+{% endif %}
+
+<a href="{{ href }}" class="{{ ('ArticleCard ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <div class="ArticleCard-img-wrapper">
+        {% if img is defined and img %}
+            {{ img|raw }}
+        {% else %}
+            <img src="{{ asset('images/placeholder2.webp') }}" alt="{{ title }}" loading="lazy" class="ArticleCard-img">
+        {% endif %}
+    </div>
+    <div class="ArticleCard-content">
+        {% if date %}
+            <div class="ArticleCard-date">{{ date }}</div>
+        {% endif %}
+        <div class="ArticleCard-title">{{ title }}</div>
+        {% if description %}
+            <div class="paragraph-4 text-grey-dark line-clamp-4">{{ description }}</div>
+        {% endif %}
+    </div>
+</a>

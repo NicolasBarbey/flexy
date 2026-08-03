@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set ps = attr('content', 'postscriptum') %}
+
+    <twig:Layouts:Subheader:Item
+        title="{{ attr('content', 'title') }}"
+        description="{{ attr('content', 'chapo') }}"
+        :breadcrumb="breadcrumb"
+        itemType="content"
+        itemId="{{ attr('content', 'id') }}"
+    />
+
+    <div class="container-double-3 pt-6 lg:pt-14 pb-20 lg:pb-30">
+        <article class="wysiwyg wysiwyg-theme flex flex-col gap-10 min-w-0">
+            <div>{{ attr('content', 'description')|raw }}</div>
+            <twig:Organisms:Blocks:Base itemType="content" itemId="{{ attr('content', 'id') }}" />
+            {% if ps %}
+                <small>{{ ps }}</small>
+            {% endif %}
+        </article>
+
+        <twig:Organisms:BlocksToc:Base itemType="content" itemId="{{ attr('content', 'id') }}" maxLevel="3" />
+    </div>
+
+    <div class="bg-lighter">
+        <twig:Layouts:SimilarContent:Base
+            title="{{ 'On the same topic'|trans }}"
+            :button="{label: 'See all news'|trans, href: '/'}"
+        />
+    </div>
+{% endblock %}

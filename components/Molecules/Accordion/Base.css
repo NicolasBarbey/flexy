@@ -1,8 +1,15 @@
-[data-slot="accordion-trigger"] {
-  outline: none;
+@layer components {
+  [data-slot="accordion-trigger"] {
+    outline: none;
 
-  &:focus-visible {
-    outline: 1px solid var(--color-base);
-    outline-offset: 0;
+    &:focus-visible {
+      outline: 1px solid var(--color-base);
+      outline-offset: 0;
+    }
   }
+}
+
+/* Unlayered on purpose: must beat the prose h3 margin, which lives in @layer utilities. */
+.wysiwyg h3:has(> [data-slot="accordion-trigger"]) {
+  margin: 0;
 }

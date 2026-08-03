@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set childFolders = resources('/api/front/folders', {parent: attr('folder', 'id')}) %}
+    {% set ps = attr('folder', 'postscriptum') %}
+
+    <twig:Layouts:Subheader:Item
+        title="{{ attr('folder', 'title') }}"
+        description="{{ attr('folder', 'chapo') }}"
+        :breadcrumb="breadcrumb"
+    />
+
+    <div class="container-l pt-6 lg:pt-14 pb-20 lg:pb-30">
+        <article class="wysiwyg wysiwyg-theme">
+            <div>
+                {{ attr('folder', 'description')|raw }}
+            </div>
+            <twig:Organisms:Blocks:Base itemType="folder" itemId="{{ attr('folder', 'id') }}" />
+
+            {% if ps %}
+                <small>{{ ps }}</small>
+            {% endif %}
+        </article>
+
+        {% if childFolders|length %}
+            <ul class="grid gap-4 my-8 grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+                {% for childFolder in childFolders %}
+                    <li>
+                        <twig:Organisms:ArticleCard:Base
+                            id="{{ childFolder.id }}"
+                            source="folder"
+                            href="{{ childFolder.publicUrl }}"
+                            title="{{ childFolder.i18ns.title }}"
+                            description="{{ childFolder.i18ns.chapo }}"
+                        />
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <twig:Layouts:FolderContents:Base folderId="{{ attr('folder', 'id') }}" page="{{ app.request.query.getInt('page', 1) }}" />
+    </div>
+{% endblock %}

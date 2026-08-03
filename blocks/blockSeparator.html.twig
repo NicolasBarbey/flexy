@@ -1,0 +1,6 @@
+{% if data.type == 'hr' %}
+    {% set margin = (data.size * 0.25) ~ 'rem' %}
+    <hr class="tb-{{ type.id }}" style="margin-top: {{ margin }}; margin-bottom: {{ margin }};" />
+{% else %}
+    <div class="tb-{{ type.id }}" style="height: {{ (data.size * 0.5) ~ 'rem' }};"></div>
+{% endif %}

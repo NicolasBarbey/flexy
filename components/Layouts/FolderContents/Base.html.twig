@@ -1,0 +1,23 @@
+{% if this.contents|length %}
+    <ul class="grid gap-4 my-8 grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+        {% for content in this.contents %}
+            <li>
+                <twig:Organisms:ArticleCard:Base
+                    id="{{ content.id }}"
+                    source="content"
+                    href="{{ content.publicUrl }}"
+                    title="{{ content.i18ns.title }}"
+                    date="{{ content.publishedAt|date('d/m/Y') }}"
+                    description="{{ content.i18ns.chapo }}"
+                />
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="flex justify-center">
+        <twig:Molecules:Pagination:Base
+            totalItems="{{ this.pagination.totalItems }}"
+            itemsPerPage="{{ this.pagination.itemsPerPage }}"
+            currentPage="{{ this.pagination.currentPage }}"
+        />
+    </div>
+{% endif %}

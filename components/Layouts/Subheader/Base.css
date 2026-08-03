@@ -1,4 +1,5 @@
 .Subheader {
+  position: relative;
   background: var(--color-lighter);
   display: flex;
   align-items: center;
