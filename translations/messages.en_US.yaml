@@ -44,6 +44,8 @@ Product unavailable: Product unavailable
 Add to cart: Add to cart
 New: New
 Your product has been added to the cart: Your product has been added to the cart
+Decrease quantity: Decrease quantity
+Increase quantity: Increase quantity
 Quantity:: Quantity:
 has been removed from your cart.: has been removed from your cart.
 Restore: Restore
@@ -68,6 +70,7 @@ No Promo Code: No Promo Code
 Gift Card: Gift Card
 No Gift Card: No Gift Card
 Total (including VAT): Total (including VAT)
+Total: Total
 Taxes of: Taxes of
 included: included
 By paying for your order, you agree to our: By paying for your order, you agree to our
@@ -317,6 +320,7 @@ This email is already used: This email is already used
 No delivery method is available for this order.: No delivery method is available for this order.
 Choose a delivery address: Choose a delivery address
 Your order: Your order
+Payment Gateway: Payment Gateway
 Payment failed: Payment failed
 The payment could not be completed.: The payment could not be completed.
 Back to cart: Back to cart
@@ -331,3 +335,11 @@ view_all_promo: View all promotions
 view_all_newness: View all new items
 Ascending price: Ascending price
 Descending price: Descending price
+monday: monday
+tuesday: tuesday
+wednesday: wednesday
+thursday: thursday
+friday: friday
+saturday: saturday
+sunday: sunday
+Closed: Closed

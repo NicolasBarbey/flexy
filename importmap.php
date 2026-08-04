@@ -43,4 +43,18 @@ return [
     '@symfony/ux-live-component' => [
         'path' => '@symfony/ux-live-component/live_controller.js',
     ],
+    '@hotwired/turbo' => [
+        'version' => '8.0.23',
+    ],
+    'leaflet' => [
+        'version' => '1.9.4',
+    ],
+    'leaflet/dist/leaflet.css' => [
+        'version' => '1.9.4',
+        'type' => 'css',
+    ],
+    'leaflet/dist/leaflet.min.css' => [
+        'version' => '1.9.4',
+        'type' => 'css',
+    ],
 ];
