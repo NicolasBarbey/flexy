@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
+{% set productId = attr('product', 'id') %}
+
+{% set images = getImagesData({
+	source_id: productId,
+	source_type: 'product',
+	filters: 'default',
+	limit: 1,
+}) %}
+
+{% block og_image %}{{ ((images|first)?.sources|first)?.url ?: parent()  }}{% endblock %}
+{% block og_type %}product{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('product-css') }}
 {% endblock %}
 
-{% set productId = attr('product', 'id') %}
 
 {% set product = resources('/api/front/products/' ~ productId) %}
 {% set productCategory = product.productCategories|filter(c => c.defaultCategory)|first.category %}
@@ -16,6 +26,7 @@
 {% endif %}
 
 {% block body %}
+    {{ theme_hook('product.top', {product: product}) }}
     <div class="ProductPage">
         <div class="p-5 lg:justify-between lg:items-center lg:flex">
             {{ component('Molecules:Breadcrumb:Breadcrumb', {breadcrumb: breadcrumb}) }}
@@ -23,6 +34,7 @@
         <div class="container">
             <div class="ProductPage-grid">
                 {{ component('Flexy:Pages:Product', {product: product}) }}
+                {{ theme_hook('product.details.bottom', {product: product}) }}
 
                 <section id="description" class="ProductPage-description">
 
@@ -91,4 +103,5 @@
     </div>
     {{ component('Flexy:AddToCartToast') }}
 
+    {{ theme_hook('product.bottom', {product: product}) }}
 {% endblock %}

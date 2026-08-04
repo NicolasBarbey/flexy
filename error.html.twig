@@ -10,8 +10,8 @@
         <div class="w-[150px] h-[150px] lg:w-[220px] lg:h-[220px] mb-4">
             {{ source('assets/images/volcano.svg') }}
         </div>
-        <h3 class="mt-4 mb-2 h3">TODO</h3>
-        <p class="mb-6 paragraph-2">TODO</p>
+        <h3 class="mt-4 mb-2 h3">{{ 'Oops, an error has occurred...'|trans }}</h3>
+        <p class="mb-6 paragraph-2">{{ 'Please try again later or return to the homepage.'|trans }}</p>
 
         {{ component('Flexy:Button', {
             text: 'Homepage'|trans,

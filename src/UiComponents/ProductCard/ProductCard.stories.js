@@ -6,20 +6,22 @@ export default {
 };
 
 export const base = {
-  render: (args) =>
+  render    : (args) =>
     `<div class='max-w-[187px] sm:max-w-[340px] lg:max-w-[400px]'>${ProductCard(args)}</div>`,
-  args: {
-    img: { url: '/images/placeholder2.webp', alt: '' },
-    url: '#',
-    title: 'Nom du produit',
+  args      : {
+
+    img           : { url: '/images/placeholder2.webp', alt: '' },
+    url           : '#',
+    title         : 'Nom du produit',
     secondaryTitle: 'Titre secondaire',
-    quantity: 1,
-    attributesAv: { Taille: 'S' },
-    price: '1000,00€',
-    promoPrice: '900,00€',
-    rate: 4,
-    reviewCount: 12,
-    colors: [
+    quantity      : 1,
+    attributesAv  : { Taille: 'S' },
+    price         : '1000,00€',
+    promoPrice    : '900,00€',
+    rate          : 4,
+    reviewCount   : 12,
+    wishButton    : false,
+    colors        : [
       '#667761',
       '#84DCC6',
       '#C17767',
@@ -29,7 +31,7 @@ export const base = {
       '#2E3438'
     ]
   },
-  argTypes: {},
+  argTypes  : {},
   parameters: {
     backgrounds: { default: 'theme-lighter' }
   }

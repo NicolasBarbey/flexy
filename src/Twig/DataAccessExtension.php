@@ -30,8 +30,6 @@ class DataAccessExtension extends AbstractExtension
     {
         return [
             new TwigFunction('resources', [$this, 'resources']),
-            new TwigFunction('loop', [$this, 'getLoop']),
-            new TwigFunction('loopCount', [$this, 'getLoopCount']),
             new TwigFunction('attr', [$this, 'attribute']),
         ];
     }
@@ -53,15 +51,5 @@ class DataAccessExtension extends AbstractExtension
         }
 
         return $this->attributeAccessService->$methodName($attributeName);
-    }
-
-    public function getLoop(string $name, string $type, array $params = []): array
-    {
-        return $this->dataAccessService->loop($name, $type, $params);
-    }
-
-    public function getLoopCount(string $type, array $params = []): int
-    {
-        return $this->dataAccessService->loopCount($type, $params);
     }
 }

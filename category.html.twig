@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 {% set page = app.request.get('page')|default(1) %}
 {% set categoryId = attr('category', 'id') %}
+
+{% set firstImage = getImagesData({
+	source_id: categoryId,
+	source_type: 'category',
+	filters: 'default',
+	limit: 1,
+}) %}
+
+{% block og_image %}{{ ((firstImage|first)?.sources|first)?.url ?: parent()  }}{% endblock %}
+
 {% set category = resources('/api/front/categories/'~categoryId) %}
 
 {% set childCategories = resources('/api/front/categories', {
@@ -19,6 +29,7 @@
 {% endblock %}
 
 {% block body %}
+  {{ theme_hook('category.top', {category: category}) }}
   {{ component('Flexy:CatHero', {
     title: SEOnePageH1(),
     chapo: category.i18ns.chapo|default(null),
@@ -66,4 +77,5 @@
           breadcrumb
         }}) }}
   {% endif %}
+  {{ theme_hook('category.bottom', {category: category}) }}
 {% endblock %}
