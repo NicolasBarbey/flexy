@@ -1,0 +1,22 @@
+{% extends 'checkout-base.html.twig' %}
+
+{% block title %}{{ 'Cart'|trans }}{% endblock %}
+
+{% block checkoutContent %}
+    <twig:Organisms:Cart:Base />
+{% endblock %}
+
+{% block checkoutSummary %}
+    {%- if not emptyCart -%}
+        <twig:Organisms:CheckoutSummary:Base />
+    {%- endif -%}
+{% endblock %}
+
+{% block checkoutNextButton %}
+    {%- if not emptyCart -%}
+        <twig:Organisms:NextButton:Base
+            :step="constant('FlexyBundle\\Components\\Molecules\\CheckoutSteps\\Base::CART')"
+            href="{{ path('checkout_delivery') }}"
+        />
+    {%- endif -%}
+{% endblock %}
