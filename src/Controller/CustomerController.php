@@ -346,11 +346,22 @@ class CustomerController extends FlexyController
     public function update(
         CustomerUpdateService $customerUpdateService,
     ): RedirectResponse {
-        $form = $this->createForm(CustomerUpdateForm::class);
+        $this->checkAuth();
+
+        $customer = $this->getSecurityContext()->getCustomerUser();
+
+        // The email field is read-only unless the shop allows email changes, so its
+        // value can only come from the initial data: Symfony ignores what a disabled
+        // field submits. Without it, the form redisplayed after a validation error
+        // shows an empty email address.
+        $form = $this->createForm(CustomerUpdateForm::class, data: [
+            'firstname' => $customer->getFirstname(),
+            'lastname' => $customer->getLastname(),
+            'email' => $customer->getEmail(),
+        ]);
 
         try {
             $formValidated = $this->validateForm($form, Request::METHOD_POST);
-            $customer = $this->getSecurityContext()->getCustomerUser();
 
             $customerUpdateService->updateCustomer(
                 new CustomerRegisterDTO(
