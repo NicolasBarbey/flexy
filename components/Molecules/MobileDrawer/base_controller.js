@@ -3,7 +3,23 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["drawer"];
 
+  connect() {
+    // Bound once so the same reference can be added and removed (window listeners are not
+    // cleaned up implicitly when the element leaves the DOM).
+    this.syncInertness = this.syncInertness.bind(this);
+    this.syncInertness();
+    window.addEventListener("resize", this.syncInertness);
+  }
+
+  disconnect() {
+    window.removeEventListener("resize", this.syncInertness);
+  }
+
   toggle(event) {
+    if (this.isStatic()) {
+      return;
+    }
+
     // A consumer may hide this instance above a breakpoint (e.g. FilterSelect's mobile
     // drawer, replaced by its own desktop dropdown) while still wiring a click on a
     // visible trigger to this action. Ignore it then: toggling a hidden drawer would still
@@ -25,6 +41,10 @@ export default class extends Controller {
   }
 
   close() {
+    if (this.isStatic()) {
+      return;
+    }
+
     this.drawerTarget.classList.remove("is-open");
     this.drawerTarget.inert = true;
     this.syncBodyLock();
@@ -35,6 +55,19 @@ export default class extends Controller {
     if (this.element.contains(document.activeElement)) {
       document.activeElement.blur();
     }
+  }
+
+  // Past its static breakpoint (Base.css `all: revert`, staticFrom="md"|"lg"), the drawer
+  // stops being a fixed bottom sheet and becomes plain inline content — there is no trigger
+  // left to open it, so its content must never stay `inert` there. `position` is read from
+  // the CSS rather than duplicating the breakpoint value here, so this stays correct
+  // whichever `staticFrom` a given instance uses.
+  isStatic() {
+    return getComputedStyle(this.drawerTarget).position !== "fixed";
+  }
+
+  syncInertness() {
+    this.drawerTarget.inert = !this.isStatic() && !this.drawerTarget.classList.contains("is-open");
   }
 
   // "locked" is a single shared class on <body>: derive it from whether any drawer or
