@@ -1,0 +1,39 @@
+{# @prop nameMin string Name attribute of the lower-bound input #}
+{# @prop nameMax string Name attribute of the upper-bound input #}
+{# @prop min number Lower bound of the range #}
+{# @prop max number Upper bound of the range #}
+{# @prop valueMin number|null Current lower value. Defaults to `min` #}
+{# @prop valueMax number|null Current upper value. Defaults to `max` #}
+{# @prop step number Step increment. Defaults to 1 #}
+{% props nameMin, nameMax, min, max, valueMin = null, valueMax = null, step = 1 %}
+
+<div
+    class="{{ ('RangeSlider ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({...stimulus_controller('Fields--RangeSlider--base')}).without('class') }}
+>
+    <input
+        type="range"
+        name="{{ nameMin }}"
+        min="{{ min }}"
+        max="{{ max }}"
+        step="{{ step }}"
+        value="{{ valueMin ?? min }}"
+        aria-label="{{ 'Minimum'|trans }}"
+        {{ stimulus_target('Fields--RangeSlider--base', 'min') }}
+        {{ stimulus_action('Fields--RangeSlider--base', 'updateInput', 'input') }}
+    />
+    <input
+        type="range"
+        name="{{ nameMax }}"
+        min="{{ min }}"
+        max="{{ max }}"
+        step="{{ step }}"
+        value="{{ valueMax ?? max }}"
+        aria-label="{{ 'Maximum'|trans }}"
+        {{ stimulus_target('Fields--RangeSlider--base', 'max') }}
+        {{ stimulus_action('Fields--RangeSlider--base', 'updateInput', 'input') }}
+    />
+    <div class="RangeSlider-track">
+        <div class="RangeSlider-progress" {{ stimulus_target('Fields--RangeSlider--base', 'progress') }}></div>
+    </div>
+</div>
