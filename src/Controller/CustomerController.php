@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Authentication\CustomerUsernamePasswordFormAuthenticator;
@@ -96,7 +97,9 @@ class CustomerController extends FlexyController
                 }
 
                 return $this->generateSuccessRedirect($customerLoginForm);
-            } catch (WrongPasswordException) {
+            } catch (UserNotFoundException|WrongPasswordException) {
+                // Both cases must be indistinguishable: a message specific to an unknown
+                // email would tell an attacker which addresses have an account here.
                 $message = $this->getTranslator()->trans('Wrong email or password. Please try again');
             } catch (CustomerNotConfirmedException $e) {
                 if (null !== $e->getUser()) {
