@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% set type = app.request.get('type')|default('sales') %}
+{% set heading = {
+    promo: 'Promotions'|trans,
+    newness: 'New'|trans,
+}[type]|default('All products'|trans) %}
+
+{% block title %}{{ heading }}{% endblock %}
+
+{% block body %}
+    {# Not a Thelia entity view, so SEOne has no breadcrumb model for it — built by hand, like faq.
+       No named route either: this page is served by the Front module's /{_view} catch-all. #}
+    <twig:Layouts:Subheader:Category
+        title="{{ heading }}"
+        container="large"
+        :breadcrumb="[{title: heading, url: '/view_all' ~ (type == 'sales' ? '' : '?type=' ~ type)}]"
+    />
+
+    {# Thelia exposes filters per category only, so this listing has sorting but no filter sidebar #}
+    <twig:Layouts:CategoryFilters:Base
+        :promo="type == 'promo'"
+        :newness="type == 'newness'"
+    />
+{% endblock %}
