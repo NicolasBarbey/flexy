@@ -130,10 +130,14 @@ within 24 hours: within 24 hours
 Site under maintenance: Site under maintenance
 Your favorite site is getting a makeover and will be back shortly.: Your favorite site is getting a makeover and will be back shortly.
 Category: Category
+Choose: Choose
+brand: Brand
 Filter: Filter
+Filter by: Filter by
 Material: Material
 item(s): item(s)
 Sort by: Sort by
+Sort & filter: Sort & filter
 Sort the products: Sort the products
 Price ascending: Price ascending
 Price descending: Price descending
@@ -251,8 +255,10 @@ Your login: Your login
 Your informations: Your informations
 Quantity: Quantity
 Apply: Apply
-Erase filters: Erase filters
-Erase: Erase
+Clear filters: Clear filters
+Clear: Clear
+Minimum: Minimum
+Maximum: Maximum
 No products found: No products found
 Previous Step: Previous Step
 Checkout: Checkout

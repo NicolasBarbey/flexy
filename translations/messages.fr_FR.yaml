@@ -131,10 +131,14 @@ within 24 hours: sous 24 heures
 Site under maintenance: Site en maintenance
 Your favorite site is getting a makeover and will be back shortly.: Votre site préféré est en train de se refaire une beauté et sera de retour sous peu.
 Category: Catégorie
+Choose: Choisissez
+brand: Marque
 Filter: Filtrer
+Filter by: Filtrer par
 Material: Matière
 item(s): article(s)
 Sort by: Trier par
+Sort & filter: Trier & filtrer
 Sort the products: Trier les produits
 Price ascending: Prix croissant
 Price descending: Prix décroissant
@@ -241,8 +245,10 @@ hy_customer: Bonjour %firstname%
 Logout: Déconnexion
 Home: Accueil
 Apply: Appliquer
-Erase filters: Effacer les filtres
-Erase: Effacer
+Clear filters: Effacer les filtres
+Clear: Effacer
+Minimum: Minimum
+Maximum: Maximum
 No products found: Aucun produit trouvé
 Previous Step: Étape précédente
 Checkout: Tunnel d'achat

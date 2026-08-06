@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set categoryId = attr('category', 'id') %}
+    {% set description = attr('category', 'description') %}
+    {% set postscriptum = attr('category', 'postscriptum') %}
+    {% set hasEditorialContent = description or postscriptum %}
+
+    {# A category showing sub-categories browses them instead of listing its own products, even when
+       it holds both. Thelia allows both, so this is a starter default rather than a limitation: a
+       shop needing the mixed case is expected to customise this page.
+       `childCategories|length` drives the Subheader props below as well as the branch further down,
+       so changing the behaviour means adjusting both — otherwise the heading keeps a container
+       sized for a full-width grid and loses its product count and filter trigger. #}
+    {% set childCategories = resources('/api/front/categories', {
+        parent: categoryId,
+        visible: true,
+        'order[position]': 'asc',
+    }) %}
+
+    <twig:Layouts:Subheader:Category
+        title="{{ SEOnePageH1()|default(null) ?: attr('category', 'title') }}"
+        description="{{ attr('category', 'chapo') }}"
+        :readMore="hasEditorialContent"
+        :breadcrumb="breadcrumb"
+        container="{{ childCategories|length ? 'large' : 'double-2' }}"
+        filtersId="{{ childCategories|length ? null : 'category-filters' }}"
+        :productCount="childCategories|length ? null : loopCount('product', {category: categoryId, visible: 1})"
+    />
+
+    {% if childCategories|length %}
+        <div class="container-l py-14 xl:py-20">
+            <ul class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-8">
+                {% for childCategory in childCategories %}
+                    <li>
+                        <twig:Organisms:CategoryCard:Base
+                            id="{{ childCategory.id }}"
+                            title="{{ childCategory.i18ns.title }}"
+                            href="{{ childCategory.publicUrl }}"
+                            class="h-full"
+                        />
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <twig:Layouts:CategoryFilters:Base :categoryId="categoryId" />
+    {% endif %}
+
+    {% if hasEditorialContent %}
+        <div id="description" class="container-single-3 pb-20 lg:pb-30">
+            <div class="wysiwyg wysiwyg-theme flex flex-col gap-10 min-w-0">
+                {% if description %}
+                    <div>{{ description|raw }}</div>
+                {% endif %}
+                <twig:Organisms:Blocks:Base itemType="category" itemId="{{ categoryId }}" />
+                {% if postscriptum %}
+                    <small>{{ postscriptum|raw }}</small>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

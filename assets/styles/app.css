@@ -34,6 +34,7 @@
   @import "../../components/Fields/Select/Base.css";
   @import "../../components/Fields/TextArea/Base.css";
   @import "../../components/Fields/Toggle/Base.css";
+  @import "../../components/Fields/RangeSlider/Base.css";
 
   @import "../../components/Molecules/Breadcrumb/Base.css";
   @import "../../components/Molecules/Tabulation/Base.css";
@@ -78,6 +79,8 @@
   @import "../../components/Layouts/SimilarContent/Base.css";
   @import "../../components/Layouts/Subheader/Base.css";
   @import "../../components/Layouts/Subheader/Item.css";
+  @import "../../components/Layouts/Subheader/Category.css";
+  @import "../../components/Layouts/CategoryFilters/Base.css";
 
   @import "../../components/Organisms/BlocksToc/Base.css";
   @import "./blocks.css";
