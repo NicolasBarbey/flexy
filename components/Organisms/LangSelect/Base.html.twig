@@ -5,6 +5,11 @@
 {% if currentLang %}
     {% set langs = this.langs %}
 
+    {# Switching language stays on the current page: the core RewritingRouter turns
+       the lang query parameter into a redirect to that page's localized URL. #}
+    {% set currentPath = app.request.baseUrl ~ app.request.pathInfo %}
+    {% set currentQuery = app.request.query.all %}
+
     <div
         class="{{ ('LangSelect ' ~ attributes.render('class'))|tailwind_merge }}"
         {{ attributes.defaults({...stimulus_controller('Organisms--LangSelect--base')}).without('class') }}
@@ -27,7 +32,7 @@
                 {% for lang in langs %}
                     <li>
                         <a
-                            href="{{ attr('config', 'url_site') ~ '?' ~ { lang: lang.locale }|url_encode }}"
+                            href="{{ currentPath ~ '?' ~ currentQuery|merge({ lang: lang.locale })|url_encode }}"
                             class="LangSelect-lang{% if currentLang.code == lang.code %} active{% endif %}"
                         >
                             {{ ux_icon('flags:' ~ lang.code, { class: 'LangSelect-flag' }) }}
@@ -64,7 +69,7 @@
                 {% for lang in langs %}
                     <li>
                         <a
-                            href="{{ attr('config', 'url_site') ~ '?' ~ { lang: lang.locale }|url_encode }}"
+                            href="{{ currentPath ~ '?' ~ currentQuery|merge({ lang: lang.locale })|url_encode }}"
                             class="LangSelect-mobileItem{% if currentLang.code == lang.code %} active{% endif %}"
                         >
                             {{ ux_icon('flags:' ~ lang.code, { class: 'LangSelect-flag' }) }}
