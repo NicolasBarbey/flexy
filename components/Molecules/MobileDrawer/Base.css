@@ -10,11 +10,6 @@
     border-radius: 1.25rem 1.25rem 0 0;
     transform: translateY(100%);
     transition: transform 0.3s ease;
-
-    /* Mobile-only: from md upward this becomes static inline content instead of a bottom sheet */
-    @variant md {
-      all: revert;
-    }
   }
 
   .MobileDrawer::before {
@@ -26,10 +21,6 @@
     height: 0.3125rem;
     border-radius: 3.125rem;
     background-color: var(--color-grey);
-
-    @variant md {
-      content: none;
-    }
   }
 
   .MobileDrawer.is-open {
@@ -39,12 +30,6 @@
   /* Keyboard navigation: focusing an option inside the drawer keeps it open */
   .MobileDrawer:has(label:focus) {
     transform: translateY(0);
-  }
-
-  .MobileDrawer-header {
-    @variant md {
-      display: none;
-    }
   }
 
   .MobileDrawer-close {
@@ -69,22 +54,65 @@
 
   .MobileDrawer.is-open + .MobileDrawer-overlay {
     display: block;
+  }
 
-    @variant md {
+  /*
+   * Above its breakpoint the drawer stops being a bottom sheet and becomes static inline content.
+   * That breakpoint is md by default, lg for `staticFrom: 'lg'` (a sidebar that must stay a drawer
+   * on tablet, e.g. Layouts/CategoryFilters) — hence the same four declarations twice.
+   */
+  @variant md {
+    .MobileDrawer:not(.MobileDrawer--staticLg) {
+      all: revert;
+    }
+
+    .MobileDrawer:not(.MobileDrawer--staticLg)::before {
+      content: none;
+    }
+
+    .MobileDrawer:not(.MobileDrawer--staticLg) .MobileDrawer-header {
+      display: none;
+    }
+
+    .MobileDrawer:not(.MobileDrawer--staticLg).is-open + .MobileDrawer-overlay {
+      display: none;
+    }
+  }
+
+  @variant lg {
+    .MobileDrawer--staticLg {
+      all: revert;
+    }
+
+    .MobileDrawer--staticLg::before {
+      content: none;
+    }
+
+    .MobileDrawer--staticLg .MobileDrawer-header {
+      display: none;
+    }
+
+    .MobileDrawer--staticLg.is-open + .MobileDrawer-overlay {
       display: none;
     }
   }
 }
 
 /*
- * Restores page scroll when the "open" drawer is actually displayed as static inline content (from md upward)
- * rather than an overlay. Deliberately left OUTSIDE the `@layer components` block above (and this file must
- * stay imported unwrapped in app.css): the global `body.locked { overflow: hidden }` rule
+ * Restores page scroll when the "open" drawer is actually displayed as static inline content
+ * rather than an overlay. Deliberately left OUTSIDE the `@layer components` block above (and this file
+ * must stay imported unwrapped in app.css): the global `body.locked { overflow: hidden }` rule
  * (assets/styles/app.css) is itself unlayered, and unlayered rules always beat layered ones regardless of
  * specificity — this override would never apply otherwise.
  */
-body.locked:has(.MobileDrawer.is-open) {
+body.locked:has(.MobileDrawer:not(.MobileDrawer--staticLg).is-open) {
   @variant md {
+    overflow: auto;
+  }
+}
+
+body.locked:has(.MobileDrawer--staticLg.is-open) {
+  @variant lg {
     overflow: auto;
   }
 }
