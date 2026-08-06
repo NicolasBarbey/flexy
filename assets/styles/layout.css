@@ -128,11 +128,7 @@
 
 @utility container-double-3 {
   width: 100%;
-  padding-inline: --spacing(6); /* 24px, below xs */
-
-  @variant xs {
-    padding-inline: 0;
-  }
+  padding-inline: --spacing(6); /* 24px, mobile only */
 
   @variant md {
     max-width: 85.375rem; /* 1366px */
