@@ -4,7 +4,6 @@
     - 'large' (default): container-l, generic full-width pages
     - 'medium'/'small': container-m/container-s, narrower pages
     - 'single-3': container-single-3, single-column text-content pages
-    - 'double-2': container-double-2, category page (2-column) — not used yet, Phase 4
     Note: 'double-3' isn't offered here — a content page with a container-double-3 body still spans the same box as container-l, so its Subheader uses 'large'. #}
 {# @prop description string|null Optional rich text shown below the title #}
 {# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
@@ -16,7 +15,6 @@
     medium: 'container-m',
     small: 'container-s',
     'single-3': 'container-single-3',
-    'double-2': 'container-double-2',
 }[container] %}
 
 {% set image = null %}
