@@ -2,8 +2,10 @@
 liip_imagine:
   # valid drivers options include "gd" or "gmagick" or "imagick"
   driver: 'gd'
-  default_filter_set_settings:
-    format: webp
+  # No global `format` conversion: it would rewrite the base image too, and the base
+  # image is the fallback served to clients that do not accept WebP — they would get
+  # WebP bytes under the source extension and render nothing. `webp.generate` already
+  # serves a WebP variant through Accept negotiation, with the original left intact.
   webp:
     generate: true
   loaders:
