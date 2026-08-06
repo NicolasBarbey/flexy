@@ -1,8 +1,11 @@
 {% props items = [] %}
 
+{# An untranslated entity yields a title-less item: unrenderable, and invalid as structured data #}
+{% set items = items|filter(item => item.title is not empty) %}
+
 {% if items is not empty %}
     {% set home = {title: 'Home'|trans, url: '/'} %}
-    {% set parent = items|length > 1 ? items[items|length - 2] : home %}
+    {% set parent = items|slice(0, items|length - 1)|last|default(home) %}
 
     <div class="{{ ('Breadcrumb ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
         <nav class="sr-only" aria-label="{{ 'Breadcrumb'|trans }}">

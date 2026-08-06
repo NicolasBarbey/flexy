@@ -1,23 +1,33 @@
-{% set oneLevel = [
+{# The breadcrumb renders a single "back to parent" link (not a full trail): the parent is the item
+   before the current page, or Home when the page is top-level. So the only meaningful variants are
+   what that parent resolves to. #}
+{% set topLevel = [
     {url: '/men', title: 'Men'}
 ] %}
 
-{% set twoLevels = [
+{% set nested = [
     {url: '/men', title: 'Men'},
     {url: '/men/shirts', title: 'Shirts'}
 ] %}
 
-{% set threeLevels = [
-    {url: '/men', title: 'Men'},
-    {url: '/men/shirts', title: 'Shirts'},
-    {url: '/men/shirts/blue-oxford', title: 'Blue Oxford Shirt'}
-] %}
-
 <div class="grid gap-8">
-    <div class="grid gap-2">
-        <twig:Molecules:Breadcrumb:Base :items="[]" />
-        <twig:Molecules:Breadcrumb:Base :items="oneLevel" />
-        <twig:Molecules:Breadcrumb:Base :items="twoLevels" />
-        <twig:Molecules:Breadcrumb:Base :items="threeLevels" />
+    <div class="grid gap-4">
+        <h4>Base</h4>
+
+        {# .Breadcrumb is position:absolute (it overlays the Subheader in real use), so each example
+           needs its own relative box with reserved height, otherwise they overlap. #}
+        {% set examples = [
+            { label: 'top-level page → back to Home', items: topLevel },
+            { label: 'nested page → back to parent', items: nested }
+        ] %}
+
+        {% for example in examples %}
+            <div class="grid gap-2">
+                <span class="text-xs text-grey">{{ example.label }}</span>
+                <div class="relative min-h-20 rounded-md border border-grey-lighter">
+                    <twig:Molecules:Breadcrumb:Base :items="example.items" />
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
