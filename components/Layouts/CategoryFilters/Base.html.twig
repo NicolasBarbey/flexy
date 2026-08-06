@@ -1,6 +1,10 @@
 {# @prop id string Id of this section, used by Molecules--MobileDrawer--open triggers rendered outside it (e.g. Layouts/Subheader/Category). Defaults to 'category-filters' #}
 {% props id = 'category-filters' %}
 
+{# The Flexy widgets are no longer a global form theme, so the filter form must opt in
+   explicitly — without this the pill/fieldset/range blocks below never apply. #}
+{% form_theme form with flexy_form_themes only %}
+
 {# container-double-2 splits into sidebar + grid, so it needs both slots: without filters the
    listing is a single full-width column instead. #}
 {% set hasFilters = filters|length > 0 %}
