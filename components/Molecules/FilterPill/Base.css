@@ -1,6 +1,7 @@
 .FilterPill {
   --filterpill-color: var(--color-grey-dark);
-  --filterpill-background: transparent;
+  /* An explicit surface, not the container's: the pill sits on the tinted accordion below lg */
+  --filterpill-background: var(--color-white);
   --filterpill-border-color: var(--color-light);
 
   padding: 0.5rem 0.625rem;
