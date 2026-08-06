@@ -276,6 +276,12 @@ class Product
             $match = array_values(array_filter($pses, fn($pse) => $pse['isDefault'] ?? false))[0] ?? null;
         }
 
+        // The default PSE may be hidden, in which case it was filtered out of $pses and no default
+        // is left to select. Fall back to the first available one so the page still renders.
+        if (!$match) {
+            $match = $pses[0] ?? null;
+        }
+
         if ($match) {
             $this->currentPse = $match;
             $this->currentCombination = $match['combination'];
