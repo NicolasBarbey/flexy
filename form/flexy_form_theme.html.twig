@@ -113,3 +113,90 @@
         type: 'submit',
     }) }}
 {%- endblock submit_widget -%}
+
+{# PRODUCT FILTERS — fed by FlexyBundle\Service\FormService, consumed by Layouts/CategoryFilters.
+   Each filter is a collapsible section; the CSS for .Fieldset/.FilterAccordion lives with that component. #}
+
+{%- block pill_widget -%}
+    {# `Accordion:Item` takes a `value` prop, which shadows this widget's own `value` var inside the
+       component's slots. Aliased here so the selected-state tests below can't read the item id
+       instead — `in` against that string would silently do a substring match. #}
+    {% set selectedValues = value %}
+    {% if choices|length %}
+        <twig:Molecules:Accordion:Base id="{{ id }}-accordion">
+            <twig:Molecules:Accordion:Item
+                value="{{ id }}"
+                :open="choices|filter(choice => choice.value in selectedValues)|length > 0"
+                class="FilterAccordion"
+            >
+                <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
+                    {{ label|trans }}
+                </twig:Molecules:Accordion:Trigger>
+                <twig:Molecules:Accordion:Content>
+                    <ul class="flex flex-wrap gap-2">
+                        {% for choice in choices %}
+                            <li>
+                                {{ component('Molecules:FilterPill:Base', {
+                                    label: choice.label|trans,
+                                    close: true,
+                                    color: attr.colors[choice.value]|default(null),
+                                    'input:name': full_name,
+                                    'input:value': choice.value,
+                                    'input:checked': choice.value in selectedValues,
+                                }) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </twig:Molecules:Accordion:Content>
+            </twig:Molecules:Accordion:Item>
+        </twig:Molecules:Accordion:Base>
+    {% endif %}
+{%- endblock pill_widget -%}
+
+{%- block fieldset_row -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' Fieldset')|trim}) %}
+    <fieldset {{ block('attributes') }}>
+        {% if label %}
+            <legend class="{{ ('Fieldset-legend ' ~ form.vars.label_attr.class|default(''))|trim }}">{{ label|trans }}</legend>
+        {% endif %}
+        <ul class="Fieldset-group">
+            {% for child in form %}
+                <li>{{ form_row(child) }}</li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+{%- endblock fieldset_row -%}
+
+{%- block range_group_row -%}
+    <twig:Molecules:Accordion:Base id="{{ id }}-accordion">
+        <twig:Molecules:Accordion:Item value="{{ id }}" class="FilterAccordion">
+            <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
+                {{ label|trans }}
+            </twig:Molecules:Accordion:Trigger>
+            <twig:Molecules:Accordion:Content>
+                <twig:Fields:RangeSlider:Base
+                    nameMin="{{ form.min.vars.full_name }}"
+                    nameMax="{{ form.max.vars.full_name }}"
+                    :min="form.min.vars.attr.min"
+                    :max="form.max.vars.attr.max"
+                    :valueMin="form.min.vars.value"
+                    :valueMax="form.max.vars.value"
+                    class="py-2"
+                />
+            </twig:Molecules:Accordion:Content>
+        </twig:Molecules:Accordion:Item>
+    </twig:Molecules:Accordion:Base>
+{%- endblock range_group_row -%}
+
+{%- block range_filter_row -%}
+    <twig:Molecules:Accordion:Base id="{{ id }}-accordion">
+        <twig:Molecules:Accordion:Item value="{{ id }}" class="FilterAccordion">
+            <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
+                {{ label|trans }}
+            </twig:Molecules:Accordion:Trigger>
+            <twig:Molecules:Accordion:Content>
+                {{ form_widget(form) }}
+            </twig:Molecules:Accordion:Content>
+        </twig:Molecules:Accordion:Item>
+    </twig:Molecules:Accordion:Base>
+{%- endblock range_filter_row -%}
