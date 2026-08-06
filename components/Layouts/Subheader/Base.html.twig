@@ -4,8 +4,8 @@
     - 'large' (default): container-l, generic full-width pages
     - 'medium'/'small': container-m/container-s, narrower pages
     - 'single-3': container-single-3, single-column text-content pages (e.g. FAQ) — matches the body when it's not wrapped in container-l (no split needed)
-    - 'double-2': container-double-2, category page (2-column) — not used yet, Phase 4
-    Note: 'double-3' isn't offered here — a content page with a container-double-3 body (2-column, ToC optional) still spans the same box as container-l, so its Subheader uses 'large', not 'double-3'. #}
+    Note: 'double-3' isn't offered here — a content page with a container-double-3 body (2-column, ToC optional) still spans the same box as container-l, so its Subheader uses 'large', not 'double-3'.
+    A 2-column category listing needs its own file (Subheader/Category), not a container value: the text goes in the container's second slot to align with the product grid. #}
 {# @prop centered boolean Center the title text. Defaults to false #}
 {# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
 {% props title, tag = 'h1', container = 'large', centered = false, breadcrumb = [] %}
@@ -23,7 +23,6 @@
     medium: 'container-m',
     small: 'container-s',
     'single-3': 'container-single-3',
-    'double-2': 'container-double-2',
 }[container] %}
 
 <div class="{{ subheader.apply({centered}, attributes.render('class')) }}" {{ attributes.without('class') }}>
