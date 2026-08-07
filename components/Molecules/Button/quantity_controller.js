@@ -29,7 +29,7 @@ class QuantityController extends Controller {
     if (min && value <= min) {
       return;
     }
-    this.inputTarget.value = value - 1;
+    this.setValue(value - 1);
   }
   increment() {
     const max = parseInt(this.inputTarget.getAttribute("max"));
@@ -38,7 +38,18 @@ class QuantityController extends Controller {
     if (max && value >= max) {
       return;
     }
-    this.inputTarget.value = value + 1;
+    this.setValue(value + 1);
+  }
+
+  /**
+   * Assigning `value` from script fires no event, so anything listening on the input stays
+   * unaware of the new quantity — inside a LiveComponent form the browser never posts this
+   * field either (the component's own model is the only channel), and the server would keep
+   * validating the quantity it last knew about. Announce the change explicitly.
+   */
+  setValue(value) {
+    this.inputTarget.value = value;
+    this.inputTarget.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
   enforceNumberOnly(el, e) {
