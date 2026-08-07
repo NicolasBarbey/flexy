@@ -18,6 +18,13 @@
   }
 }
 
+.HeaderNav .HeaderButton-icon {
+  @variant max-md {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
 .HeaderNav-btn:last-child {
   order: -9999;
 

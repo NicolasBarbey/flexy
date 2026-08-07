@@ -95,6 +95,10 @@
   opacity: 1;
 }
 
+.LangSelect-mobileToggle .HeaderButton-icon {
+  @apply rounded-full;
+}
+
 .LangSelect-mobileList {
   list-style: none;
   padding: 0;
