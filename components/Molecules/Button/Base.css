@@ -79,8 +79,12 @@
     cursor: pointer;
   }
 
+  /* 1.5em is the label's line box at all three sizes (18/21/24px), the ratio being exactly 1.5.
+     Not var(--button-line-height-*): those tokens live in the @theme inline block above, so they
+     are substituted at build time and resolve to nothing through var() at runtime. */
   .button > span.icon {
-    @apply w-5 h-5;
+    width: 1.5em;
+    height: 1.5em;
     &.icon-left {
       margin-right: 0.375rem;
     }
