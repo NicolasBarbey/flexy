@@ -1,0 +1,194 @@
+@layer components {
+  .ProductGallery {
+    --product-gallery-height: 28.75rem; /* 460px */
+
+    position: relative;
+
+    @variant md {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: var(--product-gallery-height);
+      gap: 1.25rem;
+      width: auto;
+      margin: 0;
+    }
+  }
+
+  /*
+   * Out of flow, and given a grid position from md all the same: an absolutely positioned child of
+   * a grid container takes its grid area as containing block, so repeating the main visual's
+   * columns is what keeps the tags off the thumbnail rail.
+   */
+  .ProductGallery-tags {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    /* The slider is draggable below sm — a swipe starting on a tag must reach it. */
+    pointer-events: none;
+
+    @variant md {
+      grid-column: 2 / 7;
+      grid-row: 1;
+    }
+  }
+
+  .ProductGallery-main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background-color: var(--color-white);
+    grid-column: 1 / -1;
+
+    @variant md {
+      grid-column: 2 / 7;
+    }
+  }
+
+  /*
+   * The rail takes the grid's first column as soon as it appears. The source instead floated it
+   * out of the grid, into the page margin, until lg — that only worked because its own container
+   * capped at 540px, leaving a wide free margin; container-l keeps just 52px of padding at md, so
+   * a rail pushed 54px + 16px to the left of the gallery ends up half outside the viewport.
+   */
+  .ProductGallery-list {
+    display: none;
+    margin-top: -1.25rem;
+    overflow: auto;
+    scrollbar-width: none;
+
+    @variant md {
+      display: block;
+    }
+  }
+
+  .ProductGallery-list > ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sticky gradients fading the rail out at both ends while it scrolls. */
+  .ProductGallery-list::before,
+  .ProductGallery-list::after {
+    content: "";
+    display: block;
+    position: sticky;
+    width: 100%;
+    height: 1.25rem;
+    background: linear-gradient(var(--color-white), 45%, transparent);
+    top: 0;
+  }
+
+  .ProductGallery-list::after {
+    background: linear-gradient(180deg, transparent, 45%, var(--color-white));
+    top: auto;
+    bottom: 0;
+  }
+
+  .ProductGallery-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 2px solid transparent;
+
+    &:focus-within,
+    &.is-active {
+      border-color: var(--color-base);
+    }
+  }
+
+  .ProductGallery-thumbnail {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .ProductGallery-thumbnail:focus {
+    outline: none;
+  }
+}
+
+/*
+ * Splide ships its own stylesheet, imported from base_controller.js and therefore emitted as a
+ * plain unlayered <link>: unlayered rules beat every @layer, so these overrides have to stay
+ * outside `@layer components` above to win against it.
+ */
+.ProductGallery .splide {
+  position: static;
+  max-height: 100%;
+  width: 100%;
+}
+
+.ProductGallery .splide img {
+  max-height: var(--product-gallery-height);
+}
+
+.ProductGallery .splide__slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ProductGallery .splide__pagination {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -0.875rem);
+}
+
+.ProductGallery .splide__pagination li {
+  display: flex;
+}
+
+.ProductGallery .splide__pagination__page {
+  width: 0.375rem;
+  height: 0.375rem;
+  margin: 0.25rem;
+  border-radius: 50%;
+  background-color: var(--color-black);
+  opacity: 0.3;
+
+  &.is-active {
+    transform: scale(1.33);
+    opacity: 1;
+  }
+}
+
+/* Arrows are hidden below sm, where the slider is swipeable and paginated with dots instead
+   (base_controller.js drops them from Splide at the same breakpoint). */
+.ProductGallery .splide__arrows {
+  display: none;
+  align-items: center;
+  justify-content: end;
+  gap: 0.5rem;
+
+  @variant sm {
+    display: flex;
+  }
+}
+
+.ProductGallery .splide__arrow {
+  position: static;
+  box-sizing: content-box;
+  padding: 1rem 1.5rem;
+  color: var(--color-black);
+  background: none;
+  border-radius: 0;
+  transform: none;
+  opacity: 1;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 0.75rem;
+  }
+}

@@ -1,0 +1,103 @@
+{# @prop images array List of {id, pseIds, isProductImg} — pseIds lists the PSEs an image illustrates, empty for a product-level image #}
+{# @prop currentPseId int|null Selected PSE, used to seed the active thumbnail and slide #}
+{# @prop tags array Badges overlaid on the visual: [{text, color}], color being a Molecules/Tag one #}
+{% props images = [], currentPseId = null, tags = [] %}
+
+{% set galleryController = 'Organisms--ProductGallery--base' %}
+
+<div
+    class="{{ ('ProductGallery ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({
+        ...stimulus_controller(galleryController, {currentPseId: currentPseId}),
+    }).without('class') }}
+>
+    {# Rendered even with nothing in it: morphing pairs children by position, and dropping this
+       element would shift that pairing onto the two ignored siblings below. #}
+    <div class="ProductGallery-tags">
+        {% for tag in tags %}
+            <twig:Molecules:Tag:Base customText="{{ tag.text }}" color="{{ tag.color }}" />
+        {% endfor %}
+    </div>
+
+    {# data-live-ignore on the rail and on the slider rather than on the gallery as a whole, so the
+       tags above stay in sync with the current PSE. Both siblings hold client state a morph would
+       wipe: the active thumbnail, owned by the controller, and Splide's clones and inline styles.
+       Live actions inside still fire — data-live-ignore only opts out of DOM morphing. #}
+    <div class="ProductGallery-list" data-live-ignore {{ stimulus_target(galleryController, 'thumblist') }}>
+        <ul>
+            {% for image in images %}
+                {% set pseIds = image.pseIds|default([])|join(',') %}
+                {# The active thumbnail is not marked server-side: the controller owns it, so a live
+                   re-render can't reset it to the first image while another PSE is selected.
+                   The click action sits on the list item because the button's own data-action is
+                   already taken by live_action() below — an element carries only one. The event has
+                   to be spelled out: Stimulus only infers a default event for a handful of tags
+                   (a, button, form, input…), and silently binds nothing on an <li>. #}
+                <li
+                    class="ProductGallery-item"
+                    {{ stimulus_target(galleryController, 'item') }}
+                    {{ stimulus_action(galleryController, 'select', 'click') }}
+                >
+                    <button
+                        type="button"
+                        {{ stimulus_target(galleryController, image.isProductImg|default(false) ? 'thumbnail productImg' : 'thumbnail') }}
+                        {% if pseIds %}
+                            {{ live_action('updateCurrentPseFromId', {pseIds: pseIds}) }}
+                            data-pse-id="{{ pseIds }}"
+                        {% endif %}
+                        data-index="{{ loop.index0 }}"
+                    >
+                        {{ getImages({
+                            img_id: image.id,
+                            source_type: 'product',
+                            filters: 'product_gallery_thumbnail',
+                            img_attrs: {
+                                class: 'ProductGallery-thumbnail',
+                                loading: 'lazy',
+                            },
+                            placeholder: asset('images/placeholder2.webp'),
+                        })|raw }}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="ProductGallery-main" data-live-ignore>
+        <section class="splide" aria-label="{{ 'Product visuals'|trans }}" {{ stimulus_target(galleryController, 'slider') }}>
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for image in images %}
+                        <li
+                            class="splide__slide"
+                            {{ stimulus_target(galleryController, 'slide') }}
+                            data-pse-ids="{{ image.pseIds|default([])|join(',') }}"
+                        >
+                            {{ getImages({
+                                img_id: image.id,
+                                source_type: 'product',
+                                filters: 'product_gallery',
+                                img_attrs: {
+                                    loading: 'lazy',
+                                    'data-image-id': image.id,
+                                },
+                                placeholder: asset('images/placeholder2.webp'),
+                            })|raw }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% if images|length > 1 %}
+                <div class="splide__arrows">
+                    <button class="splide__arrow splide__arrow--prev" aria-label="{{ 'Previous visual'|trans }}">
+                        {{ ux_icon('arrow-left') }}
+                    </button>
+                    <button class="splide__arrow splide__arrow--next" aria-label="{{ 'Next visual'|trans }}">
+                        {{ ux_icon('arrow-right') }}
+                    </button>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</div>

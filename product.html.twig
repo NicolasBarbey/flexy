@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set productId = attr('product', 'id') %}
+    {% set product = resources('/api/front/products/' ~ productId) %}
+
+    {# Cross-selling browses the category the product is filed under by default. #}
+    {% set defaultCategory = product.productCategories|filter(productCategory => productCategory.defaultCategory)|first.category|default(null) %}
+
+    <div class="ProductPage">
+        <div class="pt-2 pb-3 md:pt-5 md:pl-5">
+            <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
+        </div>
+
+        <div class="container-l">
+            <div class="ProductPage-grid">
+                <twig:Layouts:ProductDetails:Base
+                    :product="product"
+                    title="{{ SEOnePageH1()|default(null) ?: attr('product', 'title') }}"
+                />
+
+                <section id="description" class="ProductPage-description">
+                    <twig:Molecules:Accordion:Base id="product-details" multiple>
+                        {% if product.i18ns.description|default('') %}
+                            <twig:Molecules:Accordion:Item value="description" open>
+                                <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus">
+                                    {{ 'Description'|trans }}
+                                </twig:Molecules:Accordion:Trigger>
+                                <twig:Molecules:Accordion:Content>
+                                    <div class="wysiwyg wysiwyg-theme min-w-0">
+                                        {{ product.i18ns.description|raw }}
+                                    </div>
+                                </twig:Molecules:Accordion:Content>
+                            </twig:Molecules:Accordion:Item>
+                        {% endif %}
+
+                        {# A free text feature carries its value inline instead of pointing at a
+                           feature_av, and an untranslated one yields an empty title: both are
+                           skipped rather than rendered as a dangling label. #}
+                        {% set features = product.featureProducts|default([])|map(featureProduct => {
+                            label: featureProduct.feature.i18ns.title|default(''),
+                            value: featureProduct.is_free_text|default(false)
+                                ? featureProduct.free_text_value|default('')
+                                : featureProduct.featureAv.i18ns.title|default(''),
+                        })|filter(feature => feature.label is not empty and feature.value is not empty) %}
+
+                        {% if features is not empty %}
+                            <twig:Molecules:Accordion:Item value="features">
+                                <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus">
+                                    {{ 'Features'|trans }}
+                                </twig:Molecules:Accordion:Trigger>
+                                <twig:Molecules:Accordion:Content>
+                                    <dl class="ProductPage-features">
+                                        {% for feature in features %}
+                                            <dt>{{ feature.label }} :</dt>
+                                            <dd>{{ feature.value }}</dd>
+                                        {% endfor %}
+                                    </dl>
+                                </twig:Molecules:Accordion:Content>
+                            </twig:Molecules:Accordion:Item>
+                        {% endif %}
+                    </twig:Molecules:Accordion:Base>
+                </section>
+            </div>
+        </div>
+
+        <div class="container-l">
+            <twig:Organisms:Blocks:Base itemType="product" itemId="{{ productId }}" />
+        </div>
+
+        {% if defaultCategory %}
+            <div class="bg-lighter mt-12">
+                <twig:Layouts:CrossSelling:Base
+                    :categoryId="defaultCategory.id"
+                    title="{{ 'Last seen products'|trans }}"
+                />
+            </div>
+        {% endif %}
+
+        <twig:Layouts:ReinsuranceModule:Base :items="[
+            {
+                icon: 'reinsurance-delivery',
+                strongText: 'Free delivery'|trans,
+                text: 'For any order over €100'|trans,
+                linkLabel: 'See conditions'|trans,
+                link: '#',
+            },
+            {
+                icon: 'reinsurance-payment',
+                strongText: 'Secure payment'|trans,
+                text: 'Credit card, Paypal'|trans,
+                linkLabel: 'See conditions'|trans,
+                link: '#',
+            },
+            {
+                icon: 'reinsurance-satisfied',
+                strongText: 'Satisfied or refunded'|trans,
+                text: 'Exchange or refund offered within 30 days'|trans,
+                linkLabel: 'See conditions'|trans,
+                link: '#',
+            },
+        ]" />
+    </div>
+
+    <twig:Organisms:AddToCartToast:Base />
+{% endblock %}

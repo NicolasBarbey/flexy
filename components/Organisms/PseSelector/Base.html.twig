@@ -1,0 +1,165 @@
+{# @prop form FormView The core CART_ADD form, owned by the parent LiveComponent #}
+{# @prop productAttrs array Attributes of the product: [{id, label, values: [{id, label, color, available}]}] #}
+{# @prop currentPse array|null Selected product sale element #}
+{# @prop currentCombination array attributeId => attributeAvId of the selected PSE #}
+{# @prop noAvailablePse bool No PSE matches the selected combination #}
+{# @prop stockManaged bool Whether stock is enforced for this product #}
+{# @prop remainingStock int Stock left once what is already in the cart is deducted #}
+{# @prop maxQuantityReached bool The cart already holds the whole available stock #}
+{% props
+    form,
+    productAttrs = [],
+    currentPse = null,
+    currentCombination = [],
+    noAvailablePse = false,
+    stockManaged = false,
+    remainingStock = 0,
+    maxQuantityReached = false
+%}
+
+{# The Flexy form theme is no longer global: without this the widgets below silently fall back to
+   Symfony's default theme. #}
+{% form_theme form with flexy_form_themes only %}
+
+{% set outOfStock = stockManaged and currentPse.quantity == 0 %}
+{% set mobileDrawerController = 'Molecules--MobileDrawer--base' %}
+
+<div class="{{ ('PseSelector ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    {{ form_start(form, {attr: {
+        class: 'PseSelector-form',
+        'data-action': 'live#action:prevent',
+        'data-live-action-param': 'save',
+    }}) }}
+
+    <div class="PseSelector-heading">
+        <div class="PseSelector-reviews">
+            <twig:Molecules:Score:Base :score="3" />
+            <span class="indication text-grey">12 {{ 'reviews'|trans }}</span>
+        </div>
+        <twig:Molecules:Tag:Stock
+            color="{{ outOfStock ? 'out' : 'in' }}"
+            customText="{{ (outOfStock ? 'Out of stock' : 'In stock')|trans }}"
+        />
+    </div>
+
+    {# The theme's form_errors block is empty by design, so form-level violations (an invalid
+       quantity rejected by the core CartAdd constraints) are surfaced here instead. #}
+    {% for error in form.vars.errors %}
+        <twig:Molecules:SnackBar:Base variant="error" withIcon text="{{ error.message }}" />
+    {% endfor %}
+
+    {% if outOfStock %}
+        <twig:Molecules:SnackBar:Base
+            variant="warning"
+            withIcon
+            text="{{ 'This product combination is currently out of stock.'|trans }}"
+        />
+    {% endif %}
+
+    {# Rendered as hidden through the theme's own `hidden` branch: that also marks them as rendered,
+       so form_end() only emits what is left (the CSRF token) instead of a second copy of each. #}
+    {{ form_widget(form.product, {type: 'hidden'}) }}
+    {{ form_widget(form.product_sale_elements_id, {type: 'hidden'}) }}
+    {{ form_widget(form.append, {type: 'hidden'}) }}
+    {{ form_widget(form.newness, {type: 'hidden'}) }}
+
+    {% if productAttrs|length %}
+        <fieldset class="PseSelector-attributes">
+            <ul>
+                {% for attr in productAttrs %}
+                    {% set selectedValue = attr.values|default([])|filter(value => value.id == currentCombination[attr.id])|first %}
+                    <li>
+                        <div class="PseSelector-choice" {{ stimulus_controller(mobileDrawerController) }}>
+                            {# Below md the label collapses into a select-like trigger showing the
+                               selected value through data-selected-label (see Base.css). That value
+                               is rendered server-side: the parent re-renders on every combination
+                               change, so no controller has to keep it in sync. #}
+                            <div
+                                class="PseSelector-choiceLabel"
+                                tabindex="0"
+                                data-selected-label="{{ selectedValue.label|default('') }}"
+                                {{ stimulus_action(mobileDrawerController, 'toggle', 'click')|stimulus_action(mobileDrawerController, 'toggle', 'keydown.enter')|stimulus_action(mobileDrawerController, 'toggle', 'keydown.space') }}
+                            >{{ attr.label }}</div>
+
+                            <twig:Molecules:MobileDrawer:Base>
+                                <p class="PseSelector-choiceTitle h4">{{ attr.label }}</p>
+                                <ul class="PseSelector-choiceList">
+                                    {% for value in attr.values|default([]) %}
+                                        <li>
+                                            {#
+                                                data-action written by hand: live_action() emits its own
+                                                data-action, and an element carries only one — the pill has
+                                                to both send the combination change and close the drawer.
+                                            #}
+                                            <twig:Molecules:FilterPill:Base
+                                                htmlTag="button"
+                                                label="{{ value.label }}"
+                                                color="{{ value.color|default(null) }}"
+                                                :selected="currentCombination[attr.id] == value.id"
+                                                :disabled="not value.available|default(true)"
+                                                data-action="live#action {{ mobileDrawerController }}#close"
+                                                data-live-action-param="updateCurrentCombination"
+                                                data-live-attr-param="{{ attr.id }}"
+                                                data-live-value-param="{{ value.id }}"
+                                            />
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </twig:Molecules:MobileDrawer:Base>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+    {% endif %}
+
+    {% if noAvailablePse %}
+        <twig:Molecules:SnackBar:Base
+            variant="warning"
+            withIcon
+            text="{{ 'This product combination is not available'|trans }}"
+        />
+        {{ form_widget(form.quantity, {type: 'hidden'}) }}
+    {% elseif outOfStock %}
+        {{ form_widget(form.quantity, {type: 'hidden'}) }}
+    {% else %}
+        <div class="PseSelector-price">
+            <strong class="h4">
+                {{ (currentPse.isPromo ? currentPse.promoPrice : currentPse.price)|format_currency('EUR', locale: lang_code) }}
+            </strong>
+            {% if currentPse.isPromo %}
+                <span class="PseSelector-originalPrice paragraph-4">
+                    {{ currentPse.price|format_currency('EUR', locale: lang_code) }}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if maxQuantityReached %}
+            <twig:Molecules:SnackBar:Base
+                variant="warning"
+                withIcon
+                text="{{ 'You already have the maximum available quantity of this product in your cart'|trans }}"
+            />
+            {{ form_widget(form.quantity, {type: 'hidden'}) }}
+        {% else %}
+            <div class="PseSelector-addToCart">
+                <twig:Molecules:Button:Quantity
+                    input:name="{{ field_name(form.quantity) }}"
+                    input:value="{{ field_value(form.quantity) }}"
+                    input:min="1"
+                    input:max="{{ stockManaged ? remainingStock : null }}"
+                    input:aria-label="{{ 'Quantity'|trans }}"
+                />
+                <twig:Molecules:Button:Base
+                    type="submit"
+                    text="{{ 'Add to cart'|trans }}"
+                    icon_left="cart"
+                    size="large"
+                    fill
+                />
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {{ form_end(form) }}
+</div>

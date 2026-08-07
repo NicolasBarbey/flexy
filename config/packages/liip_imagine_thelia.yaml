@@ -25,6 +25,15 @@ liip_imagine:
     similar_content_default:
       filters:
         thumbnail: { size: [196, 196], mode: outbound }
+    # Product visuals are never cropped: `inset` fits them in the box and keeps their ratio.
+    # The source served both the rail and the main visual through the unresized `default` set,
+    # which downloaded every full-size image again for a 54px-wide thumbnail.
+    product_gallery:
+      filters:
+        thumbnail: { size: [1188, 920], mode: inset }
+    product_gallery_thumbnail:
+      filters:
+        thumbnail: { size: [160, 160], mode: inset }
     article_card:
       filters:
         thumbnail: { size: [480, 320], mode: outbound }

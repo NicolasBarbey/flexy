@@ -57,4 +57,11 @@ return [
         'version' => '1.9.4',
         'type' => 'css',
     ],
+    '@splidejs/splide' => [
+        'version' => '4.1.4',
+    ],
+    '@splidejs/splide/dist/css/splide-core.min.css' => [
+        'version' => '4.1.4',
+        'type' => 'css',
+    ],
 ];
