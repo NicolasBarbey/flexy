@@ -25,6 +25,10 @@
 @import "../../components/Molecules/MobileDrawer/Base.css";
 @import "../../components/Layouts/Header/Base.css";
 @import "../../components/Molecules/Accordion/Base.css";
+/* Overrides Splide's own stylesheet, imported from its Stimulus controller */
+@import "../../components/Organisms/ProductGallery/Base.css";
+/* Overrides the Button @utility rules to merge the stepper and the add-to-cart button into one pill */
+@import "../../components/Organisms/PseSelector/Base.css";
 
 /* Other components are put on components layer : sublayers can be defined inside to allow further customization */
 @layer components {
@@ -36,7 +40,6 @@
   @import "../../components/Fields/Toggle/Base.css";
   @import "../../components/Fields/RangeSlider/Base.css";
 
-  @import "../../components/Molecules/Breadcrumb/Base.css";
   @import "../../components/Molecules/Tabulation/Base.css";
   @import "../../components/Molecules/Pagination/Base.css";
   @import "../../components/Molecules/Score/Base.css";
@@ -51,6 +54,7 @@
   @import "../../components/Molecules/SnackBar/Base.css";
   @import "../../components/Molecules/CheckoutSteps/Base.css";
   @import "../../components/Molecules/RadioButton/Base.css";
+  @import "../../components/Molecules/Reinsurance/Base.css";
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";
@@ -70,6 +74,7 @@
   @import "../../components/Organisms/InvoiceCard/Base.css";
   @import "../../components/Organisms/DeliveryMode/Base.css";
   @import "../../components/Organisms/PickupPointCard/Base.css";
+  @import "../../components/Organisms/AddToCartToast/Base.css";
   @import "../../components/Forms/PickupSearch/Base.css";
   @import "../../components/Layouts/Footer/Base.css";
   @import "../../components/Layouts/Footer/Checkout.css";
@@ -81,12 +86,14 @@
   @import "../../components/Layouts/Subheader/Item.css";
   @import "../../components/Layouts/Subheader/Category.css";
   @import "../../components/Layouts/CategoryFilters/Base.css";
+  @import "../../components/Layouts/ReinsuranceModule/Base.css";
 
   @import "../../components/Organisms/BlocksToc/Base.css";
   @import "./blocks.css";
 }
 
 /* Pages go there, no layer (base layer) */
+@import "./pages/product.css";
 
 /* Generic styles */
 body {

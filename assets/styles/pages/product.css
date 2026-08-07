@@ -1,0 +1,79 @@
+/*
+ * Grid of the product page. Shared between product.html.twig and Layouts/ProductDetails, which
+ * re-declares it to place its own two sections on the same 12-column geometry — the description
+ * section is a direct child of the page-level grid.
+ */
+.ProductPage {
+  color: var(--color-black);
+}
+
+.ProductPage-grid {
+  display: grid;
+
+  @variant lg {
+    grid-template-rows: auto auto;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.875rem 3.375rem;
+  }
+
+  @variant xl {
+    gap: 1rem 1.25rem;
+  }
+}
+
+/* Full-bleed below sm: the gallery breaks out of the page container by cancelling its inset.
+   Not 100vw — that unit includes the scrollbar width, so a narrow window with non-overlay
+   scrollbars would overflow the whole page horizontally. */
+.ProductPage-gallery {
+  order: 1;
+  margin-inline: calc(--spacing(6) * -1);
+
+  @variant sm {
+    margin-inline: 0;
+  }
+
+  @variant lg {
+    grid-column: 1 / 7;
+  }
+
+  @variant xl {
+    grid-column: 1 / 8;
+  }
+}
+
+.ProductPage-infos {
+  order: 2;
+  margin-top: 1.875rem;
+
+  @variant lg {
+    grid-row: 1 / 3;
+    grid-column: 7 / 13;
+    margin-top: 0;
+  }
+
+  @variant xl {
+    grid-column: 9 / 13;
+  }
+}
+
+.ProductPage-features {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.5rem;
+}
+
+.ProductPage-description {
+  order: 3;
+  /* Stacked below lg, so the grid gap doesn't apply yet: keep the page's 30px rhythm between the
+     end of the info column and the accordions. */
+  margin-top: 1.875rem;
+
+  @variant lg {
+    margin-top: 0;
+    grid-column: 1 / 7;
+  }
+
+  @variant xl {
+    grid-column: 2 / 8;
+  }
+}

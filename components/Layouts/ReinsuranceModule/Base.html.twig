@@ -1,0 +1,33 @@
+{# @prop items array List of {icon, strongText, text, link, linkLabel} — link/linkLabel are optional #}
+{% props items = [] %}
+
+<div class="{{ ('ReinsuranceModule ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <div class="ReinsuranceModule-wrapper">
+        {% for item in items %}
+            <div>
+                {% if item.icon is defined and item.icon %}
+                    <span class="ReinsuranceModule-icon">
+                        {{ ux_icon(item.icon) }}
+                    </span>
+                {% endif %}
+                <div>
+                    {% if item.strongText is defined and item.strongText %}
+                        <strong>{{ item.strongText }}</strong>
+                    {% endif %}
+                    <div class="ReinsuranceModule-text">
+                        {{ item.text }}
+                    </div>
+                    {% if item.link is defined and item.link %}
+                        <div class="ReinsuranceModule-link">
+                            <twig:Molecules:Link:Base
+                                href="{{ item.link }}"
+                                customText="{{ item.linkLabel|default('') }}"
+                                size="small"
+                            />
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

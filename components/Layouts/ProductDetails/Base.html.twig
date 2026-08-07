@@ -1,0 +1,53 @@
+{# Re-declares ProductPage-grid so the gallery and the info column land on the page's own 12-column
+   geometry: the page grid also places the description section, which sits outside this component. #}
+<div
+    class="{{ ('col-span-full ProductPage-grid ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.without('class') }}
+>
+    {# Newness and promo are carried by the product sale element, not by the product: the badges
+       follow the selected variant. #}
+    {% set galleryTags = [] %}
+    {% if not noAvailablePse %}
+        {% if currentPse.isNew|default(false) %}
+            {% set galleryTags = galleryTags|merge([{text: 'New'|trans, color: 'warning'}]) %}
+        {% endif %}
+        {% if currentPse.isPromo|default(false) %}
+            {% set galleryTags = galleryTags|merge([{text: this.promoRate|format_number(style: 'percent'), color: 'error'}]) %}
+        {% endif %}
+    {% endif %}
+
+    <section id="gallery" class="ProductPage-gallery">
+        <twig:Organisms:ProductGallery:Base
+            :images="images"
+            :currentPseId="currentPse.id|default(null)"
+            :tags="galleryTags"
+        />
+    </section>
+
+    <section id="infos" class="ProductPage-infos">
+        <h1 class="h3 mb-3">{{ title }}</h1>
+
+        {% if chapo %}
+            <div class="paragraph-3 text-grey">{{ chapo }}</div>
+        {% endif %}
+
+        <twig:Organisms:PseSelector:Base
+            :form="form"
+            :productAttrs="productAttributes"
+            :currentPse="currentPse"
+            :currentCombination="currentCombination"
+            :noAvailablePse="noAvailablePse"
+            :stockManaged="this.isStockManaged()"
+            :remainingStock="this.getRemainingStock()"
+            :maxQuantityReached="this.isMaxQuantityReached()"
+        />
+
+        <twig:Molecules:Reinsurance:Base
+            class="mt-7.5"
+            :items="[
+                {icon: 'reinsurance-delivery', strongText: 'Free delivery'|trans, text: 'from 50€'|trans},
+                {icon: 'reinsurance-shipping', strongText: 'Shipping'|trans, text: 'within 24 hours'|trans},
+            ]"
+        />
+    </section>
+</div>
