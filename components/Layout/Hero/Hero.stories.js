@@ -10,9 +10,9 @@ export const Base = {
     blocks: [
       {
         image:
-          'https://sabatier-k.openstudio-lab.com/cache/images/carousel/design780x480-4-4.png',
+          'https://picsum.photos/780/480',
         title: 'Ici une phrase d’accroche pour accompagner le visuel',
-        href: 'http://sabatier-k.openstudio-lab.com/couteaux-sabatier.html',
+        href: 'https://example.com/',
         linkLabel: 'Je découvre'
       },
       {
