@@ -6,14 +6,18 @@
     {{ attributes.without('class') }}
     data-loading="addClass(opacity-50 pointer-events-none)"
 >
-    {% if this.outOfStock %}
+    {% if this.outOfStock or this.insufficientStock %}
         <div class="flex paragraph-4 mb-2.5">
             <span class="w-5 h-5 mr-1">
                 {{ ux_icon('error') }}
             </span>
             <span>
-                {{ this.title }}
-                {{ 'is no longer available and cannot be ordered.'|trans }}
+                {% if this.outOfStock %}
+                    {{ this.title }}
+                    {{ 'is no longer available and cannot be ordered.'|trans }}
+                {% else %}
+                    {{ (this.cartItem.stock > 1 ? 'only_n_left_in_stock' : 'only_one_left_in_stock')|trans({'%title%': this.title, '%count%': this.cartItem.stock}) }}
+                {% endif %}
             </span>
         </div>
     {% endif %}

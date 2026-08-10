@@ -16,6 +16,7 @@ namespace FlexyBundle\Components\Organisms\Cart;
 
 use FlexyBundle\DTO\CartItemDto;
 use FlexyBundle\Event\CheckoutEvents;
+use FlexyBundle\Service\CartStockService;
 use Propel\Runtime\Map\TableMap;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -31,7 +32,6 @@ use Thelia\Domain\Cart\DTO\CartItemAddDTO;
 use Thelia\Domain\Cart\DTO\CartItemDeleteDTO;
 use Thelia\Domain\Cart\DTO\CartItemUpdateQuantityDTO;
 use Thelia\Form\Definition\FrontForm;
-use Thelia\Model\ConfigQuery;
 use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 
@@ -49,9 +49,12 @@ class Base
 
     public bool $itemHasNoStockMessage = false;
 
+    public bool $itemHasInsufficientStockMessage = false;
+
     public function __construct(
         private readonly CartFacade $cartFacade,
         private readonly FormServiceInterface $formService,
+        private readonly CartStockService $cartStockService,
     ) {
     }
 
@@ -81,6 +84,7 @@ class Base
     {
         $this->items = [];
         $this->itemHasNoStockMessage = false;
+        $this->itemHasInsufficientStockMessage = false;
         $cart = $this->cartFacade->getCartFromSession();
 
         if (null === $cart) {
@@ -94,17 +98,21 @@ class Base
                 continue;
             }
 
-            $stockManaged = ConfigQuery::checkAvailableStock() && 0 === $pse->getProduct()->getVirtual();
+            $stockManaged = $this->cartStockService->isStockManaged($pse);
 
-            $this->items[] = CartItemDto::fromArray([
+            $cartItem = CartItemDto::fromArray([
                 ...$item,
                 'stock' => (int) $pse->getQuantity(),
                 'stockManaged' => $stockManaged,
                 'title' => $pse->getProduct()->getTitle(),
             ]);
 
-            if ($stockManaged && $pse->getQuantity() <= 0) {
+            $this->items[] = $cartItem;
+
+            if ($this->cartStockService->isOutOfStock($cartItem)) {
                 $this->itemHasNoStockMessage = true;
+            } elseif ($this->cartStockService->isInsufficient($cartItem)) {
+                $this->itemHasInsufficientStockMessage = true;
             }
         }
     }
@@ -154,6 +162,14 @@ class Base
         }
 
         $newQuantity = max(0, $quantity ?? $cartItem->quantity - 1);
+
+        // The core rejects any quantity still above the remaining stock
+        // (Thelia\Model\CartItem::updateQuantity), so a line that already exceeds it could not be
+        // decremented at all: every intermediate step was refused and the visitor stayed stuck on
+        // the very quantity the cart asks them to lower.
+        if ($cartItem->stockManaged && $newQuantity > $cartItem->stock) {
+            $newQuantity = $cartItem->stock;
+        }
 
         if (0 === $newQuantity) {
             $this->remove($index);

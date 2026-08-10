@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use FlexyBundle\Components\Molecules\CheckoutSteps\Base as CheckoutSteps;
+use FlexyBundle\Service\CartStockService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -121,6 +122,7 @@ class CheckoutController extends FlexyController
     public function payAction(
         CartFacade $cartFacade,
         CheckoutFacade $checkoutFacade,
+        CartStockService $cartStockService,
     ): Response {
         try {
             $this->checkAuth();
@@ -131,6 +133,13 @@ class CheckoutController extends FlexyController
             }
 
             $checkoutFacade->validateForOrder($cart);
+
+            // validateForOrder() does not look at stock, and the core only re-checks it once the
+            // order row exists — failing there leaves a dangling order and shows the visitor a raw
+            // "REF : Not enough stock 2". Send them back to the cart, which spells out the shortage.
+            if ($cartStockService->hasInsufficientStock($cart)) {
+                return $this->generateRedirect($this->generateUrl('checkout_cart'));
+            }
 
             $response = $checkoutFacade->pay(
                 new CheckoutDTO(
