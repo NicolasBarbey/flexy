@@ -1,7 +1,7 @@
 {# @prop showPromoCodeForm bool Renders the coupon form above the totals #}
 {# @prop cgvLink string|null Link to the terms and conditions shown under the total #}
 {% props showPromoCodeForm = true, cgvLink = null %}
-<div {{ attributes }}>
+<div {{ attributes.defaults(stimulus_controller('live-refresh-on-focus')) }}>
     {% set summary = this.summary %}
     {% set coupons = summary.coupons ?? [] %}
 
