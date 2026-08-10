@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Layouts\ProductDetails;
 
+use FlexyBundle\Event\CheckoutEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -237,6 +238,7 @@ class Base
         );
 
         $this->emit('addToCart', ['values' => $this->formValues]);
+        $this->emit(CheckoutEvents::ADD_ITEM_EVENT);
     }
 
     protected function instantiateForm(): FormInterface
