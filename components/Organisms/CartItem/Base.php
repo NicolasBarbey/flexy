@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Components\Organisms\CartItem;
 
 use FlexyBundle\DTO\CartItemDto;
+use FlexyBundle\Service\CartStockService;
 use FlexyBundle\Service\ProductSaleElementsService;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Domain\Localization\Service\LangService;
@@ -26,6 +27,7 @@ class Base
 {
     public CartItemDto $cartItem;
     public bool $outOfStock = false;
+    public bool $insufficientStock = false;
     public bool $promo = false;
     public ?int $pseImageId = null;
     public array $prices = [];
@@ -38,6 +40,7 @@ class Base
         private readonly ProductSaleElementsService $pseService,
         private readonly TaxEngine $taxEngine,
         private readonly LangService $langService,
+        private readonly CartStockService $cartStockService,
     ) {
     }
 
@@ -64,7 +67,8 @@ class Base
         $this->title = $product->getTitle();
         $this->desc = $product->getChapo();
         $this->url = $product->getUrl($this->langService->getLocale());
-        $this->outOfStock = $cartItem->stockManaged && $cartItem->stock <= 0;
+        $this->outOfStock = $this->cartStockService->isOutOfStock($cartItem);
+        $this->insufficientStock = $this->cartStockService->isInsufficient($cartItem);
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
 
         $pseImage = $pse->getProductSaleElementsProductImages()->getFirst();

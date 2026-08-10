@@ -9,6 +9,15 @@
             />
         {% endif %}
 
+        {% if this.itemHasInsufficientStockMessage %}
+            <twig:Molecules:SnackBar:Base
+                variant="error"
+                withIcon
+                class="mb-6"
+                text="{{ 'Some products in your cart are no longer available in the requested quantity. Please adjust the quantities before ordering.'|trans }}"
+            />
+        {% endif %}
+
         <div class="text-right mb-1 paragraph-6 hidden sm:block">
             {{ this.totalItems }}
             {{ (this.totalItems <= 1 ? 'item' : 'items')|trans }}
