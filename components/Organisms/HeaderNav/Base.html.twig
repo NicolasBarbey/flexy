@@ -16,13 +16,8 @@
         />
     {% endif %}
 
-    <twig:Molecules:HeaderButton:Base
-        href="{{ path('checkout_cart') }}"
-        icon="cart"
-        color="dark"
-        class="HeaderNav-btn"
-        text="{{ 'Cart'|trans }}"
-    />
+    <twig:Organisms:CartButton:Base />
+
     <twig:Molecules:HeaderButton:Base
         icon="menu"
         color="light"
