@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Forms\PromoCode;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
@@ -43,6 +44,9 @@ class Base
         private readonly FormServiceInterface $formService,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly CartFacade $cartFacade,
+        // The `translator` service is the one Twig's |trans uses and the only one carrying the
+        // theme catalogue; TranslatorInterface autowires to Thelia's own Translator, which does not.
+        #[Autowire(service: 'translator')]
         private readonly TranslatorInterface $translator,
     ) {
     }
