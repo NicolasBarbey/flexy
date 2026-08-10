@@ -1,4 +1,4 @@
-<div {{ attributes }} data-loading="addClass(opacity-50 pointer-events-none)">
+<div {{ attributes.defaults(stimulus_controller('live-refresh-on-focus')) }} data-loading="addClass(opacity-50 pointer-events-none)">
     {% if this.totalItems %}
         {% if this.itemHasNoStockMessage %}
             <twig:Molecules:SnackBar:Base

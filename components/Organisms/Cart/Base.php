@@ -22,6 +22,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\Attribute\PreReRender;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Core\Form\FormServiceInterface;
@@ -65,9 +66,21 @@ class Base
         $this->fetchCart();
     }
 
+    /**
+     * `items` is a LiveProp, so a re-render hydrates it from the DOM and mount() never runs
+     * again: without this the component would redisplay whatever the browser still held —
+     * stale quantities, stale stock — which is exactly what the focus resync must avoid.
+     */
+    #[PreReRender]
+    public function refreshBeforeRender(): void
+    {
+        $this->fetchCart();
+    }
+
     public function fetchCart(): void
     {
         $this->items = [];
+        $this->itemHasNoStockMessage = false;
         $cart = $this->cartFacade->getCartFromSession();
 
         if (null === $cart) {
@@ -153,7 +166,6 @@ class Base
             cartItemId: $cartItem->id,
             quantity: $newQuantity,
         ));
-        $this->fetchCart();
         $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT);
     }
 
@@ -174,7 +186,6 @@ class Base
             cartItemId: $cartItem->id,
             quantity: $newQuantity,
         ));
-        $this->fetchCart();
         $this->emit(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT);
     }
 
@@ -199,7 +210,6 @@ class Base
             cart: $this->cartFacade->getOrCreateFromSession(),
             cartItemId: $match->id,
         ));
-        $this->fetchCart();
         $this->emit(CheckoutEvents::DELETE_ITEM_EVENT);
     }
 
@@ -235,7 +245,6 @@ class Base
             $this->pendingDelete = null;
         }
 
-        $this->fetchCart();
         $this->emit(CheckoutEvents::ADD_ITEM_EVENT, ['pseId' => $pseId]);
     }
 
