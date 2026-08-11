@@ -9,6 +9,27 @@ export default class extends Controller {
     this.selectedButton = null;
   }
 
+  // Bound here rather than in connect(), which can run more than once per instance: rebinding
+  // would leave the previous listener unremovable.
+  initialize() {
+    this.onResize = this.onResize.bind(this);
+  }
+
+  connect() {
+    window.addEventListener("resize", this.onResize);
+  }
+
+  disconnect() {
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  // Crossing a breakpoint with a panel still open has to revisit the decision — the menu becomes
+  // a dropdown bar past md and must stop locking the page. The removed CSS overrides used to get
+  // this for free from media queries.
+  onResize() {
+    this.syncBodyLock();
+  }
+
   togglePanel(event) {
     const { panel: panelId } = event.params;
     const target = this.findPanel(panelId);
@@ -78,10 +99,16 @@ export default class extends Controller {
   // "locked" is a single shared class on <body>: derive it from whether any panel or
   // drawer is open rather than toggling it per instance, so this controller and
   // MobileDrawer don't desync each other's lock state.
+  // Only a panel that is actually fixed locks the page: the same markup is a fullscreen
+  // overlay below its breakpoint and in-flow (or a header-level overlay) above it, where the
+  // page must stay scrollable. Kept identical in Molecules/MobileDrawer/base_controller.js,
+  // the other writer of this class.
   syncBodyLock() {
+    const open = document.querySelectorAll(".Header-menu.is-open, .MobilePanel.is-open, .MobileDrawer.is-open");
+
     document.body.classList.toggle(
       "locked",
-      document.querySelector(".Header-menu.is-open, .MobilePanel.is-open, .MobileDrawer.is-open") !== null,
+      [...open].some((panel) => getComputedStyle(panel).position === "fixed"),
     );
   }
 }
