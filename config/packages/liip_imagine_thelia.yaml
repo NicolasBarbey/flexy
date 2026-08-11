@@ -37,6 +37,10 @@ liip_imagine:
     order_card_detail:
       filters:
         thumbnail: { size: [224, 224], mode: inset }
+    # Search suggestion row: 97px box in the mockup, served at 2x
+    search_card:
+      filters:
+        thumbnail: { size: [194, 194], mode: inset }
     similar_content_default:
       filters:
         thumbnail: { size: [196, 196], mode: outbound }
