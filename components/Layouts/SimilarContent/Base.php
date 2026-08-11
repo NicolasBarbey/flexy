@@ -20,8 +20,10 @@ use Thelia\Api\Service\DataAccess\DataAccessService;
 #[AsTwigComponent]
 class Base
 {
+    private const DEFAULT_ITEMS_PER_PAGE = 3;
+
     public int|string|null $folderId = null;
-    public int $itemsPerPage = 3;
+    public int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE;
 
     public array $contents = [];
 
@@ -30,8 +32,13 @@ class Base
     ) {
     }
 
-    public function mount(): void
-    {
+    public function mount(
+        int|string|null $folderId = null,
+        int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE,
+    ): void {
+        $this->folderId = $folderId;
+        $this->itemsPerPage = $itemsPerPage;
+
         $params = [
             'itemsPerPage' => $this->itemsPerPage,
             'visible' => true,
