@@ -61,6 +61,7 @@
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";
+  @import "../../components/Organisms/ProductCard/Search.css";
   @import "../../components/Organisms/OrderCard/Base.css";
   @import "../../components/Organisms/SimilarContentCard/Base.css";
   @import "../../components/Organisms/HeaderMenuItem/Base.css";

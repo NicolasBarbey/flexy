@@ -102,4 +102,33 @@
         </div>
     </div>
 
+    {# ── Search ─────────────────────────────────────────────────────────── #}
+
+    <div class="grid gap-4">
+        <h4>Search</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">real data (productId)</span>
+                <twig:Organisms:ProductCard:Search productId="1" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">without discount</span>
+                <twig:Organisms:ProductCard:Search :product="base" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">with discount</span>
+                <twig:Organisms:ProductCard:Search :product="base|merge({productSaleElements: [psePromo]})" />
+            </div>
+
+            <div class="grid gap-2 content-start">
+                <span class="text-xs text-grey">long name, truncated by its column</span>
+                <twig:Organisms:ProductCard:Search :product="base|merge({i18ns: {title: 'Organic cotton t-shirt with a deliberately very long product name'}})" />
+            </div>
+
+        </div>
+    </div>
+
 </div>

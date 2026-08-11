@@ -1,0 +1,47 @@
+/* Undoes the base card's column layout, space-between and radius */
+.ProductCard--search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.125rem;
+  border-radius: 0;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Same elevation as OrderCard's visual strip and the add-to-cart toast */
+.ProductCard--search:hover {
+  box-shadow: 0 0 8px 0 rgb(84 84 84 / 0.15);
+}
+
+/* A contained visual shows its ground, which must stay white whatever the row sits on */
+.ProductCard--search .ProductCard-img {
+  flex-shrink: 0;
+  width: 6.0625rem;
+  height: 6.0625rem;
+  background-color: var(--color-white);
+}
+
+.ProductCard--search .ProductCard-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ProductCard--search .ProductCard-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.ProductCard--search .ProductCard-title {
+  @apply paragraph-2;
+  font-weight: var(--font-weight-semibold);
+}
+
+.ProductCard--search .ProductCard-price {
+  @apply paragraph-4;
+  font-weight: 400;
+}
