@@ -20,8 +20,22 @@ liip_imagine:
   filter_sets:
     default:
     add_to_cart:
+    # 72px thumbnails: the empty set would serve the full-size original, the very
+    # cost the product_gallery note below describes.
     order_card:
+      filters:
+        thumbnail: { size: [144, 144], mode: inset }
+    # `inset`, not `outbound`, despite the card CSS cropping with object-fit: cover.
+    # Measured 2026-08-10: outbound upscales every source to fill the box exactly, so it
+    # ships MORE bytes than inset (up to +113% on the demo catalogue), the opposite of
+    # the intuition. Also mirrors the fit-inside semantics of the legacy image library
+    # URLs these replaced (%5E*!386,280 and %5E*!224,224), keeping the swap neutral.
+    product_card:
+      filters:
+        thumbnail: { size: [386, 280], mode: inset }
     order_card_detail:
+      filters:
+        thumbnail: { size: [224, 224], mode: inset }
     similar_content_default:
       filters:
         thumbnail: { size: [196, 196], mode: outbound }

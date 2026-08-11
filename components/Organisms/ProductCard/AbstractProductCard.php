@@ -15,15 +15,33 @@ declare(strict_types=1);
 namespace FlexyBundle\Components\Organisms\ProductCard;
 
 use FlexyBundle\DTO\ProductDTO;
+use FlexyBundle\Service\ProductImageResolver;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
 abstract class AbstractProductCard
 {
     protected ?ProductDTO $product = null;
+    protected ?int $imageId = null;
 
     public function __construct(
         protected readonly DataAccessService $dataAccessService,
+        protected readonly ProductImageResolver $productImageResolver,
     ) {}
+
+    public function getImageId(): ?int
+    {
+        return $this->imageId;
+    }
+
+    protected function loadProductImageId(): void
+    {
+        if (null === $this->product?->id) {
+            return;
+        }
+
+        // Warm from the listing's preload when there is one, single call otherwise.
+        $this->imageId = $this->productImageResolver->firstImageId($this->product->id);
+    }
 
     protected function loadProduct(ProductDTO|array|null $product, ?int $productId): void
     {
