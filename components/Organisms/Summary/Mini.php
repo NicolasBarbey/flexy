@@ -12,11 +12,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\Components\Organisms\CheckoutSummary;
+namespace FlexyBundle\Components\Organisms\Summary;
 
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
 #[AsLiveComponent]
-class Mini extends Base
+class Mini extends Checkout
 {
 }

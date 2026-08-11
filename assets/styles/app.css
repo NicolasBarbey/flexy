@@ -69,7 +69,7 @@
   @import "../../components/Organisms/AddressCard/Base.css";
   @import "../../components/Organisms/CartItem/Base.css";
   @import "../../components/Organisms/CartItemDelete/Base.css";
-  @import "../../components/Organisms/CheckoutSummary/Base.css";
+  @import "../../components/Organisms/Summary/Base.css";
   @import "../../components/Organisms/PaymentCard/Base.css";
   @import "../../components/Organisms/InvoiceCard/Base.css";
   @import "../../components/Organisms/DeliveryMode/Base.css";
