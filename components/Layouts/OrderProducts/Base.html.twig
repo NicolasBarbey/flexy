@@ -1,0 +1,10 @@
+{# @prop orderProducts array Order lines, resolved in one batch and handed to each card #}
+{% props orderProducts = [] %}
+{% for line in this.lines %}
+	<twig:Organisms:ProductCard:Order
+		:orderProduct="line.orderProduct"
+		:product="line.product"
+		:pse="line.pse"
+		:imageId="line.imageId"
+	/>
+{% endfor %}

@@ -5,6 +5,9 @@
   background: var(--color-white);
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
+  /* Safe unconditionally: the selected state below is pointer-events: none, so the
+     cursor only ever shows on the state that actually triggers the modal. */
+  cursor: pointer;
 }
 
 .Favorite-star {

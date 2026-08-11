@@ -14,27 +14,26 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Forms\Address;
 
-use FlexyBundle\Event\CheckoutEvents;
 use FlexyBundle\Form\AddressEditForm;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
-use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Core\Form\FormServiceInterface;
-use Thelia\Core\Security\Front\FrontSecurityServiceInterface;
-use Thelia\Domain\Addressing\Exception\AddressNotFoundException;
 use Thelia\Domain\Addressing\Service\AddressService;
-use Thelia\Domain\Customer\Exception\CustomerException;
 use Thelia\Domain\Customer\CustomerFacade;
 use Thelia\Model\AddressQuery;
 
+/**
+ * Account variant of the address form. Unlike the checkout sibling it posts to a
+ * controller instead of a LiveAction; the component only keeps the form live so
+ * the country-dependent state field can rebuild itself.
+ */
 #[AsLiveComponent]
-class Base
+class Account
 {
-    use ComponentToolsTrait;
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
@@ -44,7 +43,6 @@ class Base
     public function __construct(
         private readonly FormServiceInterface $formService,
         private readonly AddressService $addressService,
-        private readonly FrontSecurityServiceInterface $securityService,
         private readonly CustomerFacade $customerFacade,
     ) {
     }
@@ -52,16 +50,21 @@ class Base
     protected function instantiateForm(): FormInterface
     {
         $form = $this->formService->getFormByName(AddressEditForm::FORM_NAME, $this->getData());
-        $form->remove('address3');
-        $form->remove('company');
+
+        // A customer left with a single address cannot unset it as the default one:
+        // the checkbox would offer a choice the shop cannot honour.
+        if (null !== $this->addressId && $this->hasSingleAddress()) {
+            $form->remove('is_default');
+            $form->add('is_default', HiddenType::class, ['data' => 1]);
+        }
 
         return $form;
     }
 
     /**
-     * Scoped to the session customer: `addressId` reaches this component from the page,
-     * and the core `Get` on this resource carries no security expression, so nothing
-     * upstream guarantees the address belongs to whoever is asking.
+     * Scoped to the session customer: the component must not rely on its caller having
+     * checked ownership, and the core `Get` on this resource carries no security
+     * expression either.
      *
      * @return array<string, mixed>
      */
@@ -69,7 +72,7 @@ class Base
     {
         $customer = $this->customerFacade->getCurrentCustomer();
 
-        if (!$this->addressId || null === $customer) {
+        if (null === $this->addressId || null === $customer) {
             return [];
         }
 
@@ -85,26 +88,16 @@ class Base
         return $this->addressService->mapModelToFormData($address);
     }
 
-    #[LiveAction]
-    public function save(): void
+    private function hasSingleAddress(): bool
     {
-        if (!$this->securityService->isAuthenticatedFront()) {
-            return;
+        $customer = $this->customerFacade->getCurrentCustomer();
+
+        if (null === $customer) {
+            return false;
         }
 
-        $this->submitForm();
-
-        if (!$this->getForm()->isValid()) {
-            return;
-        }
-
-        try {
-            $this->addressService->updateOrCreateAddress($this->addressId, $this->getForm());
-        } catch (AddressNotFoundException|CustomerException) {
-            // The address was not the customer's: fail closed rather than 500 the component.
-            return;
-        }
-
-        $this->emitUp(CheckoutEvents::ADD_NEW_DELIVERY_ADDRESS);
+        return AddressQuery::create()
+            ->filterByCustomerId($customer->getId())
+            ->count() <= 1;
     }
 }

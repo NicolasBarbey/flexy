@@ -1,22 +1,20 @@
-{% set pseImages = resources('/api/front/product_sale_elements_product_image', {'productSaleElementsId': this.orderProduct.productSaleElementsId, itemsPerPage: 1}) %}
-{% if pseImages %}
-	{% set imgId = pseImages|first.productImageId %}
-{% else %}
-	{% set productImages = resources('/api/front/product_images', {'product.id': this.orderProduct.productId, 'order[position]': 'asc', itemsPerPage: 1}) %}
-	{% set imgId = productImages ? productImages|first.id : null %}
-{% endif %}
-
-<div class="ProductCard ProductCard--order">
+<div class="{{ ('ProductCard ProductCard--order ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
 	<div class="ProductCard-mainContent">
-		<figure class="ProductCard-img">
-			{% if imgId %}
-				<img src="/legacy-image-library/product_image_{{ imgId }}/full/%5E*!224,224/0/default.webp" alt="{{ this.product.title }}" loading="lazy">
-			{% else %}
-				<img src="{{ asset('images/placeholder2.webp') }}" alt="" loading="lazy">
-			{% endif %}
-		</figure>
+		{{ getImages({
+			source_type: 'product',
+			img_id: this.imageId,
+			filters: 'order_card_detail',
+			limit: 1,
+			alt: this.product.title,
+			wrapper: 'figure',
+			wrapper_attrs: {class: 'ProductCard-img'},
+			img_attrs: {
+				loading: 'lazy',
+			},
+			placeholder: asset('images/placeholder2.webp'),
+		})|raw }}
 		<div class="ProductCard-desc">
-			<a href="{{ this.product.publicUrl ~ '?ref=' ~ this.orderProduct.productSaleElementsRef }}" class="ProductCard-title">{{ this.product.title }}</a>
+			<a href="{{ this.productUrl|default('#') }}" class="ProductCard-title">{{ this.product.title }}</a>
 			<div class="ProductCard-orderInfos">
 				<span class="ProductCard-secondaryTitle basis-full">{{ this.product.chapo }}</span>
 				{% if this.pse %}

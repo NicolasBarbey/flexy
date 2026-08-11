@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'My addresses'|trans }}{% endblock %}
+
+{% block body %}
+    {% set addresses = resources('/api/front/account/addresses', {'customer.id': getCurrentCustomer().id}) %}
+
+    {% set notices = {
+        delete_success: {variant: 'success', text: 'Your address has been deleted'|trans},
+        create_success: {variant: 'success', text: 'Your address has been created'|trans},
+        update_success: {variant: 'success', text: 'Your address has been updated'|trans},
+        default_success: {variant: 'success', text: 'Your default address has been updated'|trans},
+        error: {variant: 'error', text: 'An error has occurred, please try again later'|trans},
+    } %}
+
+    <twig:Layouts:Subheader:Account
+        title="{{ 'My addresses'|trans }}"
+        selected="addresses"
+        :breadcrumb="[
+            {title: 'My account'|trans, url: path('account_index')},
+            {title: 'My addresses'|trans},
+        ]"
+    />
+
+    <div class="container-l pt-6 pb-20 md:pt-11 md:pb-30">
+        <div class="flex flex-col items-center max-w-screen-lg mx-auto">
+            {% for param, notice in notices %}
+                {% if app.request.get(param) %}
+                    <twig:Molecules:SnackBar:Base
+                        variant="{{ notice.variant }}"
+                        :withIcon="true"
+                        text="{{ notice.text }}"
+                        class="w-full mb-6"
+                    />
+                {% endif %}
+            {% endfor %}
+
+            {% if addresses|length %}
+                <ul class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
+                    {% for address in addresses %}
+                        <li>
+                            <twig:Organisms:AddressCard:Base
+                                :addressId="address.id"
+                                :withModal="true"
+                                class="h-full"
+                            />
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <twig:Molecules:Button:Base
+                    text="{{ 'Add an address'|trans }}"
+                    href="{{ path('account_address_new') }}"
+                    class="mt-8"
+                />
+            {% else %}
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-36 h-auto lg:w-60">
+                        {{ source('assets/images/nothing.svg') }}
+                    </div>
+                    <h3 class="h3 mt-4 mb-6">{{ 'You have no registered address yet'|trans }}</h3>
+                    <twig:Molecules:Button:Base
+                        text="{{ 'Add an address'|trans }}"
+                        href="{{ path('account_address_new') }}"
+                    />
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <twig:Layouts:Footer:Checkout />
+{% endblock %}
+
+{% block modals %}
+    <twig:Molecules:Modal:Base id="confirmDeleteAddress">
+        <div class="h4">{{ 'Are you sure you want to delete this address ?'|trans }}</div>
+        {# POST + CSRF: this action deletes data, it must not be reachable by navigation #}
+        <form method="post" {{ stimulus_target('Molecules--Modal--base', 'confirm') }}>
+            <input type="hidden" name="_token" value="{{ csrf_token('address_action') }}">
+            <div class="grid md:grid-cols-2 gap-4 mt-8">
+                <twig:Molecules:Button:Base
+                    text="{{ 'Cancel'|trans }}"
+                    color="secondary"
+                    :fill="true"
+                    {{ ...stimulus_action('Molecules--Modal--base', 'close', 'click') }}
+                />
+                <twig:Molecules:Button:Base text="{{ 'Yes'|trans }}" type="submit" :fill="true" />
+            </div>
+        </form>
+    </twig:Molecules:Modal:Base>
+
+    <twig:Molecules:Modal:Base id="confirmDefaultAddress">
+        <div class="h4">{{ 'Are you sure you want to choose this address by default ?'|trans }}</div>
+        {# POST + CSRF: this action deletes data, it must not be reachable by navigation #}
+        <form method="post" {{ stimulus_target('Molecules--Modal--base', 'confirm') }}>
+            <input type="hidden" name="_token" value="{{ csrf_token('address_action') }}">
+            <div class="grid md:grid-cols-2 gap-4 mt-8">
+                <twig:Molecules:Button:Base
+                    text="{{ 'Cancel'|trans }}"
+                    color="secondary"
+                    :fill="true"
+                    {{ ...stimulus_action('Molecules--Modal--base', 'close', 'click') }}
+                />
+                <twig:Molecules:Button:Base text="{{ 'Yes'|trans }}" type="submit" :fill="true" />
+            </div>
+        </form>
+    </twig:Molecules:Modal:Base>
+{% endblock %}

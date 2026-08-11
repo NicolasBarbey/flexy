@@ -12,13 +12,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\Components\Organisms\HeaderProfile;
+namespace FlexyBundle\Components\Layouts\Subheader;
 
 use FlexyBundle\Service\AccountMenuService;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent]
-class Base
+class Account
 {
     public function __construct(
         private readonly AccountMenuService $accountMenu,

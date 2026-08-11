@@ -31,7 +31,7 @@ class CustomerRegisterForm extends BaseForm
 {
     public function __construct(
         #[Autowire(service: 'translator')]
-        private readonly TranslatorInterface $translation,
+        protected readonly TranslatorInterface $translation,
     ) {
     }
 

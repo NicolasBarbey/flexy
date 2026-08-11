@@ -7,7 +7,7 @@
     type="button"
     class="{{ ('Favorite' ~ (selected ? ' Favorite--selected' : '') ~ ' ' ~ attributes.render('class'))|tailwind_merge }}"
     {{ attributes.defaults(not selected and confirmUrl ? {
-        ...stimulus_action('address-card', 'openModal', 'click'),
+        ...stimulus_action('Organisms--AddressCard--base', 'openModal', 'click'),
         'data-confirm': confirmUrl,
         'data-modal': 'confirmDefaultAddress',
     } : {}).without('class') }}

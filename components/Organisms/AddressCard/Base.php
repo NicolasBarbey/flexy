@@ -24,6 +24,7 @@ class Base
 {
     public int $addressId;
     public ?array $address = null;
+    public ?string $countryIsoAlpha3 = null;
     public bool $withModal = false;
     public bool $inOrder = false;
     public bool $checked = false;
@@ -36,9 +37,14 @@ class Base
 
         $addressQuery = $inOrder ? OrderAddressQuery::create() : AddressQuery::create();
 
-        $this->address = $addressQuery
-            ->useCountryQuery()->endUse()
+        // joinWith, not useCountryQuery: the join alone leaves the country unhydrated and
+        // the template then had to fetch it over the API, once per card.
+        $address = $addressQuery
+            ->joinWithCountry()
             ->findOneById($addressId)
-            ?->toArray(TableMap::TYPE_CAMELNAME);
+        ;
+
+        $this->address = $address?->toArray(TableMap::TYPE_CAMELNAME);
+        $this->countryIsoAlpha3 = $address?->getCountry()?->getIsoalpha3();
     }
 }

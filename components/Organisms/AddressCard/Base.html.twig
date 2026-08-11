@@ -4,7 +4,7 @@
 {% set address = this.address %}
 <div
     class="{{ ('AddressCard ' ~ (this.checked ? 'selected ' : '') ~ attributes.render('class'))|tailwind_merge }}"
-    {{ attributes.without('class') }}
+    {{ attributes.defaults(this.withModal ? stimulus_controller('Organisms--AddressCard--base') : {}).without('class') }}
 >
     <div class="AddressCard-top">
         {% block header %}
@@ -12,6 +12,7 @@
                 <twig:Molecules:Favorite:Base
                     text="{{ 'Favourite'|trans }}"
                     :selected="address.isDefault ? true : false"
+                    confirmUrl="{{ path('account_address_default', {addressId: this.addressId}) }}"
                 />
             {% endif %}
         {% endblock %}
@@ -36,8 +37,7 @@
                         {{ [address.address1, address.address2 ?? '', address.address3 ?? '']|filter(i => i)|join(', ') }}
                     </span>
                     <span class="block">
-                        {% set country = resources('/api/front/countries/' ~ address.countryId) %}
-                        {{ [address.zipcode, address.city ?? '', country.isoalpha3 ?? '']|filter(i => i)|join(', ') }}
+                        {{ [address.zipcode, address.city ?? '', this.countryIsoAlpha3 ?? '']|filter(i => i)|join(', ') }}
                     </span>
                     <span class="AddressCard-phone">{{ address.phone }}</span>
                 </span>
@@ -48,10 +48,23 @@
     {% if not this.inOrder %}
         <div class="AddressCard-actions">
             {% block bottom %}
-                <a {% if disabled %}disabled{% endif %} href="{{ path('account_addresses') }}">
+                <a {% if disabled %}disabled{% endif %} href="{{ path('account_address', {addressId: this.addressId}) }}">
                     <span>{{ ux_icon('edit') }}</span>
                     {{ 'Modify'|trans }}
                 </a>
+
+                {% if not address.isDefault %}
+                    <button
+                        type="button"
+                        {% if disabled %}disabled{% endif %}
+                        {{ stimulus_action('Organisms--AddressCard--base', 'openModal', 'click') }}
+                        data-modal="confirmDeleteAddress"
+                        data-confirm="{{ path('account_address_delete', {addressId: this.addressId}) }}"
+                    >
+                        <span>{{ ux_icon('delete') }}</span>
+                        {{ 'Delete'|trans }}
+                    </button>
+                {% endif %}
             {% endblock %}
         </div>
     {% endif %}

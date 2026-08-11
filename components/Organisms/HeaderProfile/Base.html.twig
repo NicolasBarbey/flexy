@@ -2,11 +2,7 @@
 {% set headerProfileController = 'Organisms--HeaderProfile--base' %}
 {% set mobileDrawerController = 'Molecules--MobileDrawer--base' %}
 
-{% set accountItems = [
-    { text: 'My profile'|trans, href: path('account_index') },
-    { text: 'My orders'|trans, href: path('account_orders') },
-    { text: 'My addresses'|trans, href: path('account_addresses') },
-] %}
+{% set accountItems = this.items %}
 
 <div
     class="{{ ('HeaderProfile relative grow h-full flex ' ~ attributes.render('class'))|tailwind_merge }}"

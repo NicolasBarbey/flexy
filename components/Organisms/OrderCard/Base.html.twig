@@ -1,0 +1,65 @@
+{% set order = this.order %}
+{% set resolvedThumbnails = constant('FlexyBundle\\Components\\Organisms\\OrderCard\\Base::RESOLVED_THUMBNAILS') %}
+
+<div class="{{ ('OrderCard ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <div class="justify-between 2xl:flex">
+        <div>
+            <div class="OrderCard-title">{{ 'Order N°'|trans }} {{ order.ref }}</div>
+            <div class="OrderCard-date">{{ 'order placed on'|trans }} {{ order.createdAt|format_date() }}</div>
+        </div>
+        <div class="flex justify-between mt-1 2xl:block 2xl:mt-0">
+            <div class="paragraph-3 text-black text-right">
+                {{ this.itemCount }} {{ (this.itemCount > 1 ? 'items' : 'item')|trans }}
+            </div>
+            <div class="paragraph-1 font-semibold text-black">
+                {{ order.totalAmount|format_currency('EUR', locale: lang_code) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-4 my-4">
+        <twig:Molecules:Tag:Order
+            customText="{{ order.orderStatus.i18ns.title }}"
+            status="{{ order.orderStatus.code }}"
+        />
+        {% if order.deliveryDate is defined and order.deliveryDate %}
+            <div class="OrderCard-delivery">
+                {{ 'Scheduled for delivery on'|trans }} {{ order.deliveryDate|format_date() }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="OrderCard-images">
+        {% for thumbnail in this.thumbnails %}
+            {% if loop.index0 < resolvedThumbnails %}
+                <a href="{{ thumbnail.url|default('#') }}" class="OrderCard-image">
+                    {{ getImages({
+                        source_type: 'product',
+                        img_id: thumbnail.imageId,
+                        filters: 'order_card',
+                        limit: 1,
+                        alt: thumbnail.title,
+                        img_attrs: {
+                            class: 'w-full h-full object-center object-contain',
+                            loading: 'lazy',
+                        },
+                        placeholder: asset('images/placeholder2.webp'),
+                    })|raw }}
+                </a>
+            {% else %}
+                {# Only feeds the "+N" counter: never focusable, never announced. #}
+                <span class="OrderCard-image" aria-hidden="true"></span>
+            {% endif %}
+        {% endfor %}
+
+        {# Purely visual overflow marker: the line count is already announced above. #}
+        <div class="OrderCard-nbImages" aria-hidden="true"></div>
+    </div>
+
+    <div class="mt-6 text-center md:text-left">
+        <twig:Molecules:Button:Base
+            text="{{ 'See order details'|trans }}"
+            href="{{ path('account_order', {orderId: order.id}) }}"
+        />
+    </div>
+</div>

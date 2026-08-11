@@ -1,0 +1,27 @@
+{# @prop title string Heading text #}
+{# @prop selected string Slug of the active section: 'profile', 'orders' or 'addresses'. Defaults to 'profile' #}
+{# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
+{% props title, selected = 'profile', breadcrumb = [] %}
+
+<div class="{{ ('Subheader Subheader--account ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
+
+    <div class="container-l flex flex-col items-center gap-10">
+        <h1 class="Subheader-title">{{ title }}</h1>
+
+        <ul class="Subheader-links">
+            {% for item in this.items %}
+                <li class="flex-1">
+                    <twig:Molecules:Button:Base
+                        text="{{ item.text }}"
+                        href="{{ item.href }}"
+                        size="small"
+                        :sharp="true"
+                        color="{{ selected == item.slug ? 'base' : 'secondary' }}"
+                        class="w-full h-full"
+                    />
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
