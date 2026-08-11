@@ -90,7 +90,7 @@
   @import "../../components/Layouts/Subheader/Base.css";
   @import "../../components/Layouts/Subheader/Item.css";
   @import "../../components/Layouts/Subheader/Category.css";
-  @import "../../components/Layouts/CategoryFilters/Base.css";
+  @import "../../components/Layouts/ProductListing/Base.css";
   @import "../../components/Layouts/ReinsuranceModule/Base.css";
 
   @import "../../components/Organisms/BlocksToc/Base.css";

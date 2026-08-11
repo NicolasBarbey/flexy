@@ -1,4 +1,4 @@
-.CategoryFilters {
+.ProductListing {
   padding-block: 1.5rem;
 
   @variant lg {
@@ -7,7 +7,7 @@
 }
 
 /* Below lg the sidebar is a bottom sheet (MobileDrawer staticFrom="lg"); from lg it is a plain column */
-.CategoryFilters-panel {
+.ProductListing-panel {
   @variant lg {
     display: flex;
     flex-direction: column;
@@ -17,11 +17,11 @@
   }
 }
 
-.CategoryFilters-drawerTitle {
+.ProductListing-drawerTitle {
   margin-bottom: 2rem;
 }
 
-.CategoryFilters-section + .CategoryFilters-section {
+.ProductListing-section + .ProductListing-section {
   margin-top: 1.875rem;
 
   @variant lg {
@@ -30,8 +30,8 @@
 }
 
 /* Both drawer section titles share one style */
-.CategoryFilters-sectionTitle,
-.CategoryFilters-legend {
+.ProductListing-sectionTitle,
+.ProductListing-legend {
   @apply paragraph-4;
   font-weight: var(--font-weight-semibold);
   display: block;
@@ -40,7 +40,7 @@
 }
 
 /* The filter title is promoted to the sidebar's panel title once static */
-.CategoryFilters-legend {
+.ProductListing-legend {
   padding-inline: 0;
 
   @variant lg {
@@ -53,7 +53,7 @@
 
 /* Centered inside the drawer (mobile and tablet), side by side or stacked when too narrow.
    Irrelevant from lg: "Erase" is pinned absolute and "Apply" is hidden. */
-.CategoryFilters-actions {
+.ProductListing-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -67,7 +67,7 @@
 }
 
 /* Pinned to the sidebar's top-right corner once the sidebar is static */
-.CategoryFilters-clear {
+.ProductListing-clear {
   @variant lg {
     position: absolute;
     top: 0;
@@ -113,7 +113,7 @@
   }
 }
 
-.CategoryFilters-toolbar {
+.ProductListing-toolbar {
   display: none;
 
   @variant lg {
@@ -124,12 +124,12 @@
   }
 }
 
-.CategoryFilters-sort {
+.ProductListing-sort {
   width: 15.625rem;
   margin-left: auto;
 }
 
-.CategoryFilters-grid {
+.ProductListing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 2rem;
@@ -137,7 +137,7 @@
   transition: opacity 0.2s ease;
 }
 
-.CategoryFilters-empty {
+.ProductListing-empty {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
