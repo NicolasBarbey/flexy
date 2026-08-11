@@ -25,6 +25,16 @@
   }
 }
 
+/* Equal cells. On the children rather than the buttons because HeaderProfile wraps its own in a
+   plain div; .LangSelect (display:none) and the fixed language panel take no cell. */
+.HeaderNav > * {
+  @variant max-md {
+    flex: 1;
+    min-width: 0;
+    align-self: stretch;
+  }
+}
+
 .HeaderNav-btn:last-child {
   order: -9999;
 
