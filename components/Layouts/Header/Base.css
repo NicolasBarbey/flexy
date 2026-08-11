@@ -223,4 +223,112 @@
   [data-menu-back="-1"] {
     display: none;
   }
+
+  /* ── Search panel ── */
+
+  /* Below md: a MobilePanel like the menu and the language list, minus the logo */
+  @variant max-md {
+    .Header-searchPanel {
+      padding-top: 3.375rem;
+      padding-inline: 2rem;
+    }
+
+    .Header-searchLogo {
+      display: none;
+    }
+
+    .Header-searchClose {
+      position: absolute;
+      top: 0.625rem;
+      right: 0.625rem;
+    }
+  }
+
+  /* From md it covers the header: logo, field and close on the bar's line, suggestions underneath.
+     z-index beats HeaderMenuItem's .Submenu (50), which would otherwise paint over it. */
+  @variant md {
+    .Header-searchPanel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      display: none;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      column-gap: 3rem;
+      align-items: start;
+      /* Insets are carried by the logo and the close button, so the suggestions can align on the
+         page container; the height comes from the bands below. */
+      padding: 0;
+      background-color: var(--color-white);
+      border-bottom: 1px solid var(--color-grey-lighter);
+    }
+
+    .Header-searchPanel.is-open {
+      display: grid;
+    }
+
+    /* Dissolves the component's root so the field and the suggestions become grid items of the
+       panel: the suggestions then get their own full-width row instead of the field's column.
+       More specific than `.SearchBar`, whose display is declared later in the stylesheet. */
+    .Header-searchPanel .Header-searchBar {
+      display: contents;
+    }
+
+    .Header-searchLogo {
+      margin-left: 1.875rem;
+    }
+
+    .Header-searchClose {
+      margin-right: 3.125rem;
+    }
+
+    /* Centred in its column, capped at the mockup's width */
+    .Header-searchBar .SearchBar-form {
+      grid-row: 1;
+      grid-column: 2;
+      width: 100%;
+      max-width: 47.6875rem;
+      margin-inline: auto;
+    }
+
+    .Header-searchBar .SearchBar-panel {
+      grid-row: 2;
+      grid-column: 1 / -1;
+      @apply container-l;
+    }
+
+    /* A band as tall as the bar centres all three whatever their own heights (30 / 48 / 32px); one
+       padding could only centre one of them. Kept at 80px once the bar shrinks to 60px, otherwise
+       the field ends up pressed against the top of the screen. */
+    .Header-searchLogo,
+    .Header-searchClose,
+    .Header-searchBar .SearchBar-form {
+      display: flex;
+      align-items: center;
+      height: var(--header-height);
+    }
+
+    /* The form is a flex band, so the field would otherwise shrink to its content */
+    .Header-searchBar .SearchBar-form .SearchField {
+      flex: 1;
+    }
+
+    /* The bar shrinks its own logo when stuck; this one keeps its full size, since the panel keeps
+       its full height too. Undoes the descendant rule that would otherwise reach it. */
+    .Header.is-stuck .Header-searchLogo .Header-logo {
+      height: 1.875rem;
+    }
+  }
+
+  .Header-searchClose {
+    display: flex;
+    cursor: pointer;
+  }
+
+  .Header-searchClose svg {
+    width: 2rem;
+    height: 2rem;
+  }
 }
+
