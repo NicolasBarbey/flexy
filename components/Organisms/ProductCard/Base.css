@@ -152,7 +152,10 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* `contain`, not `cover`: the filter fits the visual to the box without padding it,
+       so covering would scale it up and clip the product. The legacy library used to bake
+       the padding into the file, which made `cover` crop nothing but that white margin. */
+    object-fit: contain;
     object-position: center;
     transition: all cubic-bezier(0, 0, 0, 0.7) 0.3s;
   }
