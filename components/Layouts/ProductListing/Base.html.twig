@@ -16,64 +16,69 @@
         ...stimulus_controller('Molecules--MobileDrawer--base')|stimulus_controller('Layouts--ProductListing--base'),
     }) }}
 >
-    {% if hasFilters %}
-        <div>
-            <twig:Molecules:MobileDrawer:Base staticFrom="lg" class="ProductListing-panel">
-                <p class="ProductListing-drawerTitle h4 lg:hidden">{{ 'Sort & filter'|trans }}</p>
+    {# The only way to sort below lg, where the toolbar is hidden — so it is rendered even with no
+       filters, carrying the sort section alone, and dropped from lg. #}
+    <div class="{{ hasFilters ? '' : 'lg:hidden' }}">
+        <twig:Molecules:MobileDrawer:Base staticFrom="lg" class="ProductListing-panel">
+            <p class="ProductListing-drawerTitle h4 lg:hidden">{{ (hasFilters ? 'Sort & filter' : 'Sort by')|trans }}</p>
 
-                {# Sorting is a LiveProp rather than a form field: the desktop <select> below and this
-                   list drive the same action, and it must not end up mixed into the filter values. #}
-                <div class="ProductListing-section lg:hidden">
+            {# Sorting is a LiveProp rather than a form field: the desktop <select> below and this
+               list drive the same action, and it must not end up mixed into the filter values. #}
+            <div class="ProductListing-section lg:hidden">
+                {# Without filters the drawer title already says it #}
+                {% if hasFilters %}
                     <p class="ProductListing-sectionTitle">{{ 'Sort by'|trans }}</p>
-                    <twig:Molecules:Accordion:Base id="{{ id }}-sort">
-                        <twig:Molecules:Accordion:Item value="sort" class="FilterAccordion">
-                            <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
-                                {{ 'Choose'|trans }}
-                            </twig:Molecules:Accordion:Trigger>
-                            <twig:Molecules:Accordion:Content>
-                                <ul class="flex flex-col gap-1">
-                                    {% for choice in sorts %}
-                                        <li>
-                                            {{ component('Molecules:FilterList:Base', {
-                                                type: 'radio',
-                                                label: choice.title|trans,
-                                                'input:name': id ~ '-sort-choice',
-                                                'input:value': choice.value,
-                                                'input:checked': sort == choice.value,
-                                                'input:data-action': 'Layouts--ProductListing--base#sortChange',
-                                            }) }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </twig:Molecules:Accordion:Content>
-                        </twig:Molecules:Accordion:Item>
-                    </twig:Molecules:Accordion:Base>
-                </div>
+                {% endif %}
+                <twig:Molecules:Accordion:Base id="{{ id }}-sort">
+                    <twig:Molecules:Accordion:Item value="sort" class="FilterAccordion">
+                        <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
+                            {{ 'Choose'|trans }}
+                        </twig:Molecules:Accordion:Trigger>
+                        <twig:Molecules:Accordion:Content>
+                            <ul class="flex flex-col gap-1">
+                                {% for choice in sorts %}
+                                    <li>
+                                        {{ component('Molecules:FilterList:Base', {
+                                            type: 'radio',
+                                            label: choice.title|trans,
+                                            'input:name': id ~ '-sort-choice',
+                                            'input:value': choice.value,
+                                            'input:checked': sort == choice.value,
+                                            'input:data-action': 'Layouts--ProductListing--base#sortChange',
+                                        }) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </twig:Molecules:Accordion:Content>
+                    </twig:Molecules:Accordion:Item>
+                </twig:Molecules:Accordion:Base>
+            </div>
 
+            {% if hasFilters %}
                 {# One listener for every pill: the checkboxes themselves are rendered by the form theme #}
                 <div class="ProductListing-section" data-action="change->Layouts--ProductListing--base#filterChange">
                     {{ form(form) }}
                 </div>
+            {% endif %}
 
-                <div class="ProductListing-actions">
-                    {% if activeFilterCount %}
-                        <twig:Molecules:Button:Base
-                            text="{{ 'Clear'|trans }} ({{ activeFilterCount }})"
-                            color="secondary"
-                            size="small"
-                            class="ProductListing-clear max-lg:text-sm max-lg:px-6 max-lg:py-3"
-                            {{ ...stimulus_action('Layouts--ProductListing--base', 'reset', 'click') }}
-                        />
-                    {% endif %}
+            <div class="ProductListing-actions">
+                {% if activeFilterCount %}
                     <twig:Molecules:Button:Base
-                        text="{{ 'Apply'|trans }}"
-                        class="lg:hidden"
-                        {{ ...stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+                        text="{{ 'Clear'|trans }} ({{ activeFilterCount }})"
+                        color="secondary"
+                        size="small"
+                        class="ProductListing-clear max-lg:text-sm max-lg:px-6 max-lg:py-3"
+                        {{ ...stimulus_action('Layouts--ProductListing--base', 'reset', 'click') }}
                     />
-                </div>
-            </twig:Molecules:MobileDrawer:Base>
-        </div>
-    {% endif %}
+                {% endif %}
+                <twig:Molecules:Button:Base
+                    text="{{ 'Apply'|trans }}"
+                    class="lg:hidden"
+                    {{ ...stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+                />
+            </div>
+        </twig:Molecules:MobileDrawer:Base>
+    </div>
 
     <div>
         <div class="ProductListing-toolbar">
