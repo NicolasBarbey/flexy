@@ -17,6 +17,8 @@ namespace FlexyBundle\Components\Layouts\CategoryFilters;
 use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\Form\Type\FieldsetType;
 use FlexyBundle\Service\FormService;
+use FlexyBundle\Service\ProductImageResolver;
+use FlexyBundle\Service\ProductTaxationResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -83,6 +85,8 @@ class Base extends AbstractController
         private readonly DataAccessService $dataAccessService,
         private readonly RequestStack $requestStack,
         private readonly FormService $formService,
+        private readonly ProductImageResolver $productImageResolver,
+        private readonly ProductTaxationResolver $productTaxationResolver,
     ) {
     }
 
@@ -203,6 +207,11 @@ class Base extends AbstractController
         $response = $this->dataAccessService->resources('/api/front/products', $this->productParameters(), 'jsonld');
 
         $this->products = ProductDTO::fromCollection($response['hydra:member'] ?? []);
+
+        // One call for the whole grid instead of one per card.
+        $productIds = array_map(static fn (ProductDTO $product): int => $product->id, $this->products);
+        $this->productImageResolver->preload($productIds);
+        $this->productTaxationResolver->preload($productIds);
         $this->pagination = [
             'totalItems' => $response['hydra:totalItems'] ?? 0,
             'itemsPerPage' => self::ITEMS_PER_PAGE,

@@ -16,11 +16,11 @@ namespace FlexyBundle\Components\Organisms\ProductCard;
 
 use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\DTO\ProductSaleElementDTO;
+use FlexyBundle\Service\ProductImageResolver;
+use FlexyBundle\Service\ProductTaxationResolver;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Thelia\Api\Service\DataAccess\DataAccessService;
-use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
-use Thelia\Model\ProductQuery;
 
 #[AsTwigComponent]
 class Base extends AbstractProductCard
@@ -35,9 +35,10 @@ class Base extends AbstractProductCard
 
     public function __construct(
         DataAccessService $dataAccessService,
-        private TaxEngine $taxEngine,
+        ProductImageResolver $productImageResolver,
+        private readonly ProductTaxationResolver $productTaxationResolver,
     ) {
-        parent::__construct($dataAccessService);
+        parent::__construct($dataAccessService, $productImageResolver);
     }
 
     #[PreMount]
@@ -56,22 +57,16 @@ class Base extends AbstractProductCard
             return;
         }
 
+        $this->loadProductImageId();
+
         $defaultPse = $this->findDefaultPse($this->product->productSaleElements);
 
         if ($defaultPse instanceof ProductSaleElementDTO) {
-            //TODO: temporary fix taxed prices
-            $productModel = ProductQuery::create()
-                ->useProductSaleElementsQuery()
-                ->filterById($defaultPse->id)
-                ->endUse()
-                ->findOne();
-
-            $taxCountry = $this->taxEngine->getDeliveryCountry();
-
+            //TODO: temporary fix taxed prices — the front API exposes untaxed prices only
             $this->price = $defaultPse->productPrices[0]->price;
-            $this->taxedPrice = $productModel->getTaxedPrice($taxCountry, $this->price);
+            $this->taxedPrice = $this->productTaxationResolver->taxedPrice($this->product->id, $this->price);
             $this->promoPrice = $defaultPse->productPrices[0]->promoPrice;
-            $this->promoTaxedPrice = $productModel->getTaxedPromoPrice($taxCountry, $this->promoPrice);
+            $this->promoTaxedPrice = $this->productTaxationResolver->taxedPrice($this->product->id, $this->promoPrice);
             $this->isPromo = $defaultPse->promo;
             $this->isNew = $defaultPse->newness;
         }
