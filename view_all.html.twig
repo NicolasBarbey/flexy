@@ -10,10 +10,12 @@
 
 {% block body %}
     {# Not a Thelia entity view, so SEOne has no breadcrumb model for it — built by hand, like faq.
-       No named route either: this page is served by the Front module's /{_view} catch-all. #}
+       No named route either: this page is served by the Front module's /{_view} catch-all.
+       filtersId without a filter sidebar: below lg this trigger is the only way to reach the sort. #}
     <twig:Layouts:Subheader:Category
         title="{{ heading }}"
         container="large"
+        filtersId="product-listing"
         :breadcrumb="[{title: heading, url: '/view_all' ~ (type == 'sales' ? '' : '?type=' ~ type)}]"
     />
 
