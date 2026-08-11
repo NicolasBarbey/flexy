@@ -16,6 +16,7 @@ namespace FlexyBundle\Controller;
 
 use FlexyBundle\Form\CustomerInformationsForm;
 use FlexyBundle\Form\CustomerRegisterForm;
+use FlexyBundle\Form\CustomerUpdateForm;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,7 @@ use Thelia\Domain\Customer\DTO\CustomerRegisterDTO;
 use Thelia\Domain\Customer\Service\CustomerAuthenticator;
 use Thelia\Domain\Customer\Service\CustomerCodeManager;
 use Thelia\Domain\Customer\Service\CustomerRegistrationService;
+use Thelia\Domain\Customer\Service\CustomerUpdateService;
 use Thelia\Domain\Marketing\Service\NewsletterSubscriber;
 use Thelia\Form\CustomerLogin;
 use Thelia\Form\Exception\FormValidationException;
@@ -267,6 +269,54 @@ class CustomerController extends FlexyController
         $this->clearRememberMeCookie($this->getRememberMeCookieName());
 
         return $this->generateRedirect('/');
+    }
+
+    #[Route('/update', name: 'update', methods: ['POST'])]
+    public function update(CustomerUpdateService $customerUpdateService): RedirectResponse
+    {
+        $this->checkAuth();
+
+        $customer = $this->getSecurityContext()->getCustomerUser();
+
+        // The email field is read-only unless the shop allows email changes, and Symfony
+        // ignores what a disabled field submits. Seeding the form with the current values
+        // keeps the address visible when a validation error sends the form back.
+        $form = $this->createForm(CustomerUpdateForm::FORM_NAME, data: [
+            'firstname' => $customer->getFirstname(),
+            'lastname' => $customer->getLastname(),
+            'email' => $customer->getEmail(),
+        ]);
+
+        try {
+            $validatedForm = $this->validateForm($form, Request::METHOD_POST);
+
+            $customerUpdateService->updateCustomer(
+                new CustomerRegisterDTO(
+                    firstname: $validatedForm->get('firstname')->getData(),
+                    lastname: $validatedForm->get('lastname')->getData(),
+                    email: $validatedForm->get('email')->getData(),
+                ),
+                $customer,
+            );
+
+            return $this->generateSuccessRedirect($form);
+        } catch (FormValidationException $e) {
+            $message = $this->translator->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
+        }
+
+        $this->logger->error(\sprintf('Error during customer profile update process: %s.', $message));
+
+        $form->setErrorMessage($message);
+        $this->parserContext
+            ->addForm($form)
+            ->setGeneralError($message)
+        ;
+
+        if ($form->hasErrorUrl()) {
+            return $this->generateErrorRedirect($form);
+        }
+
+        return $this->generateRedirectFromRoute('account_index');
     }
 
     protected function getRememberMeCookieName(): string

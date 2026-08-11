@@ -94,25 +94,4 @@ class FlexyController extends BaseController
 
         return $parser;
     }
-
-    public function getAccountItems(): array
-    {
-        return [
-            [
-                'text' => $this->translator->trans('My profile'),
-                'href' => $this->router->generate('account_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'slug' => 'profile',
-            ],
-            [
-                'text' => $this->translator->trans('My orders'),
-                'href' => $this->router->generate('account_orders', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'slug' => 'orders',
-            ],
-            [
-                'text' => $this->translator->trans('My addresses'),
-                'href' => $this->router->generate('account_addresses', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'slug' => 'addresses',
-            ],
-        ];
-    }
 }

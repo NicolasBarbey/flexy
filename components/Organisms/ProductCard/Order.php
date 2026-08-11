@@ -16,6 +16,8 @@ namespace FlexyBundle\Components\Organisms\ProductCard;
 
 use FlexyBundle\DTO\OrderProductDTO;
 use FlexyBundle\DTO\ProductDTO;
+use FlexyBundle\Service\OrderProductResolver;
+use FlexyBundle\Service\ProductImageResolver;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
@@ -25,18 +27,48 @@ class Order extends AbstractProductCard
     public OrderProductDTO $orderProduct;
     private ?array $pse = null;
 
-    public function __construct(DataAccessService $dataAccessService)
-    {
-        parent::__construct($dataAccessService);
+    public function __construct(
+        DataAccessService $dataAccessService,
+        ProductImageResolver $productImageResolver,
+        private readonly OrderProductResolver $orderProductResolver,
+    ) {
+        parent::__construct($dataAccessService, $productImageResolver);
     }
 
-    public function mount(array $orderProduct, ProductDTO|array|null $product = null, ?array $pse = null): void
-    {
+    /**
+     * Every lookup is skippable: a caller holding several lines resolves them in one
+     * batch (see Layouts/OrderProducts) and hands the results over. Alone, the card
+     * still stands on its own.
+     */
+    public function mount(
+        array $orderProduct,
+        ProductDTO|array|null $product = null,
+        ?array $pse = null,
+        ?int $imageId = null,
+    ): void {
         $this->orderProduct = OrderProductDTO::fromArray($orderProduct);
-        $this->loadProduct($product, $this->orderProduct->productId);
+        $saleElementId = $this->orderProduct->productSaleElementsId;
+
+        // OrderProduct exposes no product id, so `loadProduct()` alone would come back
+        // empty: the product has to be reached through the sale element.
+        $product ??= $this->orderProductResolver->resolveProduct($saleElementId);
+        $this->loadProduct($product, $this->orderProduct->productId ?: null);
+
+        // The sale element may carry its own visual, so this beats the parent's
+        // product-level lookup.
+        $this->imageId = $imageId
+            ?? $this->orderProductResolver->resolveImageId($saleElementId, $this->product?->id);
 
         $this->pse = $pse ?? $this->dataAccessService->resources(
-            '/api/front/product_sale_elements/' . $this->orderProduct->productSaleElementsId
+            '/api/front/product_sale_elements/' . $saleElementId
+        );
+    }
+
+    public function getProductUrl(): ?string
+    {
+        return $this->orderProductResolver->buildProductUrl(
+            $this->product,
+            $this->orderProduct->productSaleElementsRef,
         );
     }
 

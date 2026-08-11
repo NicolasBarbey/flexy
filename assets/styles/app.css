@@ -29,6 +29,8 @@
 @import "../../components/Organisms/ProductGallery/Base.css";
 /* Overrides the Button @utility rules to merge the stepper and the add-to-cart button into one pill */
 @import "../../components/Organisms/PseSelector/Base.css";
+/* Overrides the Button @utility rules to butt the account tabs against each other */
+@import "../../components/Layouts/Subheader/Account.css";
 
 /* Other components are put on components layer : sublayers can be defined inside to allow further customization */
 @layer components {
@@ -58,6 +60,7 @@
 
   @import "../../components/Organisms/ProductCard/Base.css";
   @import "../../components/Organisms/ProductCard/Order.css";
+  @import "../../components/Organisms/OrderCard/Base.css";
   @import "../../components/Organisms/SimilarContentCard/Base.css";
   @import "../../components/Organisms/HeaderMenuItem/Base.css";
   @import "../../components/Organisms/LangSelect/Base.css";
@@ -70,6 +73,7 @@
   @import "../../components/Organisms/CartItem/Base.css";
   @import "../../components/Organisms/CartItemDelete/Base.css";
   @import "../../components/Organisms/Summary/Base.css";
+  @import "../../components/Organisms/DeliveryTracking/Base.css";
   @import "../../components/Organisms/PaymentCard/Base.css";
   @import "../../components/Organisms/InvoiceCard/Base.css";
   @import "../../components/Organisms/DeliveryMode/Base.css";
@@ -79,6 +83,7 @@
   @import "../../components/Layouts/Footer/Base.css";
   @import "../../components/Layouts/Footer/Checkout.css";
   @import "../../components/Layouts/Header/Checkout.css";
+  @import "../../components/Layouts/AccountOrders/Base.css";
   @import "../../components/Layouts/CrossSelling/Base.css";
   @import "../../components/Layouts/Review/Base.css";
   @import "../../components/Layouts/SimilarContent/Base.css";

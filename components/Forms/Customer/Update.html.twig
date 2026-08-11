@@ -1,0 +1,20 @@
+{% form_theme form with flexy_form_themes only %}
+<div {{ attributes }}>
+    {{ form_start(form, {
+        action: path('customer_update'),
+        method: 'POST',
+        attr: {class: 'flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-lighter'},
+    }) }}
+    {{ form_row(form.success_url, {value: path('account_index', {success: 'profile'})}) }}
+    {{ form_row(form.error_url, {value: path('account_index')}) }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.firstname, {label: 'Firstname'|trans}) }}
+        {{ form_row(form.lastname, {label: 'Lastname'|trans}) }}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <twig:Molecules:Button:Base text="{{ 'Edit my information'|trans }}" type="submit" class="w-max" />
+    {{ form_end(form) }}
+</div>

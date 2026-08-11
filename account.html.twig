@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'My profile'|trans }}{% endblock %}
+
+{% block body %}
+    <twig:Layouts:Subheader:Account
+        title="{{ 'My profile'|trans }}"
+        selected="profile"
+        :breadcrumb="[{title: 'My profile'|trans}]"
+    />
+
+    <div class="container-l pt-10 pb-15 lg:pb-30">
+        <div class="max-w-4xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-14">
+            {% set notices = {
+                profile: 'Your information has been successfully modified'|trans,
+                password: 'Your password has been changed successfully'|trans,
+            } %}
+            {% set notice = notices[app.request.query.get('success')]|default(null) %}
+
+            {% if notice %}
+                <twig:Molecules:SnackBar:Base
+                    variant="success"
+                    :withIcon="true"
+                    text="{{ notice }}"
+                    class="col-span-full"
+                />
+            {% endif %}
+
+            <div class="flex flex-col gap-6">
+                <h2 class="h4 text-black">{{ 'My contact information'|trans }}</h2>
+                <twig:Forms:Customer:Update />
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <h2 class="h4 text-black">{{ 'Change my password'|trans }}</h2>
+
+                {% set form = getForm('thelia_customer_password_update') %}
+                {% form_theme form with flexy_form_themes only %}
+
+                {{ form_start(form, {
+                    action: path('account_password'),
+                    method: 'POST',
+                    attr: {class: 'flex flex-col gap-6 px-10 pt-8 pb-6 rounded-lg bg-lighter'},
+                }) }}
+                {{ form_row(form.success_url, {value: path('account_index', {success: 'password'})}) }}
+                {{ form_row(form.error_url, {value: path('account_index')}) }}
+                {{ form_rest(form) }}
+
+                <twig:Molecules:Button:Base text="{{ 'Update my password'|trans }}" type="submit" class="w-max" />
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <twig:Layouts:Footer:Checkout />
+{% endblock %}

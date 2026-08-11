@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% set address = resources('/api/front/account/addresses/' ~ addressId) %}
+
+{% block title %}{{ address.label }}{% endblock %}
+
+{% block body %}
+    <div class="pt-2 pb-3 md:pt-5 md:pl-5">
+        <twig:Molecules:Breadcrumb:Base :items="[
+            {title: 'My addresses'|trans, url: path('account_addresses')},
+            {title: address.label},
+        ]" />
+    </div>
+
+    <div class="container-s pb-20">
+        <h1 class="h3 text-black mt-4 mb-6 lg:mt-8 lg:mb-11">{{ address.label }}</h1>
+
+        <twig:Forms:Address:Account
+            :addressId="addressId"
+            action="{{ path('account_address_update', {addressId: addressId}) }}"
+            successUrl="{{ path('account_addresses', {update_success: true}) }}"
+            errorUrl="{{ path('account_address', {addressId: addressId}) }}"
+        />
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <twig:Layouts:Footer:Checkout />
+{% endblock %}

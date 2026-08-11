@@ -22,7 +22,12 @@
   display: flex;
   padding: 1.5rem 1.5rem 1rem;
   align-items: flex-start;
-  cursor: pointer;
+
+  /* The label is only clickable when it wraps the selection control, which the
+     checkout variant adds. On the account page it selects nothing. */
+  &:has(.RadioButton) {
+    cursor: pointer;
+  }
 
   span {
     display: block;
