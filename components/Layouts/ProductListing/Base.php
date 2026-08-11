@@ -246,12 +246,14 @@ class Base extends AbstractController
 
         if ($this->sort !== null) {
             $parameters['untaxed_price_order'] = $this->sort;
-
-            return $parameters;
+        } else {
+            $positionProperty = $this->categoryId !== null ? 'productCategories.position' : 'position';
+            $parameters['order['.$positionProperty.']'] = 'asc';
         }
 
-        $positionProperty = $this->categoryId !== null ? 'productCategories.position' : 'position';
-        $parameters['order['.$positionProperty.']'] = 'asc';
+        // Deterministic tiebreaker: paginating without a total order lets a product repeat on one
+        // page and vanish from another. Products often share a position, and prices tie too.
+        $parameters['order[ref]'] = 'asc';
 
         return $parameters;
     }
