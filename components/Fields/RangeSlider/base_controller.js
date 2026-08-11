@@ -9,7 +9,7 @@ export default class extends Controller {
   static targets = ["min", "max", "progress"];
 
   connect() {
-    // The listing is re-rendered by the LiveComponent on filter/reset; Layouts--CategoryFilters
+    // The listing is re-rendered by the LiveComponent on filter/reset; Layouts--ProductListing
     // dispatches these so the bar re-syncs after the inputs are patched in place.
     this.onSave = () => this.updateProgress();
     this.onReset = () => this.updateProgress(true);

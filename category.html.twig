@@ -24,7 +24,7 @@
         :readMore="hasEditorialContent"
         :breadcrumb="breadcrumb"
         container="{{ childCategories|length ? 'large' : 'double-2' }}"
-        filtersId="{{ childCategories|length ? null : 'category-filters' }}"
+        filtersId="{{ childCategories|length ? null : 'product-listing' }}"
         :productCount="childCategories|length ? null : loopCount('product', {category: categoryId, visible: 1})"
     />
 
@@ -44,7 +44,7 @@
             </ul>
         </div>
     {% else %}
-        <twig:Layouts:CategoryFilters:Base :categoryId="categoryId" />
+        <twig:Layouts:ProductListing:Base :categoryId="categoryId" />
     {% endif %}
 
     {% if hasEditorialContent %}

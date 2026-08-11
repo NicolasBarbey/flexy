@@ -34,11 +34,11 @@ export default class extends Controller {
   // re-render never reaches it. The re-rendered grid carries the fresh total in a data attribute;
   // broadcast it so the count controller (Layouts/Subheader/count) can mirror it in place.
   broadcastTotal() {
-    const total = this.element.querySelector(".CategoryFilters-grid")?.dataset.categoryTotal;
+    const total = this.element.querySelector(".ProductListing-grid")?.dataset.listingTotal;
     if (total === undefined) {
       return;
     }
-    document.dispatchEvent(new CustomEvent("category-filters:total", { detail: { total: Number(total) } }));
+    document.dispatchEvent(new CustomEvent("product-listing:total", { detail: { total: Number(total) } }));
   }
 
   // A LiveComponent re-render patches attributes (inert included) onto the existing DOM node

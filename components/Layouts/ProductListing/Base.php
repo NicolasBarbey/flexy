@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\Components\Layouts\CategoryFilters;
+namespace FlexyBundle\Components\Layouts\ProductListing;
 
 use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\Form\Type\FieldsetType;
@@ -170,7 +170,7 @@ class Base extends AbstractController
 
     protected function instantiateForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder(null, ['attr' => ['class' => 'CategoryFilters-form']]);
+        $formBuilder = $this->createFormBuilder(null, ['attr' => ['class' => 'ProductListing-form']]);
         $filters = $this->getFilters();
 
         if ($filters === []) {
@@ -183,7 +183,7 @@ class Base extends AbstractController
             [
                 'label' => 'Filter by',
                 'inherit_data' => true,
-                'label_attr' => ['class' => 'CategoryFilters-legend'],
+                'label_attr' => ['class' => 'ProductListing-legend'],
             ]
         ));
 

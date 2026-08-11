@@ -1,5 +1,5 @@
-{# @prop id string Id of this section, used by Molecules--MobileDrawer--open triggers rendered outside it (e.g. Layouts/Subheader/Category). Defaults to 'category-filters' #}
-{% props id = 'category-filters' %}
+{# @prop id string Id of this section, used by Molecules--MobileDrawer--open triggers rendered outside it (e.g. Layouts/Subheader/Category). Defaults to 'product-listing' #}
+{% props id = 'product-listing' %}
 
 {# The Flexy widgets are no longer a global form theme, so the filter form must opt in
    explicitly — without this the pill/fieldset/range blocks below never apply. #}
@@ -12,19 +12,19 @@
 <section
     {{ attributes.defaults({
         id: id,
-        class: (hasFilters ? 'container-double-2' : 'container-l') ~ ' CategoryFilters',
-        ...stimulus_controller('Molecules--MobileDrawer--base')|stimulus_controller('Layouts--CategoryFilters--base'),
+        class: (hasFilters ? 'container-double-2' : 'container-l') ~ ' ProductListing',
+        ...stimulus_controller('Molecules--MobileDrawer--base')|stimulus_controller('Layouts--ProductListing--base'),
     }) }}
 >
     {% if hasFilters %}
         <div>
-            <twig:Molecules:MobileDrawer:Base staticFrom="lg" class="CategoryFilters-panel">
-                <p class="CategoryFilters-drawerTitle h4 lg:hidden">{{ 'Sort & filter'|trans }}</p>
+            <twig:Molecules:MobileDrawer:Base staticFrom="lg" class="ProductListing-panel">
+                <p class="ProductListing-drawerTitle h4 lg:hidden">{{ 'Sort & filter'|trans }}</p>
 
                 {# Sorting is a LiveProp rather than a form field: the desktop <select> below and this
                    list drive the same action, and it must not end up mixed into the filter values. #}
-                <div class="CategoryFilters-section lg:hidden">
-                    <p class="CategoryFilters-sectionTitle">{{ 'Sort by'|trans }}</p>
+                <div class="ProductListing-section lg:hidden">
+                    <p class="ProductListing-sectionTitle">{{ 'Sort by'|trans }}</p>
                     <twig:Molecules:Accordion:Base id="{{ id }}-sort">
                         <twig:Molecules:Accordion:Item value="sort" class="FilterAccordion">
                             <twig:Molecules:Accordion:Trigger iconClosed="plus" iconOpen="minus" class="paragraph-2 py-3">
@@ -40,7 +40,7 @@
                                                 'input:name': id ~ '-sort-choice',
                                                 'input:value': choice.value,
                                                 'input:checked': sort == choice.value,
-                                                'input:data-action': 'Layouts--CategoryFilters--base#sortChange',
+                                                'input:data-action': 'Layouts--ProductListing--base#sortChange',
                                             }) }}
                                         </li>
                                     {% endfor %}
@@ -51,18 +51,18 @@
                 </div>
 
                 {# One listener for every pill: the checkboxes themselves are rendered by the form theme #}
-                <div class="CategoryFilters-section" data-action="change->Layouts--CategoryFilters--base#filterChange">
+                <div class="ProductListing-section" data-action="change->Layouts--ProductListing--base#filterChange">
                     {{ form(form) }}
                 </div>
 
-                <div class="CategoryFilters-actions">
+                <div class="ProductListing-actions">
                     {% if activeFilterCount %}
                         <twig:Molecules:Button:Base
                             text="{{ 'Clear'|trans }} ({{ activeFilterCount }})"
                             color="secondary"
                             size="small"
-                            class="CategoryFilters-clear max-lg:text-sm max-lg:px-6 max-lg:py-3"
-                            {{ ...stimulus_action('Layouts--CategoryFilters--base', 'reset', 'click') }}
+                            class="ProductListing-clear max-lg:text-sm max-lg:px-6 max-lg:py-3"
+                            {{ ...stimulus_action('Layouts--ProductListing--base', 'reset', 'click') }}
                         />
                     {% endif %}
                     <twig:Molecules:Button:Base
@@ -76,35 +76,35 @@
     {% endif %}
 
     <div>
-        <div class="CategoryFilters-toolbar">
+        <div class="ProductListing-toolbar">
             {% if pagination.totalItems %}
                 <span class="paragraph-4">{{ pagination.totalItems }} {{ 'product(s)'|trans }}</span>
             {% endif %}
 
-            <div class="CategoryFilters-sort">
+            <div class="ProductListing-sort">
                 {{ component('Fields:Select:Base', {
                     label: 'Sort by'|trans,
                     choices: sorts|map(choice => {value: choice.value, label: choice.title|trans}),
                     value: sort,
                     placeholder: 'Sort by'|trans,
-                    'select:data-action': 'Layouts--CategoryFilters--base#sortChange',
+                    'select:data-action': 'Layouts--ProductListing--base#sortChange',
                 }) }}
             </div>
         </div>
 
-        <div class="CategoryFilters-grid" data-loading="addClass(opacity-50)" data-category-total="{{ pagination.totalItems }}">
+        <div class="ProductListing-grid" data-loading="addClass(opacity-50)" data-listing-total="{{ pagination.totalItems }}">
             {% if products|length %}
                 {% for product in products %}
                     <twig:Organisms:ProductCard:Base :product="product" class="h-full" />
                 {% endfor %}
             {% else %}
-                <div class="CategoryFilters-empty">
+                <div class="ProductListing-empty">
                     <h3 class="h4 text-center">{{ 'No products found'|trans }}</h3>
                     {% if activeFilterCount %}
                         <twig:Molecules:Button:Base
                             text="{{ 'Clear filters'|trans }} ({{ activeFilterCount }})"
                             color="secondary"
-                            {{ ...stimulus_action('Layouts--CategoryFilters--base', 'reset', 'click') }}
+                            {{ ...stimulus_action('Layouts--ProductListing--base', 'reset', 'click') }}
                         />
                     {% else %}
                         <twig:Molecules:Button:Base href="/" text="{{ 'Home'|trans }}" color="secondary" />

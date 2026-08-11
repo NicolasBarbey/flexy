@@ -59,7 +59,7 @@
   /*
    * Above its breakpoint the drawer stops being a bottom sheet and becomes static inline content.
    * That breakpoint is md by default, lg for `staticFrom: 'lg'` (a sidebar that must stay a drawer
-   * on tablet, e.g. Layouts/CategoryFilters) — hence the same four declarations twice.
+   * on tablet, e.g. Layouts/ProductListing) — hence the same four declarations twice.
    */
   @variant md {
     .MobileDrawer:not(.MobileDrawer--staticLg) {
