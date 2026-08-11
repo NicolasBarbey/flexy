@@ -15,25 +15,36 @@ declare(strict_types=1);
 namespace FlexyBundle\Components\Layouts\CrossSelling;
 
 use FlexyBundle\DTO\ProductDTO;
+use FlexyBundle\Service\ProductImageResolver;
+use FlexyBundle\Service\ProductTaxationResolver;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
 #[AsTwigComponent]
 class Base
 {
+    private const DEFAULT_ITEMS_PER_PAGE = 4;
+
     public int|string|null $categoryId = null;
-    public int $itemsPerPage = 4;
+    public int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE;
 
     /** @var ProductDTO[] */
     public array $products = [];
 
     public function __construct(
         private readonly DataAccessService $dataAccessService,
+        private readonly ProductImageResolver $productImageResolver,
+        private readonly ProductTaxationResolver $productTaxationResolver,
     ) {
     }
 
-    public function mount(): void
-    {
+    public function mount(
+        int|string|null $categoryId = null,
+        int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE,
+    ): void {
+        $this->categoryId = $categoryId;
+        $this->itemsPerPage = $itemsPerPage;
+
         $params = [
             'page' => 1,
             'itemsPerPage' => $this->itemsPerPage,
@@ -47,5 +58,10 @@ class Base
         $this->products = ProductDTO::fromCollection(
             $this->dataAccessService->resources('/api/front/products', $params) ?? [],
         );
+
+        // One call for the whole strip instead of one per card.
+        $productIds = array_map(static fn (ProductDTO $product): int => $product->id, $this->products);
+        $this->productImageResolver->preload($productIds);
+        $this->productTaxationResolver->preload($productIds);
     }
 }
