@@ -34,6 +34,7 @@ class Base
     {
         $response = $this->dataAccessService->resources('/api/front/contents', [
             'contentFolders.folder.id' => $folderId,
+            'visible' => true,
             'itemsPerPage' => self::ITEMS_PER_PAGE,
             'page' => $page,
         ], 'jsonld');

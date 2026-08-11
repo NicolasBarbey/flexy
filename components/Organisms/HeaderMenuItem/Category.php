@@ -44,7 +44,10 @@ class Category extends AbstractHeaderMenuItem
             return;
         }
 
-        $branches = $this->dataAccessService->resources('/api/front/categories', ['parent' => $id]) ?? [];
+        $branches = $this->dataAccessService->resources(
+            '/api/front/categories',
+            ['parent' => $id, 'visible' => true],
+        ) ?? [];
 
         $result = $this->buildMegaMenu(
             $branches,

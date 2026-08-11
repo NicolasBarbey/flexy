@@ -32,7 +32,8 @@ use Thelia\Domain\Cart\DTO\CartItemAddDTO;
 use Thelia\Domain\Cart\DTO\CartItemDeleteDTO;
 use Thelia\Domain\Cart\DTO\CartItemUpdateQuantityDTO;
 use Thelia\Form\Definition\FrontForm;
-use Thelia\Model\ProductQuery;
+use Thelia\Model\ProductImageQuery;
+use Thelia\Model\ProductSaleElementsProductImageQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 
 #[AsLiveComponent]
@@ -264,21 +265,30 @@ class Base
         $this->emit(CheckoutEvents::ADD_ITEM_EVENT, ['pseId' => $pseId]);
     }
 
+    /**
+     * getImages() renders visible images only, so an image hidden by the merchant must
+     * not win the slot here: it would come back as the placeholder.
+     */
     private function resolveImageId(int $productId, int $pseId): ?int
     {
-        $pseImage = ProductSaleElementsQuery::create()
-            ->findOneById($pseId)
-            ?->getProductSaleElementsProductImages()
-            ->getFirst();
+        $pseImageId = ProductSaleElementsProductImageQuery::create()
+            ->filterByProductSaleElementsId($pseId)
+            ->useProductImageQuery()
+                ->filterByVisible(true)
+                ->orderByPosition()
+            ->endUse()
+            ->findOne()
+            ?->getProductImageId();
 
-        if (null !== $pseImage) {
-            return $pseImage->getProductImageId();
+        if (null !== $pseImageId) {
+            return $pseImageId;
         }
 
-        return ProductQuery::create()
-            ->findOneById($productId)
-            ?->getProductImages()
-            ->getFirst()
+        return ProductImageQuery::create()
+            ->filterByProductId($productId)
+            ->filterByVisible(true)
+            ->orderByPosition()
+            ->findOne()
             ?->getId();
     }
 }

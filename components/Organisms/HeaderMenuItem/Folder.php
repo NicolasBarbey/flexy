@@ -46,7 +46,10 @@ class Folder extends AbstractHeaderMenuItem
             return;
         }
 
-        $branches = $this->dataAccessService->resources('/api/front/folders', ['parent' => $id]) ?? [];
+        $branches = $this->dataAccessService->resources(
+            '/api/front/folders',
+            ['parent' => $id, 'visible' => true],
+        ) ?? [];
         $extraLeaves = $includeContents
             ? ($this->dataAccessService->resources('/api/front/contents', ['contentFolders.folder.id' => $id, 'visible' => true]) ?? [])
             : [];
