@@ -25,11 +25,12 @@ liip_imagine:
     order_card:
       filters:
         thumbnail: { size: [144, 144], mode: inset }
-    # `inset`, not `outbound`, despite the card CSS cropping with object-fit: cover.
+    # `inset`, not `outbound`: the card CSS pairs it with object-fit: contain.
     # Measured 2026-08-10: outbound upscales every source to fill the box exactly, so it
     # ships MORE bytes than inset (up to +113% on the demo catalogue), the opposite of
-    # the intuition. Also mirrors the fit-inside semantics of the legacy image library
-    # URLs these replaced (%5E*!386,280 and %5E*!224,224), keeping the swap neutral.
+    # the intuition. Careful with the legacy URLs these replaced (%5E*!386,280): the `*`
+    # padded the visual onto a fixed canvas, so `cover` cropped nothing but that white
+    # margin. `inset` does not pad, hence the `contain` on the box.
     product_card:
       filters:
         thumbnail: { size: [386, 280], mode: inset }
