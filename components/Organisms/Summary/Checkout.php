@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace FlexyBundle\Components\Organisms\CheckoutSummary;
+namespace FlexyBundle\Components\Organisms\Summary;
 
 use FlexyBundle\Event\CheckoutEvents;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -22,7 +22,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Api\Service\DataAccess\AttributeAccessService;
 
 #[AsLiveComponent]
-class Base
+class Checkout
 {
     use ComponentToolsTrait;
     use DefaultActionTrait;
@@ -32,6 +32,9 @@ class Base
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[LiveListener(CheckoutEvents::DELETE_ITEM_EVENT)]
     #[LiveListener(CheckoutEvents::UPDATE_ITEM_QUANTITY_EVENT)]
     #[LiveListener(CheckoutEvents::ADD_ITEM_EVENT)]
