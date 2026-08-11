@@ -1,0 +1,59 @@
+.SearchField {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  height: 3rem;
+  padding-inline: 1rem;
+  border-radius: 3.125rem;
+  background-color: var(--color-grey-lightest);
+  color: var(--color-grey);
+  cursor: text;
+}
+
+.SearchField-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--color-black);
+}
+
+.SearchField-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.SearchField-input {
+  @apply paragraph-2;
+  flex-grow: 1;
+  min-width: 0;
+  background-color: transparent;
+  color: var(--color-black);
+}
+
+.SearchField-input:focus-visible {
+  outline: none;
+}
+
+.SearchField-input::placeholder {
+  @apply font-light;
+  font-style: italic;
+  color: var(--color-grey);
+}
+
+.SearchField:hover {
+  background-color: var(--color-white);
+}
+
+/* Flush 2px ring as drawn, where the other Fields/* use a 1px ring offset by 2px */
+.SearchField:focus-within {
+  outline: 2px solid var(--color-base);
+}
+
+/* Used on tinted grounds, where the default grey would disappear into the background */
+.SearchField--white {
+  border: 1px solid var(--color-medium);
+  background-color: var(--color-white);
+}
+
+.SearchField--white:hover {
+  background-color: var(--color-grey-lightest);
+}

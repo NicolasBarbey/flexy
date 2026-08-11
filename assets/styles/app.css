@@ -41,6 +41,7 @@
   @import "../../components/Fields/TextArea/Base.css";
   @import "../../components/Fields/Toggle/Base.css";
   @import "../../components/Fields/RangeSlider/Base.css";
+  @import "../../components/Fields/Search/Base.css";
 
   @import "../../components/Molecules/Tabulation/Base.css";
   @import "../../components/Molecules/Pagination/Base.css";
@@ -90,6 +91,7 @@
   @import "../../components/Layouts/Subheader/Base.css";
   @import "../../components/Layouts/Subheader/Item.css";
   @import "../../components/Layouts/Subheader/Category.css";
+  @import "../../components/Layouts/Subheader/Search.css";
   @import "../../components/Layouts/ProductListing/Base.css";
   @import "../../components/Layouts/ReinsuranceModule/Base.css";
 

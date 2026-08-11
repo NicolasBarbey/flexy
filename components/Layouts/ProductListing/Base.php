@@ -18,6 +18,7 @@ use FlexyBundle\DTO\ProductDTO;
 use FlexyBundle\Form\Type\FieldsetType;
 use FlexyBundle\Service\FormService;
 use FlexyBundle\Service\ProductImageResolver;
+use FlexyBundle\Service\ProductSearch;
 use FlexyBundle\Service\ProductTaxationResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -63,6 +64,13 @@ class Base extends AbstractController
     #[LiveProp]
     public bool $newness = false;
 
+    /**
+     * Set by the search page. Not url-bound: the term belongs to the page's own query string
+     * (`?query=`), which pagination links already carry over — see paginationBaseUrl().
+     */
+    #[LiveProp]
+    public ?string $searchTerm = null;
+
     #[LiveProp(writable: true, url: true)]
     public array $tfilters = [];
 
@@ -87,14 +95,20 @@ class Base extends AbstractController
         private readonly FormService $formService,
         private readonly ProductImageResolver $productImageResolver,
         private readonly ProductTaxationResolver $productTaxationResolver,
+        private readonly ProductSearch $productSearch,
     ) {
     }
 
-    public function mount(?int $categoryId = null, bool $promo = false, bool $newness = false): void
-    {
+    public function mount(
+        ?int $categoryId = null,
+        bool $promo = false,
+        bool $newness = false,
+        ?string $searchTerm = null,
+    ): void {
         $this->categoryId = $categoryId;
         $this->promo = $promo;
         $this->newness = $newness;
+        $this->searchTerm = $searchTerm;
 
         // Pagination links reload the page, so the page number is read back from the query
         // string. `tfilters`/`sort` don't need the same treatment here: they're url-bound
@@ -204,20 +218,39 @@ class Base extends AbstractController
         $this->tfilters = $this->normalizeTfilters($this->tfilters);
         $this->activeFilterCount = $this->countSelectedValues($this->tfilters);
 
-        $response = $this->dataAccessService->resources('/api/front/products', $this->productParameters(), 'jsonld');
-
-        $this->products = ProductDTO::fromCollection($response['hydra:member'] ?? []);
+        // A search listing goes through the theme's search service rather than building its own
+        // product query: that is the seam a Thelia search module would replace.
+        if ($this->isSearch()) {
+            $result = $this->productSearch->search($this->searchTerm ?? '', $this->page, self::ITEMS_PER_PAGE, $this->sort);
+            $this->products = $result['products'];
+            $totalItems = $result['total'];
+        } else {
+            $response = $this->dataAccessService->resources('/api/front/products', $this->productParameters(), 'jsonld');
+            $this->products = ProductDTO::fromCollection($response['hydra:member'] ?? []);
+            $totalItems = $response['hydra:totalItems'] ?? 0;
+        }
 
         // One call for the whole grid instead of one per card.
         $productIds = array_map(static fn (ProductDTO $product): int => $product->id, $this->products);
         $this->productImageResolver->preload($productIds);
         $this->productTaxationResolver->preload($productIds);
         $this->pagination = [
-            'totalItems' => $response['hydra:totalItems'] ?? 0,
+            'totalItems' => $totalItems,
             'itemsPerPage' => self::ITEMS_PER_PAGE,
             'currentPage' => $this->page,
             'baseUrl' => $this->paginationBaseUrl(),
         ];
+    }
+
+    /**
+     * Any non-null term means the consumer is a search listing — including the empty string, which
+     * the search page sends when it was opened without a query. Treating that as "not a search"
+     * would fall through to the plain catalogue and list every product under a heading claiming
+     * zero matches.
+     */
+    private function isSearch(): bool
+    {
+        return $this->searchTerm !== null;
     }
 
     private function productParameters(): array

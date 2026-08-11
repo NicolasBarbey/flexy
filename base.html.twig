@@ -10,6 +10,8 @@
             {% endblock %}
         </title>
         <meta name="description" content="{% block meta_desc %}{{ SEOnePageDesc() }}{% endblock %}">
+        {# Empty by default: pages that must not be indexed (internal search) fill it in #}
+        {% block robots %}{% endblock %}
         <link rel="canonical" href="{{ SEOnePageCanonical() }}"/>
         {% block breadcrumb_json %}
             {{ SEOneBreadcrumbJsonLd(breadcrumb)|raw }}

@@ -1,0 +1,19 @@
+.Subheader--search {
+  padding: 5.5rem 0 2.8125rem;
+
+  @variant md {
+    padding-block: 6.25rem 2.875rem;
+  }
+}
+
+/* 668px is the content width at md, kept as a cap above it. Horizontal position follows the
+   product grid: the mockup drifts it rightwards at 1366 and 1920 without following any container. */
+.Subheader--search .Subheader-content {
+  @variant md {
+    max-width: 41.75rem;
+  }
+}
+
+.Subheader--search .Subheader-searchForm {
+  margin-top: 1rem;
+}

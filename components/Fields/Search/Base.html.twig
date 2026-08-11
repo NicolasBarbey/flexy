@@ -1,0 +1,32 @@
+{# @prop name string Name of the text input. Defaults to 'query' — the parameter /search reads #}
+{# @prop value string|null Current term, so the field comes back filled on a results page #}
+{# @prop placeholder string|null Placeholder text. Defaults to the shop's example term #}
+{# @prop variant string Background treatment: 'grey' (default, tinted) or 'white' (white with a border) #}
+{# @prop label string|null Accessible name for the field. Defaults to 'Search' #}
+{# Attributes land on the wrapper; use the `input:` prefix to reach the input itself
+   (e.g. input:data-model for a live-bound field). #}
+{% props name = 'query', value = null, placeholder = null, variant = 'grey', label = null %}
+{% set searchField = html_cva(
+    base: 'SearchField',
+    variants: {
+        variant: {
+            grey: null,
+            white: 'SearchField--white',
+        },
+    },
+) %}
+
+<label class="{{ searchField.apply({variant}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    <span class="SearchField-icon">{{ ux_icon('search') }}</span>
+    <span class="sr-only">{{ label ?? 'Search'|trans }}</span>
+    {# type="search" so mobile keyboards offer a search key and the field gets a native clear affordance #}
+    <input
+        type="search"
+        name="{{ name }}"
+        class="SearchField-input"
+        placeholder="{{ placeholder ?? 'e.g. Shoes, T-shirts, ...'|trans }}"
+        autocomplete="off"
+        {% if value is not null %}value="{{ value }}"{% endif %}
+        {{ attributes.nested('input') }}
+    />
+</label>
