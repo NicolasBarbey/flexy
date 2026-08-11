@@ -42,3 +42,18 @@
     order: 1;
   }
 }
+
+/* DOM order serves the mobile bar (search third); desktop wants it ahead of the language
+   selector, so it is reordered here like the menu button above. */
+.HeaderNav-search {
+  @variant md {
+    order: -1;
+  }
+}
+
+/* Magnifier alone on desktop, where its neighbours keep their labels */
+.HeaderNav-search .HeaderButton-text {
+  @variant md {
+    display: none;
+  }
+}

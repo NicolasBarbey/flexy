@@ -1,0 +1,59 @@
+{# `products`, `total` and `categories` are exposed flat rather than read through `this`, which
+   rebinds inside nested <twig:> tags. #}
+<div class="{{ ('SearchBar ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    {# A real GET form: Enter lands on the results page, and it still works without JavaScript #}
+    <form action="/search" method="get" class="SearchBar-form">
+        <twig:Fields:Search:Base
+            value="{{ query }}"
+            input:data-model="debounce(300)|query"
+        />
+    </form>
+
+    {% if query|trim is not empty %}
+        <div class="SearchBar-panel" data-loading="addClass(opacity-50)">
+            {% if products|length %}
+                <p class="SearchBar-count" aria-live="polite">{{ '%shown% of %total% product(s)'|trans({'%shown%': products|length, '%total%': total}) }}</p>
+            {% endif %}
+
+            <div class="SearchBar-results">
+                <div class="SearchBar-products">
+                    {% if products|length %}
+                        <div class="SearchBar-productList">
+                            {% for product in products %}
+                                <twig:Organisms:ProductCard:Search :product="product" />
+                            {% endfor %}
+                        </div>
+
+                        {% if total > products|length %}
+                            {# /search has no named route: Front's /{_view} catch-all serves it #}
+                            <twig:Molecules:Button:Base
+                                href="/search?query={{ query|url_encode }}"
+                                text="{{ 'See all products'|trans }}"
+                                icon_right="chevron-right"
+                                class="SearchBar-seeAll"
+                            />
+                        {% endif %}
+                    {% else %}
+                        <p class="SearchBar-empty">{{ 'No products found'|trans }}</p>
+                    {% endif %}
+                </div>
+
+                {% if categories|length %}
+                    <div class="SearchBar-categories">
+                        <p class="SearchBar-sectionTitle">{{ 'Categories'|trans }}</p>
+                        <ul class="SearchBar-categoryList">
+                            {% for category in categories %}
+                                <li>
+                                    <twig:Molecules:Link:Base
+                                        href="{{ category.publicUrl }}"
+                                        customText="{{ category.i18ns.title }}"
+                                    />
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>

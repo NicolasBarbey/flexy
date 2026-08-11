@@ -4,6 +4,18 @@
 <div class="{{ ('HeaderNav ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
     <twig:Organisms:LangSelect:Base />
 
+    {# Opens the search panel held by Layouts/Header. A disclosure button: aria-expanded and
+       aria-controls only, no aria-haspopup — the panel is a form, not a menu. #}
+    <twig:Molecules:HeaderButton:Base
+        icon="search"
+        color="light"
+        class="HeaderNav-btn HeaderNav-search"
+        text="{{ 'Search'|trans }}"
+        aria-expanded="false"
+        aria-controls="HeaderSearch"
+        {{...stimulus_action(headerController, 'togglePanel', 'click', {panel: 'search'})}}
+    />
+
     {% if isAuthenticatedFront() %}
         <twig:Organisms:HeaderProfile:Base />
     {% else %}

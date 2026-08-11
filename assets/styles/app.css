@@ -68,6 +68,7 @@
   @import "../../components/Organisms/LangSelect/Base.css";
   @import "../../components/Organisms/HeaderProfile/Base.css";
   @import "../../components/Organisms/HeaderNav/Base.css";
+  @import "../../components/Organisms/SearchBar/Base.css";
   @import "../../components/Organisms/CategoryCard/Base.css";
   @import "../../components/Organisms/ReviewCard/Base.css";
   @import "../../components/Organisms/ArticleCard/Base.css";

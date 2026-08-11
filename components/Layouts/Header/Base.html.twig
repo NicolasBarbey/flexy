@@ -1,6 +1,13 @@
 {# Controller identifier shared by HeaderNav/LangSelect/HeaderMenuItem — must match if renamed. #}
 {% set headerController = 'Layouts--Header--base' %}
 
+{# Captured once: rendered both in the bar and in the search panel that covers it #}
+{% set logo %}
+    <a href="/" class="Header-logo">
+        {{ ux_icon('thelia') }}
+    </a>
+{% endset %}
+
 <header
     class="{{ ('Header ' ~ attributes.render('class'))|tailwind_merge }}"
     {{ attributes.defaults({
@@ -10,9 +17,7 @@
     <div class="Header-top">
         <div class="flex">
             <div class="flex items-center self-center h-full">
-                <a href="/" class="Header-logo">
-                    {{ ux_icon('thelia') }}
-                </a>
+                {{ logo }}
             </div>
         </div>
 
@@ -57,5 +62,27 @@
         </nav>
 
         <twig:Organisms:HeaderNav:Base />
+    </div>
+
+    {# Search takes the header over rather than squeezing into it. `MobilePanel` is what the
+       controller's body-lock looks for; the panel id is what the magnifier in HeaderNav toggles.
+       The design system's unfolded-header variant (field in the bar, nav on a second row) is not
+       built — nothing here forbids adding it later. #}
+    <div
+        id="HeaderSearch"
+        class="Header-searchPanel MobilePanel"
+        {{ stimulus_target(headerController, 'panel') }}
+        data-header-panel-id="search"
+    >
+        <div class="Header-searchLogo">{{ logo }}</div>
+
+        <twig:Organisms:SearchBar:Base class="Header-searchBar" />
+
+        <button
+            type="button"
+            class="Header-searchClose"
+            aria-label="{{ 'Close'|trans }}"
+            {{ stimulus_action(headerController, 'close') }}
+        >{{ ux_icon('close') }}</button>
     </div>
 </header>

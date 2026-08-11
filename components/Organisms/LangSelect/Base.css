@@ -97,6 +97,7 @@
 
 .LangSelect-mobileToggle .HeaderButton-icon {
   @apply rounded-full;
+  padding: 0.25rem;
 }
 
 .LangSelect-mobileList {
