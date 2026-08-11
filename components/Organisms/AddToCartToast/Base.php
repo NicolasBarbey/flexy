@@ -79,15 +79,19 @@ class Base
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
 
         // A PSE-specific visual when it has one, the product's first visual otherwise.
+        // getImages() renders visible images only, so a hidden one must not win the slot
+        // here: it would come back as the placeholder.
         $this->imageId = ProductSaleElementsProductImageQuery::create()
             ->filterByProductSaleElementsId($this->pseId)
             ->useProductImageQuery()
+                ->filterByVisible(true)
                 ->orderByPosition()
             ->endUse()
             ->findOne()
             ?->getProductImageId()
             ?? ProductImageQuery::create()
                 ->filterByProductId($product->getId())
+                ->filterByVisible(true)
                 ->orderByPosition()
                 ->findOne()
                 ?->getId();

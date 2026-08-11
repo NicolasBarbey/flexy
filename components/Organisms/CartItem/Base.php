@@ -21,6 +21,8 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Domain\Localization\Service\LangService;
 use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
 use Thelia\Model\CartItemQuery;
+use Thelia\Model\ProductImageQuery;
+use Thelia\Model\ProductSaleElementsProductImageQuery;
 
 #[AsTwigComponent]
 class Base
@@ -71,14 +73,28 @@ class Base
         $this->insufficientStock = $this->cartStockService->isInsufficient($cartItem);
         $this->attributesAv = $this->pseService->getAttributesAvFromPse($pse);
 
-        $pseImage = $pse->getProductSaleElementsProductImages()->getFirst();
+        // getImages() renders visible images only, so an image hidden by the merchant must
+        // not win the slot here: it would come back as the placeholder.
+        $pseImageId = ProductSaleElementsProductImageQuery::create()
+            ->filterByProductSaleElementsId($pse->getId())
+            ->useProductImageQuery()
+                ->filterByVisible(true)
+                ->orderByPosition()
+            ->endUse()
+            ->findOne()
+            ?->getProductImageId();
 
-        if (null !== $pseImage) {
-            $this->pseImageId = $pseImage->getProductImageId();
+        if (null !== $pseImageId) {
+            $this->pseImageId = $pseImageId;
 
             return;
         }
 
-        $this->pseImageId = $product->getProductImages()->getFirst()?->getId();
+        $this->pseImageId = ProductImageQuery::create()
+            ->filterByProductId($product->getId())
+            ->filterByVisible(true)
+            ->orderByPosition()
+            ->findOne()
+            ?->getId();
     }
 }
