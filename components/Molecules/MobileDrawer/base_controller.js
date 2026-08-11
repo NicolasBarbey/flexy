@@ -6,13 +6,21 @@ export default class extends Controller {
   connect() {
     // Bound once so the same reference can be added and removed (window listeners are not
     // cleaned up implicitly when the element leaves the DOM).
-    this.syncInertness = this.syncInertness.bind(this);
+    this.onResize = this.onResize.bind(this);
     this.syncInertness();
-    window.addEventListener("resize", this.syncInertness);
+    window.addEventListener("resize", this.onResize);
   }
 
   disconnect() {
-    window.removeEventListener("resize", this.syncInertness);
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  // Both decisions read the computed position, so both have to be revisited when the viewport
+  // crosses the breakpoint that turns this drawer into static content — an open drawer would
+  // otherwise keep the page locked from a decision taken at a narrower width.
+  onResize() {
+    this.syncInertness();
+    this.syncBodyLock();
   }
 
   toggle(event) {
@@ -73,10 +81,16 @@ export default class extends Controller {
   // "locked" is a single shared class on <body>: derive it from whether any drawer or
   // Header panel is open rather than toggling it per instance, so multiple lock sources
   // on the same page don't desync each other's lock state.
+  // Only a panel that is actually fixed locks the page: the same markup is a fullscreen
+  // overlay below its breakpoint and in-flow (or a header-level overlay) above it, where the
+  // page must stay scrollable. Same test as isStatic() above. Kept identical in
+  // Layouts/Header/base_controller.js, the other writer of this class.
   syncBodyLock() {
+    const open = document.querySelectorAll(".MobileDrawer.is-open, .Header-menu.is-open, .MobilePanel.is-open");
+
     document.body.classList.toggle(
       "locked",
-      document.querySelector(".MobileDrawer.is-open, .Header-menu.is-open, .MobilePanel.is-open") !== null,
+      [...open].some((panel) => getComputedStyle(panel).position === "fixed"),
     );
   }
 }

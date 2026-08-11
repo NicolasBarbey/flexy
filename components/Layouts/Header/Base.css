@@ -224,18 +224,3 @@
     display: none;
   }
 }
-
-/*
- * Restores page scroll when the "open" .Header-menu is actually the md-lg dropdown bar (a small overlay)
- * rather than the fullscreen mobile panel. Deliberately left OUTSIDE the `@layer components` block
- * above (and this file must stay imported unwrapped in app.css): the global `body.locked { overflow: hidden }`
- * rule (assets/styles/app.css) is itself unlayered, and unlayered rules always beat layered ones regardless
- * of specificity — this override would never apply otherwise. Same pattern as MobileDrawer/Base.css.
- */
-body.locked:has(.Header-menu.is-open) {
-  @variant md {
-    @variant max-lg {
-      overflow: auto;
-    }
-  }
-}

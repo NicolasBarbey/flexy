@@ -97,22 +97,3 @@
     }
   }
 }
-
-/*
- * Restores page scroll when the "open" drawer is actually displayed as static inline content
- * rather than an overlay. Deliberately left OUTSIDE the `@layer components` block above (and this file
- * must stay imported unwrapped in app.css): the global `body.locked { overflow: hidden }` rule
- * (assets/styles/app.css) is itself unlayered, and unlayered rules always beat layered ones regardless of
- * specificity — this override would never apply otherwise.
- */
-body.locked:has(.MobileDrawer:not(.MobileDrawer--staticLg).is-open) {
-  @variant md {
-    overflow: auto;
-  }
-}
-
-body.locked:has(.MobileDrawer--staticLg.is-open) {
-  @variant lg {
-    overflow: auto;
-  }
-}
