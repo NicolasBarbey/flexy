@@ -36,7 +36,7 @@
             <twig:Molecules:Button:Base href="/contact" text="{{ 'Contact Us'|trans }}" color="secondary" size="large" icon_right="email" />
         </div>
         <ul class="Footer-links">
-            {% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('config', 'information_folder_id')}) %}
+            {% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('config', 'information_folder_id'), visible: true}) %}
             {% for content in contents %}
                 <li class="paragraph-5">
                     <a href="{{ content.publicUrl }}" class="Footer-link">{{ content.i18ns.title }}</a>

@@ -19,7 +19,9 @@
 
 {% set image = null %}
 {% if itemType and itemId %}
-    {% set _imageFilter = {(itemType ~ '.id'): itemId, itemsPerPage: 1} %}
+    {# `visible` mirrors what getImages() filters on below: without it the probe can
+       announce an image the renderer then refuses, leaving an empty wrapper. #}
+    {% set _imageFilter = {(itemType ~ '.id'): itemId, visible: true, itemsPerPage: 1} %}
     {% if resources('/api/front/' ~ itemType ~ '_images', _imageFilter)|length %}
         {% set image = getImages({
             source_type: itemType,
