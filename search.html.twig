@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% set query = app.request.query.getString('query', '') %}
+
+{% block title %}{{ 'Search results'|trans }}{% endblock %}
+
+{# Internal search: parameterised URLs, endless variants, no indexing value #}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block body %}
+    {# Not a Thelia entity view, so SEOne has no breadcrumb for it — built by hand, like faq.
+       A lone item: search has no parent, so the back link falls back to the home page. #}
+    <twig:Layouts:Subheader:Search
+        query="{{ query }}"
+        listingId="product-listing"
+        :breadcrumb="[{title: 'Search results'|trans}]"
+    />
+
+    {# Thelia exposes filters per category only, so a search listing has sorting but no filters #}
+    <twig:Layouts:ProductListing:Base searchTerm="{{ query }}" />
+{% endblock %}
