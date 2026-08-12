@@ -37,6 +37,7 @@
         <twig:Layouts:SimilarContent:Base
             title="{{ 'On the same topic'|trans }}"
             :button="{label: 'See all news'|trans, href: '/'}"
+            :excludeId="[attr('content', 'id')]"
         />
     </div>
 {% endblock %}
