@@ -1,10 +1,13 @@
 {# @prop orderProducts array Order lines, resolved in one batch and handed to each card #}
-{% props orderProducts = [] %}
+{# @prop order array|null The owning order, carried only to feed the per-line hook points #}
+{% props orderProducts = [], order = null %}
 {% for line in this.lines %}
+	{{ theme_hook('account-order.item.top', {order: order, orderProduct: line.orderProduct}) }}
 	<twig:Organisms:ProductCard:Order
 		:orderProduct="line.orderProduct"
 		:product="line.product"
 		:pse="line.pse"
 		:imageId="line.imageId"
 	/>
+	{{ theme_hook('account-order.item.bottom', {order: order, orderProduct: line.orderProduct}) }}
 {% endfor %}

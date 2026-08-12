@@ -3,6 +3,13 @@
 {% block title %}{{ 'My profile'|trans }}{% endblock %}
 
 {% block body %}
+    {# Read as a resource only to feed the account hook points with the same object shape as the
+       rest of the theme's extension contract; the page's own fields come from its components.
+       attr('customer', …) reads the security context, so it resolves on this controller route. #}
+    {% set customer = resources('/api/front/account/customers/' ~ attr('customer', 'id')) %}
+
+    {{ theme_hook('account.top', {customer: customer}) }}
+
     <twig:Layouts:Subheader:Account
         title="{{ 'My profile'|trans }}"
         selected="profile"
@@ -51,6 +58,8 @@
             </div>
         </div>
     </div>
+
+    {{ theme_hook('account.bottom', {customer: customer}) }}
 {% endblock %}
 
 {% block footer %}

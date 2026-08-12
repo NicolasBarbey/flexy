@@ -7,6 +7,8 @@
     {# Cross-selling browses the category the product is filed under by default. #}
     {% set defaultCategory = product.productCategories|filter(productCategory => productCategory.defaultCategory)|first.category|default(null) %}
 
+    {{ theme_hook('product.top', {product: product}) }}
+
     <div class="ProductPage">
         <div class="pt-2 pb-3 md:pt-5 md:pl-5">
             <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
@@ -18,6 +20,7 @@
                     :product="product"
                     title="{{ SEOnePageH1()|default(null) ?: attr('product', 'title') }}"
                 />
+                {{ theme_hook('product.details.bottom', {product: product}) }}
 
                 <section id="description" class="ProductPage-description">
                     <twig:Molecules:Accordion:Base id="product-details" multiple>
@@ -103,4 +106,6 @@
     </div>
 
     <twig:Organisms:AddToCartToast:Base />
+
+    {{ theme_hook('product.bottom', {product: product}) }}
 {% endblock %}

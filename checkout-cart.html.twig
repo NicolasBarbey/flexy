@@ -3,7 +3,9 @@
 {% block title %}{{ 'Cart'|trans }}{% endblock %}
 
 {% block checkoutContent %}
+    {{ theme_hook('cart.top') }}
     <twig:Organisms:Cart:Base />
+    {{ theme_hook('cart.bottom') }}
 {% endblock %}
 
 {% block checkoutSummary %}
