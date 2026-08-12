@@ -77,7 +77,11 @@ class NavigationTree implements ResetInterface
      * The grouped form works on the endpoint, but /api/front/folders cannot expose a usable
      * parent id: the resource declares isParent(): bool instead of getParent(): int, so the
      * serializer publishes "has a parent" rather than which one, and a grouped response cannot
-     * be reassembled into a tree. Revisit once that is fixed upstream.
+     * be reassembled into a tree.
+     *
+     * TODO: switch this to the same per-depth grouping as categoryTree() once
+     * https://github.com/thelia/thelia/pull/3618 is merged and core/ carries it — the only
+     * missing piece is the parent id in the response, everything else already lines up.
      *
      * @return array<int, array<string, mixed>>
      */
