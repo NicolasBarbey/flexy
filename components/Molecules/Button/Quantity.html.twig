@@ -18,13 +18,13 @@
 ) %}
 
 <div role="button" class="{{ buttonQuantity.apply({color}, attributes.render('class')) }} "  {{ attributes.defaults(stimulus_controller('Molecules--Button--quantity')).without('class', 'button:color') }} >
-    <twig:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'decrement')}}>-</twig:Molecules:Button:Base>
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} aria-label="{{ 'Decrease quantity'|trans }}" disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'decrement')}}>-</twig:Molecules:Button:Base>
     <input
         type="number"
         class="{{ buttonInputQuantity.apply({color}, attributes.nested('input').render('class')) }} "
         {% if disabled %} disabled {% endif %}
-        {{attributes.nested('input')}}
+        {{ attributes.nested('input').defaults({'aria-label': 'Quantity'|trans}) }}
         {{stimulus_target('Molecules--Button--quantity', 'input')}}
     >
-    <twig:Molecules:Button:Base {{...attributes.nested('button')}} disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'increment')}}>+</twig:Molecules:Button:Base>
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} aria-label="{{ 'Increase quantity'|trans }}" disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'increment')}}>+</twig:Molecules:Button:Base>
 </div>
