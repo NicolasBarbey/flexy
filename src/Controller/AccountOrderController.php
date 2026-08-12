@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace FlexyBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Thelia\Model\ConfigQuery;
+use Thelia\Model\Order;
 use Thelia\Model\OrderQuery;
 
 #[Route('/account', name: 'account_')]
@@ -37,7 +37,7 @@ class AccountOrderController extends FlexyController
     #[Route('/order/{orderId}', name: 'order', requirements: ['orderId' => '\d+'])]
     public function order(DataAccessService $dataAccessService, int $orderId): Response
     {
-        $this->checkOrderCustomer($orderId);
+        $order = $this->findCustomerOrder($orderId);
 
         // The template reads the order through the API: if that comes back empty it would
         // render an empty shell in 200. Memoized, so this costs nothing extra.
@@ -51,7 +51,7 @@ class AccountOrderController extends FlexyController
     #[Route('/order/pdf/delivery/{orderId}', name: 'order_pdf_delivery', requirements: ['orderId' => '\d+'])]
     public function generateDeliveryPdf(EventDispatcherInterface $eventDispatcher, int $orderId): Response
     {
-        $this->checkOrderCustomer($orderId);
+        $this->findCustomerOrder($orderId);
 
         return $this->generateOrderPdf(
             $eventDispatcher,
@@ -65,7 +65,7 @@ class AccountOrderController extends FlexyController
     #[Route('/order/pdf/invoice/{orderId}', name: 'order_pdf_invoice', requirements: ['orderId' => '\d+'])]
     public function generateInvoicePdf(EventDispatcherInterface $eventDispatcher, int $orderId): Response
     {
-        $this->checkOrderCustomer($orderId);
+        $this->findCustomerOrder($orderId);
 
         return $this->generateOrderPdf(
             $eventDispatcher,
@@ -79,7 +79,7 @@ class AccountOrderController extends FlexyController
     #[Route('/order/pdf/quotation/{orderId}', name: 'order_pdf_quotation', requirements: ['orderId' => '\d+'])]
     public function generateQuotationPdf(EventDispatcherInterface $eventDispatcher, int $orderId): Response
     {
-        $this->checkOrderCustomer($orderId);
+        $this->findCustomerOrder($orderId);
 
         return $this->generateOrderPdf(
             $eventDispatcher,
@@ -91,15 +91,25 @@ class AccountOrderController extends FlexyController
         );
     }
 
-    private function checkOrderCustomer(int $orderId): void
+    /**
+     * Orders are only ever reached through their owner: never look one up by primary key
+     * alone, or a logged-in customer reads someone else's order by walking the sequential
+     * ids. An unknown id and another customer's id answer the same 404, so neither response
+     * confirms that the other order exists.
+     */
+    private function findCustomerOrder(int $orderId): Order
     {
         $this->checkAuth();
 
-        $order = OrderQuery::create()->findPk($orderId);
-        $customer = $this->getSecurityContext()->getCustomerUser();
+        $customerId = $this->getSecurityContext()->getCustomerUser()?->getId();
+        $order = null === $customerId
+            ? null
+            : OrderQuery::create()->filterByCustomerId($customerId)->findPk($orderId);
 
-        if (null === $order || null === $customer || $order->getCustomerId() !== $customer->getId()) {
-            throw new AccessDeniedHttpException();
+        if (null === $order) {
+            throw new NotFoundHttpException();
         }
+
+        return $order;
     }
 }
