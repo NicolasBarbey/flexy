@@ -68,3 +68,10 @@ liip_imagine:
     subheader_item_xl:
       filters:
         thumbnail: { size: [900, 500], mode: outbound }
+    # Images referenced by sitemap-images.xml. No `format` here on purpose: the theme serves
+    # WebP through content negotiation and keeps the source format as the fallback.
+    sitemap:
+      quality: 82
+      filters:
+        downscale:
+          max: [800, 800]
