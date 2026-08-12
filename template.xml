@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://thelia.net/schema/dic/template"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/template http://thelia.net/schema/dic/template/template-1_0.xsd">
+    <descriptive locale="fr">
+        <title>Template front office Flexy</title>
+    </descriptive>
+    <descriptive locale="en">
+        <title>Flexy front office template</title>
+    </descriptive>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>1.0.0</version>
+    <authors>
+        <author>
+            <name>Thelia team</name>
+            <company>thelia.net</company>
+            <email>contact@thelia.net</email>
+            <website>thelia.net</website>
+        </author>
+    </authors>
+    <thelia>3.0.0</thelia>
+    <stability>beta</stability>
+    <!-- No <assets>: that path only drives the Webpack Encore manifest and its symlink, and
+         this template is served through AssetMapper. Declaring one would point at a dist
+         directory the build never produces. -->
+</template>
