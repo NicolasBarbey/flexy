@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Twig;
 
 use Thelia\Core\Security\SecurityContext;
+use Thelia\Domain\Localization\Service\LangService;
 use Thelia\Model\Customer;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -23,6 +24,7 @@ class FlexyBundleExtension extends AbstractExtension
 {
     public function __construct(
         private readonly SecurityContext $securityContext,
+        private readonly LangService $langService,
     ) {
     }
 
@@ -30,11 +32,21 @@ class FlexyBundleExtension extends AbstractExtension
     {
         return [
             new TwigFunction('getCurrentCustomer', [$this, 'getCurrentCustomer']),
+            new TwigFunction('current_locale', [$this, 'currentLocale']),
         ];
     }
 
     public function getCurrentCustomer(): ?Customer
     {
         return $this->securityContext->getCustomerUser();
+    }
+
+    /**
+     * Current request locale in the language_TERRITORY form (fr_FR), which is what og:locale
+     * expects — unlike lang_code, which carries the two-letter code alone.
+     */
+    public function currentLocale(): string
+    {
+        return $this->langService->getLocale() ?: 'en_US';
     }
 }

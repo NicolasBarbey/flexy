@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block structured_data %}
+    {{ SEOneWebSite() }}
+    {{ SEOneWebPage() }}
+    {{ SEOneLocalBusiness(logo) }}
+{% endblock %}
+
 {% block breadcrumb_json %}{% endblock %}
 
 {% block body %}
