@@ -44,8 +44,8 @@
 
             {% for column in columns %}
                 <li class="Submenu-column">
-                    <a href="{{ column.branch.publicUrl }}" class="Submenu-heading">
-                        {{ column.branch.i18ns.title }}
+                    <a href="{{ column.branch.href }}" class="Submenu-heading">
+                        {{ column.branch.title }}
                     </a>
 
                     <button
@@ -59,8 +59,8 @@
                     <ul class="Submenu-sub" data-menu-sub="{{ menuKey }}_5" data-menu-previous="{{ menuKey }}" {{ stimulus_target(headerController, 'sub') }}>
                         {% for child in column.children %}
                             <li class="Submenu-subItem">
-                                <a href="{{ child.publicUrl }}" class="Submenu-link">
-                                    {{ child.i18ns.title }}
+                                <a href="{{ child.href }}" class="Submenu-link">
+                                    {{ child.title }}
                                 </a>
                             </li>
                         {% endfor %}
@@ -71,8 +71,8 @@
             {% if leafLinks|length %}
                 <li class="Submenu-column Submenu-column--links">
                     {% for leaf in leafLinks %}
-                        <a href="{{ leaf.publicUrl }}" class="Submenu-link">
-                            {{ leaf.i18ns.title }}
+                        <a href="{{ leaf.href }}" class="Submenu-link">
+                            {{ leaf.title }}
                         </a>
                     {% endfor %}
                 </li>

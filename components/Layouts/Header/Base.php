@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Layouts\Header;
 
+use FlexyBundle\Service\NavigationTree;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
@@ -24,15 +25,13 @@ class Base
 
     public function __construct(
         private readonly DataAccessService $dataAccessService,
+        private readonly NavigationTree $navigationTree,
     ) {
     }
 
     public function mount(): void
     {
-        $categories = $this->dataAccessService->resources('/api/front/categories', [
-            'parent' => 0,
-            'visible' => true,
-        ]) ?? [];
+        $categories = $this->navigationTree->categoryRoots();
 
         $folder = $this->dataAccessService->resources('/api/front/folders/2');
         $content = $this->dataAccessService->resources('/api/front/contents/1');
@@ -41,8 +40,8 @@ class Base
             static fn (array $category): array => [
                 'type' => 'category',
                 'id' => $category['id'],
-                'title' => $category['i18ns']['title'] ?? '',
-                'href' => $category['publicUrl'] ?? '',
+                'title' => $category['title'],
+                'href' => $category['href'],
             ],
             $categories,
         );

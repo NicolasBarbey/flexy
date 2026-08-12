@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Organisms\HeaderMenuItem;
 
+use FlexyBundle\Service\NavigationTree;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
@@ -28,8 +29,10 @@ class Category extends AbstractHeaderMenuItem
     public array $leafLinks = [];
     public bool $showSeeMore = false;
 
-    public function __construct(DataAccessService $dataAccessService)
-    {
+    public function __construct(
+        DataAccessService $dataAccessService,
+        private readonly NavigationTree $navigationTree,
+    ) {
         parent::__construct($dataAccessService);
     }
 
@@ -44,18 +47,7 @@ class Category extends AbstractHeaderMenuItem
             return;
         }
 
-        $branches = $this->dataAccessService->resources(
-            '/api/front/categories',
-            ['parent' => $id, 'visible' => true],
-        ) ?? [];
-
-        $result = $this->buildMegaMenu(
-            $branches,
-            fn (int|string $branchId): array => $this->dataAccessService->resources(
-                '/api/front/categories',
-                ['parent' => $branchId, 'visible' => true],
-            ) ?? [],
-        );
+        $result = $this->buildMegaMenu($this->navigationTree->categoryBranches($id));
 
         $this->columns = $result['columns'];
         $this->leafLinks = $result['leafLinks'];
