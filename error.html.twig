@@ -13,8 +13,8 @@
         </div>
         <div class="flex flex-col gap-2 items-center">
             {% block error_content %}
-                <h3 class="h3">{{ status_code }}</h3>
-                <p class="paragraph-2">{{ exception_message }}</p>
+                <h3 class="h3">{{ 'Oops, an error has occurred...'|trans }}</h3>
+                <p class="paragraph-2">{{ 'Please try again later or return to the homepage.'|trans }}</p>
             {% endblock %}
         </div>
 

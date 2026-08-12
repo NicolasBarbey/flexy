@@ -104,7 +104,11 @@
                 {% endfor %}
             {% else %}
                 <div class="ProductListing-empty">
-                    <h3 class="h4 text-center">{{ 'No products found'|trans }}</h3>
+                    <h3 class="h4 text-center">
+                        {{ (searchTerm is not null and searchTerm|trim is empty
+                            ? 'Enter a search term to see products'
+                            : 'No products found')|trans }}
+                    </h3>
                     {% if activeFilterCount %}
                         <twig:Molecules:Button:Base
                             text="{{ 'Clear filters'|trans }} ({{ activeFilterCount }})"
