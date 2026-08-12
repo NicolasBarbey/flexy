@@ -1,0 +1,40 @@
+# Root templates that are not pages of their own: they render only with the context a
+# controller prepares, or exist to be extended. Asking for one by name through the
+# front-office catch-all returns a 404 instead of a broken page.
+#
+# Read by Thelia\Core\Template\InternalViewsDeclaration and enforced in ViewRenderer, so
+# only requests naming a view are affected — a controller rendering the same template is not.
+internal:
+    # Layouts, only ever extended
+    - base
+    - checkout-base
+
+    # Rendered by the error handler with its own status code and message
+    - error
+    - 404
+
+    # Customer area: the controller checks authentication and resolves the entity
+    - account-order
+    - account-orders
+    - account-addresses
+    - address
+    - address-update
+
+    # Registration and password flows, driven by a session or a token
+    - customer-activation
+    - customer-informations
+    - password-forgotten-confirm
+    - reset-password-confirm
+
+    # Checkout steps, each guarded by the cart state its controller checks
+    - checkout-cart
+    - checkout-delivery
+    - checkout-payment
+    - checkout-confirm
+    - checkout-failed
+    - checkout-gateway
+
+    # XML fragments assembled by SitemapGenerator
+    - sitemap-index
+    - sitemap-urlset
+    - sitemap-images
