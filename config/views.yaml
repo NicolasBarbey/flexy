@@ -11,7 +11,8 @@ internal:
 
     # Rendered by the error handler with its own status code and message
     - error
-    - 404
+    # Quoted: unquoted, YAML reads it as an integer, and the core rejects a non-string entry.
+    - '404'
 
     # Customer area: the controller checks authentication and resolves the entity
     - account-order
