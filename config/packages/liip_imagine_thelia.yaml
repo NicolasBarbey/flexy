@@ -68,6 +68,22 @@ liip_imagine:
     subheader_item_xl:
       filters:
         thumbnail: { size: [900, 500], mode: outbound }
+    # CategoryCard, served through a <picture> so a phone never downloads the desktop file.
+    category:
+      quality: 82
+      filters:
+        downscale:
+          max: [500, 500]
+    category_md:
+      quality: 80
+      filters:
+        downscale:
+          max: [400, 400]
+    category_sm:
+      quality: 80
+      filters:
+        downscale:
+          max: [300, 300]
     # Images referenced by sitemap-images.xml. No `format` here on purpose: the theme serves
     # WebP through content negotiation and keeps the source format as the fallback.
     sitemap:
