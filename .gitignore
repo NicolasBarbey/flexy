@@ -1,4 +1,9 @@
-###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
-###< symfony/asset-mapper ###
+
+# Resolved by the root project, never by the template itself.
+composer.lock
+
+.DS_Store
+.idea/
+.vscode/
