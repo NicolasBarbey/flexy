@@ -7,6 +7,13 @@
         <h2 class="h2 text-black mb-4">{{ 'Create account'|trans }}</h2>
         <p class="paragraph-2 text-black mb-8">{{ 'Enter the code received by e-mail'|trans }}</p>
 
+        {# Thelia's Twig `app` is a plain object with request/session only — it has no flashes()
+           helper, so the bag is read through the session. Scoped to this type so the component
+           below still receives its own 'error' flashes. #}
+        {% for message in app.session ? app.session.flashBag.get('information') : [] %}
+            <twig:Molecules:SnackBar:Base variant="informative" withIcon text="{{ message }}" class="mb-6" />
+        {% endfor %}
+
         <twig:Forms:RegisterValidationCode:Base email="{{ email }}" />
 
         <twig:Molecules:Link:Base href="{{ path('customer_send_code', {email: email}) }}" customText="{{ 'Don\'t have receive code ?'|trans }}" class="mt-6" />

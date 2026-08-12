@@ -5,6 +5,13 @@
         <p class="paragraph-2 text-black mt-6 mb-6">{{ 'You can now log in to your account.'|trans }}</p>
         <twig:Molecules:Button:Base href="{{ path('customer_login') }}" text="{{ 'Log in'|trans }}" />
     {% else %}
+        {# Raised by save() during a live action, so they can only be shown from inside the
+           component — the page around it is not re-rendered. Scoped to 'error' so the page's
+           own 'information' flash is not consumed here. #}
+        {% for message in app.session ? app.session.flashBag.get('error') : [] %}
+            <twig:Molecules:SnackBar:Base variant="error" withIcon text="{{ message }}" class="mb-6" />
+        {% endfor %}
+
         {{ form_start(form, {attr: {class: 'flex flex-col gap-6'}}) }}
         {{ form_row(form.customer_email) }}
         {{ form_row(form.activation_code) }}
