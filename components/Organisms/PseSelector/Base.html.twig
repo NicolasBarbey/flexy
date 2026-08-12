@@ -22,6 +22,9 @@
 {% form_theme form with flexy_form_themes only %}
 
 {% set outOfStock = stockManaged and currentPse.quantity == 0 %}
+{# No upper bound when stock is not enforced: the attribute is dropped rather than passed as
+   null, which the component rejects outright. #}
+{% set quantityBounds = stockManaged ? {'input:max': remainingStock} : {} %}
 {% set mobileDrawerController = 'Molecules--MobileDrawer--base' %}
 
 <div class="{{ ('PseSelector ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
@@ -147,7 +150,7 @@
                     input:name="{{ field_name(form.quantity) }}"
                     input:value="{{ field_value(form.quantity) }}"
                     input:min="1"
-                    input:max="{{ stockManaged ? remainingStock : null }}"
+                    {{ ...quantityBounds }}
                     input:aria-label="{{ 'Quantity'|trans }}"
                 />
                 <twig:Molecules:Button:Base
