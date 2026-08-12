@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block structured_data %}
+    {{ SEOneContactPage() }}
+    {{ SEOneBreadcrumbList([
+        { name: attr('config', 'store_name'), url: absolute_url(path('index')) },
+        { name: 'Contact'|trans, url: SEOnePageCanonical() },
+    ]) }}
+    {{ SEOneLocalBusiness(logo) }}
+{% endblock %}
+
 {% block title %}{{ 'Contact'|trans }}{% endblock %}
 
 {% block body %}

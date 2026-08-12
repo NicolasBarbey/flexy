@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% set ogImages = getImagesData({
+    source_id: attr('category', 'id'),
+    source_type: 'category',
+    filters: 'default',
+    limit: 1,
+}) %}
+
+{% block og_image %}{{ ((ogImages|first)?.sources|first)?.url ?: parent() }}{% endblock %}
+
 {% block body %}
     {% set categoryId = attr('category', 'id') %}
     {% set description = attr('category', 'description') %}

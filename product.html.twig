@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% set ogImages = getImagesData({
+    source_id: attr('product', 'id'),
+    source_type: 'product',
+    filters: 'default',
+    limit: 1,
+}) %}
+
+{% block og_image %}{{ ((ogImages|first)?.sources|first)?.url ?: parent() }}{% endblock %}
+{% block og_type %}product{% endblock %}
+
 {% block body %}
     {% set productId = attr('product', 'id') %}
     {% set product = resources('/api/front/products/' ~ productId) %}
