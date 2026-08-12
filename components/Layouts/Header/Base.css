@@ -36,6 +36,12 @@
     }
   }
 
+  .Header-top > .HeaderNav {
+    @variant md {
+      flex-shrink: 0;
+    }
+  }
+
   .Header-logo {
     height: 1.125rem; /* 18px, mobile */
     width: auto;
