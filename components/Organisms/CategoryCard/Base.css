@@ -48,6 +48,8 @@
 }
 
 .CategoryCard-img {
+  /* <picture> is inline by default, which would drop the height and the overflow below. */
+  display: block;
   overflow: hidden;
   height: 11.6875rem;
 
