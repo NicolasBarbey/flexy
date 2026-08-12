@@ -60,19 +60,21 @@ abstract class AbstractHeaderMenuItem
     /**
      * Groups branches with children into columns, others into leafLinks.
      *
-     * @param array<int, array<string, mixed>>                       $branches
-     * @param callable(int|string): array<int, array<string, mixed>> $fetchChildren
-     * @param array<int, array<string, mixed>>                       $extraLeaves
+     * Branches arrive with their children already attached — NavigationTree owns the traversal,
+     * so this no longer fetches anything.
+     *
+     * @param array<int, array<string, mixed>> $branches
+     * @param array<int, array<string, mixed>> $extraLeaves
      *
      * @return array{columns: array<int, array{branch: array, children: array}>, leafLinks: array<int, array>}
      */
-    protected function buildMegaMenu(array $branches, callable $fetchChildren, array $extraLeaves = []): array
+    protected function buildMegaMenu(array $branches, array $extraLeaves = []): array
     {
         $columns = [];
         $leafLinks = [];
 
         foreach ($branches as $branch) {
-            $children = $fetchChildren($branch['id']);
+            $children = $branch['children'] ?? [];
 
             if (\count($children) > 0) {
                 $columns[] = ['branch' => $branch, 'children' => $children];

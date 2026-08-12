@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Components\Organisms\HeaderMenuItem;
 
+use FlexyBundle\Service\NavigationTree;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 
@@ -29,8 +30,10 @@ class Folder extends AbstractHeaderMenuItem
     public array $leafLinks = [];
     public bool $showSeeMore = false;
 
-    public function __construct(DataAccessService $dataAccessService)
-    {
+    public function __construct(
+        DataAccessService $dataAccessService,
+        private readonly NavigationTree $navigationTree,
+    ) {
         parent::__construct($dataAccessService);
     }
 
@@ -46,35 +49,9 @@ class Folder extends AbstractHeaderMenuItem
             return;
         }
 
-        $branches = $this->dataAccessService->resources(
-            '/api/front/folders',
-            ['parent' => $id, 'visible' => true],
-        ) ?? [];
-        $extraLeaves = $includeContents
-            ? ($this->dataAccessService->resources('/api/front/contents', ['contentFolders.folder.id' => $id, 'visible' => true]) ?? [])
-            : [];
-
         $result = $this->buildMegaMenu(
-            $branches,
-            function (int|string $branchId) use ($includeContents): array {
-                $children = $this->dataAccessService->resources(
-                    '/api/front/folders',
-                    ['parent' => $branchId, 'visible' => true],
-                ) ?? [];
-
-                if ($includeContents) {
-                    $children = array_merge(
-                        $children,
-                        $this->dataAccessService->resources(
-                            '/api/front/contents',
-                            ['contentFolders.folder.id' => $branchId, 'visible' => true],
-                        ) ?? [],
-                    );
-                }
-
-                return $children;
-            },
-            $extraLeaves,
+            $this->navigationTree->folderBranches($id, $includeContents),
+            $includeContents ? $this->navigationTree->folderContents($id) : [],
         );
 
         $this->columns = $result['columns'];
