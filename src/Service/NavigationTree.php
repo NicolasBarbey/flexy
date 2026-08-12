@@ -72,16 +72,7 @@ class NavigationTree implements ResetInterface
     }
 
     /**
-     * Folders are fetched one parent at a time, unlike categories.
-     *
-     * The grouped form works on the endpoint, but /api/front/folders cannot expose a usable
-     * parent id: the resource declares isParent(): bool instead of getParent(): int, so the
-     * serializer publishes "has a parent" rather than which one, and a grouped response cannot
-     * be reassembled into a tree.
-     *
-     * TODO: switch this to the same per-depth grouping as categoryTree() once
-     * https://github.com/thelia/thelia/pull/3618 is merged and core/ carries it — the only
-     * missing piece is the parent id in the response, everything else already lines up.
+     * Branches under one folder, each already carrying its own children.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -133,13 +124,13 @@ class NavigationTree implements ResetInterface
             return $this->categoryTree = [];
         }
 
-        $branchesByRoot = $this->childrenByParent(array_column($roots, 'id'));
+        $branchesByRoot = $this->childrenByParent('/api/front/categories', ['parent' => array_column($roots, 'id')]);
         $branchIds = array_merge(...array_values(array_map(
             static fn (array $branches): array => array_column($branches, 'id'),
             $branchesByRoot,
         ))) ?: [];
 
-        $leavesByBranch = $branchIds === [] ? [] : $this->childrenByParent($branchIds);
+        $leavesByBranch = $branchIds === [] ? [] : $this->childrenByParent('/api/front/categories', ['parent' => $branchIds]);
 
         foreach ($roots as &$root) {
             $root['children'] = $branchesByRoot[$root['id']] ?? [];
@@ -158,23 +149,34 @@ class NavigationTree implements ResetInterface
      * One request for a whole depth: the endpoint accepts a list of parents and each row
      * carries its own, so the level is split back per parent here.
      *
-     * @param array<int, int> $parentIds
+     * @param array<string, mixed> $parameters
      *
      * @return array<int, array<int, array<string, mixed>>>
      */
-    private function childrenByParent(array $parentIds): array
+    private function childrenByParent(string $path, array $parameters): array
     {
-        $rows = $this->fetch('/api/front/categories', [
-            'parent' => $parentIds,
-            'visible' => true,
-        ]);
+        return $this->groupBy(
+            $this->fetch($path, $parameters + ['visible' => true]),
+            static fn (array $row): int => (int) ($row['parent'] ?? 0),
+        );
+    }
 
-        $byParent = [];
+    /**
+     * Splits one grouped response back per parent, preserving the order rows came in.
+     *
+     * @param array<int, array<string, mixed>>      $rows
+     * @param callable(array<string, mixed>): int   $parentOf
+     *
+     * @return array<int, array<int, array<string, mixed>>>
+     */
+    private function groupBy(array $rows, callable $parentOf): array
+    {
+        $grouped = [];
         foreach ($rows as $row) {
-            $byParent[(int) ($row['parent'] ?? 0)][] = $row;
+            $grouped[$parentOf($row)][] = $row;
         }
 
-        return array_map($this->normalise(...), $byParent);
+        return array_map($this->normalise(...), $grouped);
     }
 
     /**
@@ -187,17 +189,27 @@ class NavigationTree implements ResetInterface
             'visible' => true,
         ]));
 
+        if ($branches === []) {
+            return [];
+        }
+
+        $branchIds = array_column($branches, 'id');
+        $foldersByParent = $this->childrenByParent('/api/front/folders', ['parent' => $branchIds]);
+        $contentsByFolder = $includeContents
+            ? $this->groupBy(
+                $this->fetch('/api/front/contents', [
+                    'contentFolders.folder.id' => $branchIds,
+                    'visible' => true,
+                ]),
+                static fn (array $row): int => (int) ($row['contentFolders'][0]['folder']['id'] ?? 0),
+            )
+            : [];
+
         foreach ($branches as &$branch) {
-            $children = $this->normalise($this->fetch('/api/front/folders', [
-                'parent' => $branch['id'],
-                'visible' => true,
-            ]));
-
-            if ($includeContents) {
-                $children = array_merge($children, $this->folderContents($branch['id']));
-            }
-
-            $branch['children'] = $children;
+            $branch['children'] = array_merge(
+                $foldersByParent[$branch['id']] ?? [],
+                $contentsByFolder[$branch['id']] ?? [],
+            );
         }
         unset($branch);
 
