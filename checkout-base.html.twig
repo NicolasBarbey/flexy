@@ -20,6 +20,8 @@
     {% set checkoutBackButton = block('checkoutBackButton') is defined ? block('checkoutBackButton') : '' %}
     {% set useSidebar = checkoutSummary|trim != '' %}
 
+    {{ theme_hook('checkout.top') }}
+
     {% block checkoutSteps %}
         <twig:Molecules:CheckoutSteps:Base
             :steps="[
@@ -61,6 +63,8 @@
             {{ checkoutBackButton|raw }}
         </div>
     {% endif %}
+
+    {{ theme_hook('checkout.bottom') }}
     </div>
 {% endblock %}
 

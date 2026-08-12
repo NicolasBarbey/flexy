@@ -18,6 +18,13 @@
         'order[position]': 'asc',
     }) %}
 
+    {# Read as a resource only to feed the category hook points with the same object shape as
+       the rest of the theme's extension contract; the page itself reads its own fields
+       through attr(), which needs no API round-trip. #}
+    {% set category = resources('/api/front/categories/' ~ categoryId) %}
+
+    {{ theme_hook('category.top', {category: category}) }}
+
     <twig:Layouts:Subheader:Category
         title="{{ SEOnePageH1()|default(null) ?: attr('category', 'title') }}"
         description="{{ attr('category', 'chapo') }}"
@@ -60,4 +67,6 @@
             </div>
         </div>
     {% endif %}
+
+    {{ theme_hook('category.bottom', {category: category}) }}
 {% endblock %}

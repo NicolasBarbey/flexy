@@ -35,21 +35,26 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        {{ theme_hook('layout.head') }}
     </head>
 
     <body class="no-js {% block body_class %}{% endblock %}">
+        {{ theme_hook('layout.body.top') }}
         {% block header %}
             <twig:Layouts:Header:Base />
         {% endblock %}
+        {{ theme_hook('layout.header.bottom') }}
 
         <main {% block stimulus_controller %}{% endblock %}>
             {% block body %}{% endblock %}
         </main>
 
+        {{ theme_hook('layout.footer.top') }}
         {% block footer %}
             <twig:Layouts:Footer:Base />
         {% endblock %}
 
         {% block modals %}{% endblock %}
+        {{ theme_hook('layout.body.bottom') }}
     </body>
 </html>
