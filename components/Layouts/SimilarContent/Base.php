@@ -32,9 +32,14 @@ class Base
     ) {
     }
 
+    /**
+     * @param array<int, int|string>|null $excludeId ids the caller must not see listed — a content
+     *                                               page passes its own, so it never suggests itself
+     */
     public function mount(
         int|string|null $folderId = null,
         int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE,
+        ?array $excludeId = null,
     ): void {
         $this->folderId = $folderId;
         $this->itemsPerPage = $itemsPerPage;
@@ -46,6 +51,10 @@ class Base
 
         if ($this->folderId !== null) {
             $params['contentFolders.folder.id'] = $this->folderId;
+        }
+
+        if (!empty($excludeId)) {
+            $params['not_in[id]'] = $excludeId;
         }
 
         $contents = $this->dataAccessService->resources('/api/front/contents', $params) ?? [];
