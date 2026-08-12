@@ -173,9 +173,17 @@ class CustomerController extends FlexyController
     {
         $customer = $this->retrieveCustomerFromSession($session);
 
+        // Second registration step: it completes the account the first step created, and the
+        // activation link it builds needs that account. Reaching it without one means the
+        // registration has to start over — a logged-in visitor always has a customer here,
+        // since that is the first thing retrieveCustomerFromSession() returns.
+        if (null === $customer) {
+            return $this->generateRedirect($this->generateUrl('customer_register'));
+        }
+
         return $this->render('customer-informations', [
-            'firstname' => $customer?->getFirstname(),
-            'lastname' => $customer?->getLastname(),
+            'firstname' => $customer->getFirstname(),
+            'lastname' => $customer->getLastname(),
         ]);
     }
 
