@@ -131,6 +131,12 @@ class CustomerController extends FlexyController
     #[Route('/register', name: 'register', methods: ['GET'])]
     public function register(): Response
     {
+        // Without this, a logged-in visitor creates a second, orphaned Customer row and the
+        // informations step then writes onto their original account.
+        if ($this->securityService->isAuthenticatedFront()) {
+            return $this->generateRedirect('/account');
+        }
+
         return $this->render('register');
     }
 
@@ -139,6 +145,10 @@ class CustomerController extends FlexyController
         CustomerRegistrationService $customerRegistrationProcessor,
         SessionInterface $session,
     ): RedirectResponse {
+        if ($this->securityService->isAuthenticatedFront()) {
+            return $this->generateRedirect('/account');
+        }
+
         $form = $this->createForm(CustomerRegisterForm::class);
 
         try {
