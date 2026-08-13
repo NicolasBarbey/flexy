@@ -4,22 +4,34 @@ import { Controller } from "@hotwired/stimulus";
 class QuantityController extends Controller {
   static targets = ["input"];
 
-  inputTargetConnected(element) {
-    element.addEventListener("keyup", this.enforceMinMax.bind(this, element));
-    element.addEventListener(
-      "keypress",
-      this.enforceNumberOnly.bind(this, element),
-    );
+  initialize() {
+    // Bound once per element so inputTargetDisconnected() actually removes them: a fresh
+    // bind() is a different reference and removeEventListener() matched nothing, so the
+    // handlers stacked up on every LiveComponent re-render.
+    this.handlers = new WeakMap();
   }
+
+  inputTargetConnected(element) {
+    const handlers = {
+      keyup: (event) => this.enforceMinMax(element, event),
+      keypress: (event) => this.enforceNumberOnly(element, event),
+    };
+
+    this.handlers.set(element, handlers);
+    element.addEventListener("keyup", handlers.keyup);
+    element.addEventListener("keypress", handlers.keypress);
+  }
+
   inputTargetDisconnected(element) {
-    element.removeEventListener(
-      "keyup",
-      this.enforceMinMax.bind(this, element),
-    );
-    element.removeEventListener(
-      "keypress",
-      this.enforceNumberOnly.bind(this, element),
-    );
+    const handlers = this.handlers.get(element);
+
+    if (!handlers) {
+      return;
+    }
+
+    element.removeEventListener("keyup", handlers.keyup);
+    element.removeEventListener("keypress", handlers.keypress);
+    this.handlers.delete(element);
   }
 
   decrement() {
