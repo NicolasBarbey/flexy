@@ -3,7 +3,7 @@
 {% props position = 'top', tooltip = '' %}
 
 <twig:Molecules:Tooltip:Base :position="position" :tooltip="tooltip">
-    <button type="button" class="Tooltip-icon" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
+    <button type="button" class="Tooltip-icon" aria-label="{{ 'More information'|trans }}" {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}>
         {{ ux_icon("help") }}
     </button>
 </twig:Molecules:Tooltip:Base>

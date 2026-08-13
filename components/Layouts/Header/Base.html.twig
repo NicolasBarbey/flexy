@@ -32,7 +32,7 @@
             >
                 {{ 'Menu'|trans }}
             </twig:Molecules:Button:Base>
-            <button type="button" data-menu-close {{ stimulus_action(headerController, 'close') }}>
+            <button type="button" data-menu-close aria-label="{{ 'Close'|trans }}" {{ stimulus_action(headerController, 'close') }}>
                 {{ ux_icon('close') }}
             </button>
             <ul class="Header-navigation" data-menu-sub="0">

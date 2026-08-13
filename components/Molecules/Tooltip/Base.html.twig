@@ -15,6 +15,7 @@
         <button
             type="button"
             class="Tooltip-close"
+            aria-label="{{ 'Close'|trans }}"
             {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}
         >{{ ux_icon("close") }}</button>
         {{ tooltip }}

@@ -60,7 +60,7 @@
     />
 
     <div class="MobilePanel" id="lang-panel" {{ stimulus_target(headerController, 'panel') }} data-header-panel-id="lang">
-        <button type="button" {{ stimulus_action(headerController, 'close') }}>
+        <button type="button" aria-label="{{ 'Close'|trans }}" {{ stimulus_action(headerController, 'close') }}>
             {{ ux_icon('close') }}
         </button>
         <p class="h3 mb-7">{{ 'Language'|trans }}</p>
