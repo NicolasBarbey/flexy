@@ -23,14 +23,21 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Core\Event\Coupon\CouponConsumeEvent;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
+use Thelia\Condition\Exception\InvalidConditionException;
+use Thelia\Condition\Exception\UnmatchableConditionException;
 use Thelia\Core\Form\FormServiceInterface;
 use Thelia\Domain\Cart\CartFacade;
+use Thelia\Domain\Promotion\Coupon\Exception\CouponExpiredException;
+use Thelia\Domain\Promotion\Coupon\Exception\CouponNotReleaseException;
+use Thelia\Domain\Promotion\Coupon\Exception\CouponNoUsageLeftException;
+use Thelia\Domain\Promotion\Coupon\Exception\InactiveCouponException;
 use Thelia\Form\CouponCode;
 
 #[AsLiveComponent]
@@ -39,6 +46,10 @@ class Base
     use ComponentToolsTrait;
     use ComponentWithFormTrait;
     use DefaultActionTrait;
+
+    // A FormError added after submitForm() would be lost: the form is rehydrated from the props.
+    #[LiveProp]
+    public ?string $error = null;
 
     public function __construct(
         private readonly FormServiceInterface $formService,
@@ -70,10 +81,21 @@ class Base
     #[LiveAction]
     public function save(): void
     {
+        $this->error = null;
         $this->submitForm();
 
         $couponCode = $this->getForm()->get('coupon-code')->getData();
-        $this->eventDispatcher->dispatch(new CouponConsumeEvent($couponCode), TheliaEvents::COUPON_CONSUME);
+
+        // The core form only checks the code exists, not that it is usable, and the refusals it
+        // raises have no shared parent nor HTTP mapping — they answered 500.
+        try {
+            $this->eventDispatcher->dispatch(new CouponConsumeEvent($couponCode), TheliaEvents::COUPON_CONSUME);
+        } catch (InactiveCouponException|CouponExpiredException|CouponNotReleaseException|CouponNoUsageLeftException|UnmatchableConditionException|InvalidConditionException) {
+            // One message for all six: naming the reason would confirm the code exists.
+            $this->error = $this->translator->trans('This promo code cannot be used.');
+
+            return;
+        }
 
         $this->cartFacade->recalculatePostage($this->cartFacade->getOrCreateFromSession());
 
@@ -83,6 +105,7 @@ class Base
     #[LiveListener('removeCoupon')]
     public function removeCoupon(#[LiveArg] ?string $code): void
     {
+        $this->error = null;
         $this->eventDispatcher->dispatch(new DefaultActionEvent(), TheliaEvents::COUPON_CLEAR_ALL);
 
         $this->cartFacade->recalculatePostage($this->cartFacade->getOrCreateFromSession());

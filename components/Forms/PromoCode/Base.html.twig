@@ -1,4 +1,6 @@
 {% form_theme form with flexy_form_themes only %}
+{# Read out here: `this` rescopes inside the nested <twig:> components. #}
+{% set couponError = this.error %}
 <div class="{{ ('PromoCode ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }} data-loading="addClass(opacity-50 pointer-events-none)">
     <twig:Molecules:Accordion:Base id="promo-code">
         <twig:Molecules:Accordion:Item value="promo-code" class="bg-white border-0">
@@ -19,6 +21,9 @@
                 {{ form_row(form.submit) }}
                 {{ form_errors(form) }}
                 {{ form_end(form) }}
+                {% if couponError %}
+                    <p class="Input-error">{{ couponError }}</p>
+                {% endif %}
             </twig:Molecules:Accordion:Content>
         </twig:Molecules:Accordion:Item>
     </twig:Molecules:Accordion:Base>
