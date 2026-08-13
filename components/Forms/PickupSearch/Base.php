@@ -115,12 +115,14 @@ class Base
         $place = $feature['properties'];
         $coordinates = $feature['geometry']['coordinates'];
 
+        // No pickup point covers this city is an ordinary answer, and resources() reports it
+        // as null: without the fallback the assignment fails on a non-nullable array prop.
         $this->pickups = $this->dataAccessService->resources(
             '/api/front/delivery_pickup_locations/'.$place['city'].'/'.$place['postcode'],
             [
                 'address' => $place['name'] ?? '',
             ],
-        );
+        ) ?? [];
 
         $this->dispatchBrowserEvent('pickuppoint:update', [
             'pickups' => $this->pickups,

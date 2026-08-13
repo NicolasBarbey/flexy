@@ -51,7 +51,7 @@ class Base
 
     public function getModules(): array
     {
-        return $this->dataAccessService->resources('/api/front/payment/modules');
+        return $this->dataAccessService->resources('/api/front/payment/modules') ?? [];
     }
 
     #[LiveListener(CheckoutEvents::SET_PAYMENT_MODULE_ID)]

@@ -139,7 +139,17 @@ class Base
             $options = $deliveryModuleWithOptionDTO->getDeliveryModuleOption();
             $module = $deliveryModuleWithOptionDTO->getDeliveryModule();
             $i18ns = $module->getI18ns()->i18ns;
-            $title = ($i18ns[$locale] ?? $i18ns['en_US'] ?? reset($i18ns))->getTitle();
+            $i18n = $i18ns[$locale] ?? $i18ns['en_US'] ?? null;
+
+            if (null === $i18n && [] !== $i18ns) {
+                $i18n = $i18ns[array_key_first($i18ns)];
+            }
+
+            // A module with no translation row at all must not take the whole step down with
+            // it: reset() returned false here, and getTitle() on false is fatal for every
+            // module on the page. Falling back to the code keeps the option selectable —
+            // losing the only delivery method would block the order outright.
+            $title = $i18n?->getTitle() ?? $module->getCode();
 
             foreach ($options as $option) {
                 $code = $option->getCode();
