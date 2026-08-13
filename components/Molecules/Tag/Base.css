@@ -34,6 +34,8 @@
     color: var(--tag-color);
 
     @variant hover {
+      /* Deliberate fallback: an unsupported contrast-color() is dropped at parse time,
+         leaving the safe value above. */
       color: var(--color-grey-darker);
       color: contrast-color(var(--tag-color));
     }
