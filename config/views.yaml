@@ -15,6 +15,7 @@ internal:
     - '404'
 
     # Customer area: the controller checks authentication and resolves the entity
+    - account
     - account-order
     - account-orders
     - account-addresses
