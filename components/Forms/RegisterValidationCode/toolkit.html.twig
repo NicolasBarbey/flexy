@@ -1,9 +1,11 @@
 <div class="grid gap-4">
     <h4>Base (LiveComponent — activation code form)</h4>
     <span class="text-xs text-grey">
-        Submitting will attempt a real activation via <code>CustomerCodeManager::activateCustomerByCode()</code> — expect an error flash unless the email/code pair is real.
+        The account comes from the pending registration in the session, never from a prop, so
+        submitting here reports that no registration was found — the real flow is reached from
+        <code>/customer/activation</code> after the second registration step.
     </span>
     <div class="max-w-md bg-lightest p-4 rounded-md">
-        <twig:Forms:RegisterValidationCode:Base email="test@thelia.net" />
+        <twig:Forms:RegisterValidationCode:Base />
     </div>
 </div>

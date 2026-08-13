@@ -14,8 +14,8 @@
             <twig:Molecules:SnackBar:Base variant="informative" withIcon text="{{ message }}" class="mb-6" />
         {% endfor %}
 
-        <twig:Forms:RegisterValidationCode:Base email="{{ email }}" />
+        <twig:Forms:RegisterValidationCode:Base />
 
-        <twig:Molecules:Link:Base href="{{ path('customer_send_code', {email: email}) }}" customText="{{ 'Don\'t have receive code ?'|trans }}" class="mt-6" />
+        <twig:Molecules:Link:Base href="{{ path('customer_send_code') }}" customText="{{ 'Don\'t have receive code ?'|trans }}" class="mt-6" />
     </div>
 {% endblock %}

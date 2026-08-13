@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
@@ -26,13 +25,10 @@ class CustomerActivationForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // The account being activated is the pending registration held in the session, so
+        // this form carries no email field: a submitted one would let a caller aim the code
+        // check at any address, and answer whether that address has an account.
         $builder
-            ->add('customer_email', HiddenType::class, [
-                'constraints' => [
-                    new Constraints\NotBlank(),
-                    new Constraints\Email(),
-                ],
-            ])
             ->add('activation_code', TextType::class, [
                 'label' => Translator::getInstance()->trans('Enter the code received by e-mail'),
                 'attr' => [

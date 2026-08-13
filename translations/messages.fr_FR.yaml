@@ -238,6 +238,8 @@ Activation code must contain only digits: Le code d'activation ne doit contenir 
 Reset your password: Réinitialiser votre mot de passe
 Confirm: Valider
 Your account has been activated!: Votre compte a été activé !
+This activation code is not valid, or is no longer valid. Please ask for a new one.: Ce code d'activation est invalide ou a expiré. Demandez-en un nouveau.
+Your registration could not be found. Please register again.: Votre inscription n'a pas été retrouvée. Merci de vous inscrire à nouveau.
 Your password has been reset!: Votre mot de passe a été réinitialisé !
 You can now log in to your account.: Vous pouvez dès à présent vous connecter à votre compte.
 An email has been sent to you with instructions to reset your password.: Un email vous a été envoyé avec les instructions pour réinitialiser votre mot de passe.

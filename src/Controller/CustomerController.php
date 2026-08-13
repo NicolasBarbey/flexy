@@ -216,9 +216,7 @@ class CustomerController extends FlexyController
 
             $customerCodeProcessor->createCodeAndSendIt($customer);
 
-            return $this->generateRedirect(
-                $this->generateUrl('customer_activation', ['email' => $customer->getEmail()])
-            );
+            return $this->generateRedirect($this->generateUrl('customer_activation'));
         } catch (FormValidationException $e) {
             $message = $this->getTranslator()->trans('Please check your input: %s', ['%s' => $e->getMessage()]);
         }
@@ -233,38 +231,48 @@ class CustomerController extends FlexyController
         return $this->generateRedirect($this->generateUrl('customer_informations'));
     }
 
-    #[Route(
-        '/activation/{email}',
-        name: 'activation',
-        requirements: ['email' => '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}'],
-        methods: ['GET']
-    )]
-    public function activation(string $email): Response
+    // The address being activated comes from the visitor's own session, never from the url:
+    // naming it in the url made these two pages answer differently for an address that has
+    // an account and for one that does not, which is enough to test whether someone is a
+    // customer of the shop, without logging in, one request at a time.
+    #[Route('/activation', name: 'activation', methods: ['GET'])]
+    public function activation(SessionInterface $session): Response
     {
-        $customer = CustomerQuery::create()->findOneByEmail($email);
+        $customer = $this->retrievePendingCustomer($session);
+
         if (!$customer instanceof Customer) {
-            return $this->generateRedirect($this->generateUrl('customer_register'));
+            // Read through getCustomerUser() rather than hasCustomerUser(): the latter is
+            // annotated `@return true` in the core, so PHPStan narrows every call to it.
+            return $this->generateRedirect(
+                $this->getSecurityContext()->getCustomerUser() instanceof Customer
+                    ? $this->generateUrl('account_index')
+                    : $this->generateUrl('customer_register')
+            );
         }
 
-        return $this->render('customer-activation', ['email' => $email]);
+        return $this->render('customer-activation');
     }
 
-    #[Route('/send-code/{email}', name: 'send_code', methods: ['GET'])]
-    public function sendCode(string $email, CustomerCodeManager $customerCodeProcessor): RedirectResponse
+    #[Route('/send-code', name: 'send_code', methods: ['GET'])]
+    public function sendCode(CustomerCodeManager $customerCodeProcessor, SessionInterface $session): RedirectResponse
     {
-        $customer = CustomerQuery::create()->findOneByEmail($email);
+        $customer = $this->retrievePendingCustomer($session);
+
         if (!$customer instanceof Customer) {
             return $this->generateRedirect($this->generateUrl('customer_register'));
         }
 
-        $customerCodeProcessor->createCodeAndSendIt($customer);
+        // Rate limited in the core: past a few requests per address and per client, nothing
+        // is sent. The page below says the same thing either way, so a caller cannot use the
+        // answer to tell whether a mail actually went out.
+        $customerCodeProcessor->requestCode($customer);
 
         $this->addFlash(
             'information',
             $this->translator->trans('A new activation code has been sent to your email address. Please check your mailbox.')
         );
 
-        return $this->generateRedirect($this->generateUrl('customer_activation', ['email' => $email]));
+        return $this->generateRedirect($this->generateUrl('customer_activation'));
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
@@ -335,6 +343,17 @@ class CustomerController extends FlexyController
     protected function getRememberMeCookieExpiration(): int
     {
         return (int) ConfigQuery::read('customer_remember_me_cookie_expiration', 2592000);
+    }
+
+    // Deliberately narrower than retrieveCustomerFromSession(): the activation flow is about
+    // the pending registration alone. A logged-in visitor cannot be unconfirmed — login raises
+    // CustomerNotConfirmedException — so resolving the current user here would only serve to
+    // render an activation page to someone who has no code to enter.
+    private function retrievePendingCustomer(SessionInterface $session): ?Customer
+    {
+        $customerId = $session->get('registration_customer_id');
+
+        return $customerId ? CustomerQuery::create()->findPk($customerId) : null;
     }
 
     protected function retrieveCustomerFromSession(SessionInterface $session): ?Customer
