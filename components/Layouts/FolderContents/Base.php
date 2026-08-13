@@ -32,6 +32,31 @@ class Base
 
     public function mount(int $folderId, int $page = 1): void
     {
+        $page = max(1, $page);
+        $response = $this->fetchPage($folderId, $page);
+        $totalItems = (int) ($response['hydra:totalItems'] ?? 0);
+        $lastPage = max(1, (int) ceil($totalItems / self::ITEMS_PER_PAGE));
+
+        // Out of range the API serves the last page anyway; realigning keeps the pager from
+        // offering a "next" that leads nowhere.
+        if ($page > $lastPage) {
+            $page = $lastPage;
+            $response = $this->fetchPage($folderId, $page);
+        }
+
+        $this->contents = $response['hydra:member'] ?? [];
+        $this->pagination = [
+            'totalItems' => $totalItems,
+            'itemsPerPage' => self::ITEMS_PER_PAGE,
+            'currentPage' => $page,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function fetchPage(int $folderId, int $page): array
+    {
         $response = $this->dataAccessService->resources('/api/front/contents', [
             'contentFolders.folder.id' => $folderId,
             'visible' => true,
@@ -39,11 +64,6 @@ class Base
             'page' => $page,
         ], 'jsonld');
 
-        $this->contents = $response['hydra:member'] ?? [];
-        $this->pagination = [
-            'totalItems' => $response['hydra:totalItems'] ?? 0,
-            'itemsPerPage' => self::ITEMS_PER_PAGE,
-            'currentPage' => $page,
-        ];
+        return \is_array($response) ? $response : [];
     }
 }

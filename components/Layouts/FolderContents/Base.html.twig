@@ -20,4 +20,11 @@
             currentPage="{{ this.pagination.currentPage }}"
         />
     </div>
+{% else %}
+    <div class="flex flex-col items-center text-center my-8">
+        <div class="w-36 h-auto lg:w-60">
+            {{ source('assets/images/nothing.svg') }}
+        </div>
+        <h3 class="h3 mt-4">{{ 'No content in this folder yet'|trans }}</h3>
+    </div>
 {% endif %}

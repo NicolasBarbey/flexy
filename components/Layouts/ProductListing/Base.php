@@ -218,16 +218,14 @@ class Base extends AbstractController
         $this->tfilters = $this->normalizeTfilters($this->tfilters);
         $this->activeFilterCount = $this->countSelectedValues($this->tfilters);
 
-        // A search listing goes through the theme's search service rather than building its own
-        // product query: that is the seam a Thelia search module would replace.
-        if ($this->isSearch()) {
-            $result = $this->productSearch->search($this->searchTerm ?? '', $this->page, self::ITEMS_PER_PAGE, $this->sort);
-            $this->products = $result['products'];
-            $totalItems = $result['total'];
-        } else {
-            $response = $this->dataAccessService->resources('/api/front/products', $this->productParameters(), 'jsonld');
-            $this->products = ProductDTO::fromCollection($response['hydra:member'] ?? []);
-            $totalItems = $response['hydra:totalItems'] ?? 0;
+        $totalItems = $this->fetchProducts();
+        $lastPage = max(1, (int) ceil($totalItems / self::ITEMS_PER_PAGE));
+
+        // Out of range the API serves the last page anyway; realigning keeps the pager from
+        // offering a "next" that leads nowhere.
+        if ($this->page > $lastPage) {
+            $this->page = $lastPage;
+            $totalItems = $this->fetchProducts();
         }
 
         // One call for the whole grid instead of one per card.
@@ -240,6 +238,25 @@ class Base extends AbstractController
             'currentPage' => $this->page,
             'baseUrl' => $this->paginationBaseUrl(),
         ];
+    }
+
+    /**
+     * A search listing goes through the theme's search service rather than building its own
+     * product query: that is the seam a Thelia search module would replace.
+     */
+    private function fetchProducts(): int
+    {
+        if ($this->isSearch()) {
+            $result = $this->productSearch->search($this->searchTerm ?? '', $this->page, self::ITEMS_PER_PAGE, $this->sort);
+            $this->products = $result['products'];
+
+            return (int) $result['total'];
+        }
+
+        $response = $this->dataAccessService->resources('/api/front/products', $this->productParameters(), 'jsonld');
+        $this->products = ProductDTO::fromCollection($response['hydra:member'] ?? []);
+
+        return (int) ($response['hydra:totalItems'] ?? 0);
     }
 
     /**
