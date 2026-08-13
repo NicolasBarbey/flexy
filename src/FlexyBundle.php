@@ -57,7 +57,6 @@ class FlexyBundle extends AbstractBundle
             'paths' => [
                 \dirname(__DIR__) . '/components' => 'Flexy',
                 \dirname(__DIR__) . '/form' => 'FlexyForm',
-                \dirname(__DIR__) . '/partials' => 'FlexyPartials',
             ],
             // The theme is intentionally NOT registered globally (a global form
             // theme would also style the back-office forms): every template

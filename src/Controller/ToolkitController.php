@@ -36,13 +36,10 @@ class ToolkitController extends AbstractController
     #[Route('', name: 'index')]
     public function index(Request $request): Response
     {
-        $componentsDir = \dirname(__DIR__, 2) . '/components';
-        $partialsDir = \dirname(__DIR__, 2) . '/partials';
-
         $finder = (new Finder())
             ->files()
             ->name('toolkit.html.twig')
-            ->in([$componentsDir, $partialsDir])
+            ->in(\dirname(__DIR__, 2) . '/components')
             ->sortByName();
 
         $grouped = [];
