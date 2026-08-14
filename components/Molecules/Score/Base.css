@@ -1,0 +1,14 @@
+.Score {
+  display: flex;
+  gap: 0.3125rem;
+}
+
+.Score-star {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--color-black);
+}
+
+.Score-star--empty {
+  color: var(--color-grey-lighter);
+}

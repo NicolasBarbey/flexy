@@ -1,0 +1,35 @@
+{# @block content The clickable trigger label that toggles the accordion item #}
+{# @prop iconClosed string|null Icon shown when the item is collapsed. Defaults to 'chevron-down' #}
+{# @prop iconOpen string|null Icon shown when the item is expanded. When null (default) or equal to iconClosed, iconClosed rotates 180° instead of being swapped for a second icon #}
+{# @prop iconClass string Classes applied to the icon(s). Defaults to 'size-8' #}
+{%- props iconClosed = 'chevron-down', iconOpen = null, iconClass = 'size-8' -%}
+{%- set _accordionItem_triggerId = inject('accordionItem.triggerId') -%}
+{%- set _accordionItem_contentId = inject('accordionItem.contentId') -%}
+{%- set _accordionItem_disabled = inject('accordionItem.disabled', false) -%}
+{%- set _accordionItem_isOpen = inject('accordionItem.isOpen', false) -%}
+{%- set _accordionItem_orientation = inject('accordionItem.orientation', 'vertical') -%}
+{%- set _accordionTrigger_swapIcons = iconOpen is not null and iconOpen != iconClosed -%}
+<h3 class="flex" data-orientation="{{ _accordionItem_orientation }}">
+    <button
+        class="{{ ('group/accordion-trigger relative flex flex-1 items-center justify-between gap-4 px-4 py-2.5 text-left rtl:text-start text-sm font-medium transition-all cursor-pointer hover:text-grey-dark disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 ' ~ attributes.render('class'))|tailwind_merge }}"
+        {{ attributes.defaults({
+            type: 'button',
+            id: _accordionItem_triggerId,
+            'data-slot': 'accordion-trigger',
+            disabled: _accordionItem_disabled,
+            'data-orientation': _accordionItem_orientation,
+            'aria-expanded': _accordionItem_isOpen ? 'true' : 'false',
+            'aria-controls': _accordionItem_contentId,
+            ...stimulus_target('Molecules--Accordion--base', 'trigger'),
+            ...stimulus_action('Molecules--Accordion--base', 'toggle', 'click')|stimulus_action('Molecules--Accordion--base', 'handleKeydown', 'keydown'),
+        }) }}
+    >
+        {%- block content %}{% endblock -%}
+        {% if _accordionTrigger_swapIcons %}
+            <span data-slot="accordion-trigger-icon" class="{{ ('pointer-events-none ms-auto shrink-0 group-aria-expanded/accordion-trigger:hidden ' ~ iconClass)|tailwind_merge }}">{{ ux_icon(iconClosed) }}</span>
+            <span data-slot="accordion-trigger-icon" class="{{ ('pointer-events-none ms-auto hidden shrink-0 group-aria-expanded/accordion-trigger:inline ' ~ iconClass)|tailwind_merge }}">{{ ux_icon(iconOpen) }}</span>
+        {% else %}
+            <span data-slot="accordion-trigger-icon" class="{{ ('pointer-events-none ms-auto shrink-0 transition-transform duration-200 group-aria-expanded/accordion-trigger:rotate-180 ' ~ iconClass)|tailwind_merge }}">{{ ux_icon(iconClosed) }}</span>
+        {% endif %}
+    </button>
+</h3>

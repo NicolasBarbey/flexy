@@ -1,0 +1,43 @@
+{% props label = null, name = '', id = null, value = null, placeholder = null, error = false, success = false, disabled = false, required = false, optional = false, help = null, size = null, rows = 2 %}
+
+{% set fieldId = id ?? name %}
+
+{% set textArea = html_cva(
+    base: 'TextArea',
+    variants: {
+        size: { small: 'TextArea--small' },
+        success: { true: 'TextArea--success' },
+    }
+) %}
+
+<div class="{{ textArea.apply({size: size, success: success}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {% if label or help %}
+        <div class="TextArea-header">
+            {% if label %}
+                <label class="TextArea-label" for="{{ fieldId }}">
+                    {{ label }}{% if required %} *{% endif %}{% if optional %} ({{ 'optional'|trans }}){% endif %}
+                </label>
+            {% endif %}
+            {% if help %}
+                <twig:Molecules:Tooltip:Help tooltip="{{ help }}" />
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="TextArea-blockInput">
+        <textarea
+            name="{{ name }}"
+            id="{{ fieldId }}"
+            rows="{{ rows }}"
+            class="{{ ('TextArea-input' ~ (error ? ' is-error' : ''))|tailwind_merge }}"
+            {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+            {% if disabled %}disabled{% endif %}
+            {% if required %}required{% endif %}
+            {{ attributes.nested('textarea') }}
+        >{% if value is not empty %}{{ value }}{% endif %}</textarea>
+    </div>
+
+    {% if error %}
+        <p class="TextArea-error">{{ error }}</p>
+    {% endif %}
+</div>

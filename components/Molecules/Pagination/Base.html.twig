@@ -1,0 +1,36 @@
+{% set totalPages = (totalItems / itemsPerPage)|round(0, 'ceil')  %}
+{% if totalPages > 1 %}
+    <nav class="Pagination" aria-label="{{ 'Pagination'|trans }}">
+        <ul class="Pagination-list">
+            {% if currentPage != 1 %}
+                <li class="mr-3">
+                    <twig:Molecules:Button:Base
+                        text="{{ 'Previous'|trans }}"
+                        icon_left="chevron-left"
+                        color="minimal"
+                        href="{{ (baseUrl ? baseUrl ~ '&' : '?') ~ 'page=' ~ (currentPage - 1) }}"
+                    />
+                </li>
+            {% endif %}
+
+            {% for page in 1..totalPages %}
+                <li>
+                    <a href="{{ baseUrl ? baseUrl ~ '&' : '?'}}page={{ page }}" class="Pagination-item {{ page == currentPage ? 'Pagination-item--active' }}">
+                        {{ page }}
+                    </a>
+                </li>
+            {% endfor %}
+
+            {% if currentPage != totalPages %}
+                <li class="ml-3">
+                    <twig:Molecules:Button:Base
+                        text="{{ 'Next'|trans }}"
+                        icon_right="chevron-right"
+                        color="minimal"
+                        href="{{ (baseUrl ? baseUrl ~ '&' : '?') ~ 'page=' ~ (currentPage + 1) }}"
+                    />
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

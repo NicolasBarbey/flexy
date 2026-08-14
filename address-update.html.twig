@@ -1,34 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ 'New Address'|trans }}
-{% endblock %}
+{% set address = resources('/api/front/account/addresses/' ~ addressId) %}
+
+{% block title %}{{ address.label }}{% endblock %}
 
 {% block body %}
-    {% set address = resources('/api/front/account/addresses/' ~ addressId) %}
+    <div class="pt-2 pb-3 md:pt-5 md:pl-5">
+        <twig:Molecules:Breadcrumb:Base :items="[
+            {title: 'My addresses'|trans, url: path('account_addresses')},
+            {title: address.label},
+        ]" />
+    </div>
 
-    <main>
-        {{ component('Flexy:Button', {
-            text: 'My delivery addresses'|trans,
-            href: path('account_addresses'),
-            color: 'minimal',
-            icon_left: 'chevron-left',
-            class: 'mt-2 lg:mt-6 lg:ml-5',
-        }) }}
-        <div class="lg:w-[400px] mx-6 lg:mx-auto mt-4 lg:mt-8 lg:mt-120 mb-20">
-            <div class="text-black h3 mb-6 lg:mb-[44px]">
-                {{ address.label }}
-            </div>
-            {{ component('Flexy:AccountAddressForm', {
-                addressId,
-                action : path('account_address_update',{addressId}),
-                successParam: 'update_success'
+    <div class="container-s pb-20">
+        <h1 class="h3 text-black mt-4 mb-6 lg:mt-8 lg:mb-11">{{ address.label }}</h1>
 
-            }) }}
-        </div>
-    </main>
+        <twig:Forms:Address:Account
+            :addressId="addressId"
+            action="{{ path('account_address_update', {addressId: addressId}) }}"
+            successUrl="{{ path('account_addresses', {update_success: true}) }}"
+            errorUrl="{{ path('account_address', {addressId: addressId}) }}"
+        />
+    </div>
 {% endblock %}
 
 {% block footer %}
-    {{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
+    <twig:Layouts:Footer:Checkout />
 {% endblock %}

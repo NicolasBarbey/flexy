@@ -1,19 +1,19 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+import "./stimulus_bootstrap.js";
+import * as Turbo from "@hotwired/turbo";
 
-// any CSS you import will output into a single css file (app.css in this case)
-import '@components/base.css';
-
-import './bootstrap.js';
+// Turbo Drive is opt-in: only zones marked data-turbo="true" (the checkout
+// tunnel) get client-side navigation, the rest of the theme keeps full loads.
+Turbo.session.drive = false;
 
 function main() {
-  document.body.classList.remove('no-js');
+  document.body.classList.remove("no-js");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  main();
+});
+
+// DOMContentLoaded does not fire again after a Turbo visit.
+document.addEventListener("turbo:load", () => {
   main();
 });

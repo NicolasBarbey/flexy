@@ -26,14 +26,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Model\Base\CustomerQuery;
-use Thelia\Model\ConfigQuery;
 
 class CustomerRegisterForm extends BaseForm
 {
     public function __construct(
         #[Autowire(service: 'translator')]
-        public TranslatorInterface $translation,
-    ) { }
+        protected readonly TranslatorInterface $translation,
+    ) {
+    }
 
     protected function buildForm(): void
     {
@@ -41,7 +41,7 @@ class CustomerRegisterForm extends BaseForm
             'constraints' => [
                 new NotBlank(),
             ],
-            'label' => Translator::getInstance()->trans('First Name'),
+            'label' => Translator::getInstance()->trans('Firstname'),
             'label_attr' => [
                 'for' => 'firstname',
             ],
@@ -51,7 +51,7 @@ class CustomerRegisterForm extends BaseForm
             'constraints' => [
                 new NotBlank(),
             ],
-            'label' => Translator::getInstance()->trans('Last Name'),
+            'label' => Translator::getInstance()->trans('Lastname'),
             'label_attr' => [
                 'for' => 'lastname',
             ],
@@ -66,33 +66,26 @@ class CustomerRegisterForm extends BaseForm
                         [$this, 'verifyExistingEmail']
                     ),
                 ],
-                'label' => Translator::getInstance()->trans('Email Address'),
+                'label' => Translator::getInstance()->trans('Email'),
                 'label_attr' => [
                     'for' => 'email',
                 ],
             ]);
 
         $this->formBuilder->add('password', PasswordType::class, [
-                'constraints' => [
-                    new PasswordStrength([
-                        'minScore' => 1,
-                    ]),
-                ],
-                'label' => Translator::getInstance()->trans('Password'),
-                'label_attr' => [
-                    'for' => 'password',
-                ],
-                'attr' => [
-                    'password_control' => true,
-                ],
-            ]);
-    }
-
-    protected function getLocale(): ?string
-    {
-        $session = $this->request?->getSession();
-
-        return $session?->getLang()?->getLocale();
+            'constraints' => [
+                new PasswordStrength([
+                    'minScore' => 1,
+                ]),
+            ],
+            'label' => Translator::getInstance()->trans('Password'),
+            'label_attr' => [
+                'for' => 'password',
+            ],
+            'attr' => [
+                'password_control' => true,
+            ],
+        ]);
     }
 
     public function verifyExistingEmail($value, ExecutionContextInterface $context): void
@@ -103,23 +96,8 @@ class CustomerRegisterForm extends BaseForm
         }
     }
 
-    public function verifyEmailField($value, ExecutionContextInterface $context): void
+    public static function getName(): string
     {
-        $data = $context->getRoot()->getData();
-
-        if (isset($data['email_confirm']) && $data['email'] != $data['email_confirm']) {
-            $context->addViolation(
-                Translator::getInstance()->trans('email confirmation is not the same as email field')
-            );
-        }
-    }
-
-    public function verifyPasswordField($value, ExecutionContextInterface $context): void
-    {
-        $data = $context->getRoot()->getData();
-
-        if ($data['password'] != $data['password_confirm']) {
-            $context->addViolation(Translator::getInstance()->trans('password confirmation is not the same as password field'));
-        }
+        return 'flexybundle_form_customer_register_form';
     }
 }

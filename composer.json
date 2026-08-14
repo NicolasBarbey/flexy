@@ -13,37 +13,38 @@
         "source": "https://github.com/thelia-templates/flexy"
     },
     "require": {
-        "symfony/webpack-encore-bundle": "^2.1",
-        "symfony/ux-twig-component": "^2.19",
+        "symfony/ux-twig-component": "^2.36 || ^3.1",
         "symfony/stimulus-bundle": "^2.19",
-        "symfony/ux-react": "^2.19",
-        "symfony/ux-icons": "^2.21",
-        "symfony/ux-translator": "^2.19",
-        "symfony/ux-live-component": "^2.19",
         "symfony/twig-bundle": "^6.4 || ^7.4",
-        "symfonycasts/dynamic-forms": "^0.1.3",
-        "thelia/front-module": "2.5.* || 2.6.*",
+        "symfony/http-client": "^6.4 || ^7.4",
+        "thelia/twig-engine-module": "^1.0",
         "thelia/thelia-library-module": "^2.0",
         "thelia/thelia-blocks-module": "^3.0",
-        "thelia/twig-engine-module": "^1.0",
         "thelia/header-highlights-module": "^2.0",
         "thelia/recently-viewed-module": "^2.1",
         "thelia/seone-module": "^1.1",
-        "twig/extra-bundle": "^3.17",
-        "twig/intl-extra": "^3.17",
-        "twig/html-extra": "^3.12",
-        "symfony/http-client": "*",
-        "thelia/installer": "~1.1"
+        "thelia/installer": "~1.1",
+        "symfony/ux-icons": "^2.21",
+        "symfony/ux-translator": "^2.19",
+        "symfony/ux-live-component": "^2.19",
+        "symfonycasts/dynamic-forms": "^0.1.2",
+        "symfonycasts/tailwind-bundle": "^0.11.1",
+        "tales-from-a-dev/twig-tailwind-extra": "^1.0.0",
+        "twig/extra-bundle": "^3.24.0",
+        "twig/html-extra": "^3.24.0",
+        "twig/intl-extra": "^3.24",
+        "twig/string-extra": "^3.24"
     },
     "autoload": {
         "psr-4": {
-            "FlexyBundle\\": "src/"
+            "FlexyBundle\\": "src/",
+            "FlexyBundle\\Components\\": "components/"
         }
     },
     "extra": {
         "installer-name": "flexy",
         "branch-alias": {
-            "dev-twig": "0.2.x-dev"
+            "dev-main": "1.0.x-dev"
         }
     }
 }

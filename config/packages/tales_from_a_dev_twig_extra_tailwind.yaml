@@ -1,0 +1,14 @@
+tales_from_a_dev_twig_extra_tailwind:
+    tailwind_merge:
+        additional_configuration:
+            classGroups:
+                heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+                paragraph: ['paragraph-1', 'paragraph-2', 'paragraph-3', 'paragraph-4', 'paragraph-5', 'paragraph-6', 'paragraph-7']
+                button-size:
+                    - button: ['l', 'm', 's']
+            conflictingClassGroups:
+                heading: ['font-size', 'font-weight', 'leading']
+                paragraph: ['font-size', 'font-weight', 'leading']
+                font-size: ['heading', 'paragraph']
+                font-weight: ['heading', 'paragraph']
+                leading: ['heading', 'paragraph']

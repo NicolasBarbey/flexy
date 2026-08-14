@@ -1,0 +1,19 @@
+{% props htmlTag = 'span', customText = '', status = null %}
+
+{% set OrderTag = html_cva(
+    base: 'OrderTag ',
+    variants: {
+        status: {
+            canceled: 'OrderTag--canceled',
+            not_paid: 'OrderTag--not-paid',
+            paid: 'OrderTag--paid',
+            processing: 'OrderTag--processing',
+            sent: 'OrderTag--sent',
+            refunded: 'OrderTag--refunded',
+        },
+    }
+) %}
+
+<{{ htmlTag }} class="{{ OrderTag.apply({status}, attributes.render('class')) }} "  {{ attributes.without('class') }}>
+        {{ customText }}
+</{{ htmlTag }}>

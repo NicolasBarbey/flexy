@@ -18,7 +18,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -32,12 +31,11 @@ use Thelia\Form\AddressCreateForm;
 class CustomerInformationsForm extends AddressCreateForm
 {
     public function __construct(
-        protected CountryService       $countryService,
+        protected CountryService $countryService,
         protected CustomerTitleService $customerTitleService,
         #[Autowire(service: 'translator')]
-        public TranslatorInterface    $translation,
-    )
-    {
+        private readonly TranslatorInterface $translation,
+    ) {
         parent::__construct($countryService, $customerTitleService);
     }
 
@@ -51,22 +49,21 @@ class CustomerInformationsForm extends AddressCreateForm
         $this->formBuilder->remove('cellphone');
         $this->formBuilder->remove('state');
 
-        $this->formBuilder->addDependent('state', 'country', function (DependentField $field, int $countryId) {
-            if (null == $countryId) {
-                return null;
+        $this->formBuilder->addDependent('state', 'country', function (DependentField $field, ?int $countryId) {
+            if (null === $countryId) {
+                return;
             }
+
             $stateChoices = $this->getStatesChoices($countryId);
 
             if (empty($stateChoices)) {
-                return null;
+                return;
             }
 
             $field->add(ChoiceType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Callback(
-                        $this->verifyState(...),
-                    ),
+                    new Callback($this->verifyState(...)),
                 ],
                 'choices' => $stateChoices,
                 'label' => Translator::getInstance()->trans('State'),
@@ -77,11 +74,10 @@ class CustomerInformationsForm extends AddressCreateForm
             ]);
         });
 
-
         $this->formBuilder->add('is_default', HiddenType::class, [
             'data' => true,
         ])->add('cellphone', TelType::class, [
-            'label' => Translator::getInstance()->trans('Cellphone'),
+            'label' => Translator::getInstance()->trans('Mobile phone'),
             'label_attr' => [
                 'for' => 'cellphone',
             ],
@@ -105,16 +101,8 @@ class CustomerInformationsForm extends AddressCreateForm
                     'for' => 'accept_privacy_policy',
                 ],
                 'required' => true,
-                'help' => $this->translation->trans('I agree to our privacy policy'),
             ]
         );
-
-        $this->formBuilder->add('submit', SubmitType::class, [
-            'label' => $this->translation->trans('Confirm my registration'),
-            'row_attr' => [
-                'class' => 'mt-8',
-            ],
-        ]);
     }
 
     public static function getName(): string

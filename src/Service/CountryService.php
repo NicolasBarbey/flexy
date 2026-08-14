@@ -25,11 +25,6 @@ final readonly class CountryService
     ) {
     }
 
-    /**
-     * Récupère le nom traduit d'un pays.
-     *
-     * @param string|null $locale locale forcée (ex. "fr_FR"), sinon la locale courante de la session
-     */
     public function getCountryName(int $countryId, ?string $locale = null): ?string
     {
         $country = $this->getCountry($countryId);

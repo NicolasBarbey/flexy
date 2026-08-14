@@ -1,0 +1,17 @@
+{% if this.titles|length > 0 %}
+    <aside class="BlocksToc sticky self-start" aria-label="{{ 'On this page'|trans }}">
+        <div class="BlocksToc-inner">
+            <nav>
+                <ul class="BlocksToc-list">
+                    {% for title in this.titles %}
+                        <li>
+                            <a href="#{{ title.text|slug_id(title.id) }}" class="BlocksToc-link">
+                                <span class="line-clamp-2">{{ title.text }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </aside>
+{% endif %}

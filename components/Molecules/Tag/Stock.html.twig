@@ -1,0 +1,16 @@
+{% props htmlTag = 'span', customText = '', color = "neutral" %}
+
+{% set StockTag = html_cva(
+    base: 'StockTag ',
+    variants: {
+        color: {
+            in: 'StockTag--in',
+            low: 'StockTag--low',
+            out: 'StockTag--out',
+        },
+    }
+) %}
+
+<{{ htmlTag }} class="{{ StockTag.apply({color}, attributes.render('class')) }} "  {{ attributes.without('class') }}>
+        {{ customText }}
+</{{ htmlTag }}>

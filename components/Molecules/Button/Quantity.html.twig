@@ -1,18 +1,30 @@
-{% set classes = classes|default('') %}
-{% set value = value|default('') %}
-{% set disabled = disabled|default(false) %}
-{% set btnLiveAction = btnLiveAction|default(null) %}
-{% set name = name|default('') %}
-{% set min = min|default(null) %}
-{% set max = max|default(null) %}
-{% set plusHidden = plusHidden|default(false) %}
+{% props disabled = false, name = null, value = null, color = null %}
 
-<div role="button" class="Button Button-quantity {{ classes }} {% if disabled %}disabled{% endif %}"  >
-    <button type="button" aria-label="{{ 'Decrease quantity'|trans }}" {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value - 1 }}" {% else %} data-qty="minus" {% endif %} {% if minusDisabled %} disabled {% endif %} data-loading="addClass(pointer-events-none)">
-        -
-    </button>
-    <input type="number" name="{{ name }}" aria-label="{{ 'Quantity'|trans }}" {% if disabled %} disabled {% endif %} {% if min is not null %} min="{{ min }}" {% endif %} {% if max is not null %} max="{{ max }}" {% endif %} value='{{ value }}'>
-    <button type="button" aria-label="{{ 'Increase quantity'|trans }}" {% if plusHidden %} style="visibility: hidden;" {% endif %} {% if btnLiveAction %} data-action="live#action" data-live-action-param="{{ btnLiveAction }}" data-live-quantity-param="{{ value + 1 }}" {% else %} data-qty="plus" {% endif %} {% if plusDisabled or plusHidden %} disabled {% endif %} data-loading="addClass(pointer-events-none)">
-        +
-    </button>
+{% set buttonQuantity = html_cva(
+    base: 'ButtonQuantity ',
+) %}
+
+{% set buttonInputQuantity = html_cva(
+    base: 'ButtonQuantity__input ',
+    default_variant: {
+        color: 'base',
+    },
+    variants: {
+        color: {
+            base: 'button-style',
+            secondary: 'button-style--secondary',
+        },
+    },
+) %}
+
+<div role="button" class="{{ buttonQuantity.apply({color}, attributes.render('class')) }} "  {{ attributes.defaults(stimulus_controller('Molecules--Button--quantity')).without('class', 'button:color') }} >
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} aria-label="{{ 'Decrease quantity'|trans }}" disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'decrement')}}>-</twig:Molecules:Button:Base>
+    <input
+        type="number"
+        class="{{ buttonInputQuantity.apply({color}, attributes.nested('input').render('class')) }} "
+        {% if disabled %} disabled {% endif %}
+        {{ attributes.nested('input').defaults({'aria-label': 'Quantity'|trans}) }}
+        {{stimulus_target('Molecules--Button--quantity', 'input')}}
+    >
+    <twig:Molecules:Button:Base {{...attributes.nested('button')}} aria-label="{{ 'Increase quantity'|trans }}" disabled="{{ disabled }}" {{...stimulus_action('Molecules--Button--quantity', 'increment')}}>+</twig:Molecules:Button:Base>
 </div>

@@ -1,0 +1,37 @@
+{% props
+    icon = null,
+    color = null,
+    small = false,
+    subText = null,
+%}
+{% set headerButton = html_cva(
+    base: 'HeaderButton',
+    variants: {
+        color: {
+            dark: 'HeaderButton--dark',
+            light: 'HeaderButton--light',
+            theme: 'HeaderButton--theme',
+        },
+        small: {
+            true: 'HeaderButton--small',
+            false: null,
+        },
+    },
+) %}
+
+<{{ tag }} class="{{ headerButton.apply({color, small}, attributes.render('class')) }}" {% if tag == 'button' %}type="button"{% endif %} {{ attributes.without('class') }}>
+    {% if icon %}
+        {{ ux_icon(icon, { class: "HeaderButton-icon" }) }}
+    {% endif %}
+
+    <span class="HeaderButton-content">
+        <span class="HeaderButton-text">
+            {{ this.text }}
+        </span>
+        {% if subText %}
+            <span class="HeaderButton-subText">
+                {{ subText }}
+            </span>
+        {% endif %}
+    </span>
+</{{ tag }}>

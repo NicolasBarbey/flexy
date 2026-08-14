@@ -1,0 +1,32 @@
+<div class="{{ ('DeliveryTracking ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <div class="DeliveryTracking-content">
+        <div>
+            <div class="DeliveryTracking-title">{{ 'Delivery tracking'|trans }}</div>
+            {% if this.trackingRef %}
+                <div class="DeliveryTracking-desc">
+                    {{ 'Tracking number'|trans }} {{ this.trackingRef }}
+                </div>
+            {% endif %}
+        </div>
+        {% if this.trackLink %}
+            <twig:Molecules:Button:Base
+                text="{{ 'Track my package'|trans }}"
+                href="{{ this.trackLink }}"
+                size="small"
+            />
+        {% endif %}
+    </div>
+
+    <hr />
+
+    <ul class="DeliveryTracking-steps">
+        {% for index, step in this.steps %}
+            <li class="DeliveryTracking-step {{ index == this.currentStep ? 'DeliveryTracking-step--active' : '' }}">
+                <span class="DeliveryTracking-icon">
+                    {% if index <= this.currentStep %}{{ ux_icon('checkmark') }}{% endif %}
+                </span>
+                {{ step|trans }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,19 @@
+<div class="grid grid-cols-2">
+    <div class="flex flex-col gap-2">
+        <twig:Fields:Checkbox:Base label="Label" input:value="yolo"/>
+        <twig:Fields:Checkbox:Base label="checked" input:checked  />
+        <twig:Fields:Checkbox:Base label="disabled" input:disabled  />
+        <twig:Fields:Checkbox:Base label="checked + disabled" input:checked input:disabled  />
+        <twig:Fields:Checkbox:Base label="error" error />
+        <twig:Fields:Checkbox:Base label="required" required />
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio Label" input:value="yolo"/>
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio checked" input:checked  />
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio disabled" input:disabled  />
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio checked + disabled" input:checked input:disabled  />
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio error" error />
+        <twig:Fields:Checkbox:Base type="radio" input:name="demo_radio" label="radio required" required />
+    </div>
+</div>

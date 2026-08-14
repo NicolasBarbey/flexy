@@ -1,0 +1,155 @@
+/* prettier-ignore  */
+@plugin "@tailwindcss/typography" {
+  className: wysiwyg;
+}
+
+@theme {
+  --font-sans: "Poppins", "Roboto", sans-serif;
+}
+
+@utility wysiwyg-theme {
+  --tw-prose-body: var(--color-black);
+  --tw-prose-headings: var(--color-black);
+  --tw-prose-hr: var(--color-grey-lighter);
+  --tw-prose-lead: var(--color-grey-dark);
+  --tw-prose-links: var(--color-grey-dark);
+  --tw-prose-bold: var(--color-black);
+  --tw-prose-counters: var(--color-black);
+  --tw-prose-bullets: var(--color-black);
+}
+
+@utility paragraph-1 {
+  font-family: var(--font-family-paragraph-1);
+  font-size: var(--font-size-paragraph-1);
+  line-height: var(--line-height-paragraph-1);
+}
+
+@utility paragraph-2 {
+  font-family: var(--font-family-paragraph-2);
+  font-size: var(--font-size-paragraph-2);
+  line-height: var(--line-height-paragraph-2);
+}
+
+@utility paragraph-3 {
+  font-family: var(--font-family-paragraph-3);
+  font-size: var(--font-size-paragraph-3);
+  line-height: var(--line-height-paragraph-3);
+}
+
+@utility paragraph-4 {
+  font-family: var(--font-family-paragraph-4);
+  font-size: var(--font-size-paragraph-4);
+  line-height: var(--line-height-paragraph-4);
+}
+
+@utility paragraph-5 {
+  font-family: var(--font-family-paragraph-5);
+  font-size: var(--font-size-paragraph-5);
+  line-height: var(--line-height-paragraph-5);
+}
+
+@utility paragraph-6 {
+  font-family: var(--font-family-paragraph-6);
+  font-size: var(--font-size-paragraph-6);
+  line-height: var(--line-height-paragraph-6);
+}
+
+@utility paragraph-7 {
+  font-family: var(--font-family-paragraph-7);
+  font-size: var(--font-size-paragraph-7);
+  line-height: var(--line-height-paragraph-7);
+}
+
+@utility button-l {
+  font-family: var(--font-family-button-l);
+  font-size: var(--font-size-button-l);
+  line-height: var(--line-height-button-l);
+  font-weight: var(--font-weight-medium);
+}
+
+@utility button-m {
+  font-family: var(--font-family-button-m);
+  font-size: var(--font-size-button-m);
+  line-height: var(--line-height-button-m);
+  font-weight: var(--font-weight-medium);
+}
+
+@utility button-s {
+  font-family: var(--font-family-button-s);
+  font-size: var(--font-size-button-s);
+  line-height: var(--line-height-button-s);
+  font-weight: var(--font-weight-normal);
+}
+
+@utility indication {
+  text-transform: uppercase;
+  font-family: var(--font-family-indication);
+  font-weight: var(--font-weight-indication);
+  font-size: var(--font-size-indication);
+  letter-spacing: var(--letter-spacing-indication);
+}
+
+@utility indication-small {
+  font-size: var(--font-size-indication-small);
+  letter-spacing: var(--letter-spacing-indication-small);
+}
+
+@utility h1 {
+  font-size: var(--font-size-h1-m);
+  font-weight: var(--font-weight-h1);
+  line-height: var(--line-height-h1-m);
+  @variant md {
+    font-size: var(--font-size-h1-d);
+    line-height: var(--line-height-h1-d);
+  }
+}
+
+@utility h2 {
+  font-size: var(--font-size-h2-m);
+  font-weight: var(--font-weight-h2);
+  line-height: var(--line-height-h2-m);
+  @variant md {
+    font-size: var(--font-size-h2-d);
+    line-height: var(--line-height-h2-d);
+  }
+}
+
+@utility h3 {
+  font-size: var(--font-size-h3-m);
+  font-weight: var(--font-weight-h3);
+  line-height: var(--line-height-h3-m);
+  @variant md {
+    font-size: var(--font-size-h3-d);
+    line-height: var(--line-height-h3-d);
+  }
+}
+
+@utility h4 {
+  font-size: var(--font-size-h4-m);
+  font-weight: var(--font-weight-h4);
+  line-height: var(--line-height-h4-m);
+  @variant md {
+    font-size: var(--font-size-h4-d);
+    line-height: var(--line-height-h4-d);
+  }
+}
+
+@utility h5 {
+  font-size: var(--font-size-h5-m);
+  font-weight: var(--font-weight-h5);
+  line-height: var(--line-height-h5-m);
+  @variant md {
+    font-size: var(--font-size-h5-d);
+    line-height: var(--line-height-h5-d);
+  }
+}
+
+@utility h6 {
+  font-size: var(--font-size-h6-m);
+  font-weight: var(--font-weight-h6);
+  line-height: var(--line-height-h6-m);
+  @variant md {
+    font-size: var(--font-size-h6-d);
+    line-height: var(--line-height-h6-d);
+  }
+}

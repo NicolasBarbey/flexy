@@ -1,0 +1,100 @@
+{% macro variants(name, color, quantity = false) %}
+    <div class="grid gap-4">
+        <h4>{{ name }}</h4>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Base color="{{ color }}" size="large">Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="large">Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}">Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="small">Small</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="large" disabled>Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" disabled>Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="small" disabled>Small</twig:Molecules:Button:Base>
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Base color="{{ color }}" round size="large">L</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" round>M</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" round size="small">S</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" round size="large" disabled>L</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" round disabled>M</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" round size="small" disabled>S</twig:Molecules:Button:Base>
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle size="large">Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle>Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle size="small">Small</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle size="large" disabled>Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle disabled>Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" rectangle size="small" disabled>Small</twig:Molecules:Button:Base>
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Base color="{{ color }}" sharp size="large">Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" sharp>Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" sharp size="small">Small</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" sharp size="large" disabled>Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" sharp disabled>Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" sharp size="small" disabled>Small</twig:Molecules:Button:Base>
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Base color="{{ color }}" size="large"  icon_left="chevron-left" icon_right="chevron-right">Large</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}"  icon_left="chevron-left" icon_right="chevron-right">Base</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="small"  icon_left="chevron-left" icon_right="chevron-right">Small</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="large" disabled icon_left="chevron-left" icon_right="chevron-right">Icon L</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" disabled icon_left="chevron-left" icon_right="chevron-right">Icon M</twig:Molecules:Button:Base>
+            <twig:Molecules:Button:Base color="{{ color }}" size="small" disabled icon_left="chevron-left" icon_right="chevron-right">Icon S</twig:Molecules:Button:Base>
+        </div>
+        <div class="grid grid-cols-6 gap-4 items-center">
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="large">Large fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true">Base fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="small">Small fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="large" disabled>Large fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" disabled>Base fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="small" disabled>Small fill</twig:Molecules:Button:Base>
+        </div>
+        <div class="grid grid-cols-6 gap-4 items-center">
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="large" icon_left="chevron-left" icon_right="chevron-right">Large icon fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" icon_left="chevron-left" icon_right="chevron-right">Base icon fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="small" icon_left="chevron-left" icon_right="chevron-right">Small icon fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="large" icon_left="chevron-left" icon_right="chevron-right" disabled>Large icon fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" icon_left="chevron-left" icon_right="chevron-right" disabled>Base icon fill</twig:Molecules:Button:Base>
+                <twig:Molecules:Button:Base color="{{ color }}" fill="true" size="small" icon_left="chevron-left" icon_right="chevron-right" disabled>Small icon fill</twig:Molecules:Button:Base>
+        </div>
+
+        {% if quantity %}
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:color="{{ color }}" button:size="large" input:max="10" input:min="5" />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:color="{{ color }}" />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:color="{{ color }}" button:size="small" />
+            <twig:Molecules:Button:Quantity color="{{ color }}"  button:color="{{ color }}" button:size="large" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:color="{{ color }}" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:color="{{ color }}" button:size="small" disabled />
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" button:size="large" />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" button:size="small" />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" button:size="large" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:rectangle button:color="{{ color }}" button:size="small" disabled />
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}" button:size="large"  />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}"  />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}" button:size="small"  />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}" button:size="large" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}" disabled />
+            <twig:Molecules:Button:Quantity color="{{ color }}" button:sharp button:color="{{ color }}" button:size="small" disabled />
+        </div>
+        {% endif %}
+
+    </div>
+{% endmacro %}
+
+<div class="grid gap-8">
+    {{ _self.variants('Default', null, true) }}
+    {{ _self.variants('Secondary', 'secondary', true) }}
+    {{ _self.variants('Minimal', 'minimal') }}
+    {{ _self.variants('Error', 'error') }}
+
+
+
+</div>

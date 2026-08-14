@@ -1,0 +1,12 @@
+{% props
+    type = 'checkbox',
+    label = ''
+%}
+
+<label class="{{ ('FilterList ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <input
+        type="{{ type }}"
+        {{ attributes.nested('input').defaults({type: type}).without('type') }}
+    />
+    <span class="FilterList-label">{{ label }}</span>
+</label>

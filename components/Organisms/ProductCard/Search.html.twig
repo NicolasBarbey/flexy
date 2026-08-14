@@ -1,0 +1,30 @@
+{# The whole tile is the link: a suggestion row has no secondary action to compete with it #}
+<a
+    href="{{ this.product.publicUrl }}"
+    class="{{ ('ProductCard ProductCard--search ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.without('class') }}
+>
+    {{ getImages({
+        source_type: 'product',
+        img_id: this.imageId,
+        filters: 'search_card',
+        limit: 1,
+        alt: this.product.title,
+        wrapper: 'figure',
+        wrapper_attrs: {class: 'ProductCard-img'},
+        img_attrs: {
+            loading: 'lazy',
+        },
+        placeholder: asset('images/placeholder2.webp'),
+    })|raw }}
+
+    <span class="ProductCard-desc">
+        <span class="ProductCard-title">{{ this.product.title }}</span>
+        {% if this.isPromo %}
+            <span class="ProductCard-price">{{ this.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}</span>
+            <span class="ProductCard-originalPrice">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</span>
+        {% else %}
+            <span class="ProductCard-price">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</span>
+        {% endif %}
+    </span>
+</a>

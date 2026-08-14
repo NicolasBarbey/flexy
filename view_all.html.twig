@@ -1,66 +1,27 @@
 {% extends 'base.html.twig' %}
-{% set page = app.request.get('page')|default(1) %}
-{% set type = app.request.get('type')|default("sales") %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('category-css') }}
-{% endblock %}
+{% set type = app.request.get('type')|default('sales') %}
+{% set heading = {
+    promo: 'Promotions'|trans,
+    newness: 'New'|trans,
+}[type]|default('All products'|trans) %}
 
-{% block stimulus_controller %}
-    {{ stimulus_controller('drawer') }}
-{% endblock %}
-
-{% block title %}
-  {{ 'view_all'|trans }}
-{% endblock %}
+{% block title %}{{ heading }}{% endblock %}
 
 {% block body %}
-    {% set breadcrumb = [{
-        title: "view_all"|trans,
-        href: "/view_all"
-    }] %}
+    {# Not a Thelia entity view, so SEOne has no breadcrumb model for it — built by hand, like faq.
+       No named route either: this page is served by the Front module's /{_view} catch-all.
+       filtersId without a filter sidebar: below lg this trigger is the only way to reach the sort. #}
+    <twig:Layouts:Subheader:Category
+        title="{{ heading }}"
+        container="large"
+        filtersId="product-listing"
+        :breadcrumb="[{title: heading, url: '/view_all' ~ (type == 'sales' ? '' : '?type=' ~ type)}]"
+    />
 
-    {% set i18ns = {
-        title: "view_all"|trans
-    } %}
-
-    {% if type == "promo" %}
-        {% set breadcrumb = [{
-            title: "view_all_promo"|trans,
-            href: "/view_all?type=promo"
-        }] %}
-
-        {% set i18ns = {
-            title: "Promotions"|trans
-        } %}
-    {% endif %}
-
-    {% if type == "newness" %}
-        {% set breadcrumb = [{
-            title: "view_all_newness"|trans,
-            href: "/view_all?type=newness"
-        }] %}
-
-        {% set i18ns = {
-            title: "New"|trans
-        } %}
-    {% endif %}
-
-    {{ component('Flexy:CatHero', {
-        breadcrumb,
-        i18ns,
-        title: i18ns.title,
-        noImage: true
-    }) }}
-
-    {{ component('Flexy:CategoryFilters', {
-      initialCategoryId: null,
-      initialPage: page,
-      parent: null,
-      initSearchQuery: null,
-      sourceData: {},
-      promo: type == "promo",
-      newness: type == "newness",
-    })}}
+    {# Thelia exposes filters per category only, so this listing has sorting but no filter sidebar #}
+    <twig:Layouts:ProductListing:Base
+        :promo="type == 'promo'"
+        :newness="type == 'newness'"
+    />
 {% endblock %}

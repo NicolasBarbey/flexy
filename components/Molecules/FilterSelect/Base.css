@@ -1,0 +1,148 @@
+.FilterSelect {
+  position: relative;
+  background-color: var(--color-white);
+}
+
+.FilterSelect-current {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid var(--color-grey-lighter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.FilterSelect-current:focus-visible {
+  outline: var(--color-medium) solid 2px;
+}
+
+@variant md {
+  .FilterSelect-current:focus + .FilterSelect-list {
+    z-index: 10;
+    opacity: 1;
+    animation-name: none;
+  }
+
+  .FilterSelect-current:focus .FilterSelect-icon {
+    transform: rotate(180deg);
+  }
+}
+
+.FilterSelect-icon {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+  height: 1.75rem;
+  width: 1.75rem;
+  color: var(--color-black);
+  transition: transform 0.2s ease;
+}
+
+.FilterSelect-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.FilterSelect-value {
+  display: none;
+}
+
+.FilterSelect-value:has(:checked) {
+  display: inline-flex;
+}
+
+.FilterSelect-input {
+  display: none;
+}
+
+.FilterSelect-input:checked + .FilterSelect-text {
+  display: flex;
+}
+
+.FilterSelect-text {
+  @apply paragraph-4;
+  display: none;
+  width: 100%;
+  padding: 1rem;
+  align-items: center;
+  color: var(--color-black);
+}
+
+.FilterSelect-list {
+  position: absolute;
+  width: 100%;
+  list-style: none;
+  /* Replaced by the mobile drawer below md: visibility (not just opacity) keeps its options
+     out of the tab order and unreachable by click there, instead of merely invisible. */
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.2s ease all;
+  box-shadow: 0px 4px 8px 0px rgba(40, 40, 40, 0.15);
+  animation-name: HideList;
+  animation-duration: 0.2s;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: step-start;
+}
+
+@variant md {
+  .FilterSelect-list {
+    visibility: visible;
+  }
+
+  /* Keyboard navigation: focusing an option keeps the desktop dropdown open */
+  .FilterSelect-list:has(.FilterSelect-option:focus) {
+    z-index: 10;
+    opacity: 1;
+    animation-name: none;
+  }
+}
+
+.FilterSelect-option {
+  @apply paragraph-4;
+  background-color: var(--color-white);
+  padding: 1rem 2.75rem 1rem 1rem;
+  display: flex;
+  align-items: center;
+  color: var(--color-black);
+  outline: none;
+  cursor: pointer;
+}
+
+.FilterSelect-option:hover,
+.FilterSelect-option:focus {
+  background-color: var(--color-grey-lightest);
+}
+
+.FilterSelect-mobileTitle {
+  margin-bottom: 2rem;
+}
+
+.FilterSelect-mobileList .FilterSelect-listItem {
+  border-bottom: 1px solid var(--color-grey-lighter);
+}
+
+.FilterSelect-mobileList .FilterSelect-listItem:last-child {
+  border-bottom: 0;
+}
+
+.FilterSelect--rounded .FilterSelect-text {
+  justify-content: center;
+}
+
+.FilterSelect--rounded .FilterSelect-current {
+  border-color: var(--color-black);
+  border-radius: 3.125rem;
+  justify-content: center;
+}
+
+@keyframes HideList {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}

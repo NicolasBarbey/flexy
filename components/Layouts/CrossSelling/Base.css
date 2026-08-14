@@ -1,0 +1,41 @@
+.CrossSelling {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+
+  /* Below md the strip runs edge to edge while the heading keeps the container's inset: the
+     negative margin cancels container-l's padding, the matching padding keeps the first card
+     aligned with the heading. */
+  margin-inline: calc(--spacing(6) * -1);
+  padding-inline: --spacing(6);
+
+  @variant md {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  @variant lg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    cursor: initial;
+  }
+}
+
+.CrossSelling .ProductCard {
+  flex: 0 0 auto;
+  width: 11.6875rem;
+
+  @variant md {
+    flex-grow: 1;
+    width: 18rem;
+  }
+
+  @variant lg {
+    width: initial;
+
+    &:active {
+      cursor: initial;
+    }
+  }
+}

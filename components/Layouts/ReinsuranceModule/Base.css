@@ -1,0 +1,93 @@
+.ReinsuranceModule {
+  --reinsurance-module-spacer: 1.5rem;
+
+  background: var(--color-white);
+
+  @variant md {
+    --reinsurance-module-spacer: 0.625rem;
+  }
+
+  @variant lg {
+    --reinsurance-module-spacer: 3.375rem;
+  }
+}
+
+.ReinsuranceModule-wrapper {
+  max-width: 67.625rem; /* 1082px */
+  margin-inline: auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--color-grey);
+
+  @variant md {
+    flex-direction: row;
+  }
+}
+
+.ReinsuranceModule-wrapper strong {
+  @apply paragraph-4;
+
+  display: block;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+/* The separator sits on every item but the last, so the band keeps working with any item count —
+   it turns from a horizontal rule (stacked) into a vertical one (side by side) at md. */
+.ReinsuranceModule-wrapper > div {
+  display: flex;
+  gap: 0.75rem;
+  padding-block: var(--reinsurance-module-spacer);
+
+  @variant md {
+    max-width: calc(100% / 3);
+    padding-block: 0;
+    padding-inline: var(--reinsurance-module-spacer);
+  }
+}
+
+.ReinsuranceModule-wrapper > div:not(:last-child) {
+  border-bottom: 1px solid var(--color-grey-lighter);
+
+  @variant md {
+    border-bottom: none;
+    border-right: 1px solid var(--color-grey-lighter);
+  }
+}
+
+.ReinsuranceModule-wrapper > div:first-child {
+  padding-top: 0;
+
+  @variant md {
+    padding-left: 0;
+  }
+}
+
+.ReinsuranceModule-wrapper > div:last-child {
+  padding-bottom: 0;
+
+  @variant md {
+    padding-right: 0;
+  }
+}
+
+.ReinsuranceModule-text {
+  @apply paragraph-6;
+}
+
+.ReinsuranceModule-icon {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  color: var(--color-grey);
+}
+
+/* Icon SVGs may lack a square viewBox: force them to fill their wrapper instead of relying on intrinsic sizing */
+.ReinsuranceModule-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

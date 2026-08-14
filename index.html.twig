@@ -1,45 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block breadcrumb_json %}{% endblock %}
-
 {% block structured_data %}
     {{ SEOneWebSite() }}
     {{ SEOneWebPage() }}
-    {{ SEOneLocalBusiness(absolute_url(asset('dist/images/logo.png'))) }}
+    {{ SEOneLocalBusiness(logo) }}
 {% endblock %}
+
+{% block breadcrumb_json %}{% endblock %}
 
 {% block body %}
     {{ theme_hook('home.top') }}
 
-{#    {{ component('HeaderHighlights') }}#}
+    <twig:Layouts:CrossSelling:Base categoryId="3" title="{{ 'Last seen products'|trans }}" />
 
-    {{ component('Flexy:CrossSelling', {categoryId: 1, title: 'Last seen products'|trans}) }}
-
-    <div class="bg-theme-lighter">
-        {{ component('Flexy:CrossSelling', {categoryId: 2, title: 'Popular products'|trans}) }}
+    <div class="bg-lighter">
+        <twig:Layouts:CrossSelling:Base categoryId="5" title="{{ 'Popular products'|trans }}" />
     </div>
-    <div class="bg-theme-lightest">
-        {{ component('Flexy:CrossSelling', {categoryId: 3, title: 'Promotions'|trans}) }}
-    </div>
-    {{ component('Flexy:ProductCategory', {title: 'Our product categories'|trans}) }}
-
-    {%
-    set reviews = [4, 2, 3]|map((note) => ({
-      author: 'Prénom N.',
-      review: '“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”',
-      note: note,
-      date: 'JJ/MM/AAAA',
-    }))
-  %}
-
-    <div class="bg-theme-lightest">
-        {{ include('@components/Layout/Review/Review.html.twig', {title: 'Our customers speak about us'|trans, reviews: reviews, button: {label: 'See all reviews'|trans, href: '#'}}) }}
+    <div class="bg-lightest">
+        <twig:Layouts:CrossSelling:Base categoryId="6" title="{{ 'Promotions'|trans }}" />
     </div>
 
-    <div class="bg-theme-lighter">
-        {{ component('Flexy:SimilarContent', {title: 'Our news'|trans, button: {label: 'See all news'|trans, href: '#'}}) }}
+    <twig:Layouts:ProductCategory:Base title="{{ 'Our product categories'|trans }}" />
+
+    {% set reviews = [4, 2, 3]|map((note) => ({
+        author: 'Prénom N.',
+        review: '“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”',
+        note: note,
+        date: 'JJ/MM/AAAA',
+    })) %}
+
+    <div class="bg-lightest">
+        <twig:Layouts:Review:Base
+            title="{{ 'Our customers speak about us'|trans }}"
+            :reviews="reviews"
+            :button="{label: 'See all reviews'|trans, href: '#'}"
+        />
     </div>
-	
+
+    <div class="bg-lighter">
+        <twig:Layouts:SimilarContent:Base title="{{ 'Our news'|trans }}" :button="{label: 'See all news'|trans, href: '#'}" />
+    </div>
 
     {{ theme_hook('home.bottom') }}
 {% endblock %}

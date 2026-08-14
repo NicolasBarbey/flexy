@@ -1,0 +1,52 @@
+.Subheader--category {
+  min-height: 21rem;
+  padding: 5rem 0 2.5rem;
+
+  @variant md {
+    min-height: 21.5rem;
+  }
+
+  @variant lg {
+    min-height: 17.75rem;
+    padding: 5.625rem 0 2.5rem;
+  }
+}
+
+/* container-double-2 drops its padding from xs so the product grid runs edge to edge, but the
+   mockup keeps the subheader text inset until the container is capped and centred at md. */
+.Subheader--category .container-double-2 .Subheader-content {
+  @variant xs {
+    padding-inline: 1.5rem;
+  }
+
+  @variant md {
+    padding-inline: 0;
+  }
+}
+
+.Subheader--category .Subheader-description {
+  @apply paragraph-4;
+  padding-top: 1rem;
+  color: var(--color-black);
+}
+
+.Subheader-readMore {
+  margin-top: 1rem;
+}
+
+/* Product count and the drawer trigger: replaced by the static sidebar and toolbar from lg */
+.Subheader-listingBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+
+  @variant lg {
+    display: none;
+  }
+}
+
+.Subheader-count {
+  @apply paragraph-4;
+  color: var(--color-grey-dark);
+}

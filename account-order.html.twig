@@ -1,133 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ 'My order'|trans }}
-{% endblock %}
+{% set order = resources('/api/front/account/orders/' ~ orderId) %}
+{% set statusCode = order.orderStatus.code %}
+{% set isQuotation = statusCode == 'quotation' %}
+{% set isClosed = statusCode in ['canceled', 'refunded'] %}
+{% set heading = (isQuotation ? 'Quote N°' : 'Order N°')|trans ~ ' ' ~ order.ref %}
+
+{% block title %}{{ heading }}{% endblock %}
 
 {% block body %}
-    {% set order = resources('/api/front/account/orders/' ~ orderId) %}
-    {% set isQuotation = order.orderStatus.code == "quotation" %}
-    {# The core PDF controller 404s on an unpaid order, so only offer the invoice once it is. #}
-    {% set isPaid = order.orderStatus.code in ['paid', 'processing', 'sent'] %}
-    <main>
-        {{ theme_hook('account-order.top', {order: order}) }}
-        {% include '@components/Molecules/Breadcrumb/Breadcrumb.html.twig' with {
-            breadcrumb: [
-                {
-                    title: 'My account'|trans,
-                    url: path('account_index')
-                },                {
-                    title: 'My orders'|trans,
-                    url: path('account_orders')
-                },
-                {
-                    title: (isQuotation ? 'Quote N°' : 'Order N°')|trans~' '~order.ref
-                }
-            ],
-            classes: 'pt-5 md:px-[50px] px-[calc(var(--margin-container)*1px)] mb-[36px]'
-        } %}
+    {{ theme_hook('account-order.top', {order: order}) }}
 
-        <div class="lg:w-[540px] mx-6 lg:mx-auto mb-[56px] md:mb-[94px]">
-            <div class="text-black h3">
-                {{ (isQuotation ? 'Quote N°' : 'Order N°')|trans }}
-                {{ order.ref }}
-            </div>
-            <p class="p3 mb-[26px] lg:mb-[44px]">
-                {{ order.createdAt|format_date() }}
-            </p>
+    <div class="pt-2 pb-3 md:pt-5 md:pl-5">
+        <twig:Molecules:Breadcrumb:Base :items="[
+            {title: 'My account'|trans, url: path('account_index')},
+            {title: 'My orders'|trans, url: path('account_orders')},
+            {title: heading},
+        ]" />
+    </div>
 
-            {{ component('Flexy:DeliveryTracking', {
-                ref: order.ref,
-                status: 1
-            }) }}
+    <div class="container-m pb-14 md:pb-24">
+        <h1 class="h3 text-black">{{ heading }}</h1>
+        <p class="paragraph-3 mb-6 lg:mb-11">{{ order.createdAt|format_date() }}</p>
 
-            <div class="h4 mb-6 mt-[40px]">
-                {{ (isQuotation ? 'Quote details' : 'Order details')|trans }}
-            </div>
-            <div class="flex flex-col gap-2">
-                {% set nbItems = 0 %}
-                {% for orderProduct in order.orderProducts %}
-                    {% set nbItems = nbItems + orderProduct.quantity %}
-                    {{ theme_hook('account-order.item.top', {order: order, orderProduct: orderProduct}) }}
-                    {{ component('Flexy:OrderProductCard', {
-                        orderProduct,
-                        placeholder: asset('dist/images/placeholder.webp')
-                    }) }}
-                    {{ theme_hook('account-order.item.bottom', {order: order, orderProduct: orderProduct}) }}
-                {% endfor %}
-                {% set summary = {
-                    'Subtotal without taxes' : order.totalAmountWithoutTaxes|format_currency('EUR', locale: lang_code),
-                    'Delivery' : order.totalShippingWithTaxes ? order.totalShippingWithTaxes|format_currency('EUR', locale: lang_code): null,
-                    'Discount': order.amountDiscountWithTaxes ? order.amountDiscountWithTaxes|format_currency('EUR', locale: lang_code) : 0,
-                    'Number of articles': nbItems
-                } %}
-                <div class="Summary">
-                    <ul class="Summary-list">
-                        {% for key, value in summary %}
-                            {% if value %}
-                                <li class="Summary-line">
-                                    <b>{{ key|trans }}</b><div>{{ value }}</div>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                    <div class="Summary-footer">
-                        <div class="Summary-total">
-                            <div>
-                                {{ 'Total w/t'|trans }}
-                                {% set taxes = order.totalAmount - order.totalAmountWithoutTaxes %}
-                                {% if taxes != 0 %}
-                                    <div class="italic">
-                                        {{ 'Taxes of'|trans }}
-                                        {{ taxes|format_currency('EUR', locale: lang_code) }}
-                                        {{ 'included'|trans }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div>
-                                {{ (order.totalAmount)|format_currency('EUR', locale: lang_code) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% if not isQuotation %}
+        {% if not isQuotation and not isClosed %}
+            <twig:Organisms:DeliveryTracking:Base
+                statusCode="{{ statusCode }}"
+                trackingRef="{{ order.deliveryRef }}"
+            />
+        {% endif %}
 
-                <hr class="my-10"/>
-                <div class="mb-6 h4">
-                    {{ 'Delivery & payment'|trans }}
-                </div>
-                <div class="flex flex-col gap-2">
-                    {{ component('Flexy:AddressCard', {
-                        addressId: order.deliveryOrderAddress.id,
-                        title: 'Delivery address'|trans,
-                        inOrder: true,
-                    }) }}
-                    {{ component('Flexy:AddressCard', {
-                        addressId: order.invoiceOrderAddress.id,
-                        title: 'Billing address'|trans,
-                        inOrder: true,
-                    }) }}
-                    {% set paymentModule = resources('/api/front/modules/' ~ order.paymentModule.id) %}
-                </div>
-            {% endif %}
-            {% if isQuotation or isPaid %}
-                <div>
-                    {{ component('Flexy:Button', {
-                        text: (isQuotation ? 'Download quote' : 'Download invoice')|trans,
-                        class: 'mt-8 ',
-                        href: isQuotation
-                        ? path('account_order_pdf_quotation', {'orderId': order.id})
-                        : path('account_order_pdf_invoice', {'orderId': order.id}),
-                        icon_right: 'download'
-                    }) }}
-                </div>
-            {% endif %}
+        <h2 class="h4 mt-10 mb-6">{{ (isQuotation ? 'Quote details' : 'Order details')|trans }}</h2>
+
+        <div class="flex flex-col gap-2">
+            <twig:Layouts:OrderProducts:Base :orderProducts="order.orderProducts" :order="order" />
+
+            <twig:Organisms:Summary:Order :order="order" />
         </div>
-        {{ theme_hook('account-order.bottom', {order: order}) }}
-    </main>
+
+        {% if not isQuotation %}
+            <hr class="my-10" />
+
+            <h2 class="h4 mb-6">{{ 'Delivery & payment'|trans }}</h2>
+            <div class="flex flex-col gap-2">
+                <twig:Organisms:AddressCard:Base
+                    :addressId="order.deliveryOrderAddress.id"
+                    title="{{ 'Delivery address'|trans }}"
+                    :inOrder="true"
+                />
+                <twig:Organisms:AddressCard:Base
+                    :addressId="order.invoiceOrderAddress.id"
+                    title="{{ 'Billing address'|trans }}"
+                    :inOrder="true"
+                />
+            </div>
+        {% endif %}
+
+        {# The core refuses an invoice for an order that is not paid, so the link would
+           dead-end on a 404. Mirrors Thelia's own isPaid() status set. #}
+        {% if isQuotation or statusCode in ['paid', 'processing', 'sent'] %}
+            <twig:Molecules:Button:Base
+                text="{{ (isQuotation ? 'Download quote' : 'Download invoice')|trans }}"
+                href="{{ isQuotation
+                    ? path('account_order_pdf_quotation', {orderId: order.id})
+                    : path('account_order_pdf_invoice', {orderId: order.id}) }}"
+                icon_right="download"
+                class="mt-8"
+            />
+        {% endif %}
+    </div>
+
+    {{ theme_hook('account-order.bottom', {order: order}) }}
 {% endblock %}
 
 {% block footer %}
-    {{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
+    <twig:Layouts:Footer:Checkout />
 {% endblock %}

@@ -5,11 +5,11 @@
 {% block header %}{% endblock %}
 
 {% block body %}
-    <div class="flex flex-col items-center justify-center h-screen text-center">
-        <div class="w-[150px] h-[150px] lg:w-[220px] lg:h-[220px] mb-4">
+    <div class="container-m flex flex-1 flex-col gap-8 items-center justify-center text-center">
+        <div class="w-3/5 h-auto">
             {{ source('assets/images/coffee.svg') }}
         </div>
-        <h3 class="mt-4 mb-6 h3 max-w-[540px]">{{ 'Your favorite site is getting a makeover and will be back shortly.'|trans }}</h3>
+        <h3 class="h3">{{ 'Your favorite site is getting a makeover and will be back shortly.'|trans }}</h3>
     </div>
 {% endblock %}
 

@@ -1,37 +1,21 @@
 {% extends 'base.html.twig' %}
-{% set page = app.request.query.getInt('page', 1) %}
-{% set searchQuery = app.request.query.getString('query') %}
 
-{% block title %}{{ 'Search'|trans }}
-{% endblock %}
+{% set query = app.request.query.getString('query', '') %}
 
-{# Recherche interne : URLs à paramètres non indexées (noindex, follow) #}
+{% block title %}{{ 'Search results'|trans }}{% endblock %}
+
+{# Internal search: parameterised URLs, endless variants, no indexing value #}
 {% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
 
 {% block body %}
-    {{ component('Flexy:SearchResults', {query: searchQuery, page: page}) }}
+    {# Not a Thelia entity view, so SEOne has no breadcrumb for it — built by hand, like faq.
+       A lone item: search has no parent, so the back link falls back to the home page. #}
+    <twig:Layouts:Subheader:Search
+        query="{{ query }}"
+        listingId="product-listing"
+        :breadcrumb="[{title: 'Search results'|trans}]"
+    />
 
-    {{ include('@components/Layout/Reinsurance/Reinsurance.html.twig', {data: [
-      {
-        strongText: 'Free delivery'|trans,
-        text: 'For any order over €100'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-delivery',
-      },
-      {
-        strongText: 'Secure payment'|trans,
-        text: 'Credit card, Paypal'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-payment',
-      },
-      {
-        strongText: 'Satisfied or refunded'|trans,
-        text: 'Exchange or refund offered within 30 days'|trans,
-        linkLabel: 'See conditions'|trans,
-        link: '#',
-        icon: 'reinsurance-satisfied',
-      },
-    ]}) }}
+    {# Thelia exposes filters per category only, so a search listing has sorting but no filters #}
+    <twig:Layouts:ProductListing:Base searchTerm="{{ query }}" />
 {% endblock %}

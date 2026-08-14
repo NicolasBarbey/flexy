@@ -15,8 +15,7 @@ declare(strict_types=1);
 namespace FlexyBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Thelia\Core\Translation\Translator;
@@ -26,41 +25,27 @@ class CustomerActivationForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // The account being activated is the pending registration held in the session,
-        // so this form carries no email field: a submitted one would let a caller aim
-        // the code check at any address, and answer whether that address has an account.
+        // The account being activated is the pending registration held in the session, so
+        // this form carries no email field: a submitted one would let a caller aim the code
+        // check at any address, and answer whether that address has an account.
         $builder
-            ->add('activation_code', HiddenType::class, [
+            ->add('activation_code', TextType::class, [
+                'label' => Translator::getInstance()->trans('Enter the code received by e-mail'),
                 'attr' => [
                     'maxlength' => Customer::CODE_LENGTH,
                     'pattern' => '[0-9]{'.Customer::CODE_LENGTH.'}',
                     'placeholder' => '000000',
-                    'data-register-validation-code-target' => 'code',
                 ],
                 'constraints' => [
-                    new Constraints\NotBlank([
-                        'message' => Translator::getInstance()->trans('Activation code is required'),
-                    ]),
+                    new Constraints\NotBlank(),
                     new Constraints\Length([
                         'min' => Customer::CODE_LENGTH,
                         'max' => Customer::CODE_LENGTH,
-                        'exactMessage' => Translator::getInstance()->trans('Activation code must be exactly {{ limit }} digits'),
-                        'minMessage' => Translator::getInstance()->trans('Activation code is too short ({{ limit }} digits required)'),
-                        'maxMessage' => Translator::getInstance()->trans('Activation code is too long ({{ limit }} digits maximum)'),
                     ]),
                     new Constraints\Regex([
                         'pattern' => '/^[0-9]{'.Customer::CODE_LENGTH.'}$/',
-                        'message' => Translator::getInstance()->trans('Activation code must contain only '.Customer::CODE_LENGTH.' digits'),
+                        'message' => Translator::getInstance()->trans('Activation code must contain only digits'),
                     ]),
-                ],
-            ])->add('submit', SubmitType::class, [
-                'label' => Translator::getInstance()->trans('Confirm my registration'),
-                'row_attr' => [
-                    'class' => 'flex justify-center mt-8 hidden',
-                ],
-                'attr' => [
-                    'data-register-validation-code-target' => 'submit',
-                    'data-action' => 'register-validation-code#beforeSave',
                 ],
             ]);
     }

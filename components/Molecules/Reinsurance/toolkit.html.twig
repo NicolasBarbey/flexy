@@ -1,0 +1,21 @@
+{% set items = [
+    {icon: 'reinsurance-delivery', strongText: 'Free delivery'|trans, text: 'from 50€'|trans},
+    {icon: 'reinsurance-shipping', strongText: 'Shipping'|trans, text: 'within 24 hours'|trans},
+] %}
+
+<div class="grid gap-8">
+    <div class="flex flex-col gap-2">
+        <h4>base</h4>
+        <twig:Molecules:Reinsurance:Base :items="items" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>single item</h4>
+        <twig:Molecules:Reinsurance:Base :items="[items|first]" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>without icon</h4>
+        <twig:Molecules:Reinsurance:Base :items="[{strongText: 'Free delivery'|trans, text: 'from 50€'|trans}]" />
+    </div>
+</div>

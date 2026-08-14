@@ -1,0 +1,17 @@
+{# @prop text string Text displayed next to the star icon #}
+{# @prop selected boolean Whether this address is the current favorite. Defaults to `false` #}
+{# @prop confirmUrl string|null URL passed to the address-card controller to confirm the default change. Required when selected=false #}
+{% props text = '', selected = false, confirmUrl = null %}
+
+<button
+    type="button"
+    class="{{ ('Favorite' ~ (selected ? ' Favorite--selected' : '') ~ ' ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults(not selected and confirmUrl ? {
+        ...stimulus_action('Organisms--AddressCard--base', 'openModal', 'click'),
+        'data-confirm': confirmUrl,
+        'data-modal': 'confirmDefaultAddress',
+    } : {}).without('class') }}
+>
+    <span class="Favorite-text">{{ text }}</span>
+    <span class="Favorite-star">{{ ux_icon('star') }}</span>
+</button>

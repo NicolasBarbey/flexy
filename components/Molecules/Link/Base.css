@@ -1,0 +1,57 @@
+@theme {
+  --font-size-link: var(--text-sm);
+  --font-family-link: var(--font-sans);
+  --font-weight-link: var(--font-weight-medium);
+}
+
+@layer components {
+  .Link {
+    color: var(--color-black);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem;
+    transition: 0.2s ease all;
+    outline: 0;
+    text-decoration: underline;
+
+    font-size: var(--font-size-link);
+    font-family: var(--font-family-link);
+    font-weight: var(--font-weight-link);
+
+    @variant hover {
+      color: var(--color-grey);
+    }
+
+    @variant focus-visible {
+      background-color: var(--color-grey-lightest);
+      outline: 2px solid var(--color-grey-lightest);
+    }
+
+    @variant active {
+      color: var(--color-base);
+    }
+
+    @variant disabled {
+      color: var(--color-grey-lighter);
+      cursor: not-allowed;
+    }
+
+    .Link-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+      display: flex;
+    }
+  }
+
+  .Link--small {
+    --font-size-link: var(--text-xs);
+    --font-family-link: var(--font-sans);
+    --font-weight-link: var(--font-weight-medium);
+  }
+
+  .Link--medium {
+    --font-size-link: var(--text-xs);
+    --font-family-link: var(--font-sans);
+    --font-weight-link: var(--font-weight-normal);
+  }
+}

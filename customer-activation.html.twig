@@ -1,10 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
+{% block title %}{{ 'Sign up'|trans }}{% endblock %}
+
 {% block body %}
-    <div class="text-black w-full max-w-[540px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
-        {{ component('Flexy:RegisterValidationCode') }}
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
+        <h2 class="h2 text-black mb-4">{{ 'Create account'|trans }}</h2>
+        <p class="paragraph-2 text-black mb-8">{{ 'Enter the code received by e-mail'|trans }}</p>
+
+        {# Thelia's Twig `app` is a plain object with request/session only — it has no flashes()
+           helper, so the bag is read through the session. Scoped to this type so the component
+           below still receives its own 'error' flashes. #}
+        {% for message in app.session ? app.session.flashBag.get('information') : [] %}
+            <twig:Molecules:SnackBar:Base variant="informative" withIcon text="{{ message }}" class="mb-6" />
+        {% endfor %}
+
+        <twig:Forms:RegisterValidationCode:Base />
+
+        <twig:Molecules:Link:Base href="{{ path('customer_send_code') }}" customText="{{ 'Don\'t have receive code ?'|trans }}" class="mt-6" />
     </div>
 {% endblock %}

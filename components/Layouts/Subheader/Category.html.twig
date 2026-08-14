@@ -1,0 +1,57 @@
+{# @prop title string Heading text #}
+{# @prop tag string HTML tag for the heading. Defaults to 'h1' #}
+{# @prop container string Which container-* utility wraps the text:
+    - 'double-2' (default): container-double-2, aligned on the product grid of Layouts/ProductListing — the sidebar slot is left empty on purpose so the title starts where the products do
+    - 'large': container-l, for a category showing sub-categories instead of a product listing #}
+{# @prop description string|null Optional rich text shown below the title #}
+{# @prop readMore boolean Show an anchor to the #description block further down the page. Defaults to false #}
+{# @prop productCount int|null Number of products in the listing, shown below lg only #}
+{# @prop filtersId string|null Id of the Layouts/ProductListing section, enables the "sort & filter" trigger below lg #}
+{# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
+{% props title, tag = 'h1', container = 'double-2', description = null, readMore = false, productCount = null, filtersId = null, breadcrumb = [] %}
+
+{% set text %}
+    <div class="Subheader-content">
+        <{{ tag }} class="Subheader-title">{{ title }}</{{ tag }}>
+        {% if description %}
+            <div class="Subheader-description">{{ description|raw }}</div>
+        {% endif %}
+        {% if readMore %}
+            <p class="Subheader-readMore">
+                <twig:Molecules:Link:Base href="#description" customText="{{ 'Read more'|trans }}" />
+            </p>
+        {% endif %}
+        {% if productCount is not null or filtersId %}
+            <div class="Subheader-listingBar">
+                {% if productCount is not null %}
+                    <span class="Subheader-count" {{ stimulus_controller('Layouts--Subheader--count') }}><span {{ stimulus_target('Layouts--Subheader--count', 'value') }}>{{ productCount }}</span> {{ 'product(s)'|trans }}</span>
+                {% endif %}
+                {% if filtersId %}
+                    {# The default button radius is already a pill, `round` would make it a circular icon button #}
+                    <twig:Molecules:Button:Base
+                        text="{{ 'Filter & Sort'|trans }}"
+                        icon_left="filter"
+                        color="secondary"
+                        class="ms-auto"
+                        {{ ...stimulus_controller('Molecules--MobileDrawer--open', {id: filtersId}) }}
+                        {{ ...stimulus_action('Molecules--MobileDrawer--open', 'toggle', 'click') }}
+                    />
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endset %}
+
+<div class="{{ ('Subheader Subheader--category ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
+
+    {% if container == 'double-2' %}
+        <div class="container-double-2">
+            {# Empty sidebar slot: lets the container align the text with the product grid below #}
+            <div aria-hidden="true"></div>
+            {{ text }}
+        </div>
+    {% else %}
+        <div class="container-l">{{ text }}</div>
+    {% endif %}
+</div>

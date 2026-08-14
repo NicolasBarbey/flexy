@@ -1,0 +1,40 @@
+{# @prop query string Current search term, shown back in the field so it can be refined.
+    Held by the component class, which also derives `productCount` from it #}
+{# @prop title string|null Heading text. Defaults to 'Search results' #}
+{# @prop tag string HTML tag for the heading. Defaults to 'h1' #}
+{# @prop listingId string|null Id of the Layouts/ProductListing section. Set it to enable the
+    "sort & filter" trigger below lg, where the listing's own toolbar is hidden #}
+{# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. A single item is
+    enough: the component falls back to Home for the parent link #}
+{% props title = null, tag = 'h1', listingId = null, breadcrumb = [] %}
+
+<div class="{{ ('Subheader Subheader--search ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
+
+    <div class="container-l">
+        <div class="Subheader-content">
+            <{{ tag }} class="Subheader-title">{{ title ?? 'Search results'|trans }}</{{ tag }}>
+
+            {# Plain GET form: submitting reloads /search, which is also what the pagination and the
+               header field do, so the term always lives in one place — the query string. #}
+            <form action="/search" method="get" class="Subheader-searchForm">
+                <twig:Fields:Search:Base variant="white" value="{{ query }}" />
+            </form>
+
+            <div class="Subheader-listingBar">
+                <span class="Subheader-count" {{ stimulus_controller('Layouts--Subheader--count') }}><span {{ stimulus_target('Layouts--Subheader--count', 'value') }}>{{ productCount }}</span> {{ 'product(s)'|trans }}</span>
+
+                {% if listingId %}
+                    <twig:Molecules:Button:Base
+                        text="{{ 'Filter & Sort'|trans }}"
+                        icon_left="filter"
+                        color="secondary"
+                        class="ms-auto"
+                        {{ ...stimulus_controller('Molecules--MobileDrawer--open', {id: listingId}) }}
+                        {{ ...stimulus_action('Molecules--MobileDrawer--open', 'toggle', 'click') }}
+                    />
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,6 @@
 <div class="tb-{{ type.id }} flex flex-col md:flex-row gap-8">
     {% for column in data %}
-        {% set columnContain = [] %}
-        {% for block in column %}
-            {% if block.type.id %}
-                {% set columnContain = columnContain|merge([block.type.id]) %}
-            {% endif %}
-        {% endfor %}
-        <div class="flex-1" data-tb-contain="{{ columnContain|join(' ') }}">
+        <div class="flex-1">
             {{ getTheliaBLocksRenderedContent(column|json_encode)|raw }}
         </div>
     {% endfor %}

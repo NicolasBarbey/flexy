@@ -1,0 +1,44 @@
+{# @prop variant string 'neutral-light'|'neutral-dark'|'error'|'warning'|'success'|'informative' #}
+{# @prop withIcon bool Show a variant-matched icon (no icon for neutral-light/neutral-dark) #}
+{# @prop text string Message, rendered raw #}
+{# @prop button string|null Optional secondary button label #}
+{% props variant = 'neutral-light', withIcon = false, text = '', button = null %}
+
+{% set icon = {
+    error: 'error',
+    warning: 'warning',
+    success: 'check',
+    informative: 'info',
+}[variant]|default(null) %}
+
+{% set snackBar = html_cva(
+    base: 'SnackBar',
+    variants: {
+        variant: {
+            'neutral-light': 'bg-lightest border-medium',
+            'neutral-dark': 'bg-light border-medium',
+            error: 'bg-error-lightest border-error SnackBar--error',
+            warning: 'bg-warning-lightest border-warning',
+            success: 'bg-success-lightest border-success',
+            informative: 'bg-informative-lightest border-informative',
+        },
+    }
+) %}
+
+<div class="{{ snackBar.apply({variant}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    <div class="SnackBar-content">
+        {% if withIcon and icon %}
+            <span class="SnackBar-icon">
+                {{ ux_icon(icon) }}
+            </span>
+        {% endif %}
+        <div class="SnackBar-message">
+            {{ text|raw }}
+        </div>
+    </div>
+    {% if button %}
+        <div class="SnackBar-button">
+            <twig:Molecules:Button:Base text="{{ button }}" color="secondary" />
+        </div>
+    {% endif %}
+</div>

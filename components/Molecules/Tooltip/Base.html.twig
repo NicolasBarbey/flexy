@@ -1,0 +1,23 @@
+{# @block content The trigger element that opens/closes the tooltip #}
+{# @prop position 'top'|'bottom' Position of the tooltip relative to the trigger. Defaults to `top` #}
+{# @prop tooltip string Content of the tooltip #}
+{% props position = 'top', tooltip = '' %}
+
+<div
+    class="{{ ('Tooltip ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({...stimulus_controller('Molecules--Tooltip--base')}).without('class') }}
+>
+    {% block content %}{% endblock %}
+    <span
+        class="Tooltip-text Tooltip-text--{{ position }}"
+        {{ stimulus_target('Molecules--Tooltip--base', 'text') }}
+    >
+        <button
+            type="button"
+            class="Tooltip-close"
+            aria-label="{{ 'Close'|trans }}"
+            {{ stimulus_action('Molecules--Tooltip--base', 'toggle', 'click') }}
+        >{{ ux_icon("close") }}</button>
+        {{ tooltip }}
+    </span>
+</div>

@@ -1,31 +1,9 @@
-# Ignore compiled files.
-dist
-dist/**/*
-!dist/.gitkeep
+/public/assets/
+/assets/vendor/
 
-# UX Translator TypeScript declarations (cause Symfony QtFileLoader crash)
-translations/compiled/*.d.ts
-
-# npm
-node_modules
-
-# Storybook
-.out
-storybook-static
-
-# System
-.DS_Store
-.idea
-.vscode
-
-# Git deploy
-.publish
-
-# Composer
+# Resolved by the root project, never by the template itself.
 composer.lock
-vendor
 
-# Jest
-.coverage
-
-*storybook.log
+.DS_Store
+.idea/
+.vscode/

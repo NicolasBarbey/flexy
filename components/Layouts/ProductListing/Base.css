@@ -1,0 +1,149 @@
+.ProductListing {
+  padding-block: 1.5rem;
+
+  @variant lg {
+    padding-block: 2.75rem;
+  }
+}
+
+/* Below lg the sidebar is a bottom sheet (MobileDrawer staticFrom="lg"); from lg it is a plain column */
+.ProductListing-panel {
+  @variant lg {
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+    position: relative;
+    margin-top: 3rem;
+  }
+}
+
+.ProductListing-drawerTitle {
+  margin-bottom: 2rem;
+}
+
+.ProductListing-section + .ProductListing-section {
+  margin-top: 1.875rem;
+
+  @variant lg {
+    margin-top: 0;
+  }
+}
+
+/* Both drawer section titles share one style */
+.ProductListing-sectionTitle,
+.ProductListing-legend {
+  @apply paragraph-4;
+  font-weight: var(--font-weight-semibold);
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--color-black);
+}
+
+/* The filter title is promoted to the sidebar's panel title once static */
+.ProductListing-legend {
+  padding-inline: 0;
+
+  @variant lg {
+    font-size: var(--font-size-h4-d);
+    font-weight: var(--font-weight-h4);
+    line-height: var(--line-height-h4-d);
+    margin-bottom: 1.75rem;
+  }
+}
+
+/* Centered inside the drawer (mobile and tablet), side by side or stacked when too narrow.
+   Irrelevant from lg: "Erase" is pinned absolute and "Apply" is hidden. */
+.ProductListing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.875rem;
+
+  @variant lg {
+    margin-top: 0;
+  }
+}
+
+/* Pinned to the sidebar's top-right corner once the sidebar is static */
+.ProductListing-clear {
+  @variant lg {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+/* Filter sections: tinted panels in the drawer, plain rows once the sidebar is static */
+.FilterAccordion {
+  background-color: var(--color-lightest);
+  border-radius: 0.5rem;
+  border-bottom: 0;
+
+  @variant lg {
+    background-color: transparent;
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-grey-lighter);
+  }
+}
+
+.FilterAccordion + .FilterAccordion {
+  margin-top: 0.5rem;
+
+  @variant lg {
+    margin-top: 0;
+  }
+}
+
+.FilterAccordion [data-slot="accordion-trigger"],
+.FilterAccordion [data-slot="accordion-content"] {
+  @variant lg {
+    padding-inline: 0;
+  }
+}
+
+.Fieldset-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  @variant lg {
+    gap: 0;
+  }
+}
+
+.ProductListing-toolbar {
+  display: none;
+
+  @variant lg {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.8125rem;
+  }
+}
+
+.ProductListing-sort {
+  width: 15.625rem;
+  margin-left: auto;
+}
+
+.ProductListing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  transition: opacity 0.2s ease;
+}
+
+.ProductListing-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 25rem;
+}
+

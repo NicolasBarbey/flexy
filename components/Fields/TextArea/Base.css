@@ -1,0 +1,92 @@
+.TextArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.TextArea-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.TextArea-label {
+  @apply paragraph-5;
+  color: var(--color-black);
+}
+
+.TextArea-blockInput {
+  position: relative;
+}
+
+.TextArea-input {
+  @apply paragraph-4;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-medium);
+  border-radius: 0.5rem;
+  color: var(--color-black);
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 1rem 0.625rem;
+  resize: vertical;
+  transition: 0.2s ease all;
+
+  &:hover {
+    background-color: var(--color-lightest);
+  }
+
+  &:focus-visible {
+    outline-offset: 2px;
+    outline: 1px solid var(--color-base);
+    border-color: var(--color-base);
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    resize: none;
+  }
+}
+
+.TextArea-input.is-error {
+  border: 1px solid var(--color-error-light);
+  color: var(--color-error);
+
+  &:hover {
+    background-color: var(--color-error-lightest);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--color-error-dark);
+  }
+}
+
+.TextArea--small .TextArea-input {
+  min-height: 3.75rem;
+  padding: 0.625rem;
+}
+
+.TextArea-error {
+  @apply paragraph-5;
+  color: var(--color-error-dark);
+  font-style: italic;
+}
+
+.TextArea--success .TextArea-input {
+  border: 1px solid var(--color-success);
+  background-image: var(--background-image-icon-check);
+  background-repeat: no-repeat;
+  background-position: right 0.625rem top 1rem;
+}
+
+.TextArea ::placeholder {
+  color: var(--color-grey-dark);
+  font-style: italic;
+}
+
+.TextArea + .TextArea {
+  margin-top: 1.5rem;
+}
+
+[class*='gap-'] > .TextArea + .TextArea {
+  margin-top: inherit;
+}

@@ -1,0 +1,232 @@
+.ProductCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  z-index: 0;
+
+  .ButtonWishList {
+    transition: 0.2s;
+    display: none;
+
+    @variant sm {
+      display: block;
+    }
+
+    svg {
+      max-width: 2.1875rem;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    .in-wishlist-icon {
+      display: none;
+
+      &:hover svg {
+        color: var(--color-medium);
+      }
+    }
+
+    .not-in-wishlist-icon {
+      display: inline-block;
+
+      &:hover svg {
+        color: var(--color-dark);
+      }
+    }
+
+    &.in-wishlist {
+      .in-wishlist-icon {
+        display: inline-block;
+      }
+
+      .not-in-wishlist-icon {
+        display: none;
+      }
+    }
+  }
+
+  .ProductCard-mainContent {
+    width: 100%;
+  }
+
+  .Colors {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
+
+  .Rating {
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .ProductCard-img img {
+      transform: scale(1.075);
+    }
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+
+    .ProductCard-img {
+      outline: 2px solid var(--color-grey-lighter);
+    }
+  }
+}
+
+.Colors-item {
+  border-radius: 100%;
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.Colors-others {
+  margin-left: 0.125rem;
+}
+
+.Rating-mark {
+  display: flex;
+  gap: 0.25rem;
+  max-width: 5.75rem;
+
+  svg {
+    color: var(--color-black);
+  }
+
+  .star-empty svg {
+    color: var(--color-grey-lighter);
+  }
+}
+
+.Rating-reviewCount {
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  color: var(--color-grey);
+
+  @variant md {
+    font-size: var(--text-xs);
+    letter-spacing: 0.04375rem;
+  }
+}
+
+.ProductCard-header {
+  margin-bottom: 0.5rem;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.625rem;
+  z-index: 1;
+}
+
+.ProductCard-tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  align-items: center;
+}
+
+.ProductCard-img {
+  overflow: hidden;
+  height: 11.6875rem;
+
+  @variant sm {
+    height: 17.5rem;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    /* `contain`, not `cover`: the filter fits the visual to the box without padding it,
+       so covering would scale it up and clip the product. The legacy library used to bake
+       the padding into the file, which made `cover` crop nothing but that white margin. */
+    object-fit: contain;
+    object-position: center;
+    transition: all cubic-bezier(0, 0, 0, 0.7) 0.3s;
+  }
+}
+
+.ProductCard-footer {
+  margin-top: 0.8125rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  flex-direction: column;
+
+  @variant md {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.ProductCard-footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  margin-bottom: 0.8125rem;
+
+  @variant sm {
+    margin-bottom: 0;
+    gap: 0.625rem;
+  }
+}
+
+.ProductCard-footerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ProductCard-desc {
+  padding: 1rem;
+
+  @variant sm {
+    padding: 1.5rem;
+  }
+}
+
+.ProductCard-ref {
+  margin-top: 0.5rem;
+}
+
+.ProductCard-title {
+  @apply h5;
+  font-weight: 600;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: inherit;
+  display: block;
+}
+
+.ProductCard-subtitle {
+  @apply paragraph-3;
+  color: var(--color-grey);
+}
+
+.ProductCard-price {
+  @apply paragraph-1;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.ProductCard-originalPrice {
+  @apply paragraph-7;
+  color: var(--color-black);
+  text-decoration-line: line-through;
+}

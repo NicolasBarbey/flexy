@@ -6,45 +6,38 @@
         { name: attr('config', 'store_name'), url: absolute_url(path('index')) },
         { name: 'Contact'|trans, url: SEOnePageCanonical() },
     ]) }}
-    {{ SEOneLocalBusiness(absolute_url(asset('dist/images/logo.png'))) }}
+    {{ SEOneLocalBusiness(logo) }}
 {% endblock %}
 
+{% block title %}{{ 'Contact'|trans }}{% endblock %}
+
 {% block body %}
-    <div class="p-5 lg:justify-between lg:items-center lg:flex">
-        {{ component('Molecules:Breadcrumb:Breadcrumb', {
-      breadcrumb: [
-        {
-          title: 'Contact'|trans,
-        },
-      ],
-    }) }}
+    <div class="relative p-5">
+        <twig:Molecules:Breadcrumb:Base :items="[{title: 'Contact'|trans}]" />
     </div>
 
-    <div class="max-w-[400px] mx-auto w-full px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] ">
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
         {% set form = getForm('thelia.front.contact') %}
+        {% form_theme form with flexy_form_themes only %}
 
         {% block contactFormTitle %}
             <h2 class="mb-4 h2">{{ 'Contact Us'|trans }}</h2>
         {% endblock %}
 
         {% block contactForm %}
-
-            {{ form_start(form, {attr: {
-                class : 'flex flex-col gap-4'
-            }}) }}
+            {{ form_start(form, {attr: {class: 'flex flex-col gap-4'}}) }}
 
             {{ form_rest(form) }}
 
             {{ form_errors(form) }}
 
-            {{ component('Flexy:Button', {
-                text: 'Send'|trans,
-                class: 'w-max mt-6',
-                type: 'submit',
-            }) }}
+            <twig:Molecules:Button:Base
+                text="{{ 'Send'|trans }}"
+                type="submit"
+                class="w-max mt-6"
+            />
 
             {{ form_end(form) }}
         {% endblock %}
-
     </div>
 {% endblock %}

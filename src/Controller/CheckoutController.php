@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 namespace FlexyBundle\Controller;
 
-use FlexyBundle\UiComponents\Checkout\CheckoutSteps\CheckoutSteps;
+use FlexyBundle\Components\Molecules\CheckoutSteps\Base as CheckoutSteps;
+use FlexyBundle\Service\CartStockService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,7 +38,6 @@ class CheckoutController extends FlexyController
     public function noRouteAction(): Response
     {
         return $this->generateRedirect('/checkout/cart');
-        // return $this->pageNotFound();
     }
 
     #[Route('/cart', name: 'cart')]
@@ -70,6 +70,7 @@ class CheckoutController extends FlexyController
     ): Response {
         $this->checkAuth();
         $cart = $cartFacade->getOrCreateFromSession();
+
         try {
             $cartGuard->checkCartNotEmpty($cart);
 
@@ -91,6 +92,7 @@ class CheckoutController extends FlexyController
         CartFacade $cartFacade,
     ): Response {
         $this->checkAuth();
+
         try {
             $cart = $cartFacade->getOrCreateFromSession();
             $cartGuard->checkCartNotEmpty($cart);
@@ -107,10 +109,8 @@ class CheckoutController extends FlexyController
     }
 
     #[Route('/gateway', name: 'gateway')]
-    public function gatewayAction(
-        CartGuard $cartGuard,
-        CartFacade $cartFacade,
-    ): Response {
+    public function gatewayAction(): Response
+    {
         $this->checkAuth();
 
         return $this->render('checkout-gateway', [
@@ -122,6 +122,7 @@ class CheckoutController extends FlexyController
     public function payAction(
         CartFacade $cartFacade,
         CheckoutFacade $checkoutFacade,
+        CartStockService $cartStockService,
     ): Response {
         try {
             $this->checkAuth();
@@ -133,13 +134,20 @@ class CheckoutController extends FlexyController
 
             $checkoutFacade->validateForOrder($cart);
 
+            // validateForOrder() does not look at stock, and the core only re-checks it once the
+            // order row exists — failing there leaves a dangling order and shows the visitor a raw
+            // "REF : Not enough stock 2". Send them back to the cart, which spells out the shortage.
+            if ($cartStockService->hasInsufficientStock($cart)) {
+                return $this->generateRedirect($this->generateUrl('checkout_cart'));
+            }
+
             $response = $checkoutFacade->pay(
                 new CheckoutDTO(
                     cart: $cart,
                     deliveryModuleId: $cart->getDeliveryModuleId(),
                     deliveryAddressId: $cart->getAddressDeliveryId(),
                     invoiceAddressId: $cart->getAddressInvoiceId(),
-                    paymentModuleId: $cart->getPaymentModuleId()
+                    paymentModuleId: $cart->getPaymentModuleId(),
                 )
             );
 
@@ -174,8 +182,8 @@ class CheckoutController extends FlexyController
     {
         $this->checkAuth();
 
-        $orderId = (int) $request->get('order_id');
-        $message = $request->get('message');
+        $orderId = (int) $request->query->get('order_id');
+        $message = $request->query->get('message');
 
         try {
             $checkoutFacade->cancelOrder($orderId);

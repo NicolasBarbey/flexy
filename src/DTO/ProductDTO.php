@@ -37,17 +37,16 @@ class ProductDTO
 
     public static function fromArray(array $data): self
     {
-        $productDTO = new self();
-        $productDTO->id = isset($data['id']) ? (int) $data['id'] : 0;
-        $productDTO->ref = isset($data['ref']) ? (string) $data['ref'] : '';
-        $productDTO->visible = (bool) ($data['visible'] ?? false);
-        $productDTO->position = isset($data['position']) ? (int) $data['position'] : 0;
-        $productDTO->virtual = (bool) ($data['virtual'] ?? false);
-        $productDTO->colors = isset($data['ProductColor']['colors']) ? (array) $data['ProductColor']['colors'] : [];
+        $dto = new self();
+        $dto->id = isset($data['id']) ? (int) $data['id'] : 0;
+        $dto->ref = isset($data['ref']) ? (string) $data['ref'] : '';
+        $dto->visible = (bool) ($data['visible'] ?? false);
+        $dto->position = isset($data['position']) ? (int) $data['position'] : 0;
+        $dto->virtual = (bool) ($data['virtual'] ?? false);
+        $dto->colors = isset($data['ProductColor']['colors']) ? (array) $data['ProductColor']['colors'] : [];
 
         $productCategories = $data['productCategories'] ?? [];
-
-        $productDTO->productCategories = [];
+        $dto->productCategories = [];
         if (\is_array($productCategories)) {
             foreach ($productCategories as $entry) {
                 if (!\is_array($entry)) {
@@ -56,26 +55,24 @@ class ProductDTO
                 $categoryPayload = (isset($entry['category']) && \is_array($entry['category']))
                     ? $entry['category']
                     : $entry;
-
-                $productDTO->productCategories[] = CategoryDTO::fromArray($categoryPayload);
+                $dto->productCategories[] = CategoryDTO::fromArray($categoryPayload);
             }
         }
 
-        $productDTO->productSaleElements = array_values(
+        $dto->productSaleElements = array_values(
             array_map(
                 static fn (array $row) => ProductSaleElementDTO::fromArray($row),
                 (array) ($data['productSaleElements'] ?? [])
             )
         );
 
-        $productDTO->title = isset($data['i18ns']['title']) ? (string) $data['i18ns']['title'] : '';
-        $productDTO->chapo = isset($data['i18ns']['chapo']) ? (string) $data['i18ns']['chapo'] : '';
-        $productDTO->description = isset($data['i18ns']['description']) ? (string) $data['i18ns']['description'] : '';
-        $productDTO->postscriptum = isset($data['i18ns']['postscriptum']) ? (string) $data['i18ns']['postscriptum'] : '';
+        $dto->title = isset($data['i18ns']['title']) ? (string) $data['i18ns']['title'] : '';
+        $dto->chapo = isset($data['i18ns']['chapo']) ? (string) $data['i18ns']['chapo'] : '';
+        $dto->description = isset($data['i18ns']['description']) ? (string) $data['i18ns']['description'] : '';
+        $dto->postscriptum = isset($data['i18ns']['postscriptum']) ? (string) $data['i18ns']['postscriptum'] : '';
+        $dto->publicUrl = isset($data['publicUrl']) ? (string) $data['publicUrl'] : null;
 
-        $productDTO->publicUrl = isset($data['publicUrl']) ? (string) $data['publicUrl'] : null;
-
-        return $productDTO;
+        return $dto;
     }
 
     public static function fromCollection(array $items): array

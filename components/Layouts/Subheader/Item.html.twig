@@ -1,0 +1,56 @@
+{# @prop title string Heading text #}
+{# @prop tag string HTML tag for the heading. Defaults to 'h1' #}
+{# @prop container string Which container-* utility wraps the title/description:
+    - 'large' (default): container-l, generic full-width pages
+    - 'medium'/'small': container-m/container-s, narrower pages
+    - 'single-3': container-single-3, single-column text-content pages
+    Note: 'double-3' isn't offered here — a content page with a container-double-3 body still spans the same box as container-l, so its Subheader uses 'large'. #}
+{# @prop description string|null Optional rich text shown below the title #}
+{# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
+{# @prop itemType string|null API source_type used to fetch an illustration via getImages() (e.g. 'content'). Requires itemId; no image is rendered if the item has none #}
+{# @prop itemId string|int|null Source item id used to fetch an illustration via getImages() #}
+{% props title, tag = 'h1', container = 'large', description = null, breadcrumb = [], itemType = null, itemId = null %}
+{% set container_class = {
+    large: 'container-l',
+    medium: 'container-m',
+    small: 'container-s',
+    'single-3': 'container-single-3',
+}[container] %}
+
+{% set image = null %}
+{% if itemType and itemId %}
+    {# `visible` mirrors what getImages() filters on below: without it the probe can
+       announce an image the renderer then refuses, leaving an empty wrapper. #}
+    {% set _imageFilter = {(itemType ~ '.id'): itemId, visible: true, itemsPerPage: 1} %}
+    {% if resources('/api/front/' ~ itemType ~ '_images', _imageFilter)|length %}
+        {% set image = getImages({
+            source_type: itemType,
+            source_id: itemId,
+            filters: {
+                '1366px': 'subheader_item_xl',
+                '1024px': 'subheader_item_lg',
+                '768px': 'subheader_item_md',
+                default: 'subheader_item_sm',
+            },
+            wrapper: 'picture',
+            wrapper_attrs: {class: 'Subheader-image'},
+            position: 1,
+            alt: title,
+            img_attrs: {loading: 'lazy'},
+        }) %}
+    {% endif %}
+{% endif %}
+
+<div class="{{ ('Subheader Subheader--contentPage ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    <twig:Molecules:Breadcrumb:Base :items="breadcrumb" class="{{ image ? 'hidden md:block' : '' }}" />
+
+    {% if image %}{{ image|raw }}{% endif %}
+    <div class="{{ container_class }} flex flex-col grow py-6">
+        <div class="my-auto{{ image ? ' Subheader-text--withImage' : '' }}">
+            <{{ tag }} class="Subheader-title">{{ title }}</{{ tag }}>
+            {% if description %}
+                <div class="Subheader-description">{{ description|raw }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

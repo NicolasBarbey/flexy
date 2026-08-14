@@ -1,54 +1,56 @@
 import { Controller } from '@hotwired/stimulus';
 
-class SimpleSliderController extends Controller {
-  connect() {
-    const slider = this.element;
+export default class extends Controller {
+    connect() {
+        this.watcher = { isDown: false, startX: 0, scrollLeft: 0 };
 
-    const watcher = {
-      isDown: false,
-      startX: 0,
-      scrollLeft: 0
-    };
+        this.onMouseDown = (e) => this.start(e.pageX);
+        this.onTouchStart = (e) => this.start(e.touches[0].pageX);
+        this.onEnd = () => this.end();
+        this.onMouseMove = (e) => this.move(e, e.pageX);
+        this.onTouchMove = (e) => this.move(e, e.touches[0].pageX);
 
-    slider.addEventListener('mousedown', (e) =>
-      start(e.pageX, slider, watcher)
-    );
-    slider.addEventListener('touchstart', (e) =>
-      start(e.touches[0].pageX, slider, watcher)
-    );
+        this.element.addEventListener('mousedown', this.onMouseDown);
+        this.element.addEventListener('touchstart', this.onTouchStart);
+        this.element.addEventListener('mouseleave', this.onEnd);
+        this.element.addEventListener('mouseup', this.onEnd);
+        this.element.addEventListener('touchend', this.onEnd);
+        this.element.addEventListener('touchcancel', this.onEnd);
+        this.element.addEventListener('mousemove', this.onMouseMove);
+        this.element.addEventListener('touchmove', this.onTouchMove);
+    }
 
-    slider.addEventListener('mouseleave', () => end(slider, watcher));
-    slider.addEventListener('touchend', () => end(slider, watcher));
+    disconnect() {
+        this.element.removeEventListener('mousedown', this.onMouseDown);
+        this.element.removeEventListener('touchstart', this.onTouchStart);
+        this.element.removeEventListener('mouseleave', this.onEnd);
+        this.element.removeEventListener('mouseup', this.onEnd);
+        this.element.removeEventListener('touchend', this.onEnd);
+        this.element.removeEventListener('touchcancel', this.onEnd);
+        this.element.removeEventListener('mousemove', this.onMouseMove);
+        this.element.removeEventListener('touchmove', this.onTouchMove);
+    }
 
-    slider.addEventListener('mouseup', () => end(slider, watcher));
-    slider.addEventListener('touchcancel', () => end(slider, watcher));
+    start(pageX) {
+        this.watcher.isDown = true;
+        this.element.classList.add('active');
+        this.watcher.startX = pageX - this.element.offsetLeft;
+        this.watcher.scrollLeft = this.element.scrollLeft;
+    }
 
-    slider.addEventListener('mousemove', (e) =>
-      move(e, e.pageX, slider, watcher)
-    );
-    slider.addEventListener('touchmove', (e) =>
-      move(e, e.touches[0].pageX, slider, watcher)
-    );
-  }
+    end() {
+        this.watcher.isDown = false;
+        this.element.classList.remove('active');
+    }
+
+    move(e, pageX) {
+        if (!this.watcher.isDown) {
+            return;
+        }
+
+        e.preventDefault();
+        const x = pageX - this.element.offsetLeft;
+        const walk = (x - this.watcher.startX) * 3;
+        this.element.scrollLeft = this.watcher.scrollLeft - walk;
+    }
 }
-
-function start(pageX, slider, watcher) {
-  watcher.isDown = true;
-  slider.classList.add('active');
-  watcher.startX = pageX - slider.offsetLeft;
-  watcher.scrollLeft = slider.scrollLeft;
-}
-function end(slider, watcher) {
-  watcher.isDown = false;
-  slider.classList.remove('active');
-}
-
-function move(e, pageX, slider, watcher) {
-  if (!watcher.isDown) return;
-  e.preventDefault();
-  const x = pageX - slider.offsetLeft;
-  const walk = (x - watcher.startX) * 3; // Adjust the scroll speed here
-  slider.scrollLeft = watcher.scrollLeft - walk;
-}
-
-export default SimpleSliderController;

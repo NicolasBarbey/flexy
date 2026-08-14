@@ -1,0 +1,34 @@
+{# @prop title string Heading text #}
+{# @prop tag string HTML tag for the heading. Defaults to 'h1' #}
+{# @prop container string Which container-* utility wraps the title:
+    - 'large' (default): container-l, generic full-width pages
+    - 'medium'/'small': container-m/container-s, narrower pages
+    - 'single-3': container-single-3, single-column text-content pages (e.g. FAQ) — matches the body when it's not wrapped in container-l (no split needed)
+    Note: 'double-3' isn't offered here — a content page with a container-double-3 body (2-column, ToC optional) still spans the same box as container-l, so its Subheader uses 'large', not 'double-3'.
+    A 2-column category listing needs its own file (Subheader/Category), not a container value: the text goes in the container's second slot to align with the product grid. #}
+{# @prop centered boolean Center the title text. Defaults to false #}
+{# @prop breadcrumb array Breadcrumb items, forwarded to Molecules:Breadcrumb:Base. Defaults to empty (no breadcrumb rendered) #}
+{% props title, tag = 'h1', container = 'large', centered = false, breadcrumb = [] %}
+{% set subheader = html_cva(
+    base: 'Subheader Subheader--titleOnly',
+    variants: {
+        centered: {
+            false: null,
+            true: 'Subheader--centered',
+        },
+    },
+) %}
+{% set container_class = {
+    large: 'container-l',
+    medium: 'container-m',
+    small: 'container-s',
+    'single-3': 'container-single-3',
+}[container] %}
+
+<div class="{{ subheader.apply({centered}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    <twig:Molecules:Breadcrumb:Base :items="breadcrumb" />
+
+    <div class="{{ container_class }}">
+        <{{ tag }} class="Subheader-title">{{ title }}</{{ tag }}>
+    </div>
+</div>
