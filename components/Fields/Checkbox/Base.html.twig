@@ -1,0 +1,29 @@
+{% use '@FlexyForm/flexy_form_theme.html.twig' %}
+{% props error = false, label, required = false, type = 'checkbox' %}
+
+{% set checkbox = html_cva(
+    base: 'Checkbox',
+    variants: {
+        error: {
+            false: null,
+            true: 'error',
+        },
+        type: {
+            checkbox: null,
+            radio: 'Checkbox--radio',
+        },
+    },
+) %}
+
+
+<label  class="{{ checkbox.apply({type, error}, attributes.render('class')) }} " {{attributes.without('class')}}>
+    <input
+        type="{{ type }}"
+        {{attributes.nested('input').defaults( {type: type}).without('required', 'type')}}
+        {{required ? ' required' : ''}}
+    />
+    <span class="Checkbox__checkmark">
+        {{ ux_icon('checkbox') }}
+    </span>
+    <span class="Checkbox__label">{{ label }}{{required ? ' *' :''}}</span>
+</label>

@@ -2,18 +2,25 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 
-class RangeFilterType extends FormType
+/**
+ * Single range slider filter, rendered by the `range_filter_row` form theme block.
+ */
+final class RangeFilterType extends RangeType
 {
-    public static function getExtendedTypes(): iterable
-    {
-        return [RangeType::class];
-    }
-
     public function getBlockPrefix(): string
     {
         return 'range_filter';

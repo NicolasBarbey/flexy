@@ -2,17 +2,27 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\Form;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\CustomerQuery;
-use Symfony\Component\Validator\Constraints;
 
 class CustomerUpdateForm extends CustomerRegisterForm
 {
@@ -26,7 +36,7 @@ class CustomerUpdateForm extends CustomerRegisterForm
         parent::__construct($translation);
     }
 
-    public function buildForm(): void
+    protected function buildForm(): void
     {
         parent::buildForm();
 
@@ -35,26 +45,28 @@ class CustomerUpdateForm extends CustomerRegisterForm
 
         $canUpdateEmail = (bool) ConfigQuery::read('customer_change_email', 0);
 
-        // When the shop forbids email changes the field is read-only and only shows
-        // the current address. It must carry no constraint: Symfony still validates
-        // a disabled field, and the customer has no way to fix a violation on it.
+        // When the shop forbids email changes the field is read-only and only shows the
+        // current address. It must carry no constraint: Symfony validates a disabled
+        // field too, and the customer has no way to fix a violation raised on it.
         $this->formBuilder->add('email', EmailType::class, [
             'constraints' => $canUpdateEmail ? [
                 new Constraints\NotBlank(),
                 new Constraints\Email(),
-                new Constraints\Callback(
-                    [$this, 'verifyExistingEmail']
-                ),
+                new Constraints\Callback([$this, 'verifyExistingEmail']),
             ] : [],
             'required' => $canUpdateEmail,
-            'label' => Translator::getInstance()->trans('Email Address'),
             'disabled' => !$canUpdateEmail,
-
-            'help' => !$canUpdateEmail ? $this->translator->trans('Si vous voulez changer d\'adresse mail, contactez nous.') : null,
-
+            'label' => Translator::getInstance()->trans('Email'),
+            'label_attr' => [
+                'for' => 'email',
+            ],
+            'help' => $canUpdateEmail ? null : $this->translation->trans('To change your email address, please contact us.'),
         ]);
     }
 
+    /**
+     * @param mixed $value
+     */
     public function verifyExistingEmail($value, ExecutionContextInterface $context): void
     {
         $customer = CustomerQuery::create()->findOneByEmail($value);

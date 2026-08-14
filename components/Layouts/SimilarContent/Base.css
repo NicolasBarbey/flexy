@@ -1,0 +1,52 @@
+.SimilarContents {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @variant md {
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  @variant lg {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    cursor: initial;
+  }
+
+  @variant xl {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.SimilarContents .SimilarContentCard {
+  @variant md {
+    width: 21.25rem;
+    flex-shrink: 0;
+
+    &:last-child {
+      margin-right: 3rem;
+    }
+  }
+
+  @variant lg {
+    width: initial;
+
+    &:active {
+      cursor: initial;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @variant xl {
+    flex-shrink: 0;
+
+    &:active {
+      cursor: initial;
+    }
+  }
+}

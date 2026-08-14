@@ -1,81 +1,81 @@
 {% extends 'base.html.twig' %}
-{% set page = app.request.get('page')|default(1) %}
-{% set categoryId = attr('category', 'id') %}
 
-{% set firstImage = getImagesData({
-	source_id: categoryId,
-	source_type: 'category',
-	filters: 'default',
-	limit: 1,
+{% set ogImages = getImagesData({
+    source_id: attr('category', 'id'),
+    source_type: 'category',
+    filters: 'default',
+    limit: 1,
 }) %}
 
-{% block og_image %}{{ ((firstImage|first)?.sources|first)?.url ?: parent()  }}{% endblock %}
-
-{% set category = resources('/api/front/categories/'~categoryId) %}
-
-{% set childCategories = resources('/api/front/categories', {
-  'parent': categoryId,
-  'order[position]': 'asc',
-  'visible' : true
-}) %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('category-css') }}
-{% endblock %}
-
-{% block stimulus_controller %}
-    {{ stimulus_controller('drawer') }}
-{% endblock %}
+{% block og_image %}{{ ((ogImages|first)?.sources|first)?.url ?: parent() }}{% endblock %}
 
 {% block body %}
-  {{ theme_hook('category.top', {category: category}) }}
-  {{ component('Flexy:CatHero', {
-    title: SEOnePageH1(),
-    chapo: category.i18ns.chapo|default(null),
-    breadcrumb,
-    next: category.i18ns.postscriptum|default(null) or category.i18ns.description|default(null),
-    displayProducts : not childCategories|length
-  }) }}
+    {% set categoryId = attr('category', 'id') %}
+    {% set description = attr('category', 'description') %}
+    {% set postscriptum = attr('category', 'postscriptum') %}
+    {% set hasEditorialContent = description or postscriptum %}
 
-  {% if childCategories|length %}
-    <div class="container mt-[50px] lg:mt-[100px]">
-      <ul class="grid xs:grid-cols-2 gap-4  md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-        {% for category in childCategories %}
-          <li>
-            {% include '@components/Organisms/CategoryCard/CategoryCard.html.twig' with category|merge({classes: "h-full"}) %}
-          </li>
-        {% endfor %}
-      </ul>
-      <div id="description" class="lg:pt-[56px] lg:pb-[96px]  pt-[102px] pb-[52px]">
-        {% if category.i18ns.postscriptum or category.i18ns.description %}
-          <div class="wysiwyg">
-            {% if category.i18ns.description %}
-              <div>
-                {{ category.i18ns.description|raw }}
-              </div>
-            {% endif %}
-            {{ component('Flexy:Blocks', {item_type: 'category', item_id: categoryId}) }}
-            {% if category.i18ns.postscriptum %}
-              <div class="mt-8">
-                {{ category.i18ns.postscriptum|raw }}
-              </div>
-            {% endif %}
-          </div>
-        {% endif %}
-      </div>
-    </div>
+    {# A category showing sub-categories browses them instead of listing its own products, even when
+       it holds both. Thelia allows both, so this is a starter default rather than a limitation: a
+       shop needing the mixed case is expected to customise this page.
+       `childCategories|length` drives the Subheader props below as well as the branch further down,
+       so changing the behaviour means adjusting both — otherwise the heading keeps a container
+       sized for a full-width grid and loses its product count and filter trigger. #}
+    {% set childCategories = resources('/api/front/categories', {
+        parent: categoryId,
+        visible: true,
+        'order[position]': 'asc',
+    }) %}
+
+    {# Read as a resource only to feed the category hook points with the same object shape as
+       the rest of the theme's extension contract; the page itself reads its own fields
+       through attr(), which needs no API round-trip. #}
+    {% set category = resources('/api/front/categories/' ~ categoryId) %}
+
+    {{ theme_hook('category.top', {category: category}) }}
+
+    <twig:Layouts:Subheader:Category
+        title="{{ SEOnePageH1()|default(null) ?: attr('category', 'title') }}"
+        description="{{ attr('category', 'chapo') }}"
+        :readMore="hasEditorialContent"
+        :breadcrumb="breadcrumb"
+        container="{{ childCategories|length ? 'large' : 'double-2' }}"
+        filtersId="{{ childCategories|length ? null : 'product-listing' }}"
+        :productCount="childCategories|length ? null : loopCount('product', {category: categoryId, visible: 1})"
+    />
+
+    {% if childCategories|length %}
+        <div class="container-l py-14 xl:py-20">
+            <ul class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-8">
+                {% for childCategory in childCategories %}
+                    <li>
+                        <twig:Organisms:CategoryCard:Base
+                            id="{{ childCategory.id }}"
+                            title="{{ childCategory.i18ns.title }}"
+                            href="{{ childCategory.publicUrl }}"
+                            class="h-full"
+                        />
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     {% else %}
-      {{ component('Flexy:CategoryFilters', {
-        initialCategoryId: categoryId,
-        initialPage: page,
-        initSearchQuery: null,
-        sourceData : {
-          title: category.i18ns.title|default(null),
-          chapo: category.i18ns.chapo|default(null),
-          description: category.i18ns.description|default(null),
-          breadcrumb
-        }}) }}
-  {% endif %}
-  {{ theme_hook('category.bottom', {category: category}) }}
+        <twig:Layouts:ProductListing:Base :categoryId="categoryId" />
+    {% endif %}
+
+    {% if hasEditorialContent %}
+        <div id="description" class="container-single-3 pb-20 lg:pb-30">
+            <div class="wysiwyg wysiwyg-theme flex flex-col gap-10 min-w-0">
+                {% if description %}
+                    <div>{{ description|raw }}</div>
+                {% endif %}
+                <twig:Organisms:Blocks:Base itemType="category" itemId="{{ categoryId }}" />
+                {% if postscriptum %}
+                    <small>{{ postscriptum|raw }}</small>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    {{ theme_hook('category.bottom', {category: category}) }}
 {% endblock %}

@@ -1,0 +1,45 @@
+{% set customer = getCurrentCustomer() %}
+{% set headerProfileController = 'Organisms--HeaderProfile--base' %}
+{% set mobileDrawerController = 'Molecules--MobileDrawer--base' %}
+
+{% set accountItems = this.items %}
+
+<div
+    class="{{ ('HeaderProfile relative grow h-full flex ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({
+        ...stimulus_controller(headerProfileController)|stimulus_controller(mobileDrawerController),
+    }).without('class') }}
+>
+    <twig:Molecules:HeaderButton:Base
+        icon="account-logged"
+        text="{{ customer.firstname ~ ' ' ~ customer.lastname|first|upper ~ '.' }}"
+        color="theme"
+        class="HeaderNav-btn grow h-full"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="HeaderProfile-dropdown"
+        {{ ...stimulus_target(headerProfileController, 'toggler') }}
+        {{ ...stimulus_action(headerProfileController, 'toggle', 'click')|stimulus_action(mobileDrawerController, 'toggle', 'click') }}
+    />
+
+    <ul class="HeaderProfile-dropdown" id="HeaderProfile-dropdown">
+        {% for item in accountItems %}
+            <li class="HeaderProfile-item">
+                <twig:Molecules:MenuItem:Base href="{{ item.href }}" text="{{ item.text }}" />
+            </li>
+        {% endfor %}
+        <li class="HeaderProfile-item">
+            <twig:Molecules:MenuItem:Base href="{{ path('customer_logout') }}" text="{{ 'Logout'|trans }}" :icon="true" />
+        </li>
+    </ul>
+
+    <twig:Molecules:MobileDrawer:Base class="md:hidden">
+        <strong class="HeaderProfile-greeting">
+            {{ 'hy_customer'|trans({'%firstname%': customer.firstname}) }}
+        </strong>
+        {% for item in accountItems %}
+            <twig:Molecules:MenuItem:Base href="{{ item.href }}" text="{{ item.text }}" />
+        {% endfor %}
+        <twig:Molecules:MenuItem:Base href="{{ path('customer_logout') }}" text="{{ 'Logout'|trans }}" :icon="true" />
+    </twig:Molecules:MobileDrawer:Base>
+</div>

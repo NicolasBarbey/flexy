@@ -1,0 +1,88 @@
+{# Controller identifier shared by HeaderNav/LangSelect/HeaderMenuItem — must match if renamed. #}
+{% set headerController = 'Layouts--Header--base' %}
+
+{# Captured once: rendered both in the bar and in the search panel that covers it #}
+{% set logo %}
+    <a href="/" class="Header-logo">
+        {{ ux_icon('thelia') }}
+    </a>
+{% endset %}
+
+<header
+    class="{{ ('Header ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({
+        ...stimulus_controller(headerController)|stimulus_controller('sticky-observer'),
+    }).without('class') }}
+>
+    <div class="Header-top">
+        <div class="flex">
+            <div class="flex items-center self-center h-full">
+                {{ logo }}
+            </div>
+        </div>
+
+        <nav id="Menu" class="Header-menu" {{ stimulus_target(headerController, 'panel') }} data-header-panel-id="menu">
+            <twig:Molecules:Button:Base
+                icon_left="chevron-left"
+                size="small"
+                color="minimal"
+                data-menu-back="-1"
+                {{...stimulus_target(headerController, 'back')}}
+                {{...stimulus_action(headerController, 'back')}}
+            >
+                {{ 'Menu'|trans }}
+            </twig:Molecules:Button:Base>
+            <button type="button" data-menu-close aria-label="{{ 'Close'|trans }}" {{ stimulus_action(headerController, 'close') }}>
+                {{ ux_icon('close') }}
+            </button>
+            <ul class="Header-navigation" data-menu-sub="0">
+                {% for item in menuItems %}
+                    {% if item.type == 'folder' %}
+                        <twig:Organisms:HeaderMenuItem:Folder
+                            id="{{ item.id }}"
+                            title="{{ item.title }}"
+                            href="{{ item.href }}"
+                            :includeContents="item.includeContents"
+                        />
+                    {% elseif item.type == 'link' %}
+                        <twig:Organisms:HeaderMenuItem:Base
+                            id="{{ item.id }}"
+                            title="{{ item.title }}"
+                            href="{{ item.href }}"
+                        />
+                    {% else %}
+                        <twig:Organisms:HeaderMenuItem:Category
+                            id="{{ item.id }}"
+                            title="{{ item.title }}"
+                            href="{{ item.href }}"
+                        />
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <twig:Organisms:HeaderNav:Base />
+    </div>
+
+    {# Search takes the header over rather than squeezing into it. `MobilePanel` is what the
+       controller's body-lock looks for; the panel id is what the magnifier in HeaderNav toggles.
+       The design system's unfolded-header variant (field in the bar, nav on a second row) is not
+       built — nothing here forbids adding it later. #}
+    <div
+        id="HeaderSearch"
+        class="Header-searchPanel MobilePanel"
+        {{ stimulus_target(headerController, 'panel') }}
+        data-header-panel-id="search"
+    >
+        <div class="Header-searchLogo">{{ logo }}</div>
+
+        <twig:Organisms:SearchBar:Base class="Header-searchBar" />
+
+        <button
+            type="button"
+            class="Header-searchClose"
+            aria-label="{{ 'Close'|trans }}"
+            {{ stimulus_action(headerController, 'close') }}
+        >{{ ux_icon('close') }}</button>
+    </div>
+</header>

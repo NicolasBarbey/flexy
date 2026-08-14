@@ -1,0 +1,43 @@
+.BlocksToc {
+  top: calc(var(--header-height) + 1rem);
+}
+
+.tb-blockTitle {
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
+.BlocksToc-inner {
+  background-color: var(--color-white);
+  border-radius: 0.625rem;
+  padding: 1rem 1.5rem;
+}
+
+.BlocksToc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.BlocksToc-list li {
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  border-bottom: 1px solid var(--color-grey-lighter);
+}
+
+.BlocksToc-link {
+  @apply paragraph-2 font-semibold;
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  color: var(--color-black);
+  text-decoration: none;
+}
+
+.BlocksToc-link:hover {
+  text-decoration: underline;
+}
+
+.BlocksToc-link:focus-visible {
+  outline: 2px solid var(--color-base);
+  outline-offset: 2px;
+}

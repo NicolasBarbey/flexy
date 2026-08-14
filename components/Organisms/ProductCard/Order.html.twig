@@ -1,0 +1,39 @@
+<div class="{{ ('ProductCard ProductCard--order ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+	<div class="ProductCard-mainContent">
+		{{ getImages({
+			source_type: 'product',
+			img_id: this.imageId,
+			filters: 'order_card_detail',
+			limit: 1,
+			alt: this.product.title,
+			wrapper: 'figure',
+			wrapper_attrs: {class: 'ProductCard-img'},
+			img_attrs: {
+				loading: 'lazy',
+			},
+			placeholder: asset('images/placeholder2.webp'),
+		})|raw }}
+		<div class="ProductCard-desc">
+			<a href="{{ this.productUrl|default('#') }}" class="ProductCard-title">{{ this.product.title }}</a>
+			<div class="ProductCard-orderInfos">
+				<span class="ProductCard-secondaryTitle basis-full">{{ this.product.chapo }}</span>
+				{% if this.pse %}
+					{% for combination in this.pse.attributeCombinations %}
+						<span class="ProductCard-secondarySize">{{ combination.attribute.i18ns.title }}: {{ combination.attributeAv.i18ns.title }}</span>
+					{% endfor %}
+				{% endif %}
+				{% if this.orderProduct.quantity %}
+					<span>{{ 'Quantity:'|trans }} {{ this.orderProduct.quantity }}</span>
+				{% endif %}
+			</div>
+			{% if this.orderProduct.wasInPromo %}
+				<div class="ProductCard-footer">
+					<div class="ProductCard-price">{{ this.orderProduct.promoPrice|format_currency('EUR', locale: lang_code) }}</div>
+					<div class="ProductCard-originalPrice">{{ this.orderProduct.price|format_currency('EUR', locale: lang_code) }}</div>
+				</div>
+			{% else %}
+				<div class="ProductCard-price">{{ this.orderProduct.price|format_currency('EUR', locale: lang_code) }}</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

@@ -1,33 +1,27 @@
 {% extends 'checkout-base.html.twig' %}
 
-{% block title %}
-    {{ 'Delivery'|trans }}
-{% endblock %}
+{% block title %}{{ 'Delivery'|trans }}{% endblock %}
 
 {% block checkoutContent %}
-    {{ component('Flexy:Checkout:Delivery') }}
+    <twig:Organisms:Delivery:Base />
 {% endblock %}
 
 {% block checkoutBackButton %}
-    {{ include('@components/Molecules/Link/Link.html.twig', {
-        iconLeft: 'chevron-left',
-        customText: 'Previous Step'|trans,
-        href: path('checkout_cart'),
-        classes: 'gap-2',
-    }) }}
+    <twig:Molecules:Link:Base
+        iconLeft="chevron-left"
+        customText="{{ 'Previous Step'|trans }}"
+        href="{{ path('checkout_cart') }}"
+        class="gap-2 mt-6 inline-flex"
+    />
 {% endblock %}
 
-{%- block checkoutSummary -%}
-    {%- if not emptyCart -%}
-        {{ component('Flexy:Checkout:Summary') }}
-    {%- endif -%}
-{%- endblock -%}
+{% block checkoutSummary %}
+    <twig:Organisms:Summary:Checkout />
+{% endblock %}
 
-{%- block checkoutNextButton -%}
-    {%- if not emptyCart -%}
-        {{ component('Flexy:Checkout:NextButton', {
-            href: path('checkout_payment'),
-            step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps\\CheckoutSteps::DELIVERY'),
-        }) }}
-    {%- endif -%}
-{%- endblock -%}
+{% block checkoutNextButton %}
+    <twig:Organisms:NextButton:Base
+        :step="constant('FlexyBundle\\Components\\Molecules\\CheckoutSteps\\Base::DELIVERY')"
+        href="{{ path('checkout_payment') }}"
+    />
+{% endblock %}

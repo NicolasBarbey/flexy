@@ -1,5 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\DTO;
 
 class ProductSaleElementDTO
@@ -17,22 +29,22 @@ class ProductSaleElementDTO
 
     public static function fromArray(array $data): self
     {
-        $e = new self();
-        $e->id = isset($data['id']) ? (int) $data['id'] : 0;
-        $e->ref = isset($data['ref']) ? (string) $data['ref'] : '';
-        $e->quantity = isset($data['quantity']) ? (int) $data['quantity'] : 0;
-        $e->promo = (bool)($data['promo'] ?? false);
-        $e->newness = (bool)($data['newness'] ?? false);
-        $e->weight = isset($data['weight']) ? (float) $data['weight'] : 0.0;
-        $e->isDefault = (bool)($data['isDefault'] ?? false);
+        $dto = new self();
+        $dto->id = isset($data['id']) ? (int) $data['id'] : 0;
+        $dto->ref = isset($data['ref']) ? (string) $data['ref'] : '';
+        $dto->quantity = isset($data['quantity']) ? (int) $data['quantity'] : 0;
+        $dto->promo = (bool) ($data['promo'] ?? false);
+        $dto->newness = (bool) ($data['newness'] ?? false);
+        $dto->weight = isset($data['weight']) ? (float) $data['weight'] : 0.0;
+        $dto->isDefault = (bool) ($data['isDefault'] ?? false);
 
-        $e->productPrices = array_values(
+        $dto->productPrices = array_values(
             array_map(
-                static fn(array $row) => ProductPriceDTO::fromArray($row),
-                (array)($data['productPrices'] ?? [])
+                static fn (array $row) => ProductPriceDTO::fromArray($row),
+                (array) ($data['productPrices'] ?? [])
             )
         );
 
-        return $e;
+        return $dto;
     }
 }

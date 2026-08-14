@@ -1,55 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ 'Login'|trans }}
-{% endblock %}
+{% block title %}{{ 'Login'|trans }}{% endblock %}
 
 {% block body %}
-    <div class="max-w-[400px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
-        {% set form = getForm('thelia.front.customer.login') %}
+    {% set form = getForm('thelia.front.customer.login') %}
+    {% form_theme form with flexy_form_themes only %}
+
+    <div class="container-s pt-8 pb-14 lg:pt-12 lg:pb-30">
+        {% for error in form.vars.errors %}
+            <twig:Molecules:SnackBar:Base variant="error" text="{{ error.message }}" />
+        {% endfor %}
+
+        <h2 class="h2 text-black mb-4">{{ 'Log in'|trans }}</h2>
 
         {{ form_start(form, {attr: {
             action: path('customer_login_action'),
             method: 'POST',
+            class: 'flex flex-col gap-6 mb-3',
         }}) }}
-        <h2 class="mb-4 text-black h2">{{ 'Log in'|trans }}</h2>
-        <div class="flex flex-col gap-6 mb-3">
-            {{ form_errors(form) }}
+        {{ form_row(form.success_url, {value: '/account'}) }}
+        {{ form_row(form.error_url, {value: path('customer_login')}) }}
+        <input type="hidden" name="{{ field_name(form.account) }}" value="1">
+        {{ form_row(form.email, {label: 'Email'|trans, placeholder: 'Your email'|trans}) }}
+        {{ form_row(form.password, {label: 'Password'|trans, placeholder: 'Your password'|trans}) }}
+        {{ form_row(form.remember_me, {required: false}) }}
 
-            <div class="flex flex-col gap-6 mb-3">
-                {{ form_row(form.error_url, {value: path('customer_login')}) }}
-                {{ form_row(form.success_url, {value: path('account_index')}) }}
-                {{ form_row(form.email, {label: 'Email'|trans, placeholder: 'Your email'|trans}) }}
-                {{ form_row(form.password, {label: 'Password'|trans, placeholder: 'Your password'|trans}) }}
-                {{ form_row(form.remember_me, {required : false}) }}
-            </div>
-            <input name="{{ field_name(form.account) }}" value="1" type='hidden'>
+        <div class="flex flex-col gap-6">
+            <twig:Molecules:Link:Base href="{{ path('password_forgotten') }}" customText="{{ 'Forgot password?'|trans }}" />
+            <twig:Molecules:Button:Base text="{{ 'Log in'|trans }}" type="submit" class="w-max" />
         </div>
-
-        <div class="flex flex-col gap-[30px]">
-            {{ include('@components/Molecules/Link/Link.html.twig', {
-                customText: 'Forgot password?'|trans,
-                href: path('password_forgotten'),
-            }) }}
-
-            {{ component('Flexy:Button', {
-                text: 'Log in'|trans,
-                class: 'w-max',
-                type: 'submit',
-            }) }}
-        </div>
-
         {{ form_end(form) }}
 
-        <hr class="my-[40px]"/>
+        <hr class="my-10 text-grey" />
 
-        <h4 class="mb-4 text-black h4">{{ 'Don’t have an account yet?'|trans }}</h4>
-
-        {{ component('Flexy:Button', {
-            href: path('customer_register'),
-            text: 'Sign up'|trans,
-            color: 'secondary',
-        }) }}
-
+        <h4 class="h4 text-black mb-4">{{ 'Don’t have an account yet?'|trans }}</h4>
+        <twig:Molecules:Button:Base href="{{ path('customer_register') }}" text="{{ 'Sign up'|trans }}" color="secondary" />
     </div>
 {% endblock %}

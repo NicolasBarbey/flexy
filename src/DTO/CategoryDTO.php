@@ -1,10 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FlexyBundle\DTO;
 
 class CategoryDTO
 {
-    // Données principales
     public int $id = 0;
     public int $parent = 0;
     public bool $visible = false;
@@ -12,29 +23,25 @@ class CategoryDTO
     public string $title = '';
     public string $chapo = '';
     public string $description = '';
-
-    // Champs optionnels vus dans la capture
     public ?int $defaultTemplated = null;
     public bool $defaultCategory = false;
 
     public static function fromArray(array $data): self
     {
-        $categoryDTO = new self();
+        $dto = new self();
+        $dto->id = isset($data['id']) ? (int) $data['id'] : 0;
+        $dto->parent = isset($data['parent']) ? (int) $data['parent'] : 0;
+        $dto->visible = (bool) ($data['visible'] ?? false);
+        $dto->position = isset($data['position']) ? (int) $data['position'] : 0;
+        $dto->title = isset($data['i18ns']['title']) ? (string) $data['i18ns']['title'] : '';
+        $dto->chapo = isset($data['i18ns']['chapo']) ? (string) $data['i18ns']['chapo'] : '';
+        $dto->description = isset($data['i18ns']['description']) ? (string) $data['i18ns']['description'] : '';
 
-        $categoryDTO->id = isset($data['id']) ? (int) $data['id'] : 0;
-        $categoryDTO->parent = isset($data['parent']) ? (int) $data['parent'] : 0;
-        $categoryDTO->visible = (bool)($data['visible'] ?? false);
-        $categoryDTO->position = isset($data['position']) ? (int) $data['position'] : 0;
-        $categoryDTO->title = isset($data['i18ns']['title']) ? (string) $data['i18ns']['title'] : '';
-        $categoryDTO->chapo = isset($data['i18ns']['chapo']) ? (string) $data['i18ns']['chapo'] : '';
-        $categoryDTO->description = isset($data['i18ns']['description']) ? (string) $data['i18ns']['description'] : '';
-
-        // Optionnels
         if (array_key_exists('defaultTemplated', $data)) {
-            $categoryDTO->defaultTemplated = is_null($data['defaultTemplated']) ? null : (int) $data['defaultTemplated'];
+            $dto->defaultTemplated = $data['defaultTemplated'] === null ? null : (int) $data['defaultTemplated'];
         }
-        $categoryDTO->defaultCategory = (bool)($data['defaultCategory'] ?? false);
+        $dto->defaultCategory = (bool) ($data['defaultCategory'] ?? false);
 
-        return $categoryDTO;
+        return $dto;
     }
 }

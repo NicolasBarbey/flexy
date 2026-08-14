@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* Force tailwind to scan these directories to detect used styles.
+   The root page templates, form theme and block templates must be listed
+   too: the theme directory is git-ignored from the project root, so the
+   default source auto-detection skips it entirely. */
+@source "../../components";
+@source "../../partials";
+@source "../../*.html.twig";
+@source "../../form";
+@source "../../blocks";
+
+/* Theme and utilities : automatic layering / per file layering */
+@import "./variables.css";
+@import "./layout.css";
+@import "../../components/Atoms/Typography/Typography.css";
+
+/* Components managing their own layering internally (@theme / @utility / @layer) : imported unwrapped, the file is the sole source of truth for its own layer */
+/* If a component needs to override styles from external lib (carousel, etc), it should be put here, and have fine-tuned layering inside it's own file */
+@import "../../components/Molecules/Button/Base.css";
+@import "../../components/Molecules/Link/Base.css";
+@import "../../components/Molecules/Tag/Base.css";
+@import "../../components/Molecules/Tag/OrderTag.css";
+@import "../../components/Molecules/Tag/StockTag.css";
+@import "../../components/Molecules/MobileDrawer/Base.css";
+@import "../../components/Layouts/Header/Base.css";
+@import "../../components/Molecules/Accordion/Base.css";
+/* Overrides Splide's own stylesheet, imported from its Stimulus controller */
+@import "../../components/Organisms/ProductGallery/Base.css";
+/* Overrides the Button @utility rules to merge the stepper and the add-to-cart button into one pill */
+@import "../../components/Organisms/PseSelector/Base.css";
+/* Overrides the Button @utility rules to butt the account tabs against each other */
+@import "../../components/Layouts/Subheader/Account.css";
+
+/* Other components are put on components layer : sublayers can be defined inside to allow further customization */
+@layer components {
+  @import "../../components/Fields/Input/Base.css";
+  @import "../../components/Fields/Input/Password.css";
+  @import "../../components/Fields/Checkbox/Base.css";
+  @import "../../components/Fields/Select/Base.css";
+  @import "../../components/Fields/TextArea/Base.css";
+  @import "../../components/Fields/Toggle/Base.css";
+  @import "../../components/Fields/RangeSlider/Base.css";
+  @import "../../components/Fields/Search/Base.css";
+
+  @import "../../components/Molecules/Tabulation/Base.css";
+  @import "../../components/Molecules/Pagination/Base.css";
+  @import "../../components/Molecules/Score/Base.css";
+  @import "../../components/Molecules/Tooltip/Base.css";
+  @import "../../components/Molecules/Favorite/Base.css";
+  @import "../../components/Molecules/MenuItem/Base.css";
+  @import "../../components/Molecules/HeaderButton/Base.css";
+  @import "../../components/Molecules/Modal/Base.css";
+  @import "../../components/Molecules/FilterPill/Base.css";
+  @import "../../components/Molecules/FilterList/Base.css";
+  @import "../../components/Molecules/FilterSelect/Base.css";
+  @import "../../components/Molecules/SnackBar/Base.css";
+  @import "../../components/Molecules/CheckoutSteps/Base.css";
+  @import "../../components/Molecules/RadioButton/Base.css";
+  @import "../../components/Molecules/Reinsurance/Base.css";
+
+  @import "../../components/Organisms/ProductCard/Base.css";
+  @import "../../components/Organisms/ProductCard/Order.css";
+  @import "../../components/Organisms/ProductCard/Search.css";
+  @import "../../components/Organisms/OrderCard/Base.css";
+  @import "../../components/Organisms/SimilarContentCard/Base.css";
+  @import "../../components/Organisms/HeaderMenuItem/Base.css";
+  @import "../../components/Organisms/LangSelect/Base.css";
+  @import "../../components/Organisms/HeaderProfile/Base.css";
+  @import "../../components/Organisms/HeaderNav/Base.css";
+  @import "../../components/Organisms/SearchBar/Base.css";
+  @import "../../components/Organisms/CategoryCard/Base.css";
+  @import "../../components/Organisms/ReviewCard/Base.css";
+  @import "../../components/Organisms/ArticleCard/Base.css";
+  @import "../../components/Organisms/AddressCard/Base.css";
+  @import "../../components/Organisms/CartItem/Base.css";
+  @import "../../components/Organisms/CartItemDelete/Base.css";
+  @import "../../components/Organisms/Summary/Base.css";
+  @import "../../components/Organisms/DeliveryTracking/Base.css";
+  @import "../../components/Organisms/PaymentCard/Base.css";
+  @import "../../components/Organisms/InvoiceCard/Base.css";
+  @import "../../components/Organisms/DeliveryMode/Base.css";
+  @import "../../components/Organisms/PickupPointCard/Base.css";
+  @import "../../components/Organisms/AddToCartToast/Base.css";
+  @import "../../components/Forms/PickupSearch/Base.css";
+  @import "../../components/Layouts/Footer/Base.css";
+  @import "../../components/Layouts/Footer/Checkout.css";
+  @import "../../components/Layouts/Header/Checkout.css";
+  @import "../../components/Layouts/AccountOrders/Base.css";
+  @import "../../components/Layouts/CrossSelling/Base.css";
+  @import "../../components/Layouts/Review/Base.css";
+  @import "../../components/Layouts/SimilarContent/Base.css";
+  @import "../../components/Layouts/Subheader/Base.css";
+  @import "../../components/Layouts/Subheader/Item.css";
+  @import "../../components/Layouts/Subheader/Category.css";
+  @import "../../components/Layouts/Subheader/Search.css";
+  @import "../../components/Layouts/ProductListing/Base.css";
+  @import "../../components/Layouts/ReinsuranceModule/Base.css";
+
+  @import "../../components/Organisms/BlocksToc/Base.css";
+  @import "./blocks.css";
+}
+
+/* Pages go there, no layer (base layer) */
+@import "./pages/product.css";
+
+/* Generic styles */
+body {
+  color: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Scroll anchoring would otherwise compensate the sticky Header's height change on is-stuck, bouncing scrollY back and un-triggering it. */
+  overflow-anchor: none;
+
+  &.locked {
+    overflow: hidden;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+/* Unlayered on purpose: must beat the Typography plugin's own max-width, which lives in @layer utilities. */
+.wysiwyg {
+  max-width: none;
+}

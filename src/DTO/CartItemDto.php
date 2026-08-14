@@ -21,9 +21,8 @@ class CartItemDto
     public int $productId = 0;
     public int $quantity = 0;
     public int $productSaleElementsId = 0;
-    public int $price = 0;
-    public int $promoPrice = 0;
-    public int $priceEndOfLife = 0;
+    public float $price = 0.0;
+    public float $promoPrice = 0.0;
     public int $promo = 0;
     public ?ProductDTO $product = null;
     public int $stock = 0;
@@ -39,31 +38,20 @@ class CartItemDto
         $cartItem->productId = isset($data['productId']) ? (int) $data['productId'] : 0;
         $cartItem->quantity = isset($data['quantity']) ? (int) $data['quantity'] : 0;
         $cartItem->productSaleElementsId = isset($data['productSaleElementsId']) ? (int) $data['productSaleElementsId'] : 0;
-        $cartItem->price = isset($data['price']) ? (int) $data['price'] : 0;
-        $cartItem->promoPrice = isset($data['promoPrice']) ? (int) $data['promoPrice'] : 0;
-        $cartItem->priceEndOfLife = isset($data['priceEndOfLife']) ? (int) $data['priceEndOfLife'] : 0;
+        $cartItem->price = isset($data['price']) ? (float) $data['price'] : 0.0;
+        $cartItem->promoPrice = isset($data['promoPrice']) ? (float) $data['promoPrice'] : 0.0;
         $cartItem->promo = isset($data['promo']) ? (int) $data['promo'] : 0;
         $cartItem->stock = isset($data['stock']) ? (int) $data['stock'] : 0;
         $cartItem->stockManaged = isset($data['stockManaged']) ? (bool) $data['stockManaged'] : true;
         $cartItem->title = $data['title'] ?? '';
         $cartItem->desc = $data['desc'] ?? '';
 
-        if (isset($data['product']) && $data['product'] instanceof ProductDTO) {
-            $cartItem->product = $data['product'];
-        } else {
-            $cartItem->product = isset($data['product']) ? ProductDTO::fromArray($data['product']) : null;
+        if (isset($data['product'])) {
+            $cartItem->product = $data['product'] instanceof ProductDTO
+                ? $data['product']
+                : ProductDTO::fromArray($data['product']);
         }
 
         return $cartItem;
-    }
-
-    public static function fromCollection(array $items): array
-    {
-        return array_values(
-            array_map(
-                static fn (array $item) => self::fromArray($item),
-                $items
-            )
-        );
     }
 }

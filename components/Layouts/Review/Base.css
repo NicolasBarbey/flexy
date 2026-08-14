@@ -1,0 +1,39 @@
+.Reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @variant md {
+    flex-direction: row;
+    overflow: hidden;
+    gap: 1.5rem;
+  }
+
+  @variant lg {
+    cursor: initial;
+  }
+}
+
+.Reviews .Review {
+  @variant md {
+    width: 16.9375rem;
+    flex-shrink: 0;
+
+    &:last-child {
+      margin-right: 3rem;
+    }
+  }
+
+  @variant lg {
+    width: auto;
+    flex-shrink: 1;
+
+    &:active {
+      cursor: initial;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

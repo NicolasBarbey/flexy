@@ -1,74 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ 'Checkout'|trans }}
-{% endblock %}
+{% block title %}{{ 'Checkout'|trans }}{% endblock %}
 
-{# Pages transactionnelles du tunnel : non indexées (noindex, follow) #}
 {% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
 
 {% block header %}
-    {{ include('@components/Layout/Header/HeaderCheckout.html.twig') }}
+    <twig:Layouts:Header:Checkout />
 {% endblock %}
-    {% set useSidebar = block('checkoutSummary') is defined and block('checkoutSummary') != '' %}
 
+{# Child pages define the checkoutContent, checkoutSummary, checkoutNextButton
+   and checkoutBackButton blocks. Each block is rendered ONCE into a variable:
+   testing block('...') != '' directly would render it a second time, which
+   re-executes every LiveComponent it contains. #}
 {% block body %}
+    {# Turbo Drive is opt-in (disabled globally in app.js): the whole tunnel
+       zone navigates client-side between the checkout steps. #}
+    <div data-turbo="true" class="contents">
+    {% set checkoutContent = block('checkoutContent') is defined ? block('checkoutContent') : '' %}
+    {% set checkoutSummary = block('checkoutSummary') is defined ? block('checkoutSummary') : '' %}
+    {% set checkoutNextButton = block('checkoutNextButton') is defined ? block('checkoutNextButton') : '' %}
+    {% set checkoutBackButton = block('checkoutBackButton') is defined ? block('checkoutBackButton') : '' %}
+    {% set useSidebar = checkoutSummary|trim != '' %}
+
     {{ theme_hook('checkout.top') }}
 
     {% block checkoutSteps %}
-        {{ component('Flexy:Checkout:CheckoutSteps',{
-            steps: [
-                {
-                    text: 'Your cart',
-                    link: path('checkout_cart')
-                },
-                {
-                    text: 'Delivery',
-                    link: path('checkout_delivery')
-
-                },
-                {
-                    text:'Payment',
-                    link: path('checkout_payment')
-                },
-                {
-                    text:'Confirmation'
-                }
-            ],
-            current
-        } ) }}
+        <twig:Molecules:CheckoutSteps:Base
+            :steps="[
+                {text: 'Your cart', link: path('checkout_cart')},
+                {text: 'Delivery', link: path('checkout_delivery')},
+                {text: 'Payment', link: path('checkout_payment')},
+                {text: 'Confirmation'},
+            ]"
+            :current="current"
+        />
     {% endblock %}
 
-    <div class="grid grid-cols-12 {% if useSidebar %}my-auto{% endif %}">
-        <div class="col-span-12 Checkout-main{% if useSidebar %} md:col-span-7 {% else %} margin-auto{% endif %}">
-            <div class="Checkout-main-container">
-                {% block checkoutContent %}
-                {% endblock %}
-                {% block checkoutBackButton %}
-                {% endblock %}
+    {% if useSidebar %}
+        <div class="container-double-1">
+            <div>
+                <div class="py-9 lg:py-12">
+                    {{ checkoutContent|raw }}
+                    {{ checkoutBackButton|raw }}
+                </div>
             </div>
-        </div>
-
-        {% if useSidebar %}
-            <div class="col-span-12 Checkout-sidebar md:col-span-5">
-                <div class="Checkout-sidebar-container">
-                    <h2 class="text-black h3">
+            <div class="bg-lightest">
+                <div class="py-12 lg:py-20">
+                    <h2 class="text-black h3 pb-4">
                         {{ 'Summary'|trans }}
                     </h2>
-                    {% block checkoutSummary %}
-                    {% endblock %}
+                    {{ checkoutSummary|raw }}
 
-                    {% if block('checkoutNextButton') is defined %}
-                        <div class="mt-[30px]"> {% block checkoutNextButton %}{% endblock %}
-                            </div>
-                        {% endif %}
-                    </div>
+                    {% if checkoutNextButton|trim != '' %}
+                        <div class="mt-8">
+                            {{ checkoutNextButton|raw }}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
+            </div>
         </div>
+    {% else %}
+        <div class="container-m py-9 lg:py-12">
+            {{ checkoutContent|raw }}
+            {{ checkoutBackButton|raw }}
+        </div>
+    {% endif %}
 
-        {{ theme_hook('checkout.bottom') }}
-    {% endblock %}
-    {% block footer %}
-        {{ include('@components/Layout/Footer/FooterCheckout.html.twig') }}
-    {% endblock %}
+    {{ theme_hook('checkout.bottom') }}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <twig:Layouts:Footer:Checkout />
+{% endblock %}

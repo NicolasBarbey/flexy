@@ -1,0 +1,88 @@
+.FilterPill {
+  --filterpill-color: var(--color-grey-dark);
+  /* An explicit surface, not the container's: the pill sits on the tinted accordion below lg */
+  --filterpill-background: var(--color-white);
+  --filterpill-border-color: var(--color-light);
+
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  color: var(--filterpill-color);
+  background-color: var(--filterpill-background);
+  border: 1.5px solid var(--filterpill-border-color);
+
+  @variant hover {
+    background-color: var(--color-lightest);
+  }
+}
+
+.FilterPill--withIcon {
+  padding: 0.5rem 0.625rem 0.5rem 0.25rem;
+}
+
+.FilterPill-icon {
+  width: 1.3125rem;
+  height: 1.3125rem;
+  display: inline-block;
+  flex-shrink: 0;
+  margin-right: 0.25rem;
+  color: var(--filterpill-icon-color, currentColor);
+}
+
+.FilterPill-iconClose {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: none;
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+}
+
+/* Icon SVGs (e.g. circle.svg) may lack a square viewBox: force them to fill their wrapper instead of relying on intrinsic sizing */
+.FilterPill-icon svg,
+.FilterPill-iconClose svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.FilterPill-label {
+  @apply paragraph-4;
+}
+
+.FilterPill input {
+  @apply sr-only;
+}
+
+/* Selected state: native :checked input (label+input mode) or --selected modifier (button/display-only mode) */
+.FilterPill:has(input:checked),
+.FilterPill--selected {
+  --filterpill-background: var(--color-light);
+  --filterpill-border-color: var(--color-medium);
+}
+
+.FilterPill:has(input:checked) .FilterPill-iconClose,
+.FilterPill--selected .FilterPill-iconClose {
+  display: inline-block;
+}
+
+/* Disabled state: native :disabled on a real button, or via :has() when the input sits inside the label */
+.FilterPill:disabled,
+.FilterPill:has(input:disabled) {
+  --filterpill-color: var(--color-grey-lighter);
+  --filterpill-border-color: var(--color-grey-lighter);
+  --filterpill-background: var(--color-grey-lightest);
+  cursor: not-allowed;
+}
+
+.FilterPill:disabled .FilterPill-icon,
+.FilterPill:has(input:disabled) .FilterPill-icon {
+  opacity: 0.2;
+}
+
+/* Input is sr-only: forward its keyboard focus ring to the host */
+.FilterPill:has(input:focus-visible) {
+  outline: var(--color-medium) solid 2px;
+}

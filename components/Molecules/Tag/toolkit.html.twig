@@ -1,0 +1,37 @@
+
+
+<div class="grid gap-8">
+    <div class="flex flex-col gap-2">
+        <h4>base</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:Tag:Base customText="Promo code" icon="price-tag"  />
+            <twig:Molecules:Tag:Base customText="Promo code" />
+            <twig:Molecules:Tag:Base customText="noBackground" icon="price-tag" noBackground   />
+            <twig:Molecules:Tag:Base customText="noBorder" icon="price-tag"  noBorder   />
+            <twig:Molecules:Tag:Base customText="noBackground noBorder" icon="price-tag"  noBackground noBorder  />
+        </div>
+
+        <twig:Molecules:Tag:Base customText="action" {{...stimulus_action('controller', 'action')}}  />
+
+        <twig:Molecules:Tag:Base customText="0.12 kg CO2" icon="carbone" color="success" />
+        <twig:Molecules:Tag:Base customText="Valid" color="validated" />
+        <twig:Molecules:Tag:Base customText="Warning" color="warning" />
+        <twig:Molecules:Tag:Base customText="Error" color="error" />
+    </div>
+    <div class="flex flex-col gap-2">
+        <h4>Stock</h4>
+        <twig:Molecules:Tag:Stock customText="In stock" color="in" />
+        <twig:Molecules:Tag:Stock customText="Low stock" color="low" />
+        <twig:Molecules:Tag:Stock customText="Out of stock" color="out" />
+    </div>
+    <div class="flex flex-col gap-2">
+        <h4>Order</h4>
+        <twig:Molecules:Tag:Order customText="Order not paid" status="not_paid" />
+        <twig:Molecules:Tag:Order customText="Order paid" status="paid" />
+        <twig:Molecules:Tag:Order customText="Order processing" status="processing" />
+        <twig:Molecules:Tag:Order customText="Order shipped" status="sent" />
+        <twig:Molecules:Tag:Order customText="Order canceled" status="canceled" />
+        <twig:Molecules:Tag:Order customText="Order refunded" status="refunded" />
+    </div>
+
+</div>

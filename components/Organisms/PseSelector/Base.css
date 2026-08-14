@@ -1,0 +1,240 @@
+@layer components {
+  .PseSelector-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+    margin-top: 1.875rem;
+  }
+
+  .PseSelector-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .PseSelector-reviews {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .PseSelector-attributes > ul {
+    display: grid;
+
+    @variant md {
+      gap: 1rem;
+    }
+  }
+
+  /* Below md each attribute is a bordered select-like row: collapsing the 1px between two
+     consecutive rows keeps a single hairline instead of a double one. */
+  .PseSelector-attributes > ul > li:not(:first-child) {
+    margin-top: -1px;
+
+    @variant md {
+      margin-top: 0;
+    }
+  }
+
+  /*
+   * Below md the label is the closed state of the drawer, so it shows the SELECTED value (via
+   * data-selected-label) rather than the attribute name, with a chevron. From md the drawer is
+   * static (MobileDrawer turns inline at md) and the label goes back to being a plain heading —
+   * hence pointer-events: none, there is nothing left to open.
+   */
+  .PseSelector-choiceLabel {
+    @apply paragraph-4;
+
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    /* 13px + the 24px icon box + the 1px border = the 52px row height of the mockup */
+    padding: 0.8125rem 0.875rem;
+    border: 1px solid var(--color-grey-lighter);
+    font-size: 0;
+    cursor: pointer;
+    outline: none;
+
+    &::before {
+      content: attr(data-selected-label);
+      font-size: var(--font-size-paragraph-4);
+    }
+
+    /* Same treatment as Fields/Select: the icon's glyph is drawn small inside a 44-unit viewBox,
+       so it only reads at all once the background is scaled up well past its box. */
+    &::after {
+      content: "";
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: var(--background-image-icon-chevron-small-down) no-repeat center;
+      background-size: 2.5rem auto;
+    }
+
+    @variant md {
+      display: block;
+      padding: 0;
+      margin-bottom: 0.5rem;
+      border: none;
+      font-size: var(--font-size-paragraph-4);
+      font-weight: 600;
+      color: var(--color-black);
+      pointer-events: none;
+
+      &::before,
+      &::after {
+        content: none;
+      }
+    }
+  }
+
+  /* Drawer heading, only ever visible while the drawer is a bottom sheet. */
+  .PseSelector-choiceTitle {
+    margin-bottom: 1.25rem;
+
+    @variant md {
+      display: none;
+    }
+  }
+
+  .PseSelector-choiceList {
+    @variant md {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
+
+  /* Inside the bottom sheet a value is a full-width row with a hairline separator and a checkmark
+     once selected — the pill shape only appears from md, where the list becomes inline. */
+  .PseSelector-choiceList > li:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-lighter);
+
+    @variant md {
+      border-bottom: none;
+    }
+  }
+
+  .PseSelector .FilterPill {
+    display: block;
+    width: 100%;
+    padding: 1rem 0.875rem;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    background-color: transparent;
+
+    @variant hover {
+      background-color: transparent;
+    }
+
+    @variant md {
+      display: inline-flex;
+      width: auto;
+      padding: 0.5rem 0.625rem;
+      border: 1.5px solid var(--filterpill-border-color);
+      border-radius: 0.25rem;
+      background-color: var(--filterpill-background);
+
+      @variant hover {
+        background-color: var(--color-lightest);
+      }
+    }
+  }
+
+  .PseSelector .FilterPill--selected {
+    background-image: var(--background-image-icon-checkmark);
+    background-repeat: no-repeat;
+    background-position: right 0 top 50%;
+    background-size: 1.5rem auto;
+
+    @variant md {
+      background-image: none;
+    }
+  }
+
+  .PseSelector .FilterPill:disabled {
+    text-decoration: line-through;
+
+    @variant md {
+      text-decoration: none;
+    }
+  }
+
+  .PseSelector-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-black);
+  }
+
+  .PseSelector-originalPrice {
+    text-decoration: line-through;
+  }
+
+  /* Two stacked controls below md, a single merged pill from md — see the unlayered block below. */
+  .PseSelector-addToCart {
+    display: flex;
+    flex-direction: column;
+    gap: 1.375rem;
+
+    @variant md {
+      flex-direction: row;
+      gap: 0;
+    }
+  }
+}
+
+/*
+ * Everything below is deliberately OUTSIDE `@layer components` above: a Button gets its border,
+ * border-radius and background from Molecules/Button/Base.css's `button-style-*` / `button-*`
+ * @utility rules, which live in @layer utilities and therefore beat @layer components whatever the
+ * specificity. Only unlayered rules can override them — the same reason .ButtonQuantity itself is
+ * unlayered there. Each half keeps its own native hover: highlighting both at once reads as a
+ * single button, which they are not.
+ */
+
+/* From md the two halves merge into one pill: inner corners squared off, hairline between them. */
+.PseSelector-addToCart > .ButtonQuantity button:last-of-type {
+  @variant md {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+  }
+}
+
+.PseSelector-addToCart > .button {
+  @variant md {
+    flex: 1;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 1px solid var(--color-white);
+  }
+}
+
+/*
+ * Below md the mockup keeps the stepper on its own line, outlined and narrower than the full-width
+ * add-to-cart below it. The outline sits on the wrapper and the parts go transparent, so the inner
+ * borders that the merged version strips don't have to be rebuilt one edge at a time.
+ */
+.PseSelector-addToCart > .ButtonQuantity {
+  @variant max-md {
+    width: 12rem;
+    /* Matches the add-to-cart button below it, which is a `large` Button */
+    min-height: 3.5rem;
+    border: 1px solid var(--color-black);
+    /* Literal rather than --button-border-radius: that token lives in a @theme inline block, so it
+       is substituted at build time and unavailable to var() at runtime. */
+    border-radius: 3.125rem;
+  }
+}
+
+.PseSelector-addToCart > .ButtonQuantity button,
+.PseSelector-addToCart > .ButtonQuantity input {
+  @variant max-md {
+    background: transparent;
+    color: var(--color-black);
+    border: 0;
+  }
+}

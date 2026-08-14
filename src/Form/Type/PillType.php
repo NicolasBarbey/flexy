@@ -15,15 +15,12 @@ declare(strict_types=1);
 namespace FlexyBundle\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PillType extends ChoiceType
+/**
+ * Choice field rendered as a list of FilterPill, by the `pill_widget` form theme block.
+ */
+final class PillType extends ChoiceType
 {
-    public static function getExtendedTypes(): iterable
-    {
-        return [ChoiceType::class];
-    }
-
     public function getBlockPrefix(): string
     {
         return 'pill';

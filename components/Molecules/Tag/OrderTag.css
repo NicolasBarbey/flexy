@@ -1,0 +1,63 @@
+@layer components {
+  .OrderTag {
+    --order-tag-background-color: var(--color-grey-lightest);
+    --order-tag-color: var(--color-black);
+    --order-tag-border-color: var(--color-grey);
+    --order-tag-dot-color: var(--color-grey-dark);
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+
+    color: var(--order-tag-color);
+    background-color: var(--order-tag-background-color);
+    border: 1px solid var(--order-tag-border-color);
+    border-radius: 3rem;
+
+    padding: 0.375rem 1rem;
+
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--text-sm--line-height);
+
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 0.4375rem;
+      height: 0.4375rem;
+      border-radius: 100%;
+      margin-right: 0.3125rem;
+      background-color: var(--order-tag-dot-color);
+    }
+  }
+
+  .OrderTag--canceled {
+    --order-tag-background-color: var(--color-grey-lightest);
+    --order-tag-border-color: var(--color-grey);
+    --order-tag-dot-color: var(--color-grey);
+  }
+  .OrderTag--not-paid {
+    --order-tag-background-color: var(--color-error-lightest);
+    --order-tag-border-color: var(--color-error);
+    --order-tag-dot-color: var(--color-error-light);
+  }
+  .OrderTag--paid {
+    --order-tag-background-color: var(--color-informative-lightest);
+    --order-tag-border-color: var(--color-informative);
+    --order-tag-dot-color: var(--color-informative);
+  }
+  .OrderTag--processing {
+    --order-tag-background-color: var(--color-processing-lightest);
+    --order-tag-border-color: var(--color-processing);
+    --order-tag-dot-color: var(--color-processing);
+  }
+  .OrderTag--sent {
+    --order-tag-background-color: var(--color-success-lightest);
+    --order-tag-border-color: var(--color-success);
+    --order-tag-dot-color: var(--color-success-dark);
+  }
+  .OrderTag--refunded {
+    --order-tag-background-color: var(--color-warning-lightest);
+    --order-tag-border-color: var(--color-warning);
+    --order-tag-dot-color: var(--color-warning);
+  }
+}

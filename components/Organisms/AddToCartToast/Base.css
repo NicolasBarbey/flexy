@@ -1,0 +1,152 @@
+@layer components {
+  /* Bottom sheet on small screens, floating card pinned top-right from sm. */
+  .AddToCartToast {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    max-width: 100%;
+    padding: 3rem 2.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-lightest);
+
+    @variant sm {
+      top: 1.875rem;
+      right: 1.875rem;
+      left: auto;
+      height: fit-content;
+      width: calc(100vw - 3.75rem);
+      max-width: 32.375rem; /* 518px */
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 0 8px 0 #5454544d;
+    }
+  }
+
+  .AddToCartToast-iconClose {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    width: 2.1875rem;
+    cursor: pointer;
+  }
+
+  .AddToCartToast-message {
+    @apply h4 font-bold;
+
+    margin-bottom: 1rem;
+    color: var(--color-black);
+    text-align: center;
+
+    @variant sm {
+      @apply paragraph-1;
+
+      max-width: 90%;
+      text-align: left;
+    }
+  }
+
+  /* Drag handle of the bottom sheet, mobile only. */
+  .AddToCartToast-message::before {
+    content: "";
+    position: absolute;
+    top: 1.125rem;
+    left: 50%;
+    width: 2.625rem;
+    height: 0.3125rem;
+    border-radius: 1.25rem;
+    background: var(--color-grey);
+    transform: translate(-50%, -50%);
+
+    @variant sm {
+      display: none;
+    }
+  }
+
+  .AddToCartToast-mainContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+
+    @variant sm {
+      flex-direction: row;
+      column-gap: 1.5rem;
+    }
+  }
+
+  .AddToCartToast-imgLink {
+    display: flex;
+    flex-basis: 4.625rem;
+  }
+
+  .AddToCartToast-img {
+    width: 100%;
+  }
+
+  .AddToCartToast-title {
+    @apply h5 paragraph-2;
+
+    display: block;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  .AddToCartToast-desc {
+    flex-grow: 1;
+    padding-top: 0.625rem;
+    align-items: center;
+
+    @variant sm {
+      padding-top: 0;
+      padding-right: 0.5rem;
+    }
+  }
+
+  .AddToCartToast-infos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    color: var(--color-grey);
+  }
+
+  /* Attributes and quantity read as one line separated by pipes. */
+  .AddToCartToast-infos > span:not(:last-child)::after {
+    content: "|";
+    padding: 0 0.625rem;
+  }
+
+  .AddToCartToast-secondaryTitle {
+    @apply paragraph-3;
+
+    width: 100%;
+
+    &::after {
+      content: "" !important;
+    }
+
+    @variant sm {
+      margin-bottom: 0.3125rem;
+    }
+  }
+
+  .AddToCartToast-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 0.625rem;
+    width: 100%;
+
+    @variant sm {
+      margin-top: 0;
+    }
+  }
+
+  .AddToCartToast-bottom .button {
+    flex-grow: 1;
+
+    @variant lg {
+      flex-grow: 0;
+    }
+  }
+}

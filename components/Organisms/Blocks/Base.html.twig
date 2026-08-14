@@ -1,0 +1,7 @@
+{% if this.blocks is not empty %}
+    <div class="wysiwyg wysiwyg-theme Blocks">
+        {% for block in this.blocks %}
+            {{ block|raw }}
+        {% endfor %}
+    </div>
+{% endif %}

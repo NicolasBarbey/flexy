@@ -15,21 +15,21 @@ declare(strict_types=1);
 namespace FlexyBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Thelia\Core\Translation\Translator;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class PickupAddressType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-          ->add('address', SearchType::class, [
-              'label' => Translator::getInstance()->trans('Find a delivery address'),
-              'label_attr' => [
-                  'for' => 'address',
-              ],
-              'help' => Translator::getInstance()->trans('e.g. City, Postcode'),
-          ]);
+            ->add('address', SearchType::class, [
+                'label' => Translator::getInstance()->trans('Find a delivery address'),
+                'label_attr' => [
+                    'for' => 'address',
+                ],
+                'help' => Translator::getInstance()->trans('e.g. City, Postcode'),
+            ]);
     }
 }

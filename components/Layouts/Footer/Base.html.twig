@@ -1,0 +1,69 @@
+{# @prop withNewsletter bool Show the newsletter column and switch to a 3-column layout on desktop #}
+{% props withNewsletter = false %}
+
+{% set footer = html_cva(
+    base: 'Footer',
+    variants: {
+        withNewsletter: {
+            true: 'Footer--withNewsletter',
+        },
+    }
+) %}
+
+<footer class="{{ footer.apply({withNewsletter}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    <div class="Footer-grid container-l">
+        {% if withNewsletter %}
+            <div class="Footer-newsletter">
+                <div class="Footer-newsletterTitle paragraph-1">{{ 'Newsletter'|trans }}</div>
+                <div class="Footer-newsletterText paragraph-5">{{ 'Get our last news and promo'|trans }}</div>
+                <twig:Molecules:Button:Base text="{{ 'Register to our newsletter'|trans }}" size="large" class="Footer-newsletterButton" />
+            </div>
+        {% endif %}
+        <div class="Footer-storeInfos">
+            <div class="Footer-storeName paragraph-1">{{ attr('config', 'store_name') }}</div>
+            <div class="Footer-storeAddress">
+                {% set address2 = attr('config', 'store_address2') %}
+                {% set idCountry = attr('config', 'store_country') %}
+                {% set country = idCountry ? country_name(idCountry) : null %}
+                <div class="paragraph-5">
+                    {{ attr('config', 'store_address1') }}<br>
+                    {% if address2 %}{{ address2 }}<br>{% endif %}
+                    {{ attr('config', 'store_zipcode') }} {{ attr('config', 'store_city') }}
+                    {% if country %}<br>{{ country }}{% endif %}
+                </div>
+                <div class="Footer-storePhone paragraph-5">
+                    Tel.
+                    <a href="tel:{{ attr('config', 'store_phone')|replace({' ': '', '(': '', ')': ''}) }}">
+                        {{ attr('config', 'store_phone') }}
+                    </a>
+                </div>
+            </div>
+            <twig:Molecules:Button:Base href="/contact" text="{{ 'Contact Us'|trans }}" color="secondary" size="large" icon_right="email" />
+        </div>
+        <ul class="Footer-links">
+            {% set contents = resources('/api/front/contents', {'contentFolders.folder.id': attr('config', 'information_folder_id'), visible: true}) %}
+            {% for content in contents %}
+                <li class="paragraph-5">
+                    <a href="{{ content.publicUrl }}" class="Footer-link">{{ content.i18ns.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr class="h-px text-grey-lighter hidden md:block">
+
+    <div class="Footer-socialsWrapper container-l">
+        <div class="Footer-socials">
+            <div class="Footer-icon">{{ ux_icon('instagram') }}</div>
+            <div class="Footer-icon">{{ ux_icon('pinterest') }}</div>
+            <div class="Footer-icon">{{ ux_icon('youtube') }}</div>
+            <div class="Footer-icon">{{ ux_icon('twitter') }}</div>
+            <div class="Footer-icon">{{ ux_icon('facebook') }}</div>
+            <div class="Footer-icon">{{ ux_icon('linkedin') }}</div>
+            <div class="Footer-icon">{{ ux_icon('tiktok') }}</div>
+        </div>
+        <div class="Footer-copyright text-grey indication indication-small">
+            © <a href="https://www.openstudio.fr/">OpenStudio</a> - {{ 'now'|date('Y') }}
+        </div>
+    </div>
+</footer>

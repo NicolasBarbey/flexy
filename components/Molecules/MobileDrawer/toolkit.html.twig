@@ -1,0 +1,22 @@
+<div class="grid gap-12">
+
+    <div class="grid gap-4">
+        <h4>Base (mobile-only: becomes static inline content from md upward)</h4>
+        <div
+            class="relative flex flex-col items-center gap-4 p-8"
+            {{ stimulus_controller('Molecules--MobileDrawer--base') }}
+        >
+            <twig:Molecules:Button:Base
+                class="md:hidden"
+                {{ ...stimulus_action('Molecules--MobileDrawer--base', 'toggle', 'click') }}
+            >
+                Open the drawer
+            </twig:Molecules:Button:Base>
+
+            <twig:Molecules:MobileDrawer:Base>
+                <p class="paragraph-2">Arbitrary content displayed inside the drawer.</p>
+            </twig:Molecules:MobileDrawer:Base>
+        </div>
+    </div>
+
+</div>

@@ -1,26 +1,24 @@
 {% extends 'checkout-base.html.twig' %}
 
-{% block title %}
-    {{ 'Cart'|trans }}
-{% endblock %}
+{% block title %}{{ 'Cart'|trans }}{% endblock %}
 
 {% block checkoutContent %}
     {{ theme_hook('cart.top') }}
-    {{ component('Flexy:Checkout:Cart') }}
+    <twig:Organisms:Cart:Base />
     {{ theme_hook('cart.bottom') }}
 {% endblock %}
 
-{%- block checkoutSummary -%}
+{% block checkoutSummary %}
     {%- if not emptyCart -%}
-        {{ component('Flexy:Checkout:Summary') }}
+        <twig:Organisms:Summary:Checkout />
     {%- endif -%}
-{%- endblock -%}
+{% endblock %}
 
-{%- block checkoutNextButton -%}
+{% block checkoutNextButton %}
     {%- if not emptyCart -%}
-        {{ component('Flexy:Checkout:NextButton', {
-            href: path('checkout_delivery'),
-            step: constant('FlexyBundle\\UiComponents\\Checkout\\CheckoutSteps\\CheckoutSteps::CART'),
-        }) }}
+        <twig:Organisms:NextButton:Base
+            :step="constant('FlexyBundle\\Components\\Molecules\\CheckoutSteps\\Base::CART')"
+            href="{{ path('checkout_delivery') }}"
+        />
     {%- endif -%}
-{%- endblock -%}
+{% endblock %}

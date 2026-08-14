@@ -1,0 +1,15 @@
+{# @prop href string URL for the menu item link #}
+{# @prop text string Link text content #}
+{# @prop icon boolean Whether to display a chevron-right icon. Defaults to `false` #}
+{# @prop variant 'white'|'' Visual variant for use on dark backgrounds. Defaults to empty #}
+{% props href = '', text = '', icon = false, variant = '' %}
+
+<a
+    class="{{ ('MenuItem' ~ (variant ? ' MenuItem--' ~ variant : '') ~ (icon ? ' MenuItem--withIcon' : '') ~ ' ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({ href: href }).without('class') }}
+>
+    {{ text }}
+    {% if icon %}
+        <span class="MenuItem-icon">{{ ux_icon('chevron-right') }}</span>
+    {% endif %}
+</a>

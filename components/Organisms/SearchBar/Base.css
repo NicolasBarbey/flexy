@@ -1,0 +1,79 @@
+.SearchBar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Vertical space lives here, not on the host: no suggestions means no added height */
+.SearchBar-panel {
+  padding-block: 2.1875rem 3.6875rem;
+  transition: opacity 0.2s ease;
+}
+
+.SearchBar-count {
+  @apply indication-small;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  margin-bottom: 0.875rem;
+}
+
+/* The rule between the two columns is drawn on the categories side */
+.SearchBar-results {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem 1.5rem;
+
+  @variant md {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.SearchBar-productList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @variant md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.SearchBar-seeAll {
+  margin-top: 1.5rem;
+
+  @variant md {
+    margin-inline: auto;
+  }
+}
+
+.SearchBar-empty {
+  @apply paragraph-2;
+  font-weight: var(--font-weight-semibold);
+}
+
+.SearchBar-categories {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-grey-lighter);
+
+  @variant md {
+    padding-top: 0;
+    padding-left: 1.5rem;
+    border-top: 0;
+    border-left: 1px solid var(--color-grey-lighter);
+  }
+}
+
+.SearchBar-sectionTitle {
+  @apply indication-small;
+  text-transform: uppercase;
+  color: var(--color-grey);
+  margin-bottom: 0.875rem;
+}
+
+.SearchBar-categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

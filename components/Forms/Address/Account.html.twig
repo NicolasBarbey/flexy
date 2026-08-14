@@ -1,0 +1,52 @@
+{# @prop action string URL the form posts to #}
+{# @prop successUrl string Where the controller redirects once the address is saved #}
+{# @prop errorUrl string Where the controller redirects when validation fails #}
+{% props action, successUrl, errorUrl %}
+
+{% form_theme form with flexy_form_themes only %}
+<div {{ attributes }}>
+    {{ form_start(form, {attr: {
+        class: 'flex flex-col gap-6',
+        action: action,
+        method: 'POST',
+    }}) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.success_url, {value: successUrl}) }}
+    {{ form_row(form.error_url, {value: errorUrl}) }}
+
+    {{ form_row(form.label, {help: 'This name will allow you to easily identify each of your addresses'|trans}) }}
+    {{ form_row(form.title) }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.firstname, {label: 'Firstname'|trans}) }}
+        {{ form_row(form.lastname, {label: 'Lastname'|trans}) }}
+    </div>
+
+    {{ form_row(form.company, {label: 'Company'|trans}) }}
+    {{ form_row(form.address1, {label: 'Address'|trans}) }}
+    {{ form_row(form.address2) }}
+    {{ form_row(form.address3) }}
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.city) }}
+        {{ form_row(form.zipcode) }}
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.country) }}
+        {% if form.state is defined %}
+            {{ form_row(form.state) }}
+        {% endif %}
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+        {{ form_row(form.phone, {label: 'Phone number'|trans}) }}
+        {{ form_row(form.cellphone) }}
+    </div>
+
+    {{ form_row(form.is_default) }}
+    {{ form_rest(form) }}
+
+    <twig:Molecules:Button:Base text="{{ 'Confirm'|trans }}" type="submit" class="w-max" />
+    {{ form_end(form) }}
+</div>

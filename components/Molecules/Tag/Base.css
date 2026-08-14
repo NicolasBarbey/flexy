@@ -1,0 +1,73 @@
+@layer components {
+  .Tag {
+    --tag-color: var(--color-dark);
+    --tag-background: var(--color-light);
+    --tag-border-color: var(--color-dark);
+
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+
+    color: var(--tag-color);
+    background-color: var(--tag-background);
+    border: 1px solid var(--tag-border-color);
+  }
+
+  .Tag__icon {
+    --icon-color: var(--tag-color);
+    margin-right: 0.25rem;
+    color: var(--icon-color);
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .Tag__iconClose {
+    width: 0.75rem;
+    height: 0.75rem;
+    display: inline-block;
+    margin-left: 0.375rem;
+    cursor: pointer;
+    color: var(--tag-color);
+
+    @variant hover {
+      /* Deliberate fallback: an unsupported contrast-color() is dropped at parse time,
+         leaving the safe value above. */
+      color: var(--color-grey-darker);
+      color: contrast-color(var(--tag-color));
+    }
+  }
+
+  .Tag--success {
+    --tag-background: var(--color-success-lightest);
+    --tag-color: var(--color-success-dark);
+    --tag-border-color: var(--color-success);
+  }
+  .Tag--validated {
+    --tag-background: var(--color-validated-lightest);
+    --tag-color: var(--color-validated);
+    --tag-border-color: var(--color-validated);
+  }
+  .Tag--error {
+    --tag-background: var(--color-error-lightest);
+    --tag-color: var(--color-error);
+    --tag-border-color: var(--color-error);
+  }
+  .Tag--warning {
+    --tag-background: var(--color-warning-lightest);
+    --tag-color: var(--color-warning);
+    --tag-border-color: var(--color-warning);
+  }
+}
+
+@layer utilities {
+  .Tag--noBackground {
+    --tag-background: transparent;
+  }
+  .Tag--noBorder {
+    --tag-border-color: transparent;
+  }
+}

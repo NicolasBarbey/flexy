@@ -1,41 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
-
-{% block title %}
-    {{ 'Register'|trans }}
-{% endblock %}
+{% block title %}{{ 'Sign up'|trans }}{% endblock %}
 
 {% block body %}
-    {{ component('Flexy:Checkout:CheckoutSteps', {
-        steps:  [
-            {
-                text: 'Your login',
-                link: path('customer_register')
-            },
-            {
-                text: 'Your informations',
-                link: path('customer_informations')
+    <twig:Molecules:CheckoutSteps:Base
+        :steps="[{text: 'Your login', link: path('customer_register')}, {text: 'Your informations', link: path('customer_informations')}]"
+        current="2"
+        noCart
+    />
 
-            },
-        ],
-        current: 2,
-        noCart: true
-    }) }}
-
-    <div class="w-full max-w-[400px] px-[25px] pt-[30px] pb-[54px] lg:px-0 lg:pt-[50px] lg:pb-[120px] mx-auto">
-        <h1 class="mb-4 text-black h2">{{ 'Create account'|trans }}</h1>
-        <p class="mb-8">
+    <div class="container-m pt-8 pb-14 lg:pt-12 lg:pb-30">
+        <h2 class="h2 text-black mb-4">{{ 'Create account'|trans }}</h2>
+        <p class="paragraph-2 text-black mb-8">
             {{ 'With your account, you can track your orders, manage your profile, receive the newsletter, manage your wish lists...'|trans }}
         </p>
-        {{ component('Flexy:CustomerInformationForm', {
-            formData : {
-                firstname,
-                lastname,
-                success_url: path('customer_activation')
-            }
-        }) }}
+
+        <twig:Forms:CustomerInformation:Base :formData="{firstname: firstname, lastname: lastname}" />
     </div>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% props maxScore = 5, score = 0 %}
+
+{% set scoreStyle = html_cva(
+    base: 'Score',
+) %}
+
+<div class="{{ scoreStyle.apply({size}, attributes.render('class')) }} " {{ attributes.without('class') }}>
+    {% for star in 1..maxScore %}
+      <span class="Score-star {% if star > score %}Score-star--empty{% endif %}">{{ ux_icon('star') }}</span>
+    {% endfor %}
+</div>

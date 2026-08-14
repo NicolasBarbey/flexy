@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Thelia package.
  * http://www.thelia.net
@@ -12,7 +14,6 @@
 
 namespace FlexyBundle\Twig;
 
-use Psr\Cache\InvalidArgumentException;
 use Thelia\Api\Service\DataAccess\AttributeAccessService;
 use Thelia\Api\Service\DataAccess\DataAccessService;
 use Twig\Extension\AbstractExtension;
@@ -23,8 +24,7 @@ class DataAccessExtension extends AbstractExtension
     public function __construct(
         private readonly DataAccessService $dataAccessService,
         private readonly AttributeAccessService $attributeAccessService,
-    ) {
-    }
+    ) {}
 
     public function getFunctions(): array
     {
@@ -34,10 +34,6 @@ class DataAccessExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @throws \JsonException
-     * @throws InvalidArgumentException
-     */
     public function resources(string $path, array $params = []): array|object|null
     {
         return $this->dataAccessService->resources($path, $params);
@@ -45,9 +41,9 @@ class DataAccessExtension extends AbstractExtension
 
     public function attribute(string $type, string $attributeName): mixed
     {
-        $methodName = 'attribute'.ucfirst($type);
+        $methodName = 'attribute' . ucfirst($type);
         if (!method_exists($this->attributeAccessService, $methodName)) {
-            throw new \RuntimeException(sprintf('Method %s not found in %s', $methodName, DataAccessService::class));
+            throw new \RuntimeException(sprintf('Method %s not found in %s', $methodName, AttributeAccessService::class));
         }
 
         return $this->attributeAccessService->$methodName($attributeName);

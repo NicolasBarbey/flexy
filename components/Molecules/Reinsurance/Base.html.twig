@@ -1,0 +1,20 @@
+{# @prop items array List of {icon, strongText, text} — strongText is the emphasised lead-in, text follows it inline #}
+{% props items = [] %}
+
+<div class="{{ ('Reinsurance ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+    {% for item in items %}
+        <div>
+            {% if item.icon is defined and item.icon %}
+                <span class="Reinsurance-icon">
+                    {{ ux_icon(item.icon) }}
+                </span>
+            {% endif %}
+            <span>
+                {% if item.strongText is defined and item.strongText %}
+                    <strong>{{ item.strongText }}</strong>
+                {% endif %}
+                {{ item.text }}
+            </span>
+        </div>
+    {% endfor %}
+</div>

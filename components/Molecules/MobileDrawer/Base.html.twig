@@ -1,0 +1,35 @@
+{# @prop staticFrom 'md'|'lg' Breakpoint from which the drawer stops being a bottom sheet and becomes static inline content. Defaults to 'md' #}
+{# @block content Content displayed inside the drawer panel, after the close button #}
+{# Mobile-only by design, see Base.css #}
+{% props staticFrom = 'md' %}
+{% set mobileDrawer = html_cva(
+    base: 'MobileDrawer',
+    variants: {
+        staticFrom: {
+            md: null,
+            lg: 'MobileDrawer--staticLg',
+        },
+    },
+) %}
+
+<div
+    inert
+    class="{{ mobileDrawer.apply({staticFrom}, attributes.render('class')) }}"
+    {{ attributes.defaults({
+        ...stimulus_target('Molecules--MobileDrawer--base', 'drawer'),
+    }).without('class') }}
+>
+    <div class="MobileDrawer-header">
+        <button
+            type="button"
+            class="MobileDrawer-close"
+            aria-label="{{ 'Close'|trans }}"
+            {{ stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+        >{{ ux_icon('close') }}</button>
+    </div>
+    {% block content %}{% endblock %}
+</div>
+<div
+    class="MobileDrawer-overlay"
+    {{ stimulus_action('Molecules--MobileDrawer--base', 'close', 'click') }}
+></div>

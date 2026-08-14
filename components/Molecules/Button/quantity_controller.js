@@ -1,0 +1,87 @@
+import { Controller } from "@hotwired/stimulus";
+
+/* stimulusFetch: 'lazy' */
+class QuantityController extends Controller {
+  static targets = ["input"];
+
+  initialize() {
+    // Bound once per element so inputTargetDisconnected() actually removes them: a fresh
+    // bind() is a different reference and removeEventListener() matched nothing, so the
+    // handlers stacked up on every LiveComponent re-render.
+    this.handlers = new WeakMap();
+  }
+
+  inputTargetConnected(element) {
+    const handlers = {
+      keyup: (event) => this.enforceMinMax(element, event),
+      keypress: (event) => this.enforceNumberOnly(element, event),
+    };
+
+    this.handlers.set(element, handlers);
+    element.addEventListener("keyup", handlers.keyup);
+    element.addEventListener("keypress", handlers.keypress);
+  }
+
+  inputTargetDisconnected(element) {
+    const handlers = this.handlers.get(element);
+
+    if (!handlers) {
+      return;
+    }
+
+    element.removeEventListener("keyup", handlers.keyup);
+    element.removeEventListener("keypress", handlers.keypress);
+    this.handlers.delete(element);
+  }
+
+  decrement() {
+    const min = parseInt(this.inputTarget.getAttribute("min"));
+    const value = parseInt(this.inputTarget.value) || 0;
+
+    if (min && value <= min) {
+      return;
+    }
+    this.setValue(value - 1);
+  }
+  increment() {
+    const max = parseInt(this.inputTarget.getAttribute("max"));
+    const value = parseInt(this.inputTarget.value) || 0;
+
+    if (max && value >= max) {
+      return;
+    }
+    this.setValue(value + 1);
+  }
+
+  /**
+   * Assigning `value` from script fires no event, so anything listening on the input stays
+   * unaware of the new quantity — inside a LiveComponent form the browser never posts this
+   * field either (the component's own model is the only channel), and the server would keep
+   * validating the quantity it last knew about. Announce the change explicitly.
+   */
+  setValue(value) {
+    this.inputTarget.value = value;
+    this.inputTarget.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  enforceNumberOnly(el, e) {
+    if (e.key.length === 1 && !/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
+  enforceMinMax(el, e) {
+    if (el.value !== "") {
+      if (parseInt(el.value) < parseInt(el.min)) {
+        el.value = el.min;
+      }
+      if (parseInt(el.value) > parseInt(el.max)) {
+        el.value = el.max;
+      } else {
+        el.value = parseInt(el.value);
+      }
+    }
+  }
+}
+
+export default QuantityController;

@@ -1,0 +1,92 @@
+{# Must match the controller identifier declared in Layouts/Header/Base.html.twig. #}
+{% set headerController = 'Layouts--Header--base' %}
+
+{% set isActive = false %}
+{% set hasSubMenu = columns|length or leafLinks|length %}
+
+<li
+    class="{{ ('HeaderMenuItem ' ~ attributes.render('class'))|tailwind_merge }}"
+    {{ attributes.defaults({...stimulus_controller('Organisms--HeaderMenuItem--base')}).without('class') }}
+>
+    {% if hasSubMenu %}
+        <button
+            type="button"
+            class="HeaderMenuItem-link{% if isActive %} is-active{% endif %}"
+            {{ stimulus_action('Organisms--HeaderMenuItem--base', 'toggle', 'click') }}
+            {{ stimulus_target('Organisms--HeaderMenuItem--base', 'toggler') }}
+        >
+            {{ title }}
+        </button>
+
+        <button
+            type="button"
+            class="HeaderMenuItem-back"
+            {{ stimulus_action(headerController, 'displaySubMenu', 'click', {item: menuKey}) }}
+            aria-label="{{ 'Open the submenu'|trans }}"
+        >
+            {{ ux_icon('arrow-right') }}
+        </button>
+
+        <ul
+            class="Submenu{% if columns is empty %} Submenu--flat{% endif %}"
+            data-menu-sub="{{ menuKey }}"
+            data-menu-previous="0"
+            {{ stimulus_target(headerController, 'sub') }}
+        >
+            {% if showSeeMore %}
+                <li class="HeaderMenuItem-all">
+                    <twig:Molecules:Button:Base
+                        text="{{ 'See more'|trans }}"
+                        href="{{ href }}"
+                        class="w-full lg:w-auto mt-4 lg:mt-auto"
+                    />
+                </li>
+            {% endif %}
+
+            {% for column in columns %}
+                <li class="Submenu-column">
+                    <a href="{{ column.branch.href }}" class="Submenu-heading">
+                        {{ column.branch.title }}
+                    </a>
+
+                    <button
+                        type="button"
+                        class="HeaderMenuItem-back"
+                        {{ stimulus_action(headerController, 'displaySubMenu', 'click', {item: menuKey ~ '_5'}) }}
+                        aria-label="{{ 'Open the submenu'|trans }}"
+                    >
+                        {{ ux_icon('arrow-right') }}
+                    </button>
+
+                    <ul class="Submenu-sub" data-menu-sub="{{ menuKey }}_5" data-menu-previous="{{ menuKey }}" {{ stimulus_target(headerController, 'sub') }}>
+                        {% for child in column.children %}
+                            <li class="Submenu-subItem">
+                                <a href="{{ child.href }}" class="Submenu-link">
+                                    {{ child.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+
+            {% if leafLinks|length %}
+                <li class="Submenu-column Submenu-column--links">
+                    {% for leaf in leafLinks %}
+                        <a href="{{ leaf.href }}" class="Submenu-link">
+                            {{ leaf.title }}
+                        </a>
+                    {% endfor %}
+                </li>
+            {% endif %}
+        </ul>
+    {% else %}
+        <a
+            href="{{ href }}"
+            class="HeaderMenuItem-link"
+            {{ stimulus_target('Organisms--HeaderMenuItem--base', 'toggler') }}
+        >
+            {{ title }}
+        </a>
+    {% endif %}
+</li>

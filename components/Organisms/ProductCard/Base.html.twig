@@ -1,0 +1,101 @@
+{% props
+    imgWidth = 300,
+    imgHeight = 300,
+    wishButton = false,
+    inWishlist = false,
+    reviewCount = 0
+%}
+
+
+<div class="{{ ('ProductCard ' ~ attributes.render('class'))|tailwind_merge }}" {{ attributes.without('class') }}>
+	<div class="ProductCard-header">
+		<div class="ProductCard-tagList">
+			{% if this.isNew %}
+				{{ include('@Flexy/Molecules/Tag/Base.html.twig', {customText: 'New'|trans, color: 'warning'}) }}
+			{% endif %}
+			{% if this.isPromo %}
+				{{ include('@Flexy/Molecules/Tag/Base.html.twig', {customText: this.promoRate|format_number(style: 'percent'), color: 'error'}) }}
+			{% endif %}
+		</div>
+
+		{% if wishButton %}
+			<button type="button" class="ButtonWishList {% if inWishlist %}in-wishlist{% endif %}">
+				<span class="in-wishlist-icon">
+					<span>{{ ux_icon('heart-fill') }}</span>
+				</span>
+				<span class="not-in-wishlist-icon">
+					<span>{{ ux_icon('heart') }}</span>
+				</span>
+			</button>
+		{% endif %}
+	</div>
+	<div class="ProductCard-mainContent">
+		<a class="ProductCard-imgLink" href="{{ this.product.publicUrl }}">
+			{{ getImages({
+				source_type: 'product',
+				img_id: this.imageId,
+				filters: 'product_card',
+				limit: 1,
+				alt: this.product.title,
+				wrapper: 'figure',
+				wrapper_attrs: {class: 'ProductCard-img'},
+				img_attrs: {
+					loading: 'lazy',
+				},
+				placeholder: asset('images/placeholder2.webp'),
+			})|raw }}
+		</a>
+		<div class="ProductCard-desc">
+			<a href="{{ this.product.publicUrl }}" class="ProductCard-title">{{ this.product.title }}</a>
+
+			{% if this.product.chapo %}
+				<div class="ProductCard-subtitle">{{ this.product.chapo }}</div>
+			{% endif %}
+
+			<div class="ProductCard-footer">
+				{% if this.rate != null or this.product.colors|length > 0 %}
+					<div class="ProductCard-footerLeft">
+						{% if this.rate != null %}
+							<div class="Rating">
+								<div class="Rating-mark">
+									{% for i in 1..5 %}
+										{% if this.rate >= i %}
+											<div>{{ ux_icon('star-full') }}</div>
+										{% elseif this.rate <= i and this.rate > i - 1 %}
+											<div>{{ ux_icon('star-half-empty') }}</div>
+										{% else %}
+											<div class="star-empty">{{ ux_icon('star-full') }}</div>
+										{% endif %}
+									{% endfor %}
+								</div>
+								<span class="Rating-reviewCount indication-small">
+									{{ reviewCount }} {{ 'Reviews'|trans }}
+								</span>
+							</div>
+						{% endif %}
+						{% if this.product.colors|length > 0 %}
+							<div class="Colors">
+								{% set limit = 6 %}
+								{% for color in this.product.colors %}
+									{% if loop.index0 < limit %}
+										<a href="#" class="Colors-item" style="background-color:{{ color }}"></a>
+									{% else %}
+										<div class="Colors-others">...</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+				{% if this.isPromo %}
+					<div class="ProductCard-footerRight">
+						<div class="ProductCard-price">{{ this.promoTaxedPrice|format_currency('EUR', locale: lang_code) }}</div>
+						<div class="ProductCard-originalPrice">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</div>
+					</div>
+				{% else %}
+					<div class="ProductCard-price">{{ this.taxedPrice|format_currency('EUR', locale: lang_code) }}</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

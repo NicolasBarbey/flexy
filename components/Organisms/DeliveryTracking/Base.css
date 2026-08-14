@@ -1,0 +1,74 @@
+.DeliveryTracking {
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-medium);
+  background: var(--color-lightest);
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.DeliveryTracking-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.DeliveryTracking-title {
+  @apply paragraph-2;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+  padding-bottom: 0.25rem;
+}
+
+.DeliveryTracking-desc {
+  font-family: var(--font-roboto);
+  font-weight: var(--font-weight-normal);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.DeliveryTracking-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.DeliveryTracking-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:not(:last-child):after {
+    content: '';
+    position: absolute;
+    top: 1.25rem;
+    left: 0.5rem;
+    height: 1.5rem;
+    width: 1px;
+    background-color: var(--color-base);
+  }
+}
+
+.DeliveryTracking-step--active {
+  font-weight: var(--font-weight-semibold);
+}
+
+.DeliveryTracking-icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-base);
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  & svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: currentColor;
+  }
+}

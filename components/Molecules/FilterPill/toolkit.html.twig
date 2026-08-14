@@ -1,0 +1,44 @@
+<div class="grid gap-8">
+    <div class="flex flex-col gap-2">
+        <h4>base</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:FilterPill:Base label="Size M" input:name="pill_demo" />
+            <twig:Molecules:FilterPill:Base label="With icon" icon="price-tag" input:name="pill_demo_icon" />
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>product color filter</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:FilterPill:Base label="Red" color="#ff4822" type="radio" input:name="pill_color" />
+            <twig:Molecules:FilterPill:Base label="Blue" color="#2563eb" type="radio" input:name="pill_color" />
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>native states (label + input)</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:FilterPill:Base label="checked" input:name="pill_state" input:checked />
+            <twig:Molecules:FilterPill:Base label="disabled" input:name="pill_state_disabled" input:disabled />
+            <twig:Molecules:FilterPill:Base label="checked + disabled" input:name="pill_state_checked_disabled" input:checked input:disabled />
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>close button</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:FilterPill:Base label="Removable, unchecked" close input:name="pill_close_off" />
+            <twig:Molecules:FilterPill:Base label="Removable, checked" close input:name="pill_close_on" input:checked />
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h4>pure button mode (PseSelector / Summary use case, no real input)</h4>
+        <div class="flex gap-2">
+            <twig:Molecules:FilterPill:Base htmlTag="button" label="M" selected />
+            <twig:Molecules:FilterPill:Base htmlTag="button" label="L" />
+            <twig:Molecules:FilterPill:Base htmlTag="button" label="XL" disabled />
+            <twig:Molecules:FilterPill:Base htmlTag="button" label="Gift card" icon="gift" selected close />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-2xs: 20rem; /* 320px */
+  --breakpoint-xs: 24.375rem; /* 390px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 85.375rem; /* 1366px */
+  --breakpoint-2xl: 105rem; /* 1680px */
+  --breakpoint-3xl: 120rem; /* 1920px */
+
+  --color-*: initial;
+  --color-dark: #ff4822;
+  --color-base: #ff7036;
+  --color-medium: #ffb698;
+  --color-light: #ffe5db;
+  --color-lighter: #ffede5;
+  --color-lightest: #fff5f1;
+
+  --color-black: #282828;
+  --color-white: #ffffff;
+
+  --color-grey-darker: #424242;
+  --color-grey-dark: #545454;
+  --color-grey: #767676;
+  --color-grey-lighter: #d6d6d6;
+  --color-grey-lightest: #f5f5f5;
+
+  --color-error-dark: #b70101;
+  --color-error: #d00000;
+  --color-error-light: #eb0000;
+  --color-error-lightest: #ffe1e1;
+
+  --color-success-dark: #08a65a;
+  --color-success: #37e17b;
+  --color-success-lightest: #f8fffb;
+
+  --color-warning: #ffa800;
+  --color-warning-lightest: #fff9ee;
+
+  --color-validated: #40cab1;
+  --color-validated-lightest: #eefffc;
+
+  --color-informative: #40b1ca;
+  --color-informative-lightest: #e9fbff;
+
+  --color-processing: #a504b3;
+  --color-processing-lightest: #fceefd;
+
+  --background-image-icon-chevron-small-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 44 44'%3E%3Cpath fill='%23282828' d='m25.88 20.64-3.44 3.2a.66.66 0 0 1-.88 0l-3.44-3.2c-.26-.24-.07-.64.31-.64h7.14c.38 0 .57.4.31.64'/%3E%3C/svg%3E");
+  --background-image-icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44' fill='none'%3E%3Cpath fill='%2337E17B' d='m26.648 19.113-6.33 6.524a1.176 1.176 0 0 1-1.698 0l-3.268-3.368a1.265 1.265 0 0 1 0-1.75 1.176 1.176 0 0 1 1.698 0l2.419 2.493 5.481-5.65a1.176 1.176 0 0 1 1.698 0 1.265 1.265 0 0 1 0 1.751Z'/%3E%3C/svg%3E");
+  --background-image-icon-checkmark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='16' fill='%23282828'/%3E%3Cpath fill='%23fff' d='m29.3 18.92-7.5 7.5-3.1-3.1a1.25 1.25 0 0 0-1.77 1.76l3.99 4a1.25 1.25 0 0 0 1.77 0l8.38-8.39a1.25 1.25 0 0 0-1.76-1.77'/%3E%3C/svg%3E");
+
+  --font-roboto: "Roboto", sans-serif;
+  --font-condensed: "Roboto Condensed", sans-serif;
+
+  --font-size-paragraph-1: var(--text-lg);
+  --font-size-paragraph-2: var(--text-base);
+  --font-size-paragraph-3: var(--text-base);
+  --font-size-paragraph-4: var(--text-sm);
+  --font-size-paragraph-5: var(--text-sm);
+  --font-size-paragraph-6: var(--text-sm);
+  --font-size-paragraph-7: var(--text-xs);
+
+  --line-height-paragraph-1: 1.6875rem;
+  --line-height-paragraph-2: 1.5rem;
+  --line-height-paragraph-3: 1.5rem;
+  --line-height-paragraph-4: 1.25rem;
+  --line-height-paragraph-5: 1.25rem;
+  --line-height-paragraph-6: 1.025rem;
+  --line-height-paragraph-7: 0.9rem;
+
+  --font-family-paragraph-1: var(--font-sans);
+  --font-family-paragraph-2: var(--font-sans);
+  --font-family-paragraph-3: var(--font-roboto);
+  --font-family-paragraph-4: var(--font-sans);
+  --font-family-paragraph-5: var(--font-roboto);
+  --font-family-paragraph-6: var(--font-condensed);
+  --font-family-paragraph-7: var(--font-condensed);
+
+  --font-size-button-l: 1rem;
+  --font-size-button-m: 0.875rem;
+  --font-size-button-s: 0.75rem;
+
+  --line-height-button-l: 1.5rem;
+  --line-height-button-m: 1.3125rem;
+  --line-height-button-s: 1.125rem;
+
+  --font-family-button-l: var(--font-sans);
+  --font-family-button-m: var(--font-sans);
+  --font-family-button-s: var(--font-sans);
+
+  --font-family-indication: var(--font-condensed);
+  --font-size-indication: var(--text-sm);
+  --font-size-indication-small: var(--text-xs);
+  --font-weight-indication: 400;
+  --letter-spacing-indication: 0.04375rem;
+  --letter-spacing-indication-small: 0.0375rem;
+
+  --font-weight-h1: 800;
+  --font-size-h1-d: 2.375rem;
+  --line-height-h1-d: 3.5625rem;
+  --font-size-h1-m: 1.75rem;
+  --line-height-h1-m: 2.625rem;
+
+  --font-weight-h2: 700;
+  --font-size-h2-d: 2.25rem;
+  --line-height-h2-d: 3.375rem;
+  --font-size-h2-m: 1.625rem;
+  --line-height-h2-m: 2.4375rem;
+
+  --font-weight-h3: 700;
+  --font-size-h3-d: 2rem;
+  --line-height-h3-d: 3rem;
+  --font-size-h3-m: 1.375rem;
+  --line-height-h3-m: 2.0625rem;
+
+  --font-weight-h4: 700;
+  --font-size-h4-d: 1.5rem;
+  --line-height-h4-d: 1.875rem;
+  --font-size-h4-m: 1.25rem;
+  --line-height-h4-m: 2rem;
+
+  --font-weight-h5: 600;
+  --font-size-h5-d: 1.25rem;
+  --line-height-h5-d: 1.75rem;
+  --font-size-h5-m: 1.125rem;
+  --line-height-h5-m: 1.625rem;
+
+  --font-weight-h6: 400;
+  --font-size-h6-d: 1.25rem;
+  --line-height-h6-d: 1.75rem;
+  --font-size-h6-m: 1.125rem;
+  --line-height-h6-m: 1.625rem;
+
+  /* container-double-3's column widths — shared with anything that must align to its slots without duplicating the layout (e.g. Subheader-image) */
+  --container-double-3-col-a-md: 25.375rem; /* 406px */
+  --container-double-3-col-b-md: 12.875rem; /* 206px */
+  --container-double-3-col-a-lg: 31rem; /* 496px */
+  --container-double-3-col-b-lg: 17.5rem; /* 280px */
+  --container-double-3-col-a-xl: 42.25rem; /* 676px */
+  --container-double-3-col-b-xl: 21.875rem; /* 350px */
+}
