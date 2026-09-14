@@ -109,6 +109,7 @@
             <div class="bg-lighter mt-12">
                 <twig:Layouts:CrossSelling:Base
                     :categoryId="defaultCategory.id"
+                    :excludeProductId="productId"
                     title="{{ 'In the same category'|trans }}"
                 />
             </div>

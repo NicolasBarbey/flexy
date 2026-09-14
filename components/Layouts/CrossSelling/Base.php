@@ -49,6 +49,9 @@ class Base
     public int|string|null $productId = null;
     public ?string $typeCode = null;
 
+    /** Kept out of a category strip: the sheet a strip is shown on does not suggest itself. */
+    public ?int $excludeProductId = null;
+
     /** @var array<string, mixed> extra /api/front/products query parameters, e.g. {'productSaleElements.promo': true} */
     public array $filters = [];
 
@@ -77,12 +80,14 @@ class Base
         array $productIds = [],
         int|string|null $productId = null,
         ?string $typeCode = null,
+        int|string|null $excludeProductId = null,
     ): void {
         $this->categoryId = $categoryId;
         $this->filters = $filters;
         $this->productIds = array_values(array_map(intval(...), $productIds));
         $this->productId = $productId;
         $this->typeCode = $typeCode;
+        $this->excludeProductId = $excludeProductId === null ? null : (int) $excludeProductId;
 
         $readsRelations = $this->productId !== null && $this->typeCode !== null;
 
@@ -96,9 +101,10 @@ class Base
             return;
         }
 
+        // One more is asked for so dropping the excluded product does not shorten the strip.
         $params = [
             'page' => 1,
-            'itemsPerPage' => $this->itemsPerPage,
+            'itemsPerPage' => $this->itemsPerPage + ($this->excludeProductId === null ? 0 : 1),
             'visible' => true,
         ];
 
@@ -116,9 +122,9 @@ class Base
         // `itemsPerPage` there overrides what `productIds` asked for.
         $params = array_merge($params, $this->filters);
 
-        $this->products = $this->inPickedOrder(ProductDTO::fromCollection(
+        $this->products = $this->withoutTheExcludedProduct($this->inPickedOrder(ProductDTO::fromCollection(
             $this->dataAccessService->resources('/api/front/products', $params) ?? [],
-        ));
+        )));
 
         $this->preloadCardsOf($this->products);
     }
@@ -147,6 +153,28 @@ class Base
         }
 
         return ProductDTO::fromCollection($relatedProducts);
+    }
+
+    /**
+     * A category strip shown on a product sheet would otherwise offer the very product
+     * being read. The strip is cut back to the length that was asked for.
+     *
+     * @param ProductDTO[] $products
+     *
+     * @return ProductDTO[]
+     */
+    private function withoutTheExcludedProduct(array $products): array
+    {
+        if ($this->excludeProductId === null) {
+            return $products;
+        }
+
+        $kept = array_values(array_filter(
+            $products,
+            fn (ProductDTO $product): bool => $product->id !== $this->excludeProductId,
+        ));
+
+        return \array_slice($kept, 0, $this->itemsPerPage);
     }
 
     /**
