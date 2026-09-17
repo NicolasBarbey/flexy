@@ -41,7 +41,7 @@
                         {% if address.vatNumber %}
                             <span class="block">{{ 'VAT number'|trans }} : {{ address.vatNumber }}</span>
                         {% endif %}
-                        {% if address.vatVerifiedAt %}
+                        {% if address.vatVerificationValid %}
                             <twig:Molecules:Tag:Base
                                 color="validated"
                                 icon="checkmark"
