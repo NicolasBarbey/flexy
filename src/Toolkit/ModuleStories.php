@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 /**
  * The stories the active modules hang in the toolkit, shaped like the ones the theme finds
- * under `components/`, so the controller lists both without telling them apart.
+ * under `components/`, so StoryFinder lists both without telling them apart.
  */
 final readonly class ModuleStories
 {

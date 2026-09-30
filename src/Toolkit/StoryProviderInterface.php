@@ -19,10 +19,10 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 /**
  * What a module implements to list its components in the toolkit.
  *
- * The toolkit walks the theme's `components/` directory and nothing else, so a component a
- * module brings is invisible to it unless the module says so here. Every provider is asked
- * once per toolkit page; the tag priority sets the order the stories are listed in, and a
- * story whose status is HIDDEN is left out like a theme story would be.
+ * The toolkit walks the `components/` directories of the template chain and nothing else, so
+ * a component a module brings is invisible to it unless the module says so here. Every
+ * provider is asked once per toolkit page; the tag priority sets the order the stories are
+ * listed in, and a story whose status is HIDDEN is left out like a theme story would be.
  *
  * The toolkit answers only where the kernel runs in debug, so a provider is never called on
  * a live shop.
