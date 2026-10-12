@@ -266,7 +266,14 @@ class Base
                 $this->deliveryDateNotice = 'date_gone';
             }
         } else {
-            $cart->setDeliveryModuleId(null)->save();
+            // The carrier goes, and the postage it was priced with: the core prices the carrier the cart still had for the
+            // new address, and the summary reads that column, so a carrier nobody chose would be charged.
+            $cart
+                ->setDeliveryModuleId(null)
+                ->setPostage(null)
+                ->setPostageTax('0')
+                ->setPostageTaxRuleTitle(null)
+                ->save();
             $this->deliveryModuleId = null;
 
             if (null !== $carrierOfTheDay) {
