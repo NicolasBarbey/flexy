@@ -18,6 +18,7 @@ use FlexyBundle\Event\CheckoutEvents;
 use FlexyBundle\Service\DeliveryDateBridge;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Thelia\Action\Coupon;
@@ -30,6 +31,17 @@ class Checkout
 {
     use ComponentToolsTrait;
     use DefaultActionTrait;
+
+    /**
+     * Whether the coupon form is drawn above the totals.
+     *
+     * Live state rather than a template prop: the summary redraws itself on its own
+     * listeners (an item added or removed, `syncSummary`), and a template prop is not sent
+     * back with those re-renders — a summary mounted without the form showed it again after
+     * the first change of the cart.
+     */
+    #[LiveProp]
+    public bool $showPromoCodeForm = true;
 
     public function __construct(
         private readonly AttributeAccessService $attributeAccessService,
