@@ -34,6 +34,7 @@ use Thelia\Domain\Cart\DTO\CartItemDeleteDTO;
 use Thelia\Domain\Cart\DTO\CartItemUpdateQuantityDTO;
 use Thelia\Domain\Cart\Exception\InvalidCartException;
 use Thelia\Domain\Cart\Exception\NotEnoughStockException;
+use Thelia\Domain\Localization\Service\LangService;
 use Thelia\Form\Definition\FrontForm;
 use Thelia\Model\CartItemQuery;
 use Thelia\Model\ConfigQuery;
@@ -103,6 +104,7 @@ class Base
         private readonly FormServiceInterface $formService,
         private readonly CartStockService $cartStockService,
         private readonly AttributeAccessService $attributeAccessService,
+        private readonly LangService $langService,
     ) {
     }
 
@@ -142,11 +144,13 @@ class Base
         }
 
         $this->unavailablePromotionMessages = $this->readUnavailablePromotions();
+        $locale = $this->langService->getLocale();
         $offeredDiscounts = $this->readOfferedLineDiscounts();
 
         // TYPE_CAMELNAME, so `is_offered` reaches the DTO as `isOffered` along with every
         // other column of the line.
-        foreach ($cart->getCartItems()->toArray(null, false, TableMap::TYPE_CAMELNAME) as $item) {
+        foreach ($cart->getCartItems() as $cartItemModel) {
+            $item = $cartItemModel->toArray(TableMap::TYPE_CAMELNAME, true, [], true);
             $pse = ProductSaleElementsQuery::create()->findOneById($item['productSaleElementsId']);
 
             if (null === $pse) {
@@ -163,7 +167,7 @@ class Base
                 'product' => null,
                 'stock' => (int) $pse->getQuantity(),
                 'stockManaged' => $stockManaged,
-                'title' => $pse->getProduct()->getTitle(),
+                'title' => $cartItemModel->getProduct(null, $locale)->getTitle(),
                 'offeredTaxedDiscount' => $offeredDiscounts[(int) $item['id']] ?? 0.0,
             ]);
 
